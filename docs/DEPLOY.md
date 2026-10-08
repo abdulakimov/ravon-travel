@@ -30,6 +30,20 @@ bind-mount, deploy va restart'dan omon qoladi, faqat root/uid 1000 o'qiy oladi):
 ssh new-vps 'tail -n 20 /opt/ravon-travel/data/leads.ndjson'
 ```
 
+**Telegram'ga ulash (2 daqiqa):**
+
+1. @BotFather → `/newbot` → tokenni oling. Botni menejerlar guruhiga qo'shing va guruhga biror xabar yozing.
+2. `https://api.telegram.org/bot<TOKEN>/getUpdates` ni oching → `"chat":{"id": -100…}` — shu chat ID.
+3. Serverda `.env` ga yozing va konteynerni qayta yarating:
+
+```bash
+ssh new-vps
+cd /opt/ravon-travel && nano .env        # TELEGRAM_BOT_TOKEN=…  TELEGRAM_CHAT_ID=…
+IMAGE_REGISTRY=ghcr.io/nodirmuxammadjanov IMAGE_TAG=$(cat .deployed_tag) docker compose up -d --no-build web
+```
+
+Shundan keyin har bir aloqa / so'rov / bron xabari guruhga keladi (faylga ham yozilaveradi).
+
 Qo'shimcha: `.env` da `LEAD_WEBHOOK_URL` berilsa, har xabar o'sha manzilga ham JSON POST qilinadi
 (CRM / Telegram ko'prigi). Webhook ishlamasa xabar yo'qolmaydi — faylda qoladi, log'da `lead_delivery_failed`.
 

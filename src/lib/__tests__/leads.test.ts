@@ -22,3 +22,27 @@ describe("rate limiting", () => {
     expect(ipBucket("203.0.113.7")).toBe("203.0.113.7");
   });
 });
+
+describe("telegramText", () => {
+  it("renders a readable message and skips empty fields and consent", async () => {
+    const { telegramText } = await import("../leads");
+    const text = telegramText("booking", {
+      bookingId: "RV-2026-00042",
+      travelers: ["ALI VALIYEV", "VALI ALIYEV"],
+      phone: "+998 90 123 45 67",
+      email: "",
+      totalUsd: 1440,
+      consent: true,
+    });
+    expect(text).toContain("Yangi bron");
+    expect(text).toContain("bookingId: RV-2026-00042");
+    expect(text).toContain("travelers: ALI VALIYEV, VALI ALIYEV");
+    expect(text).not.toContain("email");
+    expect(text).not.toContain("consent");
+  });
+
+  it("stays under the Telegram message limit", async () => {
+    const { telegramText } = await import("../leads");
+    expect(telegramText("contact", { message: "x".repeat(10_000) }).length).toBeLessThanOrEqual(3900);
+  });
+});

@@ -6,7 +6,8 @@ import type { z } from "zod";
 
 // Aloqa va so'rov formalari uchun umumiy server ishlovchisi:
 // origin tekshiruvi → rate limit → hajm cheklovi → zod validatsiya → honeypot → yetkazish.
-// Yetkazish: /data/leads.ndjson fayliga yoziladi (doimiy) + LEAD_WEBHOOK_URL berilgan bo'lsa JSON POST.
+// Yetkazish: /data/leads.ndjson fayliga yoziladi (doimiy) + Telegram (TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID)
+// va/yoki LEAD_WEBHOOK_URL (JSON POST) — qaysi biri sozlangan bo'lsa.
 
 const WINDOW_MS = 10 * 60 * 1000;
 const MAX_PER_WINDOW = 5;
@@ -62,17 +63,60 @@ function sameOrigin(req: Request): boolean {
   }
 }
 
+const KIND_TITLE: Record<string, string> = {
+  contact: "✉️ Aloqa formasi",
+  inquiry: "🧭 Tur so'rovi",
+  booking: "🎫 Yangi bron",
+};
+
+/** Telegram xabari matni (oddiy matn — parse_mode yo'q, shuning uchun escape kerak emas). */
+export function telegramText(kind: string, data: unknown): string {
+  const lines = [KIND_TITLE[kind] ?? kind, ""];
+  for (const [key, value] of Object.entries((data ?? {}) as Record<string, unknown>)) {
+    if (value === "" || value == null || key === "consent") continue;
+    lines.push(`${key}: ${Array.isArray(value) ? value.join(", ") : String(value)}`);
+  }
+  return lines.join("\n").slice(0, 3900); // Telegram limiti 4096
+}
+
+const leadChannelsConfigured = () =>
+  Boolean(process.env.LEAD_WEBHOOK_URL || (process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID));
+
+/** Sozlangan kanallarga yuboradi: Telegram (bot token + chat id) va/yoki umumiy webhook. */
 async function deliver(kind: string, data: unknown): Promise<void> {
-  const url = process.env.LEAD_WEBHOOK_URL;
-  if (!url) return;
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ kind, receivedAt: new Date().toISOString(), data }),
-    redirect: "error",
-    signal: AbortSignal.timeout(8000),
-  });
-  if (!res.ok) throw new Error(`lead webhook responded ${res.status}`);
+  const jobs: Promise<void>[] = [];
+  const post = async (name: string, url: string, body: unknown) => {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(body),
+      redirect: "error",
+      signal: AbortSignal.timeout(8000),
+    });
+    // Xato matniga URL qo'shilmaydi — unda bot tokeni bor.
+    if (!res.ok) throw new Error(`${name} responded ${res.status}`);
+  };
+
+  const { TELEGRAM_BOT_TOKEN: token, TELEGRAM_CHAT_ID: chatId, LEAD_WEBHOOK_URL: webhook } = process.env;
+  if (token && chatId) {
+    jobs.push(
+      post("telegram", `https://api.telegram.org/bot${token}/sendMessage`, {
+        chat_id: chatId,
+        text: telegramText(kind, data),
+        disable_web_page_preview: true,
+      }).catch((err) => {
+        // fetch xatosi URL'ni (tokenni) o'z ichiga olishi mumkin — log'ga faqat umumiy sabab
+        throw new Error(err instanceof Error && err.message.startsWith("telegram responded") ? err.message : "telegram request failed");
+      }),
+    );
+  }
+  if (webhook) jobs.push(post("lead webhook", webhook, { kind, receivedAt: new Date().toISOString(), data }));
+
+  const results = await Promise.allSettled(jobs);
+  const failed = results.filter((r): r is PromiseRejectedResult => r.status === "rejected");
+  // Kamida bitta kanal yetkazgan bo'lsa — yetkazildi; qolgan xatolar log'da ko'rinadi.
+  if (failed.length === results.length) throw new Error(failed.map((f) => String(f.reason)).join("; "));
+  for (const f of failed) console.error(JSON.stringify({ event: "lead_channel_failed", kind, error: String(f.reason) }));
 }
 
 /**
@@ -131,7 +175,7 @@ export async function handleLead<T extends z.ZodType>(req: Request, kind: "conta
 
   // 2) Keyin webhook (sozlangan bo'lsa). Diskka yozilgan bo'lsa webhook xatosi mijozga xato emas.
   let delivered = false;
-  if (process.env.LEAD_WEBHOOK_URL) {
+  if (leadChannelsConfigured()) {
     try {
       await deliver(kind, result.data);
       delivered = true;

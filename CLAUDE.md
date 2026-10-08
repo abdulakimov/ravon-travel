@@ -66,7 +66,7 @@ messages/<locale>/<ns>.json   tarjimalar, namespace bo'yicha
 - **To'lov demo rejimida** — shlyuz (Atmos/Payme/Click) tanlanmagan. `/pay/[ref]` oqimi to'liq
   ishlaydi, lekin pul yechilmaydi; sahifada "demo" ogohlantirishi bor. Real integratsiya — backend ishi (TZ B5).
 - Bron brauzerda (`sessionStorage`) saqlanadi; tasdiqlanganda `/api/booking` menejerga xabar yozadi (pasport/tug'ilgan sana/karta YUBORILMAYDI); o'rin qoldig'i statik. Backend kelganda `src/lib/booking-store.ts` almashtiriladi.
-- Aloqa/so'rov/bron xabarlari serverda `/opt/ravon-travel/data/leads.ndjson` ga yoziladi (+ `LEAD_WEBHOOK_URL` berilsa — webhook'ga ham).
+- Aloqa/so'rov/bron xabarlari serverda `/opt/ravon-travel/data/leads.ndjson` ga yoziladi; `.env` da `TELEGRAM_BOT_TOKEN`+`TELEGRAM_CHAT_ID` va/yoki `LEAD_WEBHOOK_URL` berilsa — o'sha kanallarga ham yuboriladi (hozircha berilmagan).
 - Rekvizit, litsenziya raqami, jamoa ismlari, ijtimoiy tarmoq havolalari, xarita — `site.ts` da `null`.
 - Fotolar — Wikimedia Commons (CC); o'z fotolariga almashtirilishi kerak.
 
