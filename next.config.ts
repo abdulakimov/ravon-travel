@@ -22,9 +22,20 @@ const csp = [
 const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
-  images: { formats: ["image/avif", "image/webp"] },
+  // Rasmlar build vaqtida tayyorlanadi (scripts/optimize-images.mjs) — /_next/image ishlatilmaydi.
+  images: {
+    loader: "custom",
+    loaderFile: "./src/lib/image-loader.ts",
+    deviceSizes: [640, 828, 1200],
+    imageSizes: [384],
+  },
   async headers() {
     return [
+      {
+        // Tayyor rasmlar: brauzer va oraliq keshlar uzoq saqlaydi (fayl nomi kontentga bog'liq emas — 30 kun).
+        source: "/img/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=2592000, stale-while-revalidate=86400" }],
+      },
       {
         source: "/:path*",
         headers: [

@@ -55,7 +55,9 @@ messages/<locale>/<ns>.json   tarjimalar, namespace bo'yicha
    matn faqat oq yoki `--sky`; sariq ustidagi matn har doim `--ink`.
 6. **Rekvizitlar** faqat `site.ts` dan. `null` bo'lsa — `common.pending` ("Rasmiylashtirilmoqda") yoki
    blok yashiriladi. `{PLACEHOLDER}` matni foydalanuvchiga ko'rsatilmaydi.
-7. **Rasmlar** `next/image` orqali, `public/img/`. Birinchi ekrandagisi `priority`.
+7. **Rasmlar** `next/image` orqali, manba `public/img/*.jpg`. Build vaqtida `scripts/optimize-images.mjs` ulardan
+   WebP variantlar yaratadi (`public/img/opt/`, git'da yo'q), `src/lib/image-loader.ts` shularga yo'naltiradi.
+   Ish vaqtida `/_next/image` ISHLATILMAYDI (ulashilgan serverda juda sekin edi). Kengliklar ro'yxati ikkala faylda bir xil bo'lsin.
 8. **Karta ma'lumotlari hech qachon serverga yuborilmaydi va saqlanmaydi** (to'lov hozircha demo —
    pastga qarang). Forma endpoint'lari zod bilan tekshiradi va rate-limit qiladi.
 9. Pul va sana faqat `src/lib/format.ts` orqali formatlanadi.

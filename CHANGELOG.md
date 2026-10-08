@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-08 — tezlik
+
+- Rasmlar endi build vaqtida WebP ga tayyorlanadi va statik fayl sifatida beriladi (30 kunlik kesh).
+  Avval har bir rasm serverda so'rov vaqtida AVIF ga qayta kodlanardi: 1 CPU limitida 2–9 soniya,
+  kesh esa har deploy'da tozalanardi.
+- Katalog filtrlangan havolada serverning o'zida filtrlanadi; filtr bosilganda serverga so'rov ketmaydi.
+
 ## 2026-10-08 — birinchi reliz (ravontravel.uz)
 
 ### Qo'shildi
