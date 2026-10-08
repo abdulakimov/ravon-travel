@@ -12,6 +12,9 @@ import styles from "./catalog.module.css";
 
 type Props = { params: Promise<{ locale: string }> };
 
+// So'rov vaqtida render: kartochkalardagi sana/o'rin/narx joriy kunga mos bo'lishi uchun (liveTour).
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "catalog.meta" });

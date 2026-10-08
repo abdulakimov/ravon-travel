@@ -144,7 +144,7 @@ export function PaymentFlow({ reference }: { reference: string }) {
     };
   }, [reference]);
 
-  const tour = booking ? getTour(booking.tourSlug) : undefined;
+  const tour = booking ? getTour(booking.tourSlug, "0000-00-00") /* bron qilingan sana o'tib ketgan bo'lsa ham topilsin */ : undefined;
   const departure = booking && tour ? tour.departures.find((d) => d.id === booking.departureId) : undefined;
 
   let view: View;

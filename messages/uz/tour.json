@@ -22,7 +22,7 @@
   },
   "dates": {
     "title": "Jo'nash sanalari va o'rinlar",
-    "note": "Sanalar va o'rinlar soni real vaqtda yangilanadi. O'rin tugagan sanani tanlash mumkin emas.",
+    "note": "O'rinlar soni bron tasdiqlanganda menejer tomonidan aniqlashtiriladi. O'rin tugagan sanani tanlash mumkin emas.",
     "select": "Tanlash",
     "selected": "Tanlandi",
     "soldOut": "O'rin tugadi"

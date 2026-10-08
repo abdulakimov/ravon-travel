@@ -22,7 +22,7 @@
   },
   "dates": {
     "title": "Departure dates and seats",
-    "note": "Dates and seat counts update in real time. Sold-out dates cannot be selected.",
+    "note": "Seat counts are confirmed by our manager when the booking is confirmed. Sold-out dates cannot be selected.",
     "select": "Select",
     "selected": "Selected",
     "soldOut": "Sold out"

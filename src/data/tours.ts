@@ -332,6 +332,11 @@ export function liveTour(tour: Tour, today = todayIso()): Tour {
   };
 }
 
+/** Ro'yxatlar (bosh sahifa, katalog) uchun: har bir tur joriy sanaga nisbatan. */
+export function liveToursByRank(today = todayIso()): Tour[] {
+  return toursByRank.map((t) => liveTour(t, today));
+}
+
 /** Slug bo'yicha tur — har doim joriy sanaga nisbatan (o'tgan sanalarsiz). */
 export function getTour(slug: string, today = todayIso()): Tour | undefined {
   const tour = tours.find((t) => t.slug === slug);
@@ -344,7 +349,7 @@ export function toursInCountry(country: CountryId): Tour[] {
 
 export function similarTours(tour: Tour, limit = 3): Tour[] {
   const score = (t: Tour) => (t.category === tour.category ? 2 : 0) + (t.country === tour.country ? 1 : 0);
-  return toursByRank
+  return liveToursByRank()
     .filter((t) => t.id !== tour.id)
     .sort((a, b) => score(b) - score(a) || a.rank - b.rank)
     .slice(0, limit);

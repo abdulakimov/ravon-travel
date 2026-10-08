@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { categoryIds, countryIds, getTour, liveTour, openDepartures, similarTours, todayIso, tours } from "../../data/tours";
+import { categoryIds, countryIds, getTour, liveTour, liveToursByRank, openDepartures, similarTours, todayIso, tours } from "../../data/tours";
 
 // Namuna ma'lumot shu sanaga nisbatan tuzilgan — testlar soatga bog'liq bo'lmasin.
 const TODAY = "2026-10-08";
@@ -71,6 +71,19 @@ describe("departures in the past", () => {
     const over = liveTour(az, "2027-01-01");
     expect(over.departures).toHaveLength(0);
     expect(over.seatsLeft).toBeNull();
+  });
+
+  it("list cards (home, catalogue) follow the same rule as the detail page", () => {
+    for (const today of ["2026-10-08", "2026-10-12", "2026-10-25", "2027-08-01"]) {
+      for (const card of liveToursByRank(today)) {
+        const detail = getTour(card.slug, today)!;
+        expect(card).toEqual(detail);
+        const open = openDepartures(detail, today);
+        expect(card.seatsLeft).toBe(open[0]?.seatsLeft ?? null);
+        expect(card.departures.every((d) => d.from > today)).toBe(true);
+      }
+    }
+    expect(liveToursByRank("2026-10-12").find((t) => t.id === "az-7")!.seatsLeft).toBe(9);
   });
 
   it("uses the Tashkent calendar day", () => {

@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { ArrowDown, ListFilter, RotateCw, X, ZoomOut } from "lucide-react";
 import { Link, useRouter } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
-import { PRICE_MAX, PRICE_MIN, categories, categoryIds, countries, countryIds, toursByRank } from "@/data/tours";
+import { PRICE_MAX, PRICE_MIN, categories, categoryIds, countries, countryIds, liveToursByRank } from "@/data/tours";
 import { Icon } from "@/components/Icon";
 import { TourCard } from "@/components/TourCard";
 import { money } from "@/lib/format";
@@ -37,7 +37,7 @@ const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select
 /** Bannerdagi jonli hisoblagich: "N tur topildi". */
 export function ResultCount({ query }: { query: string }) {
   const t = useTranslations("catalog");
-  const count = useMemo(() => applyFilters(toursByRank, parseFilters(query)).length, [query]);
+  const count = useMemo(() => applyFilters(liveToursByRank(), parseFilters(query)).length, [query]);
   return (
     <p className={styles.counter} role="status">
       <span className={styles.counterNum}>{count}</span>
@@ -65,7 +65,7 @@ export function Catalog({ query }: { query: string }) {
   const filters = pending && pending.from === query ? pending.filters : parsed;
   const canonical = serializeFilters(filters);
 
-  const results = useMemo(() => applyFilters(toursByRank, filters), [filters]);
+  const results = useMemo(() => applyFilters(liveToursByRank(), filters), [filters]);
   const count = results.length;
 
   // Filtr/saralash o'zgarsa sahifalash 6 ga qaytadi (effektsiz — kalit bo'yicha hosil qilinadi).
@@ -101,7 +101,7 @@ export function Catalog({ query }: { query: string }) {
   const tourCounts = useMemo(() => {
     const byCountry = new Map<string, number>();
     const byCategory = new Map<string, number>();
-    for (const tour of toursByRank) {
+    for (const tour of liveToursByRank()) {
       byCountry.set(tour.country, (byCountry.get(tour.country) ?? 0) + 1);
       byCategory.set(tour.category, (byCategory.get(tour.category) ?? 0) + 1);
     }

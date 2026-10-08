@@ -20,7 +20,9 @@ npm run dev          # http://localhost:3000
 npm run build        # production build (typecheck ham shu yerda)
 npm run lint
 npm test             # vitest (unit)
-npm run test:e2e     # Playwright (build + start talab qiladi)
+npm run test:e2e     # Playwright; ishlab turgan saytga qarshi (default http://localhost:3100)
+                     #   PW_CHANNEL=chrome        — tizimdagi Chrome (brauzer yuklamasdan)
+                     #   BASE_URL=https://ravontravel.uz E2E_MOCK_LEADS=1 — productionni tekshirish (soxta lead yubormaydi)
 ```
 
 ## Tuzilma
@@ -63,10 +65,13 @@ messages/<locale>/<ns>.json   tarjimalar, namespace bo'yicha
 
 - **To'lov demo rejimida** — shlyuz (Atmos/Payme/Click) tanlanmagan. `/pay/[ref]` oqimi to'liq
   ishlaydi, lekin pul yechilmaydi; sahifada "demo" ogohlantirishi bor. Real integratsiya — backend ishi (TZ B5).
-- Bron brauzerda (`sessionStorage`) saqlanadi; o'rin qoldig'i statik. Backend kelganda `src/lib/booking-store.ts` almashtiriladi.
+- Bron brauzerda (`sessionStorage`) saqlanadi; tasdiqlanganda `/api/booking` menejerga xabar yozadi (pasport/tug'ilgan sana/karta YUBORILMAYDI); o'rin qoldig'i statik. Backend kelganda `src/lib/booking-store.ts` almashtiriladi.
 - Aloqa/so'rov/bron xabarlari serverda `/opt/ravon-travel/data/leads.ndjson` ga yoziladi (+ `LEAD_WEBHOOK_URL` berilsa — webhook'ga ham).
 - Rekvizit, litsenziya raqami, jamoa ismlari, ijtimoiy tarmoq havolalari, xarita — `site.ts` da `null`.
 - Fotolar — Wikimedia Commons (CC); o'z fotolariga almashtirilishi kerak.
+
+- Jo'nab ketgan sanalar server soati (Toshkent) bo'yicha yashiriladi: `getTour` / `liveToursByRank` (`src/data/tours.ts`).
+  Shu sababli bosh sahifa, katalog, tur, bron va so'rov sahifalari `force-dynamic`. ISR ishlatilmaydi (konteyner read-only).
 
 ## Deploy
 

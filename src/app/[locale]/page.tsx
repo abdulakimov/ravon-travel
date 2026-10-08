@@ -18,7 +18,7 @@ import { SiTelegram } from "@icons-pack/react-simple-icons";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { site } from "@/config/site";
-import { categoryIds, countryIds, tours, toursByRank } from "@/data/tours";
+import { categoryIds, countryIds, liveToursByRank, tours } from "@/data/tours";
 import { postsByDate } from "@/data/blog";
 import { alternates } from "@/lib/seo";
 import { Eyebrow } from "@/components/Brand";
@@ -30,6 +30,9 @@ import { PostCard } from "./blog/_components/PostCard";
 import styles from "./home.module.css";
 
 type Props = { params: Promise<{ locale: string }> };
+
+// So'rov vaqtida render: kartochkalardagi sana/o'rin/narx joriy kunga mos bo'lishi uchun (liveTour).
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -176,7 +179,7 @@ export default async function Home({ params }: Props) {
           </Reveal>
 
           <div className={styles.tourGrid}>
-            {toursByRank.slice(0, 6).map((tour) => (
+            {liveToursByRank().slice(0, 6).map((tour) => (
               <Reveal key={tour.id}>
                 <TourCard tour={tour} />
               </Reveal>

@@ -16,6 +16,9 @@ import styles from "./inquiry.module.css";
 
 type Params = Promise<{ locale: string; slug: string }>;
 
+// So'rov vaqtida render: kartochkalardagi sana/o'rin/narx joriy kunga mos bo'lishi uchun (liveTour).
+export const dynamic = "force-dynamic";
+
 export function generateStaticParams() {
   return tours.map((tour) => ({ slug: tour.slug }));
 }
