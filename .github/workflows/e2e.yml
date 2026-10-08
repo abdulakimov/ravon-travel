@@ -1,0 +1,40 @@
+name: E2E (production)
+
+# Jonli saytni ochiq domen orqali tekshiradi (Playwright, 1440px va 360px).
+# Har muvaffaqiyatli deploy'dan keyin avtomatik, yoki qo'lda: Actions → E2E (production) → Run workflow.
+# Soxta lead yubormaydi (E2E_MOCK_LEADS=1).
+
+on:
+  workflow_run:
+    workflows: [Deploy]
+    types: [completed]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - name: Run Playwright against production
+        env:
+          BASE_URL: ${{ vars.E2E_BASE_URL || 'https://ravontravel.uz' }}
+          E2E_MOCK_LEADS: "1"
+          CI: "1"
+        run: npx playwright test --workers=2
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-results
+          path: test-results
+          retention-days: 7

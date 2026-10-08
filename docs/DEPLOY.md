@@ -58,7 +58,7 @@ Qo'shimcha: `.env` da `LEAD_WEBHOOK_URL` berilsa, har xabar o'sha manzilga ham J
 ssh new-vps 'docker ps --filter name=ravon-travel --format "{{.Names}}  {{.Image}}  {{.Status}}"'
 curl -I https://ravontravel.uz/uz          # 200
 curl -s https://ravontravel.uz/api/health  # {"status":"ok"}
-BASE_URL=https://ravontravel.uz npm run test:e2e
+BASE_URL=https://ravontravel.uz E2E_MOCK_LEADS=1 PW_CHANNEL=chrome npm run test:e2e   # yoki Actions → "E2E (production)"
 ```
 
 ## Rollback
