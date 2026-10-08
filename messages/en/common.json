@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "title": "Ravon Travel — outbound tour operator",
+    "titleTemplate": "%s — Ravon Travel",
+    "description": "From Azerbaijan to the Greek islands — ready-made tours across 9 destinations. Book online and pay by card."
+  },
+  "skip": "Skip to main content",
+  "nav": {
+    "home": "Home",
+    "tours": "Tours",
+    "destinations": "Destinations",
+    "blog": "Blog",
+    "about": "About us",
+    "contact": "Contact",
+    "book": "Book now",
+    "menu": "Menu",
+    "close": "Close",
+    "main": "Main navigation",
+    "language": "Language",
+    "breadcrumb": "Breadcrumb"
+  },
+  "footer": {
+    "tagline": "Licensed tour operator for outbound tourism.",
+    "navigation": "Navigation",
+    "company": "Company",
+    "help": "Help",
+    "license": "Licence",
+    "team": "Team",
+    "requisites": "Company details",
+    "faq": "FAQ",
+    "terms": "Terms of use",
+    "privacy": "Privacy policy",
+    "cancellation": "Cancellation policy",
+    "copyright": "© {year} Ravon Travel. All rights reserved.",
+    "stir": "TIN:",
+    "address": "Address:",
+    "hours": "Working hours:",
+    "phone": "Phone:",
+    "email": "Email:",
+    "licenseLine": "Tourism activity licence:",
+    "licensedDirection": "Licensed direction:",
+    "photoCredit": "Photos: Wikimedia Commons (CC licence)."
+  },
+  "workingHours": "Mon–Sat 09:00–19:00 (UTC+5)",
+  "outbound": "Outbound tourism",
+  "pending": "In progress",
+  "soon": "Coming soon",
+  "tourCard": {
+    "top": "TOP",
+    "fixed": "Fixed departure",
+    "request": "On request",
+    "days": "{count, plural, one {# day} other {# days}}",
+    "seatsLeft": "{count, plural, one {# seat left} other {# seats left}}",
+    "soldOut": "Sold out",
+    "perPerson": "per person · from",
+    "details": "Details"
+  },
+  "tourCount": "{count, plural, one {# tour} other {# tours}}",
+  "actions": {
+    "viewTours": "Browse tours",
+    "consult": "Get a consultation",
+    "telegram": "Message on Telegram",
+    "backHome": "Back to home",
+    "backToTop": "Back to top"
+  }
+}

@@ -1,0 +1,724 @@
+/* Ravon Travel — dizayn tokenlari (palitra «2a Okean») va umumiy komponent klasslari.
+   Yagona manba: design_handoff_ravon_travel/README.md → "Dizayn tokenlari". */
+
+:root {
+  /* Ranglar */
+  --primary: #0a66e8;
+  --accent: #ffc233;
+  --sky: #eaf3ff;
+  --ink: #0b1b33;
+  --white: #ffffff;
+  --text-2: #333333;
+  --text-3: #5c5c5c;
+  --border: #dce7f5;
+  --border-strong: #c9d8ec;
+  --warn-text: #8a5a00;
+  --warn-bg: rgba(255, 194, 51, 0.16);
+  --warn-border: rgba(255, 194, 51, 0.5);
+  --error: #b3261e;
+  --error-bg: #fff4f3;
+  --error-border: rgba(179, 38, 30, 0.35);
+  --overlay: linear-gradient(180deg, rgba(11, 27, 51, 0.15), rgba(11, 27, 51, 0.86));
+
+  /* Tipografika */
+  --font-sans: var(--font-manrope), "Manrope", system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --text-hero: clamp(2.6rem, 1rem + 6vw, 5.4rem);
+  --text-page-h1: clamp(2rem, 1rem + 2.6vw, 3.1rem);
+  --text-section-h2: clamp(2rem, 1rem + 2.6vw, 3.2rem);
+  --text-sub-h2: clamp(1.3rem, 1rem + 1vw, 2rem);
+
+  /* O'lchamlar */
+  --gutter: clamp(18px, 4vw, 48px);
+  --container: 1280px;
+  --container-md: 1180px;
+  --container-sm: 1080px;
+  --container-text: 760px;
+  --section-y: clamp(64px, 8vw, 124px);
+  --section-y-inner: clamp(48px, 6vw, 90px);
+  --header-h: 76px;
+
+  /* Radiuslar */
+  --r-tag: 8px;
+  --r-input: 12px;
+  --r-tile: 14px;
+  --r-card: 18px;
+  --r-panel: 20px;
+  --r-pill: 99px;
+
+  /* Soyalar */
+  --shadow-card: 0 20px 44px rgba(11, 27, 51, 0.14);
+  --shadow-sticky: 0 18px 44px rgba(11, 27, 51, 0.1);
+  --shadow-header: 0 6px 26px rgba(11, 27, 51, 0.1);
+  --shadow-accent: 0 12px 30px rgba(255, 194, 51, 0.4);
+  --shadow-sheet: 0 -18px 50px rgba(11, 27, 51, 0.28);
+
+  /* Harakat */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --t: 0.3s var(--ease);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--text-2);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-wrap: pretty;
+  overflow-x: hidden;
+}
+
+a {
+  color: var(--ink);
+  text-decoration: none;
+  transition: color var(--t);
+}
+a:hover {
+  color: var(--primary);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.14;
+  color: var(--ink);
+}
+
+p {
+  margin: 0;
+  line-height: 1.625;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--primary);
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+  flex: none;
+}
+
+input[type="range"] {
+  accent-color: var(--primary);
+  width: 100%;
+  height: 26px;
+  cursor: pointer;
+}
+
+::selection {
+  background: rgba(255, 194, 51, 0.32);
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 100;
+  background: var(--ink);
+  color: var(--white);
+  padding: 10px 16px;
+  border-radius: var(--r-input);
+  font-size: 14px;
+  font-weight: 600;
+}
+.skip-link:focus {
+  top: 12px;
+  color: var(--white);
+}
+
+/* ── Konteyner ─────────────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+.container--md {
+  max-width: var(--container-md);
+}
+.container--sm {
+  max-width: var(--container-sm);
+}
+.container--text {
+  max-width: calc(var(--container-text) + 2 * var(--gutter));
+}
+
+.section {
+  padding-top: var(--section-y);
+  padding-bottom: var(--section-y);
+}
+.section--inner {
+  padding-top: var(--section-y-inner);
+  padding-bottom: var(--section-y-inner);
+}
+.section--sky {
+  background: var(--sky);
+}
+
+/* ── Eyebrow (to'lqin motivi bilan) ────────────────────────────────────── */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.eyebrow--light {
+  color: var(--white);
+}
+.eyebrow--accent {
+  color: var(--accent);
+}
+
+.meta-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+/* ── Tugmalar ──────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 12px 24px;
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  transition:
+    background var(--t),
+    color var(--t),
+    border-color var(--t),
+    transform var(--t),
+    box-shadow var(--t);
+}
+.btn--sm {
+  min-height: 44px;
+  padding: 10px 20px;
+  font-size: 14px;
+}
+.btn--lg {
+  min-height: 54px;
+  padding: 15px 30px;
+  font-size: 15.5px;
+}
+.btn--block {
+  display: flex;
+  width: 100%;
+}
+
+.btn--primary {
+  background: var(--primary);
+  color: var(--white);
+}
+.btn--primary:hover {
+  color: var(--white);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(10, 102, 232, 0.28);
+}
+
+.btn--accent {
+  background: var(--accent);
+  color: var(--ink);
+  font-weight: 700;
+}
+.btn--accent:hover {
+  color: var(--ink);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-accent);
+}
+
+.btn--secondary {
+  background: var(--white);
+  color: var(--ink);
+  border-color: rgba(11, 27, 51, 0.25);
+}
+.btn--secondary:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--white);
+}
+
+.btn--ghost {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
+}
+.btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.24);
+  color: var(--white);
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+}
+.link-arrow svg {
+  transition: transform var(--t);
+}
+.link-arrow:hover svg {
+  transform: translateX(3px);
+}
+
+/* ── Belgilar (badge) ──────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border-radius: var(--r-pill);
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+}
+.badge--top {
+  background: var(--accent);
+  color: var(--ink);
+}
+.badge--fixed {
+  background: var(--primary);
+  color: var(--white);
+}
+.badge--request {
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--text-2);
+}
+.badge--outline {
+  background: var(--white);
+  color: var(--ink);
+  border: 1px solid var(--border);
+}
+.badge--warn {
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  color: var(--warn-text);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.pill--low {
+  background: var(--warn-bg);
+  color: var(--warn-text);
+}
+.pill--ok {
+  background: rgba(11, 27, 51, 0.08);
+  color: var(--ink);
+}
+.pill--out {
+  background: var(--sky);
+  color: var(--text-3);
+}
+
+/* ── Forma elementlari ─────────────────────────────────────────────────── */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+.field__label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-3);
+}
+.field__error {
+  font-size: 12.5px;
+  color: var(--error);
+}
+.field__hint {
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  min-height: 50px;
+  padding: 13px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-input);
+  background: var(--white);
+  color: var(--ink);
+  font-size: 14.5px;
+  transition:
+    border-color var(--t),
+    box-shadow var(--t);
+}
+.textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.5;
+}
+.select {
+  cursor: pointer;
+}
+.input::placeholder,
+.textarea::placeholder {
+  color: #8a94a3;
+}
+.input:focus,
+.select:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(11, 27, 51, 0.12);
+}
+.input[aria-invalid="true"],
+.select[aria-invalid="true"],
+.textarea[aria-invalid="true"] {
+  border-color: var(--error);
+}
+.input:disabled,
+.select:disabled,
+.textarea:disabled {
+  background: var(--sky);
+  color: var(--text-3);
+  cursor: not-allowed;
+}
+.input--mono {
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+}
+
+.check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-2);
+  cursor: pointer;
+}
+.check input {
+  margin-top: 2px;
+}
+.check a {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Raqam sanagich */
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.stepper__btn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-input);
+  background: var(--white);
+  color: var(--ink);
+  transition:
+    border-color var(--t),
+    color var(--t);
+}
+.stepper__btn:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.stepper__btn:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+.stepper__value {
+  min-width: 28px;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Kartochka ─────────────────────────────────────────────────────────── */
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-card);
+}
+.card--hover {
+  transition:
+    transform var(--t),
+    box-shadow var(--t),
+    border-color var(--t);
+}
+.card--hover:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-card);
+  border-color: rgba(255, 194, 51, 0.45);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: clamp(18px, 2.2vw, 28px);
+}
+
+/* Ogohlantirish / bildirishnoma */
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 13px 16px;
+  border-radius: var(--r-tile);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+.notice--warn {
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  color: var(--warn-text);
+}
+.notice--error {
+  background: var(--error-bg);
+  border: 1px solid var(--error-border);
+  color: var(--error);
+}
+.notice--info {
+  background: var(--sky);
+  border: 1px solid var(--border-strong);
+  color: var(--ink);
+}
+
+/* ── Sahifa banneri (ko'k) ─────────────────────────────────────────────── */
+.page-banner {
+  background: var(--primary);
+  color: var(--white);
+}
+.page-banner__inner {
+  padding-top: clamp(30px, 4vw, 52px);
+  padding-bottom: clamp(34px, 4.5vw, 56px);
+}
+.page-banner h1 {
+  font-size: var(--text-page-h1);
+  color: var(--white);
+  letter-spacing: -0.015em;
+  margin-bottom: 14px;
+}
+.page-banner p {
+  font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.06rem);
+  color: var(--sky);
+  max-width: 660px;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  font-size: 12.5px;
+  margin-bottom: 20px;
+  color: var(--text-3);
+}
+.breadcrumb a {
+  color: inherit;
+}
+.breadcrumb [aria-current="page"] {
+  color: var(--ink);
+  font-weight: 600;
+}
+.breadcrumb--light {
+  color: rgba(255, 255, 255, 0.9);
+}
+.breadcrumb--light a:hover,
+.breadcrumb--light [aria-current="page"] {
+  color: var(--white);
+}
+
+/* ── Matnli kontent (huquqiy sahifalar, blog) ──────────────────────────── */
+.prose {
+  font-size: 15.5px;
+  color: var(--text-2);
+}
+.prose > * + * {
+  margin-top: 16px;
+}
+.prose h2 {
+  font-size: var(--text-sub-h2);
+  margin-top: 40px;
+  scroll-margin-top: 100px;
+}
+.prose h3 {
+  font-size: 18.5px;
+  margin-top: 28px;
+}
+.prose ul,
+.prose ol {
+  padding-left: 22px;
+  display: grid;
+  gap: 8px;
+  line-height: 1.625;
+}
+.prose ul {
+  list-style: disc;
+}
+.prose ol {
+  list-style: decimal;
+}
+.prose a {
+  color: var(--primary);
+  font-weight: 600;
+}
+.prose li::marker {
+  color: var(--primary);
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--r-tile);
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  min-width: 420px;
+}
+.table th,
+.table td {
+  padding: 13px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.table th {
+  background: var(--sky);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.table tr:last-child td {
+  border-bottom: 0;
+}
+
+/* ── Scroll'da paydo bo'lish ───────────────────────────────────────────── */
+/* Faqat JS yoqilgan bo'lsa yashiriladi (html.js <head>dagi inline skript qo'yadi) —
+   JS'siz va qidiruv robotlari uchun kontent har doim ko'rinadi. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.7s var(--ease),
+    transform 0.7s var(--ease);
+}
+.js .reveal[data-revealed="1"] {
+  opacity: 1;
+  transform: none;
+}
+.js .reveal[data-revealed="1"][data-instant="1"] {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  html { scroll-behavior: smooth; scroll-padding-top: 104px; }
+  body { margin: 0; background: #FFFFFF; color: #000000;
+         font-family: "Manrope", system-ui, sans-serif; -webkit-font-smoothing: antialiased;
+         text-wrap: pretty; }
+  * { box-sizing: border-box; }
+  a { color: #0B1B33; text-decoration: none; }
+  a:hover { color: #0A66E8; }
+  h1, h2, h3, h4 { margin: 0; font-family: 'Manrope', system-ui, sans-serif; font-weight: 700; letter-spacing: -0.02em; line-height: 1.14; color: #0B1B33; }
+  p { margin: 0; line-height: 1.625; }
+  button { font: inherit; cursor: pointer; }
+  ::selection { background: rgba(255,194,51,0.32); }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</helmet>
+
+<div data-rt-root="1" data-screen-label="Bosh sahifa" style="min-height:100vh;overflow-x:hidden">
+
+  
+
+  <header data-rt-header="1" style="position:sticky;top:0;z-index:60;background:rgba(255,255,255,0.88);backdrop-filter:blur(14px) saturate(1.4);border-bottom:1px solid #DCE7F5;transition:box-shadow 0.3s cubic-bezier(0.4,0,0.2,1)">
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(18px,4vw,48px);height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+
+      <a href="#" style="display:flex;align-items:center;gap:11px;flex-shrink:0">
+        <svg data-no-i18n="1" width="40" height="40" viewBox="0 0 48 48" aria-hidden="true" style="flex:none;display:block"><circle cx="24" cy="24" r="24" style="fill:#0A66E8"/><path d="M14.5 26.5a9.5 9.5 0 0 1 19 0z" style="fill:#FFC233"/><path d="M9 31.6c5-3.2 10-3.2 15 0s10 3.2 15 0" style="fill:none;stroke:#FFFFFF;stroke-width:2.6;stroke-linecap:round"/><path d="M15 37c3-1.9 6-1.9 9 0s6 1.9 9 0" style="fill:none;stroke:#FFFFFF;stroke-width:2.2;stroke-linecap:round;opacity:0.55"/></svg>
+        <span data-no-i18n="1" style="display:flex;flex-direction:column;gap:5px;line-height:1"><span style="font-size:20px;font-weight:800;letter-spacing:0.2em;color:#0B1B33">RAVON</span><span style="font-size:8.5px;font-weight:700;letter-spacing:0.66em;color:#0A66E8">TRAVEL</span></span>
+      </a>
+
+      <nav data-vp="desktop" data-vpd="flex" style="display:flex;align-items:center;gap:clamp(14px,2vw,30px);font-size:14.5px;font-weight:500">
+        <a href="#" style="color:#0A66E8;font-weight:600;padding:6px 0;border-bottom:1.5px solid #0A66E8">Bosh sahifa</a>
+        <a href="#turlar" style="color:#333333;padding:6px 0;border-bottom:1.5px solid transparent" style-hover="color:#0A66E8;border-bottom-color:rgba(10,102,232,0.45)">Turlar</a>
+        <a href="#yonalishlar" style="color:#333333;padding:6px 0;border-bottom:1.5px solid transparent" style-hover="color:#0A66E8;border-bottom-color:rgba(10,102,232,0.45)">Yo'nalishlar</a>
+        <a href="#blog" style="color:#333333;padding:6px 0;border-bottom:1.5px solid transparent" style-hover="color:#0A66E8;border-bottom-color:rgba(10,102,232,0.45)">Blog</a>
+        <a href="Ravon%20Travel%20-%20Biz%20haqimizda.dc.html" style="color:#333333;padding:6px 0;border-bottom:1.5px solid transparent" style-hover="color:#0A66E8;border-bottom-color:rgba(10,102,232,0.45)">Biz haqimizda</a>
+        <a href="Ravon%20Travel%20-%20Aloqa.dc.html" style="color:#333333;padding:6px 0;border-bottom:1.5px solid transparent" style-hover="color:#0A66E8;border-bottom-color:rgba(10,102,232,0.45)">Aloqa</a>
+      </nav>
+
+      <div style="display:flex;align-items:center;gap:12px;flex-shrink:0">
+        <div data-no-i18n="1" role="group" aria-label="Til / Язык / Language" style="display:flex;align-items:center;gap:2px;padding:3px;border:1px solid #DCE7F5;border-radius:99px;background:#FFFFFF">
+          <button data-lang="uz" onClick="{{ setUz }}" style="border:0;background:transparent;border-radius:99px;padding:6px 11px;font-size:12px;font-weight:700;letter-spacing:0.04em;color:#5C5C5C;min-height:30px">UZ</button>
+          <button data-lang="ru" onClick="{{ setRu }}" style="border:0;background:transparent;border-radius:99px;padding:6px 11px;font-size:12px;font-weight:700;letter-spacing:0.04em;color:#5C5C5C;min-height:30px">RU</button>
+          <button data-lang="en" onClick="{{ setEn }}" style="border:0;background:transparent;border-radius:99px;padding:6px 11px;font-size:12px;font-weight:700;letter-spacing:0.04em;color:#5C5C5C;min-height:30px">EN</button>
+        </div>
+
+        <a data-vp="desktop" data-vpd="inline-flex" href="Ravon%20Travel%20-%20Turlar%20katalogi.dc.html" style="display:inline-flex;align-items:center;gap:8px;background:#0A66E8;color:#FFFFFF;padding:12px 20px;border-radius:99px;font-size:14px;font-weight:600;min-height:44px;transition:background 0.3s cubic-bezier(0.4,0,0.2,1),transform 0.3s cubic-bezier(0.4,0,0.2,1)" style-hover="background:#0A66E8;transform:translateY(-1px);color:#FFFFFF">
+          <svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><rect x="3.4" y="5.2" width="17.2" height="15.4" rx="2.6"/><path d="M8.2 3v4.2M15.8 3v4.2M3.4 10.4h17.2"/><path d="M9.4 14.8l1.9 1.9 3.5-3.6"/></svg><span>Bron qilish</span>
+        </a>
+
+        <button data-vp="mobile" data-vpd="inline-flex" onClick="{{ toggleMenu }}" aria-label="Menyu" style="display:none;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid #DCE7F5;border-radius:12px;background:#FFFFFF;flex-direction:column;gap:4px">
+          <svg data-no-i18n="1" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M4 7.2h16M4 12h16M4 16.8h10.5"/></svg>
+          
+          
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;z-index:90;background:#FFFFFF;display:flex;flex-direction:column">
+    <div style="height:76px;padding:0 clamp(18px,4vw,48px);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #DCE7F5">
+      <span data-no-i18n="1" style="display:flex;align-items:center;gap:10px"><svg data-no-i18n="1" width="34" height="34" viewBox="0 0 48 48" aria-hidden="true" style="flex:none;display:block"><circle cx="24" cy="24" r="24" style="fill:#0A66E8"/><path d="M14.5 26.5a9.5 9.5 0 0 1 19 0z" style="fill:#FFC233"/><path d="M9 31.6c5-3.2 10-3.2 15 0s10 3.2 15 0" style="fill:none;stroke:#FFFFFF;stroke-width:2.6;stroke-linecap:round"/><path d="M15 37c3-1.9 6-1.9 9 0s6 1.9 9 0" style="fill:none;stroke:#FFFFFF;stroke-width:2.2;stroke-linecap:round;opacity:0.55"/></svg><span data-no-i18n="1" style="display:flex;flex-direction:column;gap:4px;line-height:1"><span style="font-size:17px;font-weight:800;letter-spacing:0.2em;color:#0B1B33">RAVON</span><span style="font-size:7.2px;font-weight:700;letter-spacing:0.66em;color:#0A66E8">TRAVEL</span></span></span>
+      <button onClick="{{ closeMenu }}" aria-label="Yopish" style="width:44px;height:44px;border:1px solid #DCE7F5;border-radius:12px;background:#FFFFFF;font-size:20px;color:#0B1B33;display:grid;place-items:center"><svg data-no-i18n="1" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M6.2 6.2l11.6 11.6M17.8 6.2L6.2 17.8"/></svg></button>
+    </div>
+    <nav style="flex:1;padding:18px clamp(18px,4vw,48px);display:flex;flex-direction:column;gap:2px;overflow-y:auto">
+      <a href="#" onClick="{{ closeMenu }}" style="font-family:'Manrope',system-ui,sans-serif;font-size:26px;padding:14px 0;border-bottom:1px solid #DCE7F5">Bosh sahifa</a>
+      <a href="#turlar" onClick="{{ closeMenu }}" style="font-family:'Manrope',system-ui,sans-serif;font-size:26px;padding:14px 0;border-bottom:1px solid #DCE7F5">Turlar</a>
+      <a href="#yonalishlar" onClick="{{ closeMenu }}" style="font-family:'Manrope',system-ui,sans-serif;font-size:26px;padding:14px 0;border-bottom:1px solid #DCE7F5">Yo'nalishlar</a>
+      <a href="#blog" onClick="{{ closeMenu }}" style="font-family:'Manrope',system-ui,sans-serif;font-size:26px;padding:14px 0;border-bottom:1px solid #DCE7F5">Blog</a>
+      <a href="Ravon%20Travel%20-%20Biz%20haqimizda.dc.html" onClick="{{ closeMenu }}" style="font-family:'Manrope',system-ui,sans-serif;font-size:26px;padding:14px 0;border-bottom:1px solid #DCE7F5">Biz haqimizda</a>
+      <a href="Ravon%20Travel%20-%20Aloqa.dc.html" onClick="{{ closeMenu }}" style="font-family:'Manrope',system-ui,sans-serif;font-size:26px;padding:14px 0">Aloqa</a>
+      <a href="Ravon%20Travel%20-%20Turlar%20katalogi.dc.html" onClick="{{ closeMenu }}" style="margin-top:22px;display:flex;align-items:center;justify-content:center;background:#0A66E8;color:#FFFFFF;padding:16px;border-radius:14px;font-size:15px;font-weight:600">Bron qilish</a>
+    </nav>
+  </div>
+  </sc-if>
+
+  <main>
+
+    <section style="position:relative;min-height:min(86vh,800px);display:flex;align-items:flex-end;overflow:hidden;background:#0A66E8">
+      <div style="position:absolute;inset:0">
+        <image-slot id="rt-hero" src="img/hero-dubai.jpg" shape="rect" fit="cover" placeholder="Hero rasm — 1920×1080 (masalan Baku yoki Dubay panoramasi)"></image-slot>
+      </div>
+      <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg, rgba(10,16,30,0.55) 0%, rgba(10,16,30,0.22) 38%, rgba(8,13,26,0.88) 100%)"></div>
+
+      <div style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:clamp(56px,9vw,110px) clamp(18px,4vw,48px) clamp(30px,4vw,48px)">
+        <div style="max-width:760px">
+          <div data-reveal="1" style="display:flex;align-items:center;gap:12px;margin-bottom:22px">
+            <svg data-no-i18n="1" width="30" height="10" viewBox="0 0 30 10" aria-hidden="true" style="flex:none;overflow:visible"><path d="M1 5c3.2-3.4 6.4-3.4 9.6 0s6.4 3.4 9.6 0 6.4-3.4 9.6 0" style="fill:none;stroke:#FFC233;stroke-width:1.6;stroke-linecap:round"/></svg>
+            <span style="font-size:12px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:#FFC233">Dunyoni kashf eting</span>
+          </div>
+          <h1 data-reveal="1" style="font-size:clamp(2.6rem,1rem + 6vw,5.4rem);color:#FFFFFF;letter-spacing:-0.02em;margin-bottom:24px">Orzudagi sayohat shu yerdan boshlanadi</h1>
+          <p data-reveal="1" style="font-size:clamp(1rem,0.92rem + 0.4vw,1.2rem);color:#EAF3FF;max-width:600px;margin-bottom:36px">Ozarbayjondan Yunoniston orollarigacha — 9 yo'nalish bo'yicha tayyor turlar. Onlayn bron qiling, karta bilan to'lang.</p>
+          <div data-reveal="1" style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:clamp(36px,5vw,60px)">
+            <a href="#turlar" style="display:inline-flex;align-items:center;gap:10px;background:#FFC233;color:#0B1B33;padding:16px 28px;border-radius:99px;font-size:15px;font-weight:700;min-height:52px;transition:transform 0.3s cubic-bezier(0.4,0,0.2,1),box-shadow 0.3s cubic-bezier(0.4,0,0.2,1)" style-hover="transform:translateY(-2px);box-shadow:0 14px 34px rgba(10,16,30,0.4);color:#0B1B33">
+              <span>Turlarni ko'rish</span><svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M4.4 12h15.2M13.4 6l6.2 6-6.2 6"/></svg>
+            </a>
+            <a href="Ravon%20Travel%20-%20Biz%20haqimizda.dc.html" style="display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,0.14);color:#FFFFFF;border:1px solid rgba(255,255,255,0.42);padding:16px 28px;border-radius:99px;font-size:15px;font-weight:600;min-height:52px;backdrop-filter:blur(8px);transition:background 0.3s cubic-bezier(0.4,0,0.2,1)" style-hover="background:rgba(255,255,255,0.26);color:#FFFFFF">
+              <span>Biz haqimizda</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background:#EAF3FF;border-bottom:1px solid #C9D8EC">
+      <div style="max-width:1280px;margin:0 auto;padding:clamp(36px,5vw,60px) clamp(18px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:28px 20px">
+        <div data-reveal="1" style="display:flex;flex-direction:column;gap:6px">
+          <span data-no-i18n="1" style="font-family:'Manrope',system-ui,sans-serif;font-size:clamp(2.2rem,1rem+2.4vw,3.1rem);font-weight:700;color:#0B1B33;line-height:1">10</span>
+          <span style="display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#5C5C5C"><svg data-no-i18n="1" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M10.6 4.1a1.4 1.4 0 0 1 2.8 0v4.9l6.9 4v2.1l-6.9-2.1v3.7l2.5 1.9v1.5L12 18.9l-3.9 1.2v-1.5l2.5-1.9V13l-6.9 2.1V13l6.9-4z"/></svg><span>Tayyor tur</span></span>
+        </div>
+        <div data-reveal="1" style="display:flex;flex-direction:column;gap:6px">
+          <span data-no-i18n="1" style="font-family:'Manrope',system-ui,sans-serif;font-size:clamp(2.2rem,1rem+2.4vw,3.1rem);font-weight:700;color:#0B1B33;line-height:1">9</span>
+          <span style="display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#5C5C5C"><svg data-no-i18n="1" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M19.8 10.4c0 5.4-7.8 11.8-7.8 11.8S4.2 15.8 4.2 10.4a7.8 7.8 0 0 1 15.6 0z"/><circle cx="12" cy="10.3" r="2.8"/></svg><span>Yo'nalish</span></span>
+        </div>
+        <div data-reveal="1" style="display:flex;flex-direction:column;gap:6px">
+          <span data-no-i18n="1" style="font-family:'Manrope',system-ui,sans-serif;font-size:clamp(2.2rem,1rem+2.4vw,3.1rem);font-weight:700;color:#0B1B33;line-height:1">5</span>
+          <span style="display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#5C5C5C"><svg data-no-i18n="1" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M12 3.2l8.8 4.9-8.8 4.9-8.8-4.9z"/><path d="M3.2 13l8.8 4.9 8.8-4.9"/></svg><span>Kategoriya</span></span>
+        </div>
+        <div data-reveal="1" style="display:flex;flex-direction:column;gap:6px">
+          <span data-no-i18n="1" style="font-family:'Manrope',system-ui,sans-serif;font-size:clamp(2.2rem,1rem+2.4vw,3.1rem);font-weight:700;color:#0B1B33;line-height:1">3</span>
+          <span style="display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#5C5C5C"><svg data-no-i18n="1" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="8.6"/><path d="M3.6 9.2h16.8M3.6 14.8h16.8"/><path d="M12 3.4c2.6 2.7 2.6 14.5 0 17.2M12 3.4c-2.6 2.7-2.6 14.5 0 17.2"/></svg><span>Xizmat tili</span></span>
+        </div>
+      </div>
+    </section>
+
+    <section id="turlar" style="padding:clamp(64px,8vw,124px) 0">
+      <div style="max-width:1280px;margin:0 auto;padding:0 clamp(18px,4vw,48px)">
+        <div data-reveal="1" style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:clamp(34px,4vw,54px)">
+          <div style="max-width:620px">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+              <svg data-no-i18n="1" width="30" height="10" viewBox="0 0 30 10" aria-hidden="true" style="flex:none;overflow:visible"><path d="M1 5c3.2-3.4 6.4-3.4 9.6 0s6.4 3.4 9.6 0 6.4-3.4 9.6 0" style="fill:none;stroke:#FFC233;stroke-width:1.6;stroke-linecap:round"/></svg>
+              <span style="font-size:11.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#0A66E8">Tanlangan turlar</span>
+            </div>
+            <h2 style="font-size:clamp(2rem,1rem+2.6vw,3.2rem);letter-spacing:-0.015em;margin-bottom:16px">Eng ko'p tanlanadigan yo'nalishlar</h2>
+            <p style="font-size:clamp(0.95rem,0.9rem+0.3vw,1.06rem);color:#5C5C5C">Har bir tur narxi, muddati va marshruti bilan oldindan belgilangan. «Sanasi bor» turlarni saytda darhol bron qilish mumkin.</p>
+          </div>
+          <a href="Ravon%20Travel%20-%20Turlar%20katalogi.dc.html" style="display:inline-flex;align-items:center;gap:9px;font-size:14px;font-weight:600;padding:12px 20px;border:1px solid rgba(11,27,51,0.25);border-radius:99px;min-height:44px;transition:background 0.3s cubic-bezier(0.4,0,0.2,1)" style-hover="background:#0A66E8;color:#FFFFFF">
+            <span>Barcha 10 turni ko'rish</span><svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M4.4 12h15.2M13.4 6l6.2 6-6.2 6"/></svg>
+          </a>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,304px),1fr));gap:clamp(20px,2.4vw,30px)">
+
+          <a data-reveal="1" href="Ravon%20Travel%20-%20Tur%20tafsiloti.dc.html" style="display:flex;flex-direction:column;background:#FFFFFF;border:1px solid #DCE7F5;border-radius:18px;overflow:hidden;transition:transform 0.3s cubic-bezier(0.4,0,0.2,1),box-shadow 0.3s cubic-bezier(0.4,0,0.2,1),border-color 0.3s" style-hover="transform:translateY(-5px);box-shadow:0 20px 44px rgba(11,27,51,0.14);border-color:rgba(255,194,51,0.45)">
+            <div style="position:relative;aspect-ratio:4/3;background:#EAF3FF">
+              <image-slot id="rt-tour-az" src="img/tour-az.jpg" shape="rect" fit="cover" placeholder="Ozarbayjon — Baku"></image-slot>
+              <div style="position:absolute;top:12px;left:12px;display:flex;flex-wrap:wrap;gap:6px;pointer-events:none">
+                <span data-no-i18n="1" style="display:inline-flex;align-items:center;gap:4px;padding:5px 9px 5px 8px;border-radius:99px;background:#FFC233;color:#0B1B33;font-size:10.5px;font-weight:800;letter-spacing:0.09em"><svg data-no-i18n="1" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:currentColor;stroke:none"><path d="M12 3.4l2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.8-5.4 2.8 1-6L3.3 9.8l6-.9z"/></svg><span>TOP</span></span>
+                <span style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px 5px 8px;border-radius:99px;background:#0A66E8;color:#FFFFFF;font-size:10.5px;font-weight:700;letter-spacing:0.05em"><svg data-no-i18n="1" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><rect x="3.4" y="5.2" width="17.2" height="15.4" rx="2.6"/><path d="M8.2 3v4.2M15.8 3v4.2M3.4 10.4h17.2"/><path d="M9.4 14.8l1.9 1.9 3.5-3.6"/></svg><span>Sanasi bor</span></span>
+              </div>
+            </div>
+            <div style="padding:20px 22px 22px;display:flex;flex-direction:column;gap:11px;flex:1">
+              <div style="display:flex;justify-content:space-between;gap:12px;font-size:10.5px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#5C5C5C">
+                <span>Tarixiy turlar</span><span>6 kun</span>
+              </div>
+              <h3 style="font-size:20px;letter-spacing:-0.01em;color:#000000">Ozarbayjon — «7 mo'jiza» ekskursiyasi</h3>
+              <p style="font-size:13.5px;color:#5C5C5C">Baku, Gobustan, Yanardag va Atashgah — olti kunda yettita noyob makon.</p>
+              <span data-seats="1" style="display:inline-flex;align-items:center;gap:7px;align-self:flex-start;font-size:12px;font-weight:600;color:#8A5A00;background:rgba(255,194,51,0.16);padding:5px 10px;border-radius:8px"><svg data-no-i18n="1" width="13" height="13" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M15.6 20.4v-1.9a3.6 3.6 0 0 0-3.6-3.6H7.2a3.6 3.6 0 0 0-3.6 3.6v1.9"/><circle cx="9.6" cy="8" r="3.5"/><path d="M20.6 20.4v-1.9a3.6 3.6 0 0 0-2.7-3.5M15.9 4.6a3.5 3.5 0 0 1 0 6.8"/></svg><span>4 o'rin qoldi</span></span>
+              <div style="margin-top:auto;padding-top:15px;border-top:1px solid #DCE7F5;display:flex;align-items:flex-end;justify-content:space-between;gap:12px">
+                <span style="display:flex;flex-direction:column;gap:2px">
+                  <span data-usd="720" data-no-i18n="1" style="font-family:'Manrope',system-ui,sans-serif;font-size:25px;font-weight:700;color:#0B1B33;line-height:1">$720</span>
+                  <span style="font-size:11px;color:#5C5C5C">1 kishi uchun · dan</span>
+                </span>
+                <span style="display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:#0A66E8"><span>Batafsil</span><svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M4.4 12h15.2M13.4 6l6.2 6-6.2 6"/></svg></span>
+              </div>
+            </div>
+          </a>
+
+          <a data-reveal="1" href="Ravon%20Travel%20-%20Tur%20tafsiloti.dc.html" style="display:flex;flex-direction:column;background:#FFFFFF;border:1px solid #DCE7F5;border-radius:18px;overflow:hidden;transition:transform 0.3s cubic-bezier(0.4,0,0.2,1),box-shadow 0.3s cubic-bezier(0.4,0,0.2,1),border-color 0.3s" style-hover="transform:translateY(-5px);box-shadow:0 20px 44px rgba(11,27,51,0.14);border-color:rgba(255,194,51,0.45)">
+            <div style="position:relative;aspect-ratio:4/3;background:#EAF3FF">
+              <image-slot id="rt-tour-cn" src="img/tour-cn.jpg" shape="rect" fit="cover" placeholder="Xitoy — Zhangjiajie"></image-slot>
+              <div style="position:absolute;top:12px;left:12px;display:flex;gap:6px;pointer-events:none">
+                <span style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px 5px 8px;border-radius:99px;background:rgba(255,255,255,0.94);color:#333333;font-size:10.5px;font-weight:700;letter-spacing:0.05em"><svg data-no-i18n="1" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M20.6 11.8c0 4.1-3.9 7.4-8.6 7.4-1 0-2-.15-2.9-.42L4.6 20.6l1.2-3.5C4.3 15.7 3.4 13.9 3.4 11.8c0-4.1 3.9-7.4 8.6-7.4s8.6 3.3 8.6 7.4z"/></svg><span>So'rov bo'yicha</span></span>
+              </div>
+            </div>
+            <div style="padding:20px 22px 22px;display:flex;flex-direction:column;gap:11px;flex:1">
+              <div style="display:flex;justify-content:space-between;gap:12px;font-size:10.5px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#5C5C5C">
+                <span>Tabiat turlari</span><span>8 kun</span>
+              </div>
+              <h3 style="font-size:20px;letter-spacing:-0.01em;color:#000000">Xitoy — «Avatar» tog'lari va Guangzhou</h3>
+              <p style="font-size:13.5px;color:#5C5C5C">«Avatar» filmiga ilhom bergan Zhangjiajie tog'lari va zamonaviy Guangzhou.</p>
+              <div style="margin-top:auto;padding-top:15px;border-top:1px solid #DCE7F5;display:flex;align-items:flex-end;justify-content:space-between;gap:12px">
+                <span style="display:flex;flex-direction:column;gap:2px">
+                  <span data-usd="1520" data-no-i18n="1" style="font-family:'Manrope',system-ui,sans-serif;font-size:25px;font-weight:700;color:#0B1B33;line-height:1">$1520</span>
+                  <span style="font-size:11px;color:#5C5C5C">1 kishi uchun · dan</span>
+                </span>
+                <span style="display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:#0A66E8"><span>Batafsil</span><svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M4.4 12h15.2M13.4 6l6.2 6-6.2 6"/></svg></span>
+              </div>
+            </div>
+          </a>
+
+          <a data-reveal="1" href="Ravon%20Travel%20-%20Tur%20tafsiloti.dc.html" style="display:flex;flex-direction:column;background:#FFFFFF;border:1px solid #DCE7F5;border-radius:18px;overflow:hidden;transition:transform 0.3s cubic-bezier(0.4,0,0.2,1),box-shadow 0.3s cubic-bezier(0.4,0,0.2,1),border-color 0.3s" style-hover="transform:translateY(-5px);box-shadow:0 20px 44px rgba(11,27,51,0.14);border-color:rgba(255,194,51,0.45)">
+            <div style="position:relative;aspect-ratio:4/3;background:#EAF3FF">
+              <image-slot id="rt-tour-ae" src="img/tour-ae.jpg" shape="rect" fit="cover" placeholder="Dubay — Burj Xalifa"></image-slot>
+              <div style="position:absolute;top:12px;left:12px;display:flex;flex-wrap:wrap;gap:6px;pointer-events:none">
+                <span data-no-i18n="1" style="display:inline-flex;align-items:center;gap:4px;padding:5px 9px 5px 8px;border-radius:99px;background:#FFC233;color:#0B1B33;font-size:10.5px;font-weight:800;letter-spacing:0.09em"><svg data-no-i18n="1" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:currentColor;stroke:none"><path d="M12 3.4l2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.8-5.4 2.8 1-6L3.3 9.8l6-.9z"/></svg><span>TOP</span></span>
+                <span style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px 5px 8px;border-radius:99px;background:rgba(255,255,255,0.94);color:#333333;font-size:10.5px;font-weight:700;letter-spacing:0.05em"><svg data-no-i18n="1" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M20.6 11.8c0 4.1-3.9 7.4-8.6 7.4-1 0-2-.15-2.9-.42L4.6 20.6l1.2-3.5C4.3 15.7 3.4 13.9 3.4 11.8c0-4.1 3.9-7.4 8.6-7.4s8.6 3.3 8.6 7.4z"/></svg><span>So'rov bo'yicha</span></span>
+              </div>
+            </div>
+            <div style="padding:20px 22px 22px;display:flex;flex-direction:column;gap:11px;flex:1">
+              <div style="display:flex;justify-content:space-between;gap:12px;font-size:10.5px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#5C5C5C">
+                <span>Plyaj dam olish</span><span>8 kun</span>
+              </div>
+              <h3 style="font-size:20px;letter-spacing:-0.01em;color:#000000">Dubay — Hashamatli BAA sayohati</h3>
+              <p style="font-size:13.5px;color:#5C5C5C">Burj Xalifa, cho'l safari va Palm Jumeyra — yetti kechalik shahar dam olishi.</p>
+              <div style="margin-top:auto;padding-top:15px;border-top:1px solid #DCE7F5;display:flex;align-items:flex-end;justify-content:space-between;gap:12px">
+                <span style="display:flex;flex-direction:column;gap:2px">
+                  <span data-usd="1375" data-no-i18n="1" style="font-family:'Manrope',system-ui,sans-serif;font-size:25px;font-weight:700;color:#0B1B33;line-height:1">$1375</span>
+                  <span style="font-size:11px;color:#5C5C5C">1 kishi uchun · dan</span>
+                </span>
+                <span style="display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:#0A66E8"><span>Batafsil</span><svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M4.4 12h15.2M13.4 6l6.2 6-6.2 6"/></svg></span>
+              </div>
+            </div>
+          </a>
+
+          <a data-reveal="1" href="Ravon%20Travel%20-%20Tur%20tafsiloti.dc.html" style="display:flex;flex-direction:column;background:#FFFFFF;border:1px solid #DCE7F5;border-radius:18px;overflow:hidden;transition:transform 0.3s cubic-bezier(0.4,0,0.2,1),box-shadow 0.3s cubic-bezier(0.4,0,0.2,1),border-color 0.3s" style-hover="transform:translateY(-5px);box-shadow:0 20px 44px rgba(11,27,51,0.14);border-color:rgba(255,194,51,0.45)">
+            <div style="position:relative;aspect-ratio:4/3;background:#EAF3FF">
+              <image-slot id="rt-tour-ge" src="img/tour-ge.jpg" shape="rect" fit="cover" placeholder="Gruziya — Batumi"></image-slot>
+              <div style="position:absolute;top:12px;left:12px;display:flex;gap:6px;pointer-events:none">
+                <span style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px 5px 8px;border-radius:99px;background:#0A66E8;color:#FFFFFF;font-size:10.5px;font-weight:700;letter-spacing:0.05em"><svg data-no-i18n="1" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><rect x="3.4" y="5.2" width="17.2" height="15.4" rx="2.6"/><path d="M8.2 3v4.2M15.8 3v4.2M3.4 10.4h17.2"/><path d="M9.4 14.8l1.9 1.9 3.5-3.6"/></svg><span>Sanasi bor</span></span>
+              </div>
+            </div>
+            <div style="padding:20px 22px 22px;display:flex;flex-direction:column;gap:11px;flex:1">
+              <div style="display:flex;justify-content:space-between;gap:12px;font-size:10.5px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#5C5C5C">
+                <span>Tarixiy turlar</span><span>8 kun</span>
+              </div>
+              <h3 style="font-size:20px;letter-spacing:-0.01em;color:#000000">Gruziya — Batumi, Bakuriani va Tbilisi</h3>
+              <p style="font-size:13.5px;color:#5C5C5C">Qora dengiz qirg'og'idagi Batumi, tog' kurorti Bakuriani va qadimiy Tbilisi.</p>
+              <span data-seats="1" style="display:inline-flex;align-items:center;gap:7px;align-self:flex-start;font-size:12px;font-weight:600;color:#8A5A00;background:rgba(255,194,51,0.16);padding:5px 10px;border-radius:8px"><svg data-no-i18n="1" width="13" height="13" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M15.6 20.4v-1.9a3.6 3.6 0 0 0-3.6-3.6H7.2a3.6 3.6 0 0 0-3.6 3.6v1.9"/><circle cx="9.6" cy="8" r="3.5"/><path d="M20.6 20.4v-1.9a3.6 3.6 0 0 0-2.7-3.5M15.9 4.6a3.5 3.5 0 0 1 0 6.8"/></svg><span>9 o'rin qoldi</span></span>
+              <div style="margin-top:auto;padding-top:15px;border-top:1px solid #DCE7F5;display:flex;align-items:flex-end;justify-content:space-between;gap:12px">
+                <span style="display:flex;flex-direction:column;gap:2px">
+                  <span data-usd="1100" data-no-i18n="1" style="font-family:'Manrope',system-ui,sans-serif;font-size:25px;font-weight:700;color:#0B1B33;line-height:1">$1100</span>
+                  <span style="font-size:11px;color:#5C5C5C">1 kishi uchun · dan</span>
+                </span>
+                <span style="display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:#0A66E8"><span>Batafsil</span><svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M4.4 12h15.2M13.4 6l6.2 6-6.2 6"/></svg></span>
+              </div>
+            </div>
+          </a>
+
+          <a data-reveal="1" href="Ravon%20Travel%20-%20Tur%20tafsiloti.dc.html" style="display:flex;flex-direction:column;background:#FFFFFF;border:1px solid #DCE7F5;border-radius:18px;overflow:hidden;transition:transform 0.3s cubic-bezier(0.4,0,0.2,1),box-shadow 0.3s cubic-bezier(0.4,0,0.2,1),border-color 0.3s" style-hover="transform:translateY(-5px);box-shadow:0 20px 44px rgba(11,27,51,0.14);border-color:rgba(255,194,51,0.45)">
+            <div style="position:relative;aspect-ratio:4/3;background:#EAF3FF">
+              <image-slot id="rt-tour-kg" src="img/tour-kg.jpg" shape="rect" fit="cover" placeholder="Issiq-Ko'l"></image-slot>
+              <div style="position:absolute;top:12px;left:12px;display:flex;flex-wrap:wrap;gap:6px;pointer-events:none">
+                <span data-no-i18n="1" style="display:inline-flex;align-items:center;gap:4px;padding:5px 9px 5px 8px;border-radius:99px;background:#FFC233;color:#0B1B33;font-size:10.5px;font-weight:800;letter-spacing:0.09em"><svg data-no-i18n="1" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:currentColor;stroke:none"><path d="M12 3.4l2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.8-5.4 2.8 1-6L3.3 9.8l6-.9z"/></svg><span>TOP</span></span>
+                <span style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px 5px 8px;border-radius:99px;background:#0A66E8;color:#FFFFFF;font-size:10.5px;font-weight:700;letter-spacing:0.05em"><svg data-no-i18n="1" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><rect x="3.4" y="5.2" width="17.2" height="15.4" rx="2.6"/><path d="M8.2 3v4.2M15.8 3v4.2M3.4 10.4h17.2"/><path d="M9.4 14.8l1.9 1.9 3.5-3.6"/></svg><span>Sanasi bor</span></span>
+              </div>
+            </div>
+            <div style="padding:20px 22px 22px;display:flex;flex-direction:column;gap:11px;flex:1">
+              <div style="display:flex;justify-content:space-between;gap:12px;font-size:10.5px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#5C5C5C">
+                <span>Tabiat turlari</span><span>8 kun</span>
+              </div>
+              <h3 style="font-size:20px;letter-spacing:-0.01em;color:#000000">Issiq-Ko'l — Qirg'iziston tog' dengizi</h3>
+              <p style="font-size:13.5px;color:#5C5C5C">Tyan-Shan tog'lari ichidagi sho'r ko'l, mahalliy oshxona va issiq buloqlar.</p>
+              <span data-seats="1" style="display:inline-flex;align-items:center;gap:7px;align-self:flex-start;font-size:12px;font-weight:600;color:#8A5A00;background:rgba(255,194,51,0.16);padding:5px 10px;border-radius:8px"><svg data-no-i18n="1" width="13" height="13" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M15.6 20.4v-1.9a3.6 3.6 0 0 0-3.6-3.6H7.2a3.6 3.6 0 0 0-3.6 3.6v1.9"/><circle cx="9.6" cy="8" r="3.5"/><path d="M20.6 20.4v-1.9a3.6 3.6 0 0 0-2.7-3.5M15.9 4.6a3.5 3.5 0 0 1 0 6.8"/></svg><span>12 o'rin qoldi</span></span>
+              <div style="margin-top:auto;padding-top:15px;border-top:1px solid #DCE7F5;display:flex;align-items:flex-end;justify-content:space-between;gap:12px">
+                <span style="display:flex;flex-direction:column;gap:2px">
+                  <span data-usd="470" data-no-i18n="1" style="font-family:'Manrope',system-ui,sans-serif;font-size:25px;font-weight:700;color:#0B1B33;line-height:1">$470</span>
+                  <span style="font-size:11px;color:#5C5C5C">1 kishi uchun · dan</span>
+                </span>
+                <span style="display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:#0A66E8"><span>Batafsil</span><svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M4.4 12h15.2M13.4 6l6.2 6-6.2 6"/></svg></span>
+              </div>
+            </div>
+          </a>
+
+          <a data-reveal="1" href="Ravon%20Travel%20-%20Tur%20tafsiloti.dc.html" style="display:flex;flex-direction:column;background:#FFFFFF;border:1px solid #DCE7F5;border-radius:18px;overflow:hidden;transition:transform 0.3s cubic-bezier(0.4,0,0.2,1),box-shadow 0.3s cubic-bezier(0.4,0,0.2,1),border-color 0.3s" style-hover="transform:translateY(-5px);box-shadow:0 20px 44px rgba(11,27,51,0.14);border-color:rgba(255,194,51,0.45)">
+            <div style="position:relative;aspect-ratio:4/3;background:#EAF3FF">
+              <image-slot id="rt-tour-naftalan" src="img/tour-naftalan.jpg" shape="rect" fit="cover" placeholder="Naftalan sanatoriysi"></image-slot>
+              <div style="position:absolute;top:12px;left:12px;display:flex;gap:6px;pointer-events:none">
+                <span style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px 5px 8px;border-radius:99px;background:rgba(255,255,255,0.94);color:#333333;font-size:10.5px;font-weight:700;letter-spacing:0.05em"><svg data-no-i18n="1" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M20.6 11.8c0 4.1-3.9 7.4-8.6 7.4-1 0-2-.15-2.9-.42L4.6 20.6l1.2-3.5C4.3 15.7 3.4 13.9 3.4 11.8c0-4.1 3.9-7.4 8.6-7.4s8.6 3.3 8.6 7.4z"/></svg><span>So'rov bo'yicha</span></span>
+              </div>
+            </div>
+            <div style="padding:20px 22px 22px;display:flex;flex-direction:column;gap:11px;flex:1">
+              <div style="display:flex;justify-content:space-between;gap:12px;font-size:10.5px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#5C5C5C">
+                <span>Davolanish turlari</span><span>7 kun</span>
+              </div>
+              <h3 style="font-size:20px;letter-spacing:-0.01em;color:#000000">Naftalan — Davolanish va sog'lomlashtirish turi</h3>
+              <p style="font-size:13.5px;color:#5C5C5C">Ozarbayjondagi tabiiy neft vannalari — tayanch-harakat tizimi uchun.</p>
+              <div style="margin-top:auto;padding-top:15px;border-top:1px solid #DCE7F5;display:flex;align-items:flex-end;justify-content:space-between;gap:12px">
+                <span style="display:flex;flex-direction:column;gap:2px">
+                  <span data-usd="680" data-no-i18n="1" style="font-family:'Manrope',system-ui,sans-serif;font-size:25px;font-weight:700;color:#0B1B33;line-height:1">$680</span>
+                  <span style="font-size:11px;color:#5C5C5C">1 kishi uchun · dan</span>
+                </span>
+                <span style="display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:#0A66E8"><span>Batafsil</span><svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M4.4 12h15.2M13.4 6l6.2 6-6.2 6"/></svg></span>
+              </div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="yonalishlar" style="background:#EAF3FF;border-top:1px solid #C9D8EC;border-bottom:1px solid #C9D8EC;padding:clamp(64px,8vw,124px) 0">
+      <div style="max-width:1280px;margin:0 auto;padding:0 clamp(18px,4vw,48px)">
+        <div data-reveal="1" style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:clamp(34px,4vw,54px)">
+          <div style="max-width:560px">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+              <svg data-no-i18n="1" width="30" height="10" viewBox="0 0 30 10" aria-hidden="true" style="flex:none;overflow:visible"><path d="M1 5c3.2-3.4 6.4-3.4 9.6 0s6.4 3.4 9.6 0 6.4-3.4 9.6 0" style="fill:none;stroke:#FFC233;stroke-width:1.6;stroke-linecap:round"/></svg>
+              <span style="font-size:11.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#0A66E8">Yo'nalishlar</span>
+            </div>
+            <h2 style="font-size:clamp(2rem,1rem+2.6vw,3.2rem);letter-spacing:-0.015em;margin-bottom:16px">Qayerga uchamiz</h2>
+            <p style="font-size:clamp(0.95rem,0.9rem+0.3vw,1.06rem);color:#5C5C5C">Barcha turlar chiquvchi turizm yo'nalishi bo'yicha — O'zbekistondan xorijga.</p>
+          </div>
+          <a href="Ravon%20Travel%20-%20Turlar%20katalogi.dc.html" style="display:inline-flex;align-items:center;gap:9px;font-size:14px;font-weight:600;padding:12px 20px;border:1px solid rgba(11,27,51,0.25);border-radius:99px;min-height:44px;transition:background 0.3s cubic-bezier(0.4,0,0.2,1)" style-hover="background:#0A66E8;color:#FFFFFF">
+            <span>Barcha yo'nalishlar</span><svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M4.4 12h15.2M13.4 6l6.2 6-6.2 6"/></svg>
+          </a>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:clamp(14px,1.8vw,22px)">
+
+          <a data-reveal="1" href="Ravon%20Travel%20-%20Turlar%20katalogi.dc.html" style="position:relative;display:block;aspect-ratio:3/4;border-radius:16px;overflow:hidden;background:#EAF3FF;transition:transform 0.3s cubic-bezier(0.4,0,0.2,1),box-shadow 0.3s cubic-bezier(0.4,0,0.2,1)" style-hover="transform:translateY(-5px);box-shadow:0 18px 40px rgba(11,27,51,0.2)">
+            <image-slot id="rt-dest-az" src="img/dest-az.jpg" shape="rect" fit="cover" placeholder="Ozarbayjon"></image-slot>
+            <span style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg, transparent 34%, rgba(10,16,30,0.82) 100%)"></span>
+            <span style="position:absolute;left:0;right:0;bottom:0;padding:18px;pointer-events:none;display:flex;flex-direction:column;gap:4px">
+              <span style="font-family:'Manrope',system-ui,sans-serif;font-size:21px;font-weight:700;color:#FFFFFF">Ozarbayjon</span>
+              <span style="font-size:12px;font-weight:600;letter-spacing:0.06em;color:#FFC233">2 tur</span>
+            </span>
+          </a>
+
+          <a data-reveal="1" href="Ravon%20Travel%20-%20Turlar%20katalogi.dc.html" style="position:relative;display:block;aspect-ratio:3/4;border-radius:16px;overflow:hidden;background:#EAF3FF;transition:transform 0.3s cubic-bezier(0.4,0,0.2,1),box-shadow 0.3s cubic-bezier(0.4,0,0.2,1)" style-hover="transform:translateY(-5px);box-shadow:0 18px 40px rgba(11,27,51,0.2)">
+            <image-slot id="rt-dest-ge" src="img/dest-ge.jpg" shape="rect" fit="cover" placeholder="Gruziya"></image-slot>
+            <span style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg, transparent 34%, rgba(10,16,30,0.82) 100%)"></span>
+            <span style="position:absolute;left:0;right:0;bottom:0;padding:18px;pointer-events:none;display:flex;flex-direction:column;gap:4px">
+              <span style="font-family:'Manrope',system-ui,sans-serif;font-size:21px;font-weight:700;color:#FFFFFF">Gruziya</span>
+              <span style="font-size:12px;font-weight:600;letter-spacing:0.06em;color:#FFC233">1 tur</span>
+            </span>
+          </a>
+
+          <a data-reveal="1" href="Ravon%20Travel%20-%20Turlar%20katalogi.dc.html" style="position:relative;display:block;aspect-ratio:3/4;border-radius:16px;overflow:hidden;background:#EAF3FF;transition:transform 0.3s cubic-bezier(0.4,0,0.2,1),box-shadow 0.3s cubic-bezier(0.4,0,0.2,1)" style-hover="transform:translateY(-5px);box-shadow:0 18px 40px rgba(11,27,51,0.2)">
+            <image-slot id="rt-dest-ae" src="img/dest-ae.jpg" shape="rect" fit="cover" placeholder="BAA — Dubay"></image-slot>
+            <span style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg, transparent 34%, rgba(10,16,30,0.82) 100%)"></span>
+            <span style="position:absolute;left:0;right:0;bottom:0;padding:18px;pointer-events:none;display:flex;flex-direction:column;gap:4px">
+              <span style="font-family:'Manrope',system-ui,sans-serif;font-size:21px;font-weight:700;color:#FFFFFF">BAA — Dubay</span>
+              <span style="font-size:12px;font-weight:600;letter-spacing:0.06em;color:#FFC233">1 tur</span>
+            </span>
+          </a>
+
+          <a data-reveal="1" href="Ravon%20Travel%20-%20Turlar%20katalogi.dc.html" style="position:relative;display:block;aspect-ratio:3/4;border-radius:16px;overflow:hidden;background:#EAF3FF;transition:transform 0.3s cubic-bezier(0.4,0,0.2,1),box-shadow 0.3s cubic-bezier(0.4,0,0.2,1)" style-hover="transform:translateY(-5px);box-shadow:0 18px 40px rgba(11,27,51,0.2)">
+            <image-slot id="rt-dest-cn" src="img/dest-cn.jpg" shape="rect" fit="cover" placeholder="Xitoy"></image-slot>
+            <span style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg, transparent 34%, rgba(10,16,30,0.82) 100%)"></span>
+            <span style="position:absolute;left:0;right:0;bottom:0;padding:18px;pointer-events:none;display:flex;flex-direction:column;gap:4px">
+              <span style="font-family:'Manrope',system-ui,sans-serif;font-size:21px;font-weight:700;color:#FFFFFF">Xitoy</span>
+              <span style="font-size:12px;font-weight:600;letter-spacing:0.06em;color:#FFC233">1 tur</span>
+            </span>
+          </a>
+
+          <a data-reveal="1" href="Ravon%20Travel%20-%20Turlar%20katalogi.dc.html" style="position:relative;display:block;aspect-ratio:3/4;border-radius:16px;overflow:hidden;background:#EAF3FF;transition:transform 0.3s cubic-bezier(0.4,0,0.2,1),box-shadow 0.3s cubic-bezier(0.4,0,0.2,1)" style-hover="transform:translateY(-5px);box-shadow:0 18px 40px rgba(11,27,51,0.2)">
+            <image-slot id="rt-dest-my" src="img/dest-my-kl.jpg" shape="rect" fit="cover" placeholder="Malayziya"></image-slot>
+            <span style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg, transparent 34%, rgba(10,16,30,0.82) 100%)"></span>
+            <span style="position:absolute;left:0;right:0;bottom:0;padding:18px;pointer-events:none;display:flex;flex-direction:column;gap:4px">
+              <span style="font-family:'Manrope',system-ui,sans-serif;font-size:21px;font-weight:700;color:#FFFFFF">Malayziya</span>
+              <span style="font-size:12px;font-weight:600;letter-spacing:0.06em;color:#FFC233">1 tur</span>
+            </span>
+          </a>
+
+          <a data-reveal="1" href="Ravon%20Travel%20-%20Turlar%20katalogi.dc.html" style="position:relative;display:block;aspect-ratio:3/4;border-radius:16px;overflow:hidden;background:#EAF3FF;transition:transform 0.3s cubic-bezier(0.4,0,0.2,1),box-shadow 0.3s cubic-bezier(0.4,0,0.2,1)" style-hover="transform:translateY(-5px);box-shadow:0 18px 40px rgba(11,27,51,0.2)">
+            <image-slot id="rt-dest-bg" src="img/dest-bg.jpg" shape="rect" fit="cover" placeholder="Bolgariya"></image-slot>
+            <span style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg, transparent 34%, rgba(10,16,30,0.82) 100%)"></span>
+            <span style="position:absolute;left:0;right:0;bottom:0;padding:18px;pointer-events:none;display:flex;flex-direction:column;gap:4px">
+              <span style="font-family:'Manrope',system-ui,sans-serif;font-size:21px;font-weight:700;color:#FFFFFF">Bolgariya</span>
+              <span style="font-size:12px;font-weight:600;letter-spacing:0.06em;color:#FFC233">1 tur</span>
+            </span>
+          </a>
+
+          <a data-reveal="1" href="Ravon%20Travel%20-%20Turlar%20katalogi.dc.html" style="position:relative;display:block;aspect-ratio:3/4;border-radius:16px;overflow:hidden;background:#EAF3FF;transition:transform 0.3s cubic-bezier(0.4,0,0.2,1),box-shadow 0.3s cubic-bezier(0.4,0,0.2,1)" style-hover="transform:translateY(-5px);box-shadow:0 18px 40px rgba(11,27,51,0.2)">
+            <image-slot id="rt-dest-gr" src="img/dest-gr.jpg" shape="rect" fit="cover" placeholder="Yunoniston orollari"></image-slot>
+            <span style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg, transparent 34%, rgba(10,16,30,0.82) 100%)"></span>
+            <span style="position:absolute;left:0;right:0;bottom:0;padding:18px;pointer-events:none;display:flex;flex-direction:column;gap:4px">
+              <span style="font-family:'Manrope',system-ui,sans-serif;font-size:21px;font-weight:700;color:#FFFFFF">Yunoniston</span>
+              <span style="font-size:12px;font-weight:600;letter-spacing:0.06em;color:#FFC233">1 tur</span>
+            </span>
+          </a>
+
+          <a data-reveal="1" href="Ravon%20Travel%20-%20Turlar%20katalogi.dc.html" style="position:relative;display:block;aspect-ratio:3/4;border-radius:16px;overflow:hidden;background:#EAF3FF;transition:transform 0.3s cubic-bezier(0.4,0,0.2,1),box-shadow 0.3s cubic-bezier(0.4,0,0.2,1)" style-hover="transform:translateY(-5px);box-shadow:0 18px 40px rgba(11,27,51,0.2)">
+            <image-slot id="rt-dest-qa" src="img/dest-qa.jpg" shape="rect" fit="cover" placeholder="Qatar — Doha"></image-slot>
+            <span style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg, transparent 34%, rgba(10,16,30,0.82) 100%)"></span>
+            <span style="position:absolute;left:0;right:0;bottom:0;padding:18px;pointer-events:none;display:flex;flex-direction:column;gap:4px">
+              <span style="font-family:'Manrope',system-ui,sans-serif;font-size:21px;font-weight:700;color:#FFFFFF">Qatar</span>
+              <span style="font-size:12px;font-weight:600;letter-spacing:0.06em;color:#FFC233">1 tur</span>
+            </span>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <section style="padding:clamp(64px,8vw,124px) 0">
+      <div style="max-width:1280px;margin:0 auto;padding:0 clamp(18px,4vw,48px)">
+        <div data-reveal="1" style="max-width:620px;margin-bottom:clamp(34px,4vw,54px)">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+            <svg data-no-i18n="1" width="30" height="10" viewBox="0 0 30 10" aria-hidden="true" style="flex:none;overflow:visible"><path d="M1 5c3.2-3.4 6.4-3.4 9.6 0s6.4 3.4 9.6 0 6.4-3.4 9.6 0" style="fill:none;stroke:#FFC233;stroke-width:1.6;stroke-linecap:round"/></svg>
+            <span style="font-size:11.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#0A66E8">Nega aynan biz</span>
+          </div>
+          <h2 style="font-size:clamp(2rem,1rem+2.6vw,3.2rem);letter-spacing:-0.015em">Ishonch — hujjat bilan tasdiqlanadi</h2>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:clamp(18px,2vw,26px)">
+          <div data-reveal="1" style="padding:28px 26px;background:#EAF3FF;border:1px solid #C9D8EC;border-radius:18px;display:flex;flex-direction:column;gap:12px">
+            <span data-no-i18n="1" style="width:44px;height:44px;border-radius:13px;background:#0A66E8;color:#FFFFFF;display:grid;place-items:center;font-size:19px"><svg data-no-i18n="1" width="21" height="21" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M12 3.2l7.4 2.9v5.4c0 4.4-3 7.8-7.4 9.3-4.4-1.5-7.4-4.9-7.4-9.3V6.1z"/><path d="M9.1 12.3l2.2 2.2 4.1-4.3"/></svg></span>
+            <h3 style="font-size:19px;color:#000000">Rasmiy litsenziya</h3>
+            <p style="font-size:13.5px;color:#5C5C5C">Turizm faoliyati litsenziyasi bo'yicha ishlaymiz. Litsenziya, sertifikat va rekvizitlar saytda ochiq.</p>
+          </div>
+          <div data-reveal="1" style="padding:28px 26px;background:#EAF3FF;border:1px solid #C9D8EC;border-radius:18px;display:flex;flex-direction:column;gap:12px">
+            <span data-no-i18n="1" style="width:44px;height:44px;border-radius:13px;background:#0A66E8;color:#FFFFFF;display:grid;place-items:center;font-size:19px"><svg data-no-i18n="1" width="21" height="21" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="M2.6 10h18.8"/><path d="M6.2 14.6h3"/></svg></span>
+            <h3 style="font-size:19px;color:#000000">Onlayn to'lov</h3>
+            <p style="font-size:13.5px;color:#5C5C5C">Humo, Uzcard, Visa va Mastercard bilan to'lang. Karta ma'lumotlari bizning serverda saqlanmaydi.</p>
+          </div>
+          <div data-reveal="1" style="padding:28px 26px;background:#EAF3FF;border:1px solid #C9D8EC;border-radius:18px;display:flex;flex-direction:column;gap:12px">
+            <span data-no-i18n="1" style="width:44px;height:44px;border-radius:13px;background:#0A66E8;color:#FFFFFF;display:grid;place-items:center;font-size:19px"><svg data-no-i18n="1" width="21" height="21" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M20.4 13.3l-7.2 7.2a2 2 0 0 1-2.8 0l-6.8-6.8a2 2 0 0 1-.6-1.4V5.1c0-.9.7-1.6 1.6-1.6h6.5c.5 0 1 .2 1.4.6l7.9 7.9a1.6 1.6 0 0 1 0 1.3z"/><circle cx="8.1" cy="8.1" r="1.5"/></svg></span>
+            <h3 style="font-size:19px;color:#000000">Shaffof narx</h3>
+            <p style="font-size:13.5px;color:#5C5C5C">Narxga nima kirishi va nima kirmasligi har bir tur sahifasida aniq yozilgan.</p>
+          </div>
+          <div data-reveal="1" style="padding:28px 26px;background:#EAF3FF;border:1px solid #C9D8EC;border-radius:18px;display:flex;flex-direction:column;gap:12px">
+            <span data-no-i18n="1" style="width:44px;height:44px;border-radius:13px;background:#0A66E8;color:#FFFFFF;display:grid;place-items:center;font-size:19px"><svg data-no-i18n="1" width="21" height="21" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M4.2 14.4v-2.2a7.8 7.8 0 0 1 15.6 0v2.2"/><path d="M4.2 13.6h2.2c.7 0 1.2.5 1.2 1.2v3.8c0 .7-.5 1.2-1.2 1.2H5.6a1.4 1.4 0 0 1-1.4-1.4zM19.8 13.6h-2.2c-.7 0-1.2.5-1.2 1.2v3.8c0 .7.5 1.2 1.2 1.2h.8a1.4 1.4 0 0 0 1.4-1.4z"/></svg></span>
+            <h3 style="font-size:19px;color:#000000">Mas'ul mutaxassis</h3>
+            <p style="font-size:13.5px;color:#5C5C5C">Har bir yo'nalish bo'yicha malakali mas'ul mutaxassis biriktirilgan — ismi saytda ko'rsatilgan.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="blog" style="background:#EAF3FF;border-top:1px solid #C9D8EC;padding:clamp(64px,8vw,124px) 0">
+      <div style="max-width:1280px;margin:0 auto;padding:0 clamp(18px,4vw,48px)">
+        <div data-reveal="1" style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:clamp(34px,4vw,54px)">
+          <div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+              <svg data-no-i18n="1" width="30" height="10" viewBox="0 0 30 10" aria-hidden="true" style="flex:none;overflow:visible"><path d="M1 5c3.2-3.4 6.4-3.4 9.6 0s6.4 3.4 9.6 0 6.4-3.4 9.6 0" style="fill:none;stroke:#FFC233;stroke-width:1.6;stroke-linecap:round"/></svg>
+              <span style="font-size:11.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#0A66E8">Blog</span>
+            </div>
+            <h2 style="font-size:clamp(2rem,1rem+2.6vw,3.2rem);letter-spacing:-0.015em">Sayohat oldidan o'qing</h2>
+          </div>
+          <a href="#" style="display:inline-flex;align-items:center;gap:9px;font-size:14px;font-weight:600;padding:12px 20px;border:1px solid rgba(11,27,51,0.25);border-radius:99px;min-height:44px;transition:background 0.3s cubic-bezier(0.4,0,0.2,1)" style-hover="background:#0A66E8;color:#FFFFFF">
+            <span>Barcha maqolalar</span><svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M4.4 12h15.2M13.4 6l6.2 6-6.2 6"/></svg>
+          </a>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));gap:clamp(20px,2.4vw,30px)">
+          <a data-reveal="1" href="#" style="display:flex;flex-direction:column;gap:16px" style-hover="color:#0A66E8">
+            <span style="position:relative;display:block;aspect-ratio:16/10;border-radius:16px;overflow:hidden;background:#EAF3FF">
+              <image-slot id="rt-blog-1" src="img/blog-1.jpg" shape="rect" fit="cover" placeholder="Blog rasm — viza"></image-slot>
+            </span>
+            <span style="display:flex;align-items:center;gap:10px;font-size:11.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#5C5C5C">
+              <span>12 avgust 2026</span><svg data-no-i18n="1" width="13" height="13" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.2v5l3.4 2"/></svg><span>4 daqiqa o'qish</span>
+            </span>
+            <h3 style="font-size:21px;color:#000000">Ozarbayjonga viza kerakmi? 2026-yil qoidalari</h3>
+          </a>
+          <a data-reveal="1" href="#" style="display:flex;flex-direction:column;gap:16px" style-hover="color:#0A66E8">
+            <span style="position:relative;display:block;aspect-ratio:16/10;border-radius:16px;overflow:hidden;background:#EAF3FF">
+              <image-slot id="rt-blog-2" src="img/blog-2.jpg" shape="rect" fit="cover" placeholder="Blog rasm — Issiq-Ko'l"></image-slot>
+            </span>
+            <span style="display:flex;align-items:center;gap:10px;font-size:11.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#5C5C5C">
+              <span>28 iyul 2026</span><svg data-no-i18n="1" width="13" height="13" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.2v5l3.4 2"/></svg><span>6 daqiqa o'qish</span>
+            </span>
+            <h3 style="font-size:21px;color:#000000">Issiq-Ko'lda dam olish: qaysi oyni tanlash kerak</h3>
+          </a>
+          <a data-reveal="1" href="#" style="display:flex;flex-direction:column;gap:16px" style-hover="color:#0A66E8">
+            <span style="position:relative;display:block;aspect-ratio:16/10;border-radius:16px;overflow:hidden;background:#EAF3FF">
+              <image-slot id="rt-blog-3" src="img/blog-3.jpg" shape="rect" fit="cover" placeholder="Blog rasm — Dubay"></image-slot>
+            </span>
+            <span style="display:flex;align-items:center;gap:10px;font-size:11.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#5C5C5C">
+              <span>15 iyul 2026</span><svg data-no-i18n="1" width="13" height="13" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.2v5l3.4 2"/></svg><span>5 daqiqa o'qish</span>
+            </span>
+            <h3 style="font-size:21px;color:#000000">Dubayda sakkiz kun: byudjetni qanday rejalashtirish</h3>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section style="position:relative;overflow:hidden;background:#0A66E8">
+      <div style="position:absolute;inset:0;opacity:0.42">
+        <image-slot id="rt-cta" src="img/cta.jpg" shape="rect" fit="cover" placeholder="CTA fon rasmi — samolyot qanoti / dengiz"></image-slot>
+      </div>
+      <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(100deg, rgba(11,27,51,0.94) 0%, rgba(11,27,51,0.62) 100%)"></div>
+      <div data-reveal="1" style="position:relative;max-width:1280px;margin:0 auto;padding:clamp(64px,9vw,120px) clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:36px">
+        <div style="max-width:620px">
+          <h2 style="font-size:clamp(2rem,1rem+2.8vw,3.4rem);color:#FFFFFF;letter-spacing:-0.015em;margin-bottom:18px">Sayohatingizni bugun boshlang</h2>
+          <p style="font-size:clamp(0.98rem,0.92rem+0.35vw,1.14rem);color:#EAF3FF">Sanasi belgilangan turlarda o'rinlar tez tugaydi. Menejerimiz bilan bepul maslahatlashing.</p>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <a href="Ravon%20Travel%20-%20Aloqa.dc.html" style="display:inline-flex;align-items:center;gap:10px;background:#FFC233;color:#0B1B33;padding:17px 30px;border-radius:99px;font-size:15px;font-weight:700;min-height:52px;transition:transform 0.3s cubic-bezier(0.4,0,0.2,1)" style-hover="transform:translateY(-2px);color:#0B1B33">
+            <svg data-no-i18n="1" width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M4.2 14.4v-2.2a7.8 7.8 0 0 1 15.6 0v2.2"/><path d="M4.2 13.6h2.2c.7 0 1.2.5 1.2 1.2v3.8c0 .7-.5 1.2-1.2 1.2H5.6a1.4 1.4 0 0 1-1.4-1.4zM19.8 13.6h-2.2c-.7 0-1.2.5-1.2 1.2v3.8c0 .7.5 1.2 1.2 1.2h.8a1.4 1.4 0 0 0 1.4-1.4z"/></svg><span>Bepul maslahat olish</span>
+          </a>
+          <a href="#" style="display:inline-flex;align-items:center;gap:10px;background:transparent;color:#FFFFFF;border:1px solid rgba(255,255,255,0.46);padding:17px 30px;border-radius:99px;font-size:15px;font-weight:600;min-height:52px;transition:background 0.3s cubic-bezier(0.4,0,0.2,1)" style-hover="background:rgba(255,255,255,0.16);color:#FFFFFF">
+            <svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:currentColor;stroke:none"><path d="M21.7 4.2 2.9 11.4c-.9.35-.87 1.62.05 1.93l4.35 1.45 1.68 5.16c.27.83 1.34 1 1.85.3l2.32-3.15 4.45 3.24c.7.51 1.7.13 1.88-.72L21.7 4.2z"/></svg><span>Telegram orqali yozish</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="background:#0B1B33;color:#EAF3FF">
+    <div style="max-width:1280px;margin:0 auto;padding:clamp(48px,6vw,80px) clamp(18px,4vw,48px) 0">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:clamp(30px,4vw,48px)">
+
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <span data-no-i18n="1" style="display:flex;align-items:center;gap:11px">
+            <svg data-no-i18n="1" width="38" height="38" viewBox="0 0 48 48" aria-hidden="true" style="flex:none;display:block"><circle cx="24" cy="24" r="24" style="fill:#FFFFFF"/><path d="M14.5 26.5a9.5 9.5 0 0 1 19 0z" style="fill:#FFC233"/><path d="M9 31.6c5-3.2 10-3.2 15 0s10 3.2 15 0" style="fill:none;stroke:#0A66E8;stroke-width:2.6;stroke-linecap:round"/><path d="M15 37c3-1.9 6-1.9 9 0s6 1.9 9 0" style="fill:none;stroke:#0A66E8;stroke-width:2.2;stroke-linecap:round;opacity:0.55"/></svg>
+            <span data-no-i18n="1" style="display:flex;flex-direction:column;gap:5px;line-height:1"><span style="font-size:19px;font-weight:800;letter-spacing:0.2em;color:#FFFFFF">RAVON</span><span style="font-size:8px;font-weight:700;letter-spacing:0.66em;color:#FFC233">TRAVEL</span></span>
+          </span>
+          <p style="font-size:13.5px;color:rgba(255,255,255,0.7);max-width:250px">Chiquvchi turizm bo'yicha litsenziyalangan turoperator.</p>
+          <div data-no-i18n="1" style="display:flex;gap:8px">
+            <a href="#" aria-label="Telegram" style="width:38px;height:38px;border-radius:10px;border:1px solid rgba(255,255,255,0.18);display:grid;place-items:center;color:#EAF3FF;font-size:13px;font-weight:600" style-hover="background:rgba(255,255,255,0.1);color:#FFFFFF"><svg data-no-i18n="1" width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:currentColor;stroke:none"><path d="M21.7 4.2 2.9 11.4c-.9.35-.87 1.62.05 1.93l4.35 1.45 1.68 5.16c.27.83 1.34 1 1.85.3l2.32-3.15 4.45 3.24c.7.51 1.7.13 1.88-.72L21.7 4.2z"/></svg></a>
+            <a href="#" aria-label="Instagram" style="width:38px;height:38px;border-radius:10px;border:1px solid rgba(255,255,255,0.18);display:grid;place-items:center;color:#EAF3FF;font-size:13px;font-weight:600" style-hover="background:rgba(255,255,255,0.1);color:#FFFFFF"><svg data-no-i18n="1" width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><rect x="3.4" y="3.4" width="17.2" height="17.2" rx="5"/><circle cx="12" cy="12" r="4.1"/><circle cx="16.9" cy="7.1" r="1.15" style="fill:currentColor;stroke:none"/></svg></a>
+            <a href="#" aria-label="WhatsApp" style="width:38px;height:38px;border-radius:10px;border:1px solid rgba(255,255,255,0.18);display:grid;place-items:center;color:#EAF3FF;font-size:13px;font-weight:600" style-hover="background:rgba(255,255,255,0.1);color:#FFFFFF"><svg data-no-i18n="1" width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M20.6 11.6c0 4.6-3.9 8.3-8.6 8.3-1.5 0-2.9-.37-4.2-1.02L3.4 20.6l1.7-4.4A8 8 0 0 1 3.4 11.6C3.4 7 7.3 3.3 12 3.3s8.6 3.7 8.6 8.3z"/><path d="M9.1 8.7c.3-.5.6-.5.9-.5.3 0 .6.05.86.55.26.5.6 1.3.6 1.5s-.35.6-.5.85c-.15.25 0 .5.25.85.4.55 1.2 1.3 2.05 1.65.35.15.6.1.8-.1s.5-.6.7-.85"/></svg></a>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <h4 style="font-family:'Manrope',system-ui,sans-serif;font-size:11.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#FFC233">Navigatsiya</h4>
+          <a href="#" style="font-size:13.5px;color:rgba(255,255,255,0.78)" style-hover="color:#FFC233">Bosh sahifa</a>
+          <a href="#turlar" style="font-size:13.5px;color:rgba(255,255,255,0.78)" style-hover="color:#FFC233">Turlar</a>
+          <a href="#yonalishlar" style="font-size:13.5px;color:rgba(255,255,255,0.78)" style-hover="color:#FFC233">Yo'nalishlar</a>
+          <a href="#blog" style="font-size:13.5px;color:rgba(255,255,255,0.78)" style-hover="color:#FFC233">Blog</a>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <h4 style="font-family:'Manrope',system-ui,sans-serif;font-size:11.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#FFC233">Kompaniya</h4>
+          <a href="Ravon%20Travel%20-%20Biz%20haqimizda.dc.html" style="font-size:13.5px;color:rgba(255,255,255,0.78)" style-hover="color:#FFC233">Biz haqimizda</a>
+          <a href="Ravon%20Travel%20-%20Biz%20haqimizda.dc.html#litsenziya" style="font-size:13.5px;color:rgba(255,255,255,0.78)" style-hover="color:#FFC233">Litsenziya</a>
+          <a href="Ravon%20Travel%20-%20Biz%20haqimizda.dc.html#jamoa" style="font-size:13.5px;color:rgba(255,255,255,0.78)" style-hover="color:#FFC233">Jamoa</a>
+          <a href="Ravon%20Travel%20-%20Biz%20haqimizda.dc.html#rekvizitlar" style="font-size:13.5px;color:rgba(255,255,255,0.78)" style-hover="color:#FFC233">Rekvizitlar</a>
+          <a href="Ravon%20Travel%20-%20Aloqa.dc.html" style="font-size:13.5px;color:rgba(255,255,255,0.78)" style-hover="color:#FFC233">Aloqa</a>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <h4 style="font-family:'Manrope',system-ui,sans-serif;font-size:11.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#FFC233">Yordam</h4>
+          <a href="#" style="font-size:13.5px;color:rgba(255,255,255,0.78)" style-hover="color:#FFC233">Savol-javob</a>
+          <a href="#" style="font-size:13.5px;color:rgba(255,255,255,0.78)" style-hover="color:#FFC233">Foydalanish shartlari</a>
+          <a href="#" style="font-size:13.5px;color:rgba(255,255,255,0.78)" style-hover="color:#FFC233">Maxfiylik siyosati</a>
+          <a href="#" style="font-size:13.5px;color:rgba(255,255,255,0.78)" style-hover="color:#FFC233">Bekor qilish siyosati</a>
+        </div>
+      </div>
+
+      <div style="padding:16px 0;margin-top:clamp(38px,5vw,60px);border-top:1px solid rgba(255,255,255,0.14);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 28px">
+        <span style="font-size:12px;color:rgba(255,255,255,0.9)">© 2026 Ravon Travel. Barcha huquqlar himoyalangan.</span>
+        <span data-no-i18n="1" style="display:flex;align-items:center;gap:10px;font-size:11.5px;color:rgba(255,255,255,0.9);letter-spacing:0.04em"><svg data-no-i18n="1" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="M2.6 10h18.8"/><path d="M6.2 14.6h3"/></svg><span>Humo · Uzcard · Visa · Mastercard</span></span>
+      </div>
+
+      <div style="padding:0 0 26px"><p data-no-i18n="1" style="font-size:11.5px;color:rgba(255,255,255,0.5);max-width:640px">Fotolar: Wikimedia Commons (CC) — maket uchun. Ishga tushirishdan oldin o'z fotolaringizga almashtiriladi.</p></div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;initialLocale&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;uz&quot;, &quot;ru&quot;, &quot;en&quot;], &quot;default&quot;: &quot;uz&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Sayt&quot; },
+  &quot;currency&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;USD&quot;, &quot;UZS&quot;], &quot;default&quot;: &quot;USD&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Narxlar&quot; },
+  &quot;showSeatsLeft&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Narxlar&quot; }
+}">
+const T = {
+  "Ish vaqti": { ru: "Часы работы", en: "Working hours" },
+  "Turizm faoliyati litsenziyasi": { ru: "Лицензия на туристическую деятельность", en: "Tourism activity licence" },
+  "Rasmiylashtirilmoqda": { ru: "Оформляется", en: "In progress" },
+  "Bosh sahifa": { ru: "Главная", en: "Home" },
+  "Turlar": { ru: "Туры", en: "Tours" },
+  "Yo'nalishlar": { ru: "Направления", en: "Destinations" },
+  "Blog": { ru: "Блог", en: "Blog" },
+  "Biz haqimizda": { ru: "О нас", en: "About us" },
+  "Aloqa": { ru: "Контакты", en: "Contact" },
+  "Bron qilish": { ru: "Забронировать", en: "Book now" },
+  "Menyu": { ru: "Меню", en: "Menu" },
+  "Yopish": { ru: "Закрыть", en: "Close" },
+  "Dunyoni kashf eting": { ru: "Откройте мир", en: "Discover the world" },
+  "Orzudagi sayohat shu yerdan boshlanadi": { ru: "Путешествие мечты начинается здесь", en: "Your dream journey starts here" },
+  "Ozarbayjondan Yunoniston orollarigacha — 9 yo'nalish bo'yicha tayyor turlar. Onlayn bron qiling, karta bilan to'lang.": { ru: "От Азербайджана до греческих островов — готовые туры по 9 направлениям. Бронируйте онлайн и оплачивайте картой.", en: "From Azerbaijan to the Greek islands — ready-made tours across 9 destinations. Book online and pay by card." },
+  "Turlarni ko'rish": { ru: "Смотреть туры", en: "Browse tours" },
+  "Rasmiy litsenziyalangan turoperator": { ru: "Официально лицензированный туроператор", en: "Officially licensed tour operator" },
+  "Onlayn bron va karta bilan to'lov": { ru: "Онлайн-бронирование и оплата картой", en: "Online booking and card payment" },
+  "Uch tilda xizmat: UZ · RU · EN": { ru: "Обслуживание на трёх языках: UZ · RU · EN", en: "Service in three languages: UZ · RU · EN" },
+  "Tayyor tur": { ru: "Готовых туров", en: "Ready tours" },
+  "Yo'nalish": { ru: "Направлений", en: "Destinations" },
+  "Kategoriya": { ru: "Категорий", en: "Categories" },
+  "Xizmat tili": { ru: "Языка обслуживания", en: "Service languages" },
+  "Tanlangan turlar": { ru: "Избранные туры", en: "Featured tours" },
+  "Eng ko'p tanlanadigan yo'nalishlar": { ru: "Самые популярные направления", en: "Most popular destinations" },
+  "Har bir tur narxi, muddati va marshruti bilan oldindan belgilangan. «Sanasi bor» turlarni saytda darhol bron qilish mumkin.": { ru: "Для каждого тура заранее определены цена, срок и маршрут. Туры «с датой» можно забронировать на сайте сразу.", en: "Every tour has a set price, duration and itinerary. Fixed-departure tours can be booked on the site instantly." },
+  "Barcha 10 turni ko'rish": { ru: "Смотреть все 10 туров", en: "View all 10 tours" },
+  "Sanasi bor": { ru: "С датой", en: "Fixed departure" },
+  "So'rov bo'yicha": { ru: "По запросу", en: "On request" },
+  "Tarixiy turlar": { ru: "Исторические туры", en: "Historical tours" },
+  "Tabiat turlari": { ru: "Природные туры", en: "Nature tours" },
+  "Plyaj dam olish": { ru: "Пляжный отдых", en: "Beach holidays" },
+  "Davolanish turlari": { ru: "Лечебные туры", en: "Wellness tours" },
+  "5 kun": { ru: "5 дней", en: "5 days" },
+  "6 kun": { ru: "6 дней", en: "6 days" },
+  "7 kun": { ru: "7 дней", en: "7 days" },
+  "8 kun": { ru: "8 дней", en: "8 days" },
+  "Ozarbayjon — «7 mo'jiza» ekskursiyasi": { ru: "Азербайджан — экскурсия «7 чудес»", en: "Azerbaijan — the '7 Wonders' tour" },
+  "Baku, Gobustan, Yanardag va Atashgah — olti kunda yettita noyob makon.": { ru: "Баку, Гобустан, Янардаг и Атешгях — семь уникальных мест за шесть дней.", en: "Baku, Gobustan, Yanardag and Ateshgah — seven unique sites in six days." },
+  "Xitoy — «Avatar» tog'lari va Guangzhou": { ru: "Китай — горы «Аватар» и Гуанчжоу", en: "China — the 'Avatar' mountains and Guangzhou" },
+  "«Avatar» filmiga ilhom bergan Zhangjiajie tog'lari va zamonaviy Guangzhou.": { ru: "Горы Чжанцзяцзе, вдохновившие фильм «Аватар», и современный Гуанчжоу.", en: "The Zhangjiajie mountains that inspired 'Avatar', plus modern Guangzhou." },
+  "Dubay — Hashamatli BAA sayohati": { ru: "Дубай — роскошное путешествие по ОАЭ", en: "Dubai — a luxury UAE escape" },
+  "Burj Xalifa, cho'l safari va Palm Jumeyra — yetti kechalik shahar dam olishi.": { ru: "Бурдж-Халифа, сафари по дюнам и Палм-Джумейра — семь ночей в городе.", en: "Burj Khalifa, a desert safari and Palm Jumeirah — seven nights in the city." },
+  "Gruziya — Batumi, Bakuriani va Tbilisi": { ru: "Грузия — Батуми, Бакуриани и Тбилиси", en: "Georgia — Batumi, Bakuriani and Tbilisi" },
+  "Qora dengiz qirg'og'idagi Batumi, tog' kurorti Bakuriani va qadimiy Tbilisi.": { ru: "Батуми на Чёрном море, горный курорт Бакуриани и старый Тбилиси.", en: "Seaside Batumi, the Bakuriani mountain resort and old Tbilisi." },
+  "Issiq-Ko'l — Qirg'iziston tog' dengizi": { ru: "Иссык-Куль — горное море Кыргызстана", en: "Issyk-Kul — Kyrgyzstan's mountain sea" },
+  "Tyan-Shan tog'lari ichidagi sho'r ko'l, mahalliy oshxona va issiq buloqlar.": { ru: "Солёное озеро в Тянь-Шане, местная кухня и горячие источники.", en: "A salt lake in the Tian Shan, local cuisine and hot springs." },
+  "Naftalan — Davolanish va sog'lomlashtirish turi": { ru: "Нафталан — лечебно-оздоровительный тур", en: "Naftalan — health and wellness tour" },
+  "Ozarbayjondagi tabiiy neft vannalari — tayanch-harakat tizimi uchun.": { ru: "Природные нефтяные ванны в Азербайджане — для опорно-двигательной системы.", en: "Azerbaijan's natural oil baths — for the musculoskeletal system." },
+  "4 o'rin qoldi": { ru: "Осталось 4 места", en: "4 seats left" },
+  "9 o'rin qoldi": { ru: "Осталось 9 мест", en: "9 seats left" },
+  "12 o'rin qoldi": { ru: "Осталось 12 мест", en: "12 seats left" },
+  "1 kishi uchun · dan": { ru: "за человека · от", en: "per person · from" },
+  "Batafsil": { ru: "Подробнее", en: "Details" },
+  "Qayerga uchamiz": { ru: "Куда мы летаем", en: "Where we fly" },
+  "Barcha turlar chiquvchi turizm yo'nalishi bo'yicha — O'zbekistondan xorijga.": { ru: "Все туры — выездной туризм: из Узбекистана за рубеж.", en: "All tours are outbound: from Uzbekistan abroad." },
+  "Ozarbayjon": { ru: "Азербайджан", en: "Azerbaijan" },
+  "Gruziya": { ru: "Грузия", en: "Georgia" },
+  "BAA — Dubay": { ru: "ОАЭ — Дубай", en: "UAE — Dubai" },
+  "Xitoy": { ru: "Китай", en: "China" },
+  "Malayziya": { ru: "Малайзия", en: "Malaysia" },
+  "Bolgariya": { ru: "Болгария", en: "Bulgaria" },
+  "Yunoniston": { ru: "Греция", en: "Greece" },
+  "Qatar": { ru: "Катар", en: "Qatar" },
+  "1 tur": { ru: "1 тур", en: "1 tour" },
+  "2 tur": { ru: "2 тура", en: "2 tours" },
+  "Barcha yo'nalishlar": { ru: "Все направления", en: "All destinations" },
+  "Nega aynan biz": { ru: "Почему мы", en: "Why us" },
+  "Ishonch — hujjat bilan tasdiqlanadi": { ru: "Доверие подтверждается документами", en: "Trust, backed by documents" },
+  "Rasmiy litsenziya": { ru: "Официальная лицензия", en: "Official licence" },
+  "Turizm faoliyati litsenziyasi bo'yicha ishlaymiz. Litsenziya, sertifikat va rekvizitlar saytda ochiq.": { ru: "Работаем по лицензии на туристическую деятельность. Лицензия, сертификат и реквизиты открыты на сайте.", en: "We operate under a tourism licence. Licence, certificate and company details are published on the site." },
+  "Onlayn to'lov": { ru: "Онлайн-оплата", en: "Online payment" },
+  "Humo, Uzcard, Visa va Mastercard bilan to'lang. Karta ma'lumotlari bizning serverda saqlanmaydi.": { ru: "Оплата картами Humo, Uzcard, Visa и Mastercard. Данные карты не хранятся на наших серверах.", en: "Pay by Humo, Uzcard, Visa or Mastercard. Card data is never stored on our servers." },
+  "Shaffof narx": { ru: "Прозрачная цена", en: "Transparent pricing" },
+  "Narxga nima kirishi va nima kirmasligi har bir tur sahifasida aniq yozilgan.": { ru: "На странице каждого тура точно указано, что входит в цену и что нет.", en: "Each tour page states exactly what is and isn't included." },
+  "Mas'ul mutaxassis": { ru: "Ответственный специалист", en: "A named specialist" },
+  "Har bir yo'nalish bo'yicha malakali mas'ul mutaxassis biriktirilgan — ismi saytda ko'rsatilgan.": { ru: "За каждое направление отвечает квалифицированный специалист — его имя указано на сайте.", en: "Every destination has a qualified specialist in charge — named on the site." },
+  "Sayohat oldidan o'qing": { ru: "Читайте перед поездкой", en: "Read before you go" },
+  "Barcha maqolalar": { ru: "Все статьи", en: "All articles" },
+  "12 avgust 2026": { ru: "12 августа 2026", en: "12 August 2026" },
+  "28 iyul 2026": { ru: "28 июля 2026", en: "28 July 2026" },
+  "15 iyul 2026": { ru: "15 июля 2026", en: "15 July 2026" },
+  "4 daqiqa o'qish": { ru: "4 мин чтения", en: "4 min read" },
+  "5 daqiqa o'qish": { ru: "5 мин чтения", en: "5 min read" },
+  "6 daqiqa o'qish": { ru: "6 мин чтения", en: "6 min read" },
+  "Ozarbayjonga viza kerakmi? 2026-yil qoidalari": { ru: "Нужна ли виза в Азербайджан? Правила 2026 года", en: "Do you need a visa for Azerbaijan? 2026 rules" },
+  "Issiq-Ko'lda dam olish: qaysi oyni tanlash kerak": { ru: "Отдых на Иссык-Куле: какой месяц выбрать", en: "Issyk-Kul: which month to choose" },
+  "Dubayda sakkiz kun: byudjetni qanday rejalashtirish": { ru: "Восемь дней в Дубае: как спланировать бюджет", en: "Eight days in Dubai: planning your budget" },
+  "Sayohatingizni bugun boshlang": { ru: "Начните путешествие сегодня", en: "Start your journey today" },
+  "Sanasi belgilangan turlarda o'rinlar tez tugaydi. Menejerimiz bilan bepul maslahatlashing.": { ru: "Места в турах с фиксированными датами быстро заканчиваются. Получите бесплатную консультацию менеджера.", en: "Seats on fixed-departure tours go fast. Get a free consultation with our manager." },
+  "Bepul maslahat olish": { ru: "Получить консультацию", en: "Get a consultation" },
+  "Telegram orqali yozish": { ru: "Написать в Telegram", en: "Message on Telegram" },
+  "Chiquvchi turizm bo'yicha litsenziyalangan turoperator.": { ru: "Лицензированный туроператор по выездному туризму.", en: "Licensed tour operator for outbound tourism." },
+  "Navigatsiya": { ru: "Навигация", en: "Navigation" },
+  "Kompaniya": { ru: "Компания", en: "Company" },
+  "Yordam": { ru: "Помощь", en: "Help" },
+  "Litsenziya": { ru: "Лицензия", en: "Licence" },
+  "Jamoa": { ru: "Команда", en: "Team" },
+  "Rekvizitlar": { ru: "Реквизиты", en: "Company details" },
+  "Savol-javob": { ru: "Вопросы и ответы", en: "FAQ" },
+  "Foydalanish shartlari": { ru: "Условия использования", en: "Terms of use" },
+  "Maxfiylik siyosati": { ru: "Политика конфиденциальности", en: "Privacy policy" },
+  "Bekor qilish siyosati": { ru: "Политика отмены", en: "Cancellation policy" },
+  "STIR:": { ru: "ИНН:", en: "TIN:" },
+  "Manzil:": { ru: "Адрес:", en: "Address:" },
+  "Ish vaqti:": { ru: "Часы работы:", en: "Working hours:" },
+  "Tel:": { ru: "Тел:", en: "Phone:" },
+  "Email:": { ru: "Email:", en: "Email:" },
+  "Turizm faoliyati litsenziyasi:": { ru: "Лицензия на туристическую деятельность:", en: "Tourism activity licence:" },
+  "Litsenziyalangan yo'nalish:": { ru: "Лицензированное направление:", en: "Licensed direction:" },
+  "Chiquvchi turizm": { ru: "Выездной туризм", en: "Outbound tourism" },
+  "© 2026 Ravon Travel. Barcha huquqlar himoyalangan.": { ru: "© 2026 Ravon Travel. Все права защищены.", en: "© 2026 Ravon Travel. All rights reserved." },
+  "Qavs ichidagi maydonlar rasmiy ma'lumotlar bilan to'ldiriladi.": { ru: "Поля в фигурных скобках будут заполнены официальными данными.", en: "Fields in braces will be filled with official company data." }
+};
+
+const UZS_RATE = 12650;
+
+class Component extends DCLogic {
+  state = { locale: this.props.initialLocale || "uz", menuOpen: false };
+
+  root() { return document.querySelector("[data-rt-root]"); }
+
+  renderVals() {
+    return {
+      menuOpen: this.state.menuOpen,
+      setUz: () => this.setState({ locale: "uz", menuOpen: false }),
+      setRu: () => this.setState({ locale: "ru", menuOpen: false }),
+      setEn: () => this.setState({ locale: "en", menuOpen: false }),
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false })
+    };
+  }
+
+  componentDidMount() {
+    this.sync();
+    this._vp = () => this.applyViewport();
+    window.addEventListener("resize", this._vp);
+    this._sc = () => {
+      const h = document.querySelector("[data-rt-header]");
+      if (h) h.style.boxShadow = window.scrollY > 24 ? "0 6px 26px rgba(11,27,51,0.1)" : "none";
+    };
+    window.addEventListener("scroll", this._sc, { passive: true });
+    this.initReveal();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this._vp);
+    window.removeEventListener("scroll", this._sc);
+    clearTimeout(this._revealFallback);
+    clearTimeout(this._revealSafety);
+    if (this._io) this._io.disconnect();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.initialLocale !== this.props.initialLocale && this.props.initialLocale) {
+      this.setState({ locale: this.props.initialLocale });
+      return;
+    }
+    this.sync();
+  }
+
+  sync() {
+    this.applyLocale();
+    this.applyCurrency();
+    this.applySeats();
+    this.applyViewport();
+    this.applyLangButtons();
+  }
+
+  applyViewport() {
+    const root = this.root();
+    if (!root) return;
+    const mobile = window.innerWidth < 940;
+    root.querySelectorAll("[data-vp]").forEach(el => {
+      const wantsMobile = el.dataset.vp === "mobile";
+      el.style.display = wantsMobile === mobile ? (el.dataset.vpd || "flex") : "none";
+    });
+  }
+
+  applyLangButtons() {
+    const root = this.root();
+    if (!root) return;
+    const loc = this.state.locale;
+    root.querySelectorAll("[data-lang]").forEach(btn => {
+      const on = btn.dataset.lang === loc;
+      btn.style.background = on ? "#0A66E8" : "transparent";
+      btn.style.color = on ? "#FFFFFF" : "#5C5C5C";
+      btn.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+  }
+
+  applyLocale() {
+    const root = this.root();
+    if (!root) return;
+    const loc = this.state.locale;
+    document.documentElement.setAttribute("lang", loc);
+    root.querySelectorAll("*").forEach(el => {
+      if (el.children.length) return;
+      if (el.tagName.indexOf("-") > -1) return;
+      if (el.hasAttribute("data-no-i18n") || el.hasAttribute("data-usd")) return;
+      if (el.closest("[data-no-i18n]")) return;
+      let orig = el.getAttribute("data-uz");
+      if (orig === null) {
+        orig = (el.textContent || "").trim();
+        if (!orig) return;
+        el.setAttribute("data-uz", orig);
+      }
+      const row = T[orig];
+      el.textContent = loc === "uz" || !row ? orig : row[loc];
+    });
+    root.querySelectorAll("[aria-label]").forEach(el => {
+      let orig = el.getAttribute("data-uz-aria");
+      if (orig === null) {
+        orig = el.getAttribute("aria-label");
+        el.setAttribute("data-uz-aria", orig);
+      }
+      const row = T[orig];
+      el.setAttribute("aria-label", loc === "uz" || !row ? orig : row[loc]);
+    });
+  }
+
+  applyCurrency() {
+    const root = this.root();
+    if (!root) return;
+    const uzs = this.props.currency === "UZS";
+    root.querySelectorAll("[data-usd]").forEach(el => {
+      const usd = Number(el.dataset.usd);
+      if (!uzs) { el.textContent = "$" + usd; return; }
+      const som = Math.round(usd * UZS_RATE / 1000) * 1000;
+      el.textContent = som.toLocaleString("ru-RU").replace(/\u00a0/g, " ") + " so'm";
+      el.style.fontSize = "20px";
+    });
+  }
+
+  applySeats() {
+    const root = this.root();
+    if (!root) return;
+    const show = this.props.showSeatsLeft !== false;
+    root.querySelectorAll("[data-seats]").forEach(el => {
+      el.style.display = show ? "inline-flex" : "none";
+    });
+  }
+
+  initReveal() {
+    const root = this.root();
+    if (!root) return;
+    const show = el => {
+      el.setAttribute("data-revealed", "1");
+      el.style.opacity = "";
+      el.style.transform = "";
+    };
+    const all = Array.from(root.querySelectorAll("[data-reveal]"));
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { all.forEach(show); return; }
+    // only elements starting below the fold are hidden — above-fold content always paints
+    const vh = window.innerHeight;
+    const hidden = all.filter(el => !el.hasAttribute("data-revealed") && el.getBoundingClientRect().top > vh * 0.92);
+    all.filter(el => hidden.indexOf(el) < 0).forEach(show);
+    hidden.forEach(el => {
+      el.style.opacity = "0";
+      el.style.transform = "translateY(22px)";
+      el.style.transition = "opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1)";
+    });
+    if (!hidden.length) return;
+    if (typeof IntersectionObserver === "function") {
+      this._io = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { show(e.target); this._io.unobserve(e.target); } });
+      }, { rootMargin: "0px 0px -6% 0px", threshold: 0.05 });
+      hidden.forEach(el => this._io.observe(el));
+    }
+    // hard fallback: nothing stays invisible, whatever the observer does
+    clearTimeout(this._revealFallback);
+    this._revealFallback = setTimeout(() => {
+      hidden.forEach(el => { if (el.getBoundingClientRect().top < vh * 1.4) show(el); });
+      this._revealSafety = setTimeout(() => hidden.forEach(show), 2500);
+    }, 700);
+  }
+}
+
+</script>
+</body>
+</html>

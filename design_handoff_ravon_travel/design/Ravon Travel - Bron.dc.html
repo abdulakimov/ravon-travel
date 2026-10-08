@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&display=swap" rel="stylesheet">
+<script src="./rt-i18n.js"></script>
+<style>
+  html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+  body { margin: 0; background: #FFFFFF; color: #000000;
+         font-family: "Manrope", system-ui, sans-serif; -webkit-font-smoothing: antialiased;
+         text-wrap: pretty; }
+  * { box-sizing: border-box; }
+  a { color: #0B1B33; text-decoration: none; }
+  a:hover { color: #0A66E8; }
+  h1, h2, h3, h4 { margin: 0; font-family: 'Manrope', system-ui, sans-serif; font-weight: 700; letter-spacing: -0.02em; line-height: 1.14; color: #0B1B33; }
+  p { margin: 0; line-height: 1.625; }
+  button { font: inherit; cursor: pointer; }
+  input, select, textarea { font: inherit; }
+  input[type="checkbox"] { accent-color: #0A66E8; width: 18px; height: 18px; cursor: pointer; flex: none; }
+  ::selection { background: rgba(255,194,51,0.32); }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</helmet>
+
+<div data-rt-root="1" data-screen-label="Bron — 4 qadam" style="min-height:100vh;overflow-x:hidden;background:#FFFFFF">
+
+  <dc-import name="RTHeader" active="catalog" locale="{{ locale }}" on-locale="{{ setLocale }}" hint-size="100%,76px"></dc-import>
+
+  <main data-rt-page="1">
+
+    <section style="border-bottom:1px solid #DCE7F5;background:#FFFFFF">
+      <div style="max-width:1180px;margin:0 auto;padding:clamp(24px,3vw,40px) clamp(18px,4vw,48px) clamp(20px,2.6vw,30px)">
+        <h1 style="font-size:clamp(1.6rem,1rem + 1.8vw,2.4rem);letter-spacing:-0.015em;margin-bottom:22px">Bron qilish</h1>
+
+        <ol data-rt-steps="1" style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:10px">
+          <sc-for list="{{ steps }}" as="st" hint-placeholder-count="4">
+            <li data-no-i18n="1" data-step="{{ st.i }}" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid #DCE7F5;border-radius:14px;background:#FFFFFF">
+              <span data-step-num="{{ st.i }}" style="flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:13.5px;font-weight:700;background:#EAF3FF;color:#5C5C5C">{{ st.n }}</span>
+              <span style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                <span style="font-size:10.5px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#5C5C5C">{{ st.label }}</span>
+                <span data-step-title="{{ st.i }}" style="font-size:14px;font-weight:600;color:#333333">{{ st.title }}</span>
+              </span>
+            </li>
+          </sc-for>
+        </ol>
+      </div>
+    </section>
+
+    <div data-rt-cols="1" style="max-width:1180px;margin:0 auto;padding:clamp(26px,3.4vw,44px) clamp(18px,4vw,48px) clamp(56px,7vw,96px);display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(24px,3vw,40px);align-items:start">
+
+      <div style="min-width:0">
+
+        <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
+        <section style="display:flex;flex-direction:column;gap:26px">
+          <div>
+            <h2 style="font-size:clamp(1.3rem,1rem + 1vw,1.75rem);margin-bottom:8px">Sana va o'rinlarni tanlang</h2>
+            <p style="font-size:14.5px;color:#5C5C5C">O'rin band qilinishi bilan sana ro'yxati yangilanadi. Bron 30 daqiqa davomida saqlanadi.</p>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ dates }}" as="d" hint-placeholder-count="4">
+              <button data-no-i18n="1" data-date-btn="{{ d.i }}" onClick="{{ d.pick }}" style="display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;width:100%;padding:18px 20px;border:1px solid #DCE7F5;border-radius:16px;background:#FFFFFF;text-align:left;min-height:76px">
+                <span data-date-radio="{{ d.i }}" style="flex:none;width:22px;height:22px;border-radius:50%;border:2px solid #DCE7F5;display:grid;place-items:center">
+                  <span data-date-dot="{{ d.i }}" style="width:11px;height:11px;border-radius:50%;background:transparent"></span>
+                </span>
+                <span style="flex:1;min-width:170px;display:flex;flex-direction:column;gap:3px">
+                  <span style="font-family:'Manrope',system-ui,sans-serif;font-size:18px;font-weight:700;color:#0B1B33">{{ d.range }}</span>
+                  <span style="font-size:12.5px;color:#5C5C5C">{{ d.sub }}</span>
+                </span>
+                <span data-seat-pill="{{ d.i }}" style="display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:99px;font-size:12.5px;font-weight:600">{{ d.seatsLabel }}</span>
+                <span style="font-family:'Manrope',system-ui,sans-serif;font-size:19px;font-weight:700;color:#0B1B33;min-width:104px">{{ d.priceLabel }}</span>
+              </button>
+            </sc-for>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px;padding:20px;border:1px solid #DCE7F5;border-radius:16px;background:#FFFFFF">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:14px">
+              <span style="display:flex;flex-direction:column;gap:2px">
+                <span style="font-size:14.5px;font-weight:600">Kattalar</span>
+                <span style="font-size:12px;color:#5C5C5C">12+</span>
+              </span>
+              <span style="display:flex;align-items:center;gap:5px">
+                <button onClick="{{ decAdults }}" aria-label="Kamaytirish" style="width:44px;height:44px;border:1px solid #DCE7F5;border-radius:12px;background:#FFFFFF;color:#0B1B33;display:grid;place-items:center" style-hover="border-color:#0A66E8"><svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round"><path d="M6 12h12"/></svg></button>
+                <span data-no-i18n="1" style="min-width:36px;text-align:center;font-size:17px;font-weight:700;color:#0B1B33;font-variant-numeric:tabular-nums">{{ adults }}</span>
+                <button onClick="{{ incAdults }}" aria-label="Ko'paytirish" style="width:44px;height:44px;border:1px solid #DCE7F5;border-radius:12px;background:#FFFFFF;color:#0B1B33;display:grid;place-items:center" style-hover="border-color:#0A66E8"><svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round"><path d="M12 6v12M6 12h12"/></svg></button>
+              </span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:14px">
+              <span style="display:flex;flex-direction:column;gap:2px">
+                <span style="font-size:14.5px;font-weight:600">Bolalar</span>
+                <span style="font-size:12px;color:#5C5C5C">2–11 · −25%</span>
+              </span>
+              <span style="display:flex;align-items:center;gap:5px">
+                <button onClick="{{ decKids }}" aria-label="Kamaytirish" style="width:44px;height:44px;border:1px solid #DCE7F5;border-radius:12px;background:#FFFFFF;color:#0B1B33;display:grid;place-items:center" style-hover="border-color:#0A66E8"><svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round"><path d="M6 12h12"/></svg></button>
+                <span data-no-i18n="1" style="min-width:36px;text-align:center;font-size:17px;font-weight:700;color:#0B1B33;font-variant-numeric:tabular-nums">{{ kids }}</span>
+                <button onClick="{{ incKids }}" aria-label="Ko'paytirish" style="width:44px;height:44px;border:1px solid #DCE7F5;border-radius:12px;background:#FFFFFF;color:#0B1B33;display:grid;place-items:center" style-hover="border-color:#0A66E8"><svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round"><path d="M12 6v12M6 12h12"/></svg></button>
+              </span>
+            </div>
+          </div>
+
+          <sc-if value="{{ seatWarning }}" hint-placeholder-val="{{ false }}">
+            <p data-no-i18n="1" style="display:flex;align-items:flex-start;gap:10px;padding:14px 16px;border-radius:12px;background:rgba(255,194,51,0.16);border:1px solid rgba(255,194,51,0.5);font-size:13.5px;color:#8A5A00">
+              <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;margin-top:2px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 4.4l8.4 15.2H3.6z"/><path d="M12 10v4M12 16.8v.2"/></svg>
+              <span>{{ seatWarning }}</span>
+            </p>
+          </sc-if>
+        </section>
+        </sc-if>
+
+        <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+        <section style="display:flex;flex-direction:column;gap:24px">
+          <div>
+            <h2 style="font-size:clamp(1.3rem,1rem + 1vw,1.75rem);margin-bottom:8px">Sayohatchilar ma'lumoti</h2>
+            <p style="font-size:14.5px;color:#5C5C5C">Ism-familiya pasportdagi kabi lotin harflarida kiritiladi — chipta shu ma'lumot bo'yicha rasmiylashtiriladi.</p>
+          </div>
+
+          <sc-for list="{{ travelers }}" as="p" hint-placeholder-count="2">
+            <div data-no-i18n="1" style="padding:20px;border:1px solid #DCE7F5;border-radius:16px;background:#FFFFFF;display:flex;flex-direction:column;gap:16px">
+              <span style="display:flex;align-items:center;gap:11px">
+                <span style="width:30px;height:30px;border-radius:9px;background:#0A66E8;color:#FFFFFF;display:grid;place-items:center;font-size:13px;font-weight:700">{{ p.n }}</span>
+                <span style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#0B1B33">{{ p.label }}</span>
+              </span>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:14px">
+                <label style="display:flex;flex-direction:column;gap:7px">
+                  <span style="font-size:12.5px;font-weight:600;color:#5C5C5C">{{ p.nameLabel }}</span>
+                  <input type="text" placeholder="{{ p.namePh }}" style="min-height:48px;padding:12px 14px;border:1px solid #DCE7F5;border-radius:12px;background:#FFFFFF;font-size:14.5px;color:#000000" style-focus="border-color:#0A66E8;outline:none">
+                </label>
+                <label style="display:flex;flex-direction:column;gap:7px">
+                  <span style="font-size:12.5px;font-weight:600;color:#5C5C5C">{{ p.surnameLabel }}</span>
+                  <input type="text" placeholder="{{ p.surnamePh }}" style="min-height:48px;padding:12px 14px;border:1px solid #DCE7F5;border-radius:12px;background:#FFFFFF;font-size:14.5px;color:#000000" style-focus="border-color:#0A66E8;outline:none">
+                </label>
+                <label style="display:flex;flex-direction:column;gap:7px">
+                  <span style="font-size:12.5px;font-weight:600;color:#5C5C5C">{{ p.birthLabel }}</span>
+                  <input type="date" style="min-height:48px;padding:12px 14px;border:1px solid #DCE7F5;border-radius:12px;background:#FFFFFF;font-size:14.5px;color:#000000" style-focus="border-color:#0A66E8;outline:none">
+                </label>
+                <label style="display:flex;flex-direction:column;gap:7px">
+                  <span style="font-size:12.5px;font-weight:600;color:#5C5C5C">{{ p.passportLabel }}</span>
+                  <input type="text" placeholder="AB1234567" style="min-height:48px;padding:12px 14px;border:1px solid #DCE7F5;border-radius:12px;background:#FFFFFF;font-size:14.5px;color:#000000;font-family:ui-monospace,monospace" style-focus="border-color:#0A66E8;outline:none">
+                </label>
+              </div>
+            </div>
+          </sc-for>
+        </section>
+        </sc-if>
+
+        <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
+        <section style="display:flex;flex-direction:column;gap:24px">
+          <div>
+            <h2 style="font-size:clamp(1.3rem,1rem + 1vw,1.75rem);margin-bottom:8px">Aloqa ma'lumotlari</h2>
+            <p style="font-size:14.5px;color:#5C5C5C">Bron tasdiqnomasi va to'lov havolasi shu manzillarga yuboriladi.</p>
+          </div>
+
+          <div style="padding:20px;border:1px solid #DCE7F5;border-radius:16px;background:#FFFFFF;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:14px">
+            <label style="display:flex;flex-direction:column;gap:7px">
+              <span style="font-size:12.5px;font-weight:600;color:#5C5C5C">Telefon</span>
+              <input type="tel" data-i18n-ph="Telefon" placeholder="+998 __ ___ __ __" style="min-height:48px;padding:12px 14px;border:1px solid #DCE7F5;border-radius:12px;font-size:14.5px" style-focus="border-color:#0A66E8;outline:none">
+            </label>
+            <label style="display:flex;flex-direction:column;gap:7px">
+              <span style="font-size:12.5px;font-weight:600;color:#5C5C5C">Email</span>
+              <input type="email" placeholder="siz@example.com" style="min-height:48px;padding:12px 14px;border:1px solid #DCE7F5;border-radius:12px;font-size:14.5px" style-focus="border-color:#0A66E8;outline:none">
+            </label>
+            <label style="display:flex;flex-direction:column;gap:7px;grid-column:1/-1">
+              <span style="font-size:12.5px;font-weight:600;color:#5C5C5C">Qo'shimcha izoh</span>
+              <textarea rows="3" data-i18n-ph="Masalan: yonma-yon o'rindiq, vegetarian taom" placeholder="Masalan: yonma-yon o'rindiq, vegetarian taom" style="padding:12px 14px;border:1px solid #DCE7F5;border-radius:12px;font-size:14.5px;resize:vertical" style-focus="border-color:#0A66E8;outline:none"></textarea>
+            </label>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <label style="display:flex;align-items:flex-start;gap:12px;font-size:14px;color:#333333;cursor:pointer">
+              <input type="checkbox" checked="{{ agreeTerms }}" onChange="{{ toggleTerms }}">
+              <span>Ommaviy oferta va bekor qilish shartlari bilan tanishdim va roziman.</span>
+            </label>
+            <label style="display:flex;align-items:flex-start;gap:12px;font-size:14px;color:#333333;cursor:pointer">
+              <input type="checkbox" checked="{{ agreeData }}" onChange="{{ toggleData }}">
+              <span>Shaxsiy ma'lumotlarimni bron rasmiylashtirish uchun qayta ishlashga ruxsat beraman.</span>
+            </label>
+          </div>
+        </section>
+        </sc-if>
+
+        <sc-if value="{{ isStep4 }}" hint-placeholder-val="{{ false }}">
+        <section style="display:flex;flex-direction:column;gap:22px">
+          <div style="display:flex;align-items:center;gap:14px;padding:20px;border-radius:16px;background:#0A66E8;color:#FFFFFF">
+            <span data-no-i18n="1" style="flex:none;width:46px;height:46px;border-radius:50%;background:#FFC233;color:#0B1B33;display:grid;place-items:center">
+              <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12.6l4.4 4.4L19 7.4"/></svg>
+            </span>
+            <span style="display:flex;flex-direction:column;gap:3px;min-width:0">
+              <span style="font-family:'Manrope',system-ui,sans-serif;font-size:20px;font-weight:700;color:#FFFFFF">O'rin band qilindi</span>
+              <span style="font-size:13.5px;color:#EAF3FF">To'lovni 30 daqiqa ichida amalga oshiring, aks holda bron bekor qilinadi.</span>
+            </span>
+          </div>
+
+          <div style="padding:22px;border:1px solid #DCE7F5;border-radius:16px;background:#FFFFFF;display:flex;flex-direction:column;gap:16px">
+            <h3 style="font-size:17px">Bron ma'lumotlari</h3>
+            <dl data-no-i18n="1" style="margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:16px">
+              <sc-for list="{{ summaryRows }}" as="row" hint-placeholder-count="5">
+                <div style="display:flex;flex-direction:column;gap:4px">
+                  <dt style="font-size:11.5px;font-weight:700;letter-spacing:0.11em;text-transform:uppercase;color:#5C5C5C">{{ row.k }}</dt>
+                  <dd style="margin:0;font-size:15px;font-weight:600;color:#0B1B33">{{ row.v }}</dd>
+                </div>
+              </sc-for>
+            </dl>
+          </div>
+
+          <div style="display:flex;align-items:flex-start;gap:11px;padding:16px;border-left:3px solid #FFC233;background:#EAF3FF;border-radius:0 12px 12px 0">
+            <svg data-no-i18n="1" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;margin-top:2px;fill:none;stroke:#0A66E8;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="8.6"/><path d="M12 8v.2M12 11.4v4.6"/></svg>
+            <p style="font-size:13.5px;color:#333333">Bron raqami va to'lov havolasi SMS va email orqali yuborildi. Savol tug'ilsa — mas'ul mutaxassisga yozing.</p>
+          </div>
+        </section>
+        </sc-if>
+
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:clamp(24px,3vw,36px);padding-top:22px;border-top:1px solid #DCE7F5">
+          <sc-if value="{{ canGoBack }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ back }}" style="display:inline-flex;align-items:center;gap:9px;min-height:52px;padding:14px 24px;border:1px solid rgba(11,27,51,0.25);border-radius:99px;background:#FFFFFF;font-size:15px;font-weight:600;color:#0B1B33" style-hover="border-color:#0A66E8">
+              <svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M19.6 12H4.4M10.6 6L4.4 12l6.2 6"/></svg>
+              <span>Ortga</span>
+            </button>
+          </sc-if>
+
+          <sc-if value="{{ showNext }}" hint-placeholder-val="{{ true }}">
+            <button data-next="1" onClick="{{ next }}" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:14px 30px;border:0;border-radius:99px;background:#0A66E8;color:#FFFFFF;font-size:15px;font-weight:700;transition:transform 0.3s cubic-bezier(0.4,0,0.2,1)" style-hover="transform:translateY(-1px)">
+              <span>{{ nextLabel }}</span>
+              <svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M4.4 12h15.2M13.4 6l6.2 6-6.2 6"/></svg>
+            </button>
+          </sc-if>
+
+          <sc-if value="{{ isStep4 }}" hint-placeholder-val="{{ false }}">
+            <a href="Ravon%20Travel%20-%20Tolov.dc.html" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:14px 30px;border-radius:99px;background:#FFC233;color:#0B1B33;font-size:15px;font-weight:700;transition:transform 0.3s cubic-bezier(0.4,0,0.2,1)" style-hover="transform:translateY(-2px);color:#0B1B33">
+              <svg data-no-i18n="1" width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="M2.6 10h18.8"/><path d="M6.2 14.6h3"/></svg>
+              <span>To'lovga o'tish</span>
+            </a>
+          </sc-if>
+
+          <sc-if value="{{ blockedHint }}" hint-placeholder-val="{{ false }}">
+            <span data-no-i18n="1" style="font-size:13px;color:#0A66E8">{{ blockedHint }}</span>
+          </sc-if>
+        </div>
+      </div>
+
+      <aside data-rt-side="1" style="min-width:0">
+        <div style="border:1px solid #DCE7F5;border-radius:18px;background:#FFFFFF;overflow:hidden">
+          <div style="display:flex;gap:14px;padding:18px;border-bottom:1px solid #DCE7F5;background:#EAF3FF">
+            <span data-no-i18n="1" style="flex:none;width:74px;height:74px;border-radius:12px;overflow:hidden;background:#FFFFFF">
+              <img src="img/tour-az.jpg" alt="Ozarbayjon" style="width:100%;height:100%;object-fit:cover;display:block">
+            </span>
+            <span style="display:flex;flex-direction:column;gap:5px;min-width:0">
+              <span style="font-size:10.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#5C5C5C">Tarixiy turlar</span>
+              <span data-no-i18n="1" style="font-family:'Manrope',system-ui,sans-serif;font-size:16.5px;font-weight:700;color:#0B1B33;line-height:1.25">{{ tourTitle }}</span>
+            </span>
+          </div>
+          <div style="padding:18px;display:flex;flex-direction:column;gap:13px">
+            <sc-for list="{{ priceRows }}" as="row" hint-placeholder-count="3">
+              <span data-no-i18n="1" style="display:flex;justify-content:space-between;gap:14px;font-size:13.5px;color:#333333">
+                <span>{{ row.k }}</span><span style="font-weight:600;color:#0B1B33">{{ row.v }}</span>
+              </span>
+            </sc-for>
+            <span style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding-top:13px;border-top:1px solid #DCE7F5">
+              <span style="font-size:12px;font-weight:700;letter-spacing:0.11em;text-transform:uppercase;color:#0B1B33">Jami</span>
+              <span data-no-i18n="1" style="font-family:'Manrope',system-ui,sans-serif;font-size:27px;font-weight:700;color:#0B1B33">{{ totalLabel }}</span>
+            </span>
+            <span style="display:flex;align-items:center;gap:9px;font-size:12px;color:#5C5C5C">
+              <svg data-no-i18n="1" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:#0A66E8;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M12 3.2l7.4 2.9v5.4c0 4.4-3 7.8-7.4 9.3-4.4-1.5-7.4-4.9-7.4-9.3V6.1z"/><path d="M9.1 12.3l2.2 2.2 4.1-4.3"/></svg>
+              <span>Bron bepul — to'lov 4-qadamdan keyin</span>
+            </span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <dc-import name="RTFooter" locale="{{ locale }}" hint-size="100%,440px"></dc-import>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;initialLocale&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;uz&quot;, &quot;ru&quot;, &quot;en&quot;], &quot;default&quot;: &quot;uz&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Sayt&quot; },
+  &quot;startStep&quot;: { &quot;editor&quot;: &quot;int&quot;, &quot;min&quot;: 1, &quot;max&quot;: 4, &quot;default&quot;: 1, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Bron&quot; },
+  &quot;currency&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;USD&quot;, &quot;UZS&quot;], &quot;default&quot;: &quot;USD&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Narxlar&quot; }
+}">
+const PAGE_DICT = {
+  "Bron qilish": { ru: "Бронирование", en: "Booking" },
+  "Sana va o'rin": { ru: "Дата и места", en: "Date and seats" },
+  "Sayohatchilar": { ru: "Путешественники", en: "Travellers" },
+  "Aloqa": { ru: "Контакты", en: "Contact" },
+  "Tasdiqlash": { ru: "Подтверждение", en: "Confirmation" },
+  "1-qadam": { ru: "Шаг 1", en: "Step 1" },
+  "2-qadam": { ru: "Шаг 2", en: "Step 2" },
+  "3-qadam": { ru: "Шаг 3", en: "Step 3" },
+  "4-qadam": { ru: "Шаг 4", en: "Step 4" },
+  "Sana va o'rinlarni tanlang": { ru: "Выберите дату и места", en: "Choose a date and seats" },
+  "O'rin band qilinishi bilan sana ro'yxati yangilanadi. Bron 30 daqiqa davomida saqlanadi.": { ru: "Список дат обновляется по мере занятия мест. Бронь сохраняется 30 минут.", en: "The date list updates as seats fill. A booking is held for 30 minutes." },
+  "Kattalar": { ru: "Взрослые", en: "Adults" },
+  "Bolalar": { ru: "Дети", en: "Children" },
+  "Kamaytirish": { ru: "Уменьшить", en: "Decrease" },
+  "Ko'paytirish": { ru: "Увеличить", en: "Increase" },
+  "o'rin qoldi": { ru: "мест осталось", en: "seats left" },
+  "O'rin tugadi": { ru: "Мест нет", en: "Sold out" },
+  "Dushanba": { ru: "Понедельник", en: "Monday" },
+  "Payshanba": { ru: "Четверг", en: "Thursday" },
+  "Sayohatchilar ma'lumoti": { ru: "Данные путешественников", en: "Traveller details" },
+  "Ism-familiya pasportdagi kabi lotin harflarida kiritiladi — chipta shu ma'lumot bo'yicha rasmiylashtiriladi.": { ru: "Имя и фамилия вводятся латиницей, как в паспорте — билет оформляется по этим данным.", en: "Enter names in Latin letters exactly as in the passport — the ticket is issued from these details." },
+  "Kattalar sayohatchi": { ru: "Взрослый путешественник", en: "Adult traveller" },
+  "Bola sayohatchi": { ru: "Ребёнок", en: "Child traveller" },
+  "Ism (lotin)": { ru: "Имя (латиницей)", en: "First name (Latin)" },
+  "Familiya (lotin)": { ru: "Фамилия (латиницей)", en: "Surname (Latin)" },
+  "Tug'ilgan sana": { ru: "Дата рождения", en: "Date of birth" },
+  "Pasport raqami": { ru: "Номер паспорта", en: "Passport number" },
+  "Aloqa ma'lumotlari": { ru: "Контактные данные", en: "Contact details" },
+  "Bron tasdiqnomasi va to'lov havolasi shu manzillarga yuboriladi.": { ru: "Подтверждение брони и ссылка на оплату придут на эти контакты.", en: "The booking confirmation and payment link go to these contacts." },
+  "Telefon": { ru: "Телефон", en: "Phone" },
+  "Email": { ru: "Email", en: "Email" },
+  "Qo'shimcha izoh": { ru: "Дополнительный комментарий", en: "Additional notes" },
+  "Masalan: yonma-yon o'rindiq, vegetarian taom": { ru: "Например: места рядом, вегетарианское питание", en: "e.g. seats together, vegetarian meals" },
+  "Ommaviy oferta va bekor qilish shartlari bilan tanishdim va roziman.": { ru: "Я ознакомился с публичной офертой и условиями отмены и согласен с ними.", en: "I have read and accept the public offer and cancellation terms." },
+  "Shaxsiy ma'lumotlarimni bron rasmiylashtirish uchun qayta ishlashga ruxsat beraman.": { ru: "Я разрешаю обработку персональных данных для оформления брони.", en: "I consent to my personal data being processed to complete the booking." },
+  "O'rin band qilindi": { ru: "Места забронированы", en: "Seats are held" },
+  "To'lovni 30 daqiqa ichida amalga oshiring, aks holda bron bekor qilinadi.": { ru: "Оплатите в течение 30 минут, иначе бронь будет отменена.", en: "Pay within 30 minutes or the booking will be released." },
+  "Bron ma'lumotlari": { ru: "Данные брони", en: "Booking details" },
+  "Bron raqami va to'lov havolasi SMS va email orqali yuborildi. Savol tug'ilsa — mas'ul mutaxassisga yozing.": { ru: "Номер брони и ссылка на оплату отправлены по SMS и email. Возникли вопросы — напишите ответственному специалисту.", en: "The booking number and payment link were sent by SMS and email. Any questions — write to your specialist." },
+  "Bron raqami": { ru: "Номер брони", en: "Booking number" },
+  "Tur": { ru: "Тур", en: "Tour" },
+  "Sana": { ru: "Дата", en: "Date" },
+  "Sayohatchilar soni": { ru: "Число путешественников", en: "Travellers" },
+  "To'lov muddati": { ru: "Срок оплаты", en: "Payment deadline" },
+  "Ortga": { ru: "Назад", en: "Back" },
+  "Davom etish": { ru: "Продолжить", en: "Continue" },
+  "Bronni tasdiqlash": { ru: "Подтвердить бронь", en: "Confirm booking" },
+  "To'lovga o'tish": { ru: "Перейти к оплате", en: "Go to payment" },
+  "Davom etish uchun ikkala shartga rozilik bering": { ru: "Для продолжения примите оба условия", en: "Accept both terms to continue" },
+  "Tanlangan sanada faqat": { ru: "На выбранную дату доступно только", en: "Only" },
+  "o'rin bor": { ru: "мест", en: "seats are available on this date" },
+  "Tarixiy turlar": { ru: "Исторические туры", en: "Historical tours" },
+  "Ozarbayjon — «7 mo'jiza» ekskursiyasi": { ru: "Азербайджан — экскурсия «7 чудес»", en: "Azerbaijan — the '7 Wonders' tour" },
+  "Ozarbayjon": { ru: "Азербайджан", en: "Azerbaijan" },
+  "kattalar": { ru: "взрослых", en: "adults" },
+  "bolalar": { ru: "детей", en: "children" },
+  "Jami": { ru: "Итого", en: "Total" },
+  "Bron bepul — to'lov 4-qadamdan keyin": { ru: "Бронирование бесплатно — оплата после 4-го шага", en: "Booking is free — payment after step 4" },
+  "kishi": { ru: "чел.", en: "people" },
+  "30 daqiqa": { ru: "30 минут", en: "30 minutes" }
+};
+
+const STEPS = [
+  { label: "1-qadam", title: "Sana va o'rin" },
+  { label: "2-qadam", title: "Sayohatchilar" },
+  { label: "3-qadam", title: "Aloqa" },
+  { label: "4-qadam", title: "Tasdiqlash" }
+];
+
+const DATES = [
+  { from: "2026-10-12", to: "2026-10-17", weekday: "Dushanba", seats: 4, usd: 720 },
+  { from: "2026-10-26", to: "2026-10-31", weekday: "Dushanba", seats: 9, usd: 720 },
+  { from: "2026-11-09", to: "2026-11-14", weekday: "Dushanba", seats: 0, usd: 690 },
+  { from: "2026-11-26", to: "2026-12-01", weekday: "Payshanba", seats: 14, usd: 690 }
+];
+
+class Component extends DCLogic {
+  state = {
+    locale: this.props.initialLocale || "uz",
+    step: Number(this.props.startStep || 1),
+    dateIdx: 0, adults: 2, kids: 0, terms: false, data: false
+  };
+
+  root() { return document.querySelector("[data-rt-root]"); }
+  page() { return document.querySelector("[data-rt-page]"); }
+
+  t(s) {
+    if (window.RT && !this._merged) { Object.assign(window.RT.DICT, PAGE_DICT); this._merged = true; }
+    return window.RT ? window.RT.t(s, this.state.locale) : s;
+  }
+  money(usd) { return window.RT ? window.RT.money(usd, this.props.currency, this.state.locale) : "$" + usd; }
+
+  range(d) {
+    if (!window.RT) return d.from;
+    const a = new Date(d.from + "T00:00:00"), b = new Date(d.to + "T00:00:00");
+    const full = window.RT.date(d.to, this.state.locale);
+    return a.getMonth() === b.getMonth() ? a.getDate() + "–" + full : window.RT.date(d.from, this.state.locale) + " – " + full;
+  }
+
+  renderVals() {
+    const s = this.state;
+    const t = x => this.t(x);
+    const sel = DATES[s.dateIdx] || DATES[0];
+    const kidPrice = Math.round(sel.usd * 0.75);
+    const total = s.adults * sel.usd + s.kids * kidPrice;
+    const pax = s.adults + s.kids;
+    const over = pax > sel.seats;
+
+    const travelers = [];
+    for (let i = 0; i < s.adults; i++) travelers.push({ n: String(i + 1), label: t("Kattalar sayohatchi"), kid: false });
+    for (let i = 0; i < s.kids; i++) travelers.push({ n: String(s.adults + i + 1), label: t("Bola sayohatchi"), kid: true });
+
+    const canNext = s.step === 3 ? (s.terms && s.data) : true;
+
+    return {
+      locale: s.locale,
+      setLocale: loc => this.setState({ locale: loc }),
+      steps: STEPS.map((x, i) => ({ i: i + 1, n: String(i + 1), label: t(x.label), title: t(x.title) })),
+
+      isStep1: s.step === 1, isStep2: s.step === 2, isStep3: s.step === 3, isStep4: s.step === 4,
+
+      dates: DATES.map((d, i) => ({
+        i: i, range: this.range(d), sub: t(d.weekday),
+        seatsLabel: d.seats > 0 ? d.seats + " " + t("o'rin qoldi") : t("O'rin tugadi"),
+        priceLabel: this.money(d.usd),
+        pick: () => { if (d.seats > 0) this.setState({ dateIdx: i }); }
+      })),
+
+      adults: s.adults, kids: s.kids,
+      incAdults: () => this.setState(p => ({ adults: Math.min(p.adults + 1, 8) })),
+      decAdults: () => this.setState(p => ({ adults: Math.max(1, p.adults - 1) })),
+      incKids: () => this.setState(p => ({ kids: Math.min(p.kids + 1, 6) })),
+      decKids: () => this.setState(p => ({ kids: Math.max(0, p.kids - 1) })),
+      seatWarning: over ? t("Tanlangan sanada faqat") + " " + sel.seats + " " + t("o'rin bor") : "",
+
+      travelers: travelers.map(p => ({
+        n: p.n, label: p.label,
+        nameLabel: t("Ism (lotin)"), namePh: p.kid ? "AZIZA" : "ISLOM",
+        surnameLabel: t("Familiya (lotin)"), surnamePh: "KARIMOV",
+        birthLabel: t("Tug'ilgan sana"), passportLabel: t("Pasport raqami")
+      })),
+
+      agreeTerms: s.terms, agreeData: s.data,
+      toggleTerms: () => this.setState(p => ({ terms: !p.terms })),
+      toggleData: () => this.setState(p => ({ data: !p.data })),
+
+      summaryRows: [
+        { k: t("Bron raqami"), v: "RV-2026-04871" },
+        { k: t("Tur"), v: t("Ozarbayjon — «7 mo'jiza» ekskursiyasi") },
+        { k: t("Sana"), v: this.range(sel) },
+        { k: t("Sayohatchilar soni"), v: pax + " " + t("kishi") },
+        { k: t("To'lov muddati"), v: t("30 daqiqa") }
+      ],
+
+      canGoBack: s.step > 1 && s.step < 4,
+      showNext: s.step < 4,
+      nextLabel: s.step === 3 ? t("Bronni tasdiqlash") : t("Davom etish"),
+      blockedHint: s.step === 3 && !canNext ? t("Davom etish uchun ikkala shartga rozilik bering") : "",
+      next: () => { if (canNext) this.setState(p => ({ step: Math.min(4, p.step + 1) })); },
+      back: () => this.setState(p => ({ step: Math.max(1, p.step - 1) })),
+
+      tourTitle: t("Ozarbayjon — «7 mo'jiza» ekskursiyasi"),
+      priceRows: [
+        { k: s.adults + " × " + t("kattalar"), v: this.money(s.adults * sel.usd) },
+        { k: s.kids + " × " + t("bolalar"), v: this.money(s.kids * kidPrice) },
+        { k: t("Sana"), v: this.range(sel) }
+      ].filter((r, i) => !(i === 1 && s.kids === 0)),
+      totalLabel: this.money(total)
+    };
+  }
+
+  componentDidMount() {
+    this.sync();
+    this._vp = () => this.sync();
+    window.addEventListener("resize", this._vp);
+  }
+
+  componentDidUpdate(prev) {
+    if (prev.initialLocale !== this.props.initialLocale && this.props.initialLocale) {
+      this.setState({ locale: this.props.initialLocale });
+      return;
+    }
+    if (prev.startStep !== this.props.startStep && this.props.startStep) {
+      this.setState({ step: Number(this.props.startStep) });
+      return;
+    }
+    this.sync();
+  }
+
+  componentWillUnmount() { window.removeEventListener("resize", this._vp); }
+
+  sync() {
+    const root = this.root();
+    if (!root || !window.RT) return;
+    const s = this.state;
+    window.RT.applyLocale(this.page(), s.locale);
+
+    const wide = window.innerWidth >= 1000;
+    const cols = root.querySelector("[data-rt-cols]");
+    const side = root.querySelector("[data-rt-side]");
+    if (cols) cols.style.gridTemplateColumns = wide ? "minmax(0,1fr) 340px" : "minmax(0,1fr)";
+    if (side) side.style.cssText = wide ? "min-width:0;position:sticky;top:96px" : "min-width:0";
+
+    // stepper states: done / current / upcoming
+    root.querySelectorAll("[data-step]").forEach(li => {
+      const n = Number(li.dataset.step);
+      const num = li.querySelector('[data-step-num="' + n + '"]');
+      const title = li.querySelector('[data-step-title="' + n + '"]');
+      const done = n < s.step, cur = n === s.step;
+      li.style.borderColor = cur ? "#0A66E8" : done ? "rgba(11,27,51,0.3)" : "#DCE7F5";
+      li.style.background = cur ? "#0A66E8" : "#FFFFFF";
+      if (num) {
+        num.style.background = cur ? "#FFC233" : done ? "#0A66E8" : "#EAF3FF";
+        num.style.color = cur ? "#0B1B33" : done ? "#FFFFFF" : "#5C5C5C";
+        num.textContent = done ? "✓" : String(n);
+      }
+      if (title) title.style.color = cur ? "#FFFFFF" : done ? "#0B1B33" : "#333333";
+      li.querySelectorAll("span").forEach(sp => {
+        if (sp.style.textTransform === "uppercase") sp.style.color = cur ? "rgba(255,255,255,0.9)" : "#5C5C5C";
+      });
+    });
+
+    DATES.forEach((d, i) => {
+      const btn = root.querySelector('[data-date-btn="' + i + '"]');
+      const radio = root.querySelector('[data-date-radio="' + i + '"]');
+      const dot = root.querySelector('[data-date-dot="' + i + '"]');
+      const pill = root.querySelector('[data-seat-pill="' + i + '"]');
+      const on = i === s.dateIdx, out = d.seats === 0;
+      if (btn) {
+        btn.disabled = out;
+        btn.style.cursor = out ? "not-allowed" : "pointer";
+        btn.style.borderColor = on ? "#0A66E8" : "#DCE7F5";
+        btn.style.background = on ? "rgba(255,194,51,0.1)" : "#FFFFFF";
+        btn.style.opacity = out ? "0.5" : "1";
+        btn.style.boxShadow = on ? "0 0 0 1px #0A66E8 inset" : "none";
+      }
+      if (radio) radio.style.borderColor = on ? "#0A66E8" : "#DCE7F5";
+      if (dot) dot.style.background = on ? "#0A66E8" : "transparent";
+      if (pill) {
+        pill.style.background = out ? "#EAF3FF" : d.seats <= 5 ? "rgba(255,194,51,0.18)" : "rgba(11,27,51,0.08)";
+        pill.style.color = out ? "#5C5C5C" : d.seats <= 5 ? "#8A5A00" : "#0B1B33";
+      }
+    });
+
+    const nextBtn = root.querySelector("[data-next]");
+    if (nextBtn) {
+      const blocked = s.step === 3 && !(s.terms && s.data);
+      nextBtn.style.opacity = blocked ? "0.45" : "1";
+      nextBtn.style.cursor = blocked ? "not-allowed" : "pointer";
+    }
+  }
+}
+
+</script>
+</body>
+</html>

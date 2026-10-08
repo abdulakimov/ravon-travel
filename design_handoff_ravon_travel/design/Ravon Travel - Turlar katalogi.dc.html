@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&display=swap" rel="stylesheet">
+<script src="./rt-i18n.js"></script>
+<style>
+  html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+  body { margin: 0; background: #FFFFFF; color: #000000;
+         font-family: "Manrope", system-ui, sans-serif; -webkit-font-smoothing: antialiased;
+         text-wrap: pretty; }
+  * { box-sizing: border-box; }
+  a { color: #0B1B33; text-decoration: none; }
+  a:hover { color: #0A66E8; }
+  h1, h2, h3, h4 { margin: 0; font-family: 'Manrope', system-ui, sans-serif; font-weight: 700; letter-spacing: -0.02em; line-height: 1.14; color: #0B1B33; }
+  p { margin: 0; line-height: 1.625; }
+  button { font: inherit; cursor: pointer; }
+  input[type="checkbox"] { accent-color: #0A66E8; width: 17px; height: 17px; cursor: pointer; flex: none; }
+  input[type="range"] { accent-color: #0A66E8; width: 100%; height: 26px; cursor: pointer; }
+  select { font: inherit; cursor: pointer; }
+  ::selection { background: rgba(255,194,51,0.32); }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</helmet>
+
+<div data-rt-root="1" data-screen-label="Turlar katalogi" style="min-height:100vh;overflow-x:hidden">
+
+  <dc-import name="RTHeader" active="catalog" locale="{{ locale }}" on-locale="{{ setLocale }}" hint-size="100%,76px"></dc-import>
+
+  <main data-rt-page="1">
+
+    <section style="background:#0A66E8;color:#FFFFFF">
+      <div style="max-width:1280px;margin:0 auto;padding:clamp(30px,4vw,52px) clamp(18px,4vw,48px) clamp(34px,4.5vw,56px)">
+        <nav aria-label="Breadcrumb" style="display:flex;align-items:center;gap:9px;font-size:12.5px;color:rgba(255,255,255,0.9);margin-bottom:20px">
+          <a href="Ravon%20Travel%20-%20Bosh%20sahifa.dc.html" style="color:rgba(255,255,255,0.9)" style-hover="color:#FFFFFF;font-weight:600">Bosh sahifa</a>
+          <svg data-no-i18n="1" width="13" height="13" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M9.5 5.5l6.5 6.5-6.5 6.5"/></svg>
+          <span style="color:#FFFFFF;font-weight:600">Turlar katalogi</span>
+        </nav>
+        <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:22px 40px">
+          <div style="max-width:660px">
+            <h1 style="font-size:clamp(2rem,1rem + 2.6vw,3.1rem);color:#FFFFFF;letter-spacing:-0.015em;margin-bottom:14px">Turlar katalogi</h1>
+            <p style="font-size:clamp(0.95rem,0.9rem + 0.3vw,1.06rem);color:#EAF3FF">Chiquvchi turizm — O'zbekistondan xorijga tayyor turlar. Narx, muddat va marshrut oldindan belgilangan.</p>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:9px;padding:14px 22px;border:1px solid rgba(255,194,51,0.42);border-radius:14px;background:rgba(255,194,51,0.1)">
+            <span data-count="1" data-no-i18n="1" style="font-family:'Manrope',system-ui,sans-serif;font-size:32px;font-weight:700;color:#FFC233;line-height:1">10</span>
+            <span style="font-size:12.5px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#EAF3FF">tur topildi</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div style="max-width:1280px;margin:0 auto;padding:clamp(22px,3vw,38px) clamp(18px,4vw,48px) clamp(56px,7vw,100px);display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(22px,3vw,36px)" data-rt-grid="1">
+
+      <aside data-rt-filters="1" style="align-self:start">
+        <div data-rt-filters-inner="1" style="border:1px solid #DCE7F5;border-radius:18px;background:#FFFFFF;overflow:hidden">
+          <div style="padding:18px 20px;border-bottom:1px solid #DCE7F5;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#EAF3FF">
+            <span style="display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0B1B33">
+              <svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M4 6.4h16M7 12h10M10 17.6h4"/></svg>
+              <span>Filtrlar</span>
+            </span>
+            <button onClick="{{ clearAll }}" style="border:0;background:transparent;padding:6px 8px;font-size:12.5px;font-weight:600;color:#0A66E8;border-radius:8px" style-hover="background:rgba(255,194,51,0.16)">Tozalash</button>
+          </div>
+
+          <div style="padding:20px;display:flex;flex-direction:column;gap:24px">
+
+            <fieldset style="border:0;padding:0;margin:0;display:flex;flex-direction:column;gap:11px">
+              <legend style="padding:0;margin-bottom:3px;font-size:11.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#5C5C5C">Yo'nalish</legend>
+              <sc-for list="{{ countryOptions }}" as="opt" hint-placeholder-count="9">
+                <label data-no-i18n="1" style="display:flex;align-items:center;gap:10px;min-height:34px;font-size:14px;color:#333333;cursor:pointer">
+                  <input type="checkbox" checked="{{ opt.on }}" onChange="{{ opt.toggle }}">
+                  <span style="flex:1">{{ opt.label }}</span>
+                  <span style="font-size:12px;color:#5C5C5C;font-variant-numeric:tabular-nums">{{ opt.count }}</span>
+                </label>
+              </sc-for>
+            </fieldset>
+
+            <fieldset style="border:0;padding:0;margin:0;display:flex;flex-direction:column;gap:11px;padding-top:22px;border-top:1px solid #DCE7F5">
+              <legend style="padding:0;margin-bottom:3px;font-size:11.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#5C5C5C">Kategoriya</legend>
+              <sc-for list="{{ categoryOptions }}" as="opt" hint-placeholder-count="5">
+                <label data-no-i18n="1" style="display:flex;align-items:center;gap:10px;min-height:34px;font-size:14px;color:#333333;cursor:pointer">
+                  <input type="checkbox" checked="{{ opt.on }}" onChange="{{ opt.toggle }}">
+                  <span style="flex:1">{{ opt.label }}</span>
+                  <span style="font-size:12px;color:#5C5C5C;font-variant-numeric:tabular-nums">{{ opt.count }}</span>
+                </label>
+              </sc-for>
+            </fieldset>
+
+            <div style="display:flex;flex-direction:column;gap:8px;padding-top:22px;border-top:1px solid #DCE7F5">
+              <span style="font-size:11.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#5C5C5C">Narx oralig'i</span>
+              <div style="display:flex;align-items:baseline;gap:7px;font-size:14px;color:#0B1B33;font-weight:600">
+                <span>gacha</span>
+                <span data-no-i18n="1" style="font-family:'Manrope',system-ui,sans-serif;font-size:20px">{{ maxPriceLabel }}</span>
+              </div>
+              <input type="range" min="400" max="1700" step="50" value="{{ maxPrice }}" onInput="{{ setMaxPrice }}" aria-label="Narx oralig'i">
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:9px;padding-top:22px;border-top:1px solid #DCE7F5">
+              <span style="font-size:11.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#5C5C5C">Muddat</span>
+              <div role="group" style="display:grid;grid-template-columns:repeat(2,1fr);gap:7px">
+                <button data-dur="any" onClick="{{ setDurAny }}" style="min-height:40px;padding:8px 10px;border:1px solid #DCE7F5;border-radius:10px;background:#FFFFFF;font-size:13px;font-weight:600;color:#333333">Istalgan</button>
+                <button data-no-i18n="1" data-dur="5-6" onClick="{{ setDur56 }}" style="min-height:40px;padding:8px 10px;border:1px solid #DCE7F5;border-radius:10px;background:#FFFFFF;font-size:13px;font-weight:600;color:#333333">5–6</button>
+                <button data-no-i18n="1" data-dur="7-8" onClick="{{ setDur78 }}" style="min-height:40px;padding:8px 10px;border:1px solid #DCE7F5;border-radius:10px;background:#FFFFFF;font-size:13px;font-weight:600;color:#333333">7–8</button>
+                <button data-no-i18n="1" data-dur="9+" onClick="{{ setDur9 }}" style="min-height:40px;padding:8px 10px;border:1px solid #DCE7F5;border-radius:10px;background:#FFFFFF;font-size:13px;font-weight:600;color:#333333">9+</button>
+              </div>
+            </div>
+
+            <label style="display:flex;align-items:center;gap:11px;min-height:44px;padding-top:22px;border-top:1px solid #DCE7F5;font-size:14px;color:#333333;cursor:pointer">
+              <input type="checkbox" checked="{{ fixedOnly }}" onChange="{{ toggleFixed }}">
+              <span>Faqat sanasi belgilangan turlar</span>
+            </label>
+          </div>
+        </div>
+
+        <button data-vp="mobile" data-vpd="flex" onClick="{{ closeFilters }}" style="display:none;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:14px;min-height:52px;border:0;border-radius:14px;background:#0A66E8;color:#FFFFFF;font-size:15px;font-weight:600">
+          <span>Ko'rsatilmoqda</span><span data-count="1" data-no-i18n="1">10</span>
+        </button>
+      </aside>
+
+      <div style="min-width:0;display:flex;flex-direction:column;gap:clamp(18px,2.2vw,26px)">
+
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 18px">
+          <button data-vp="mobile" data-vpd="inline-flex" onClick="{{ openFilters }}" style="display:none;align-items:center;gap:9px;min-height:46px;padding:10px 18px;border:1px solid #0A66E8;border-radius:99px;background:#FFFFFF;font-size:14px;font-weight:600;color:#0B1B33">
+            <svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M4 6.4h16M7 12h10M10 17.6h4"/></svg>
+            <span>Filtrlar</span>
+          </button>
+
+          <div data-rt-chips="1" style="display:flex;flex-wrap:wrap;gap:8px;min-width:0;flex:1">
+            <sc-for list="{{ activeChips }}" as="chip" hint-placeholder-count="0">
+              <button data-no-i18n="1" onClick="{{ chip.remove }}" style="display:inline-flex;align-items:center;gap:7px;min-height:34px;padding:6px 8px 6px 13px;border:1px solid rgba(11,27,51,0.2);border-radius:99px;background:#EAF3FF;font-size:13px;font-weight:600;color:#0B1B33" style-hover="border-color:#0A66E8">
+                <span>{{ chip.label }}</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round"><path d="M6.6 6.6l10.8 10.8M17.4 6.6L6.6 17.4"/></svg>
+              </button>
+            </sc-for>
+          </div>
+
+          <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:#5C5C5C;flex:none">
+            <span>Saralash</span>
+            <select value="{{ sort }}" onChange="{{ setSort }}" style="min-height:44px;padding:10px 14px;border:1px solid #DCE7F5;border-radius:12px;background:#FFFFFF;font-size:14px;font-weight:600;color:#0B1B33">
+              <option value="popular">Ommabop</option>
+              <option value="price-asc">Narx: arzondan</option>
+              <option value="price-desc">Narx: qimmatdan</option>
+              <option value="days-asc">Muddat: qisqadan</option>
+            </select>
+          </label>
+        </div>
+
+        <sc-if value="{{ hasResults }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:clamp(18px,2.2vw,28px)">
+          <sc-for list="{{ visibleTours }}" as="tour" hint-placeholder-count="6">
+            <a data-no-i18n="1" href="Ravon%20Travel%20-%20Tur%20tafsiloti.dc.html" style="display:flex;flex-direction:column;background:#FFFFFF;border:1px solid #DCE7F5;border-radius:18px;overflow:hidden;transition:transform 0.3s cubic-bezier(0.4,0,0.2,1),box-shadow 0.3s cubic-bezier(0.4,0,0.2,1),border-color 0.3s" style-hover="transform:translateY(-5px);box-shadow:0 20px 44px rgba(11,27,51,0.14);border-color:rgba(255,194,51,0.45)">
+              <span style="position:relative;display:block;aspect-ratio:4/3;background:#EAF3FF">
+                <img src="{{ tour.img }}" alt="{{ tour.title }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">
+                <span style="position:absolute;top:12px;left:12px;display:flex;flex-wrap:wrap;gap:6px;pointer-events:none">
+                  <sc-if value="{{ tour.top }}" hint-placeholder-val="{{ false }}">
+                    <span style="display:inline-flex;align-items:center;gap:4px;padding:5px 9px 5px 8px;border-radius:99px;background:#FFC233;color:#0B1B33;font-size:10.5px;font-weight:800;letter-spacing:0.09em">
+                      <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:currentColor;stroke:none"><path d="M12 3.4l2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.8-5.4 2.8 1-6L3.3 9.8l6-.9z"/></svg>
+                      <span>TOP</span>
+                    </span>
+                  </sc-if>
+                  <span style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px 5px 8px;border-radius:99px;background:{{ tour.badgeBg }};color:{{ tour.badgeFg }};font-size:10.5px;font-weight:700;letter-spacing:0.05em">
+                    <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><rect x="3.4" y="5.2" width="17.2" height="15.4" rx="2.6"/><path d="M8.2 3v4.2M15.8 3v4.2M3.4 10.4h17.2"/></svg>
+                    <span>{{ tour.badgeLabel }}</span>
+                  </span>
+                </span>
+              </span>
+              <span style="padding:20px 22px 22px;display:flex;flex-direction:column;gap:11px;flex:1">
+                <span style="display:flex;justify-content:space-between;gap:12px;font-size:10.5px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#5C5C5C">
+                  <span>{{ tour.cat }}</span><span>{{ tour.daysLabel }}</span>
+                </span>
+                <h3 style="font-size:20px;letter-spacing:-0.01em;color:#000000">{{ tour.title }}</h3>
+                <span style="font-size:13.5px;color:#5C5C5C;line-height:1.6">{{ tour.desc }}</span>
+                <sc-if value="{{ tour.hasSeats }}" hint-placeholder-val="{{ false }}">
+                  <span style="display:inline-flex;align-items:center;gap:7px;align-self:flex-start;font-size:12px;font-weight:600;color:#8A5A00;background:rgba(255,194,51,0.16);padding:5px 10px;border-radius:8px">
+                    <svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M15.6 20.4v-1.9a3.6 3.6 0 0 0-3.6-3.6H7.2a3.6 3.6 0 0 0-3.6 3.6v1.9"/><circle cx="9.6" cy="8" r="3.5"/><path d="M20.6 20.4v-1.9a3.6 3.6 0 0 0-2.7-3.5M15.9 4.6a3.5 3.5 0 0 1 0 6.8"/></svg>
+                    <span>{{ tour.seatsLabel }}</span>
+                  </span>
+                </sc-if>
+                <span style="margin-top:auto;padding-top:15px;border-top:1px solid #DCE7F5;display:flex;align-items:flex-end;justify-content:space-between;gap:12px">
+                  <span style="display:flex;flex-direction:column;gap:2px">
+                    <span style="font-family:'Manrope',system-ui,sans-serif;font-size:24px;font-weight:700;color:#0B1B33;line-height:1.1">{{ tour.priceLabel }}</span>
+                    <span style="font-size:11px;color:#5C5C5C">{{ tour.perPerson }}</span>
+                  </span>
+                  <span style="display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:#0A66E8">
+                    <span>{{ tour.more }}</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M4.4 12h15.2M13.4 6l6.2 6-6.2 6"/></svg>
+                  </span>
+                </span>
+              </span>
+            </a>
+          </sc-for>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ hasMore }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ showMore }}" style="align-self:center;display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:14px 30px;border:1px solid rgba(11,27,51,0.25);border-radius:99px;background:#FFFFFF;font-size:15px;font-weight:600;color:#0B1B33;transition:background 0.3s cubic-bezier(0.4,0,0.2,1),color 0.3s" style-hover="background:#0A66E8;color:#FFFFFF">
+            <span>Ko'proq yuklash</span>
+            <svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M12 4.4v15.2M6 13.4l6 6.2 6-6.2"/></svg>
+          </button>
+        </sc-if>
+
+        <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:clamp(40px,6vw,72px) clamp(22px,4vw,48px);border:1px dashed rgba(11,27,51,0.28);border-radius:20px;background:#EAF3FF;display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px">
+          <span data-no-i18n="1" style="width:64px;height:64px;border-radius:20px;background:#FFFFFF;border:1px solid rgba(11,27,51,0.14);display:grid;place-items:center;color:#0B1B33">
+            <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round"><circle cx="11" cy="11" r="7.2"/><path d="M16.4 16.4l4.2 4.2"/><path d="M8.4 11h5.2"/></svg>
+          </span>
+          <h3 style="font-size:clamp(1.3rem,1rem + 1vw,1.8rem)">Hech qanday tur topilmadi</h3>
+          <p style="font-size:14.5px;color:#333333;max-width:480px">Tanlangan filtrlar bo'yicha mos tur yo'q. Filtrlarni kengaytirib ko'ring yoki biz bilan bog'laning — sizga individual tur tuzamiz.</p>
+          <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:4px">
+            <button onClick="{{ clearAll }}" style="display:inline-flex;align-items:center;gap:9px;min-height:48px;padding:13px 24px;border:0;border-radius:99px;background:#0A66E8;color:#FFFFFF;font-size:14.5px;font-weight:600">
+              <svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M19.6 8.4A8 8 0 1 0 20 12"/><path d="M20 4.4v4.4h-4.4"/></svg>
+              <span>Filtrlarni tozalash</span>
+            </button>
+            <a href="Ravon%20Travel%20-%20Aloqa.dc.html" style="display:inline-flex;align-items:center;gap:9px;min-height:48px;padding:13px 24px;border:1px solid rgba(11,27,51,0.25);border-radius:99px;background:#FFFFFF;font-size:14.5px;font-weight:600;color:#0B1B33" style-hover="border-color:#0A66E8">
+              <span>Individual tur so'rash</span>
+            </a>
+          </div>
+        </div>
+        </sc-if>
+
+      </div>
+    </div>
+  </main>
+
+  <dc-import name="RTFooter" locale="{{ locale }}" hint-size="100%,440px"></dc-import>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;initialLocale&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;uz&quot;, &quot;ru&quot;, &quot;en&quot;], &quot;default&quot;: &quot;uz&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Sayt&quot; },
+  &quot;currency&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;USD&quot;, &quot;UZS&quot;], &quot;default&quot;: &quot;USD&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Narxlar&quot; },
+  &quot;showSeatsLeft&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Narxlar&quot; }
+}">
+const TOURS = [
+  { id: "az-7", country: "Ozarbayjon", cat: "Tarixiy turlar", days: 6, usd: 720, fixed: true, top: true, seats: 4, rank: 1,
+    img: "img/tour-az.jpg", title: "Ozarbayjon — «7 mo'jiza» ekskursiyasi",
+    desc: "Baku, Gobustan, Yanardag va Atashgah — olti kunda yettita noyob makon." },
+  { id: "kg-issyk", country: "Qirg'iziston", cat: "Tabiat turlari", days: 8, usd: 470, fixed: true, top: true, seats: 12, rank: 2,
+    img: "img/tour-kg.jpg", title: "Issiq-Ko'l — Qirg'iziston tog' dengizi",
+    desc: "Tyan-Shan tog'lari ichidagi sho'r ko'l, mahalliy oshxona va issiq buloqlar." },
+  { id: "ae-dubai", country: "BAA", cat: "Plyaj dam olish", days: 8, usd: 1375, fixed: false, top: true, seats: null, rank: 3,
+    img: "img/tour-ae.jpg", title: "Dubay — Hashamatli BAA sayohati",
+    desc: "Burj Xalifa, cho'l safari va Palm Jumeyra — yetti kechalik shahar dam olishi." },
+  { id: "gr-cruise", country: "Yunoniston", cat: "Kruiz", days: 8, usd: 1650, fixed: true, top: true, seats: 3, rank: 4,
+    img: "img/dest-gr.jpg", title: "Yunoniston orollari kruizi",
+    desc: "Egey dengizi bo'ylab kruiz: Santorini, Mikonos va Krit orollari." },
+  { id: "ge-batumi", country: "Gruziya", cat: "Tarixiy turlar", days: 8, usd: 1100, fixed: true, top: false, seats: 9, rank: 5,
+    img: "img/tour-ge.jpg", title: "Gruziya — Batumi, Bakuriani va Tbilisi",
+    desc: "Qora dengiz qirg'og'idagi Batumi, tog' kurorti Bakuriani va qadimiy Tbilisi." },
+  { id: "bg-sunny", country: "Bolgariya", cat: "Plyaj dam olish", days: 8, usd: 890, fixed: true, top: false, seats: 6, rank: 6,
+    img: "img/dest-bg.jpg", title: "Bolgariya — Quyoshli plyaj va Nesebar",
+    desc: "Qora dengizdagi qumli plyajlar va YUNESKO ro'yxatidagi qadimiy Nesebar." },
+  { id: "az-naftalan", country: "Ozarbayjon", cat: "Davolanish turlari", days: 7, usd: 680, fixed: false, top: false, seats: null, rank: 7,
+    img: "img/tour-naftalan.jpg", title: "Naftalan — Davolanish va sog'lomlashtirish turi",
+    desc: "Ozarbayjondagi tabiiy neft vannalari — tayanch-harakat tizimi uchun." },
+  { id: "cn-avatar", country: "Xitoy", cat: "Tabiat turlari", days: 8, usd: 1520, fixed: false, top: false, seats: null, rank: 8,
+    img: "img/tour-cn.jpg", title: "Xitoy — «Avatar» tog'lari va Guangzhou",
+    desc: "«Avatar» filmiga ilhom bergan Zhangjiajie tog'lari va zamonaviy Guangzhou." },
+  { id: "my-kl", country: "Malayziya", cat: "Plyaj dam olish", days: 9, usd: 1290, fixed: false, top: false, seats: null, rank: 9,
+    img: "img/dest-my-kl.jpg", title: "Malayziya — Kuala-Lumpur va Langkavi",
+    desc: "Petronas minoralari, tropik o'rmon va Langkavi orolidagi plyajlar." },
+  { id: "qa-doha", country: "Qatar", cat: "Tarixiy turlar", days: 5, usd: 980, fixed: false, top: false, seats: null, rank: 10,
+    img: "img/dest-qa.jpg", title: "Qatar — Doha shahri va cho'l",
+    desc: "Souq Waqif bozori, Islom san'ati muzeyi va cho'ldagi ichki dengiz." }
+];
+
+const COUNTRIES = ["Ozarbayjon", "Gruziya", "BAA", "Xitoy", "Malayziya", "Bolgariya", "Yunoniston", "Qatar", "Qirg'iziston"];
+const CATEGORIES = ["Tarixiy turlar", "Tabiat turlari", "Plyaj dam olish", "Davolanish turlari", "Kruiz"];
+const PAGE = 6;
+
+class Component extends DCLogic {
+  state = {
+    locale: this.props.initialLocale || "uz",
+    countries: [], categories: [], maxPrice: 1700, dur: "any", fixedOnly: false,
+    sort: "popular", shown: PAGE, filtersOpen: false
+  };
+
+  root() { return document.querySelector("[data-rt-root]"); }
+  page() { return document.querySelector("[data-rt-page]"); }
+  t(s) { return window.RT ? window.RT.t(s, this.state.locale) : s; }
+
+  matches(x) {
+    const s = this.state;
+    if (s.countries.length && s.countries.indexOf(x.country) < 0) return false;
+    if (s.categories.length && s.categories.indexOf(x.cat) < 0) return false;
+    if (x.usd > s.maxPrice) return false;
+    if (s.fixedOnly && !x.fixed) return false;
+    if (s.dur === "5-6" && !(x.days >= 5 && x.days <= 6)) return false;
+    if (s.dur === "7-8" && !(x.days >= 7 && x.days <= 8)) return false;
+    if (s.dur === "9+" && x.days < 9) return false;
+    return true;
+  }
+
+  toggleIn(key, value) {
+    this.setState(s => {
+      const list = s[key].slice();
+      const i = list.indexOf(value);
+      if (i < 0) list.push(value); else list.splice(i, 1);
+      return { [key]: list, shown: PAGE };
+    });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const t = x => this.t(x);
+    const money = usd => (window.RT ? window.RT.money(usd, this.props.currency, s.locale) : "$" + usd);
+
+    const filtered = TOURS.filter(x => this.matches(x));
+    const sorted = filtered.slice().sort((a, b) => {
+      if (s.sort === "price-asc") return a.usd - b.usd;
+      if (s.sort === "price-desc") return b.usd - a.usd;
+      if (s.sort === "days-asc") return a.days - b.days;
+      return a.rank - b.rank;
+    });
+
+    const cardOf = x => ({
+      img: x.img,
+      top: x.top,
+      title: t(x.title),
+      desc: t(x.desc),
+      cat: t(x.cat),
+      daysLabel: x.days + " " + t("kun"),
+      badgeLabel: x.fixed ? t("Sanasi bor") : t("So'rov bo'yicha"),
+      badgeBg: x.fixed ? "#0A66E8" : "rgba(255,255,255,0.94)",
+      badgeFg: x.fixed ? "#FFFFFF" : "#333333",
+      hasSeats: this.props.showSeatsLeft !== false && x.seats != null,
+      seatsLabel: x.seats + " " + t("o'rin qoldi"),
+      priceLabel: money(x.usd),
+      perPerson: t("1 kishi uchun · dan"),
+      more: t("Batafsil")
+    });
+
+    const chips = [];
+    s.countries.forEach(c => chips.push({ label: t(c), remove: () => this.toggleIn("countries", c) }));
+    s.categories.forEach(c => chips.push({ label: t(c), remove: () => this.toggleIn("categories", c) }));
+    if (s.dur !== "any") chips.push({ label: s.dur + " " + t("kun"), remove: () => this.setState({ dur: "any", shown: PAGE }) });
+    if (s.maxPrice < 1700) chips.push({ label: t("gacha") + " " + money(s.maxPrice), remove: () => this.setState({ maxPrice: 1700, shown: PAGE }) });
+    if (s.fixedOnly) chips.push({ label: t("Sanasi bor"), remove: () => this.setState({ fixedOnly: false, shown: PAGE }) });
+
+    return {
+      locale: s.locale,
+      setLocale: loc => this.setState({ locale: loc }),
+      countryOptions: COUNTRIES.map(c => ({
+        label: t(c), count: TOURS.filter(x => x.country === c).length,
+        on: s.countries.indexOf(c) > -1, toggle: () => this.toggleIn("countries", c)
+      })),
+      categoryOptions: CATEGORIES.map(c => ({
+        label: t(c), count: TOURS.filter(x => x.cat === c).length,
+        on: s.categories.indexOf(c) > -1, toggle: () => this.toggleIn("categories", c)
+      })),
+      maxPrice: s.maxPrice,
+      maxPriceLabel: money(s.maxPrice),
+      setMaxPrice: e => this.setState({ maxPrice: Number(e.target.value), shown: PAGE }),
+      fixedOnly: s.fixedOnly,
+      toggleFixed: () => this.setState(p => ({ fixedOnly: !p.fixedOnly, shown: PAGE })),
+      setDurAny: () => this.setState({ dur: "any", shown: PAGE }),
+      setDur56: () => this.setState({ dur: "5-6", shown: PAGE }),
+      setDur78: () => this.setState({ dur: "7-8", shown: PAGE }),
+      setDur9: () => this.setState({ dur: "9+", shown: PAGE }),
+      sort: s.sort,
+      setSort: e => this.setState({ sort: e.target.value, shown: PAGE }),
+      activeChips: chips,
+      clearAll: () => this.setState({ countries: [], categories: [], maxPrice: 1700, dur: "any", fixedOnly: false, shown: PAGE }),
+      visibleTours: sorted.slice(0, s.shown).map(cardOf),
+      hasResults: sorted.length > 0,
+      isEmpty: sorted.length === 0,
+      hasMore: sorted.length > s.shown,
+      showMore: () => this.setState(p => ({ shown: p.shown + PAGE })),
+      openFilters: () => this.setState({ filtersOpen: true }),
+      closeFilters: () => this.setState({ filtersOpen: false }),
+      count: sorted.length
+    };
+  }
+
+  componentDidMount() {
+    this._store = {};
+    this.sync();
+    this._vp = () => this.sync();
+    window.addEventListener("resize", this._vp);
+    if (window.RT) window.RT.initReveal(this.page(), this._store);
+  }
+
+  componentDidUpdate(prev) {
+    if (prev.initialLocale !== this.props.initialLocale && this.props.initialLocale) {
+      this.setState({ locale: this.props.initialLocale });
+      return;
+    }
+    this.sync();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this._vp);
+    if (window.RT) window.RT.stopReveal(this._store);
+  }
+
+  sync() {
+    const root = this.root();
+    if (!root || !window.RT) return;
+    const s = this.state;
+    window.RT.applyLocale(this.page(), s.locale);
+    window.RT.applyViewport(root);
+
+    // live result count in the hero pill and the mobile apply button
+    root.querySelectorAll("[data-count]").forEach(el => {
+      el.textContent = String(TOURS.filter(x => this.matches(x)).length);
+    });
+
+    // duration segmented control
+    root.querySelectorAll("[data-dur]").forEach(b => {
+      const on = b.dataset.dur === s.dur;
+      b.style.background = on ? "#0A66E8" : "#FFFFFF";
+      b.style.color = on ? "#FFFFFF" : "#333333";
+      b.style.borderColor = on ? "#0A66E8" : "#DCE7F5";
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+
+    // filter rail: sidebar on desktop, slide-up sheet on mobile
+    const grid = root.querySelector("[data-rt-grid]");
+    const aside = root.querySelector("[data-rt-filters]");
+    const inner = root.querySelector("[data-rt-filters-inner]");
+    const mobile = window.RT.isMobile(1000);
+    if (grid) grid.style.gridTemplateColumns = mobile ? "minmax(0,1fr)" : "290px minmax(0,1fr)";
+    if (aside && inner) {
+      if (!mobile) {
+        aside.style.cssText = "align-self:start;position:sticky;top:96px";
+        inner.style.maxHeight = "";
+        inner.style.overflowY = "";
+      } else if (s.filtersOpen) {
+        aside.style.cssText = "position:fixed;inset:auto 0 0 0;z-index:80;max-height:88vh;overflow-y:auto;padding:14px 16px 18px;background:#FFFFFF;border-top:1px solid #DCE7F5;box-shadow:0 -18px 50px rgba(11,27,51,0.28)";
+      } else {
+        aside.style.cssText = "display:none";
+      }
+    }
+    document.body.style.overflow = mobile && s.filtersOpen ? "hidden" : "";
+  }
+}
+
+</script>
+</body>
+</html>

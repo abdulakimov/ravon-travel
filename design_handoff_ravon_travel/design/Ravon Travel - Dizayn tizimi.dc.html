@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&display=swap" rel="stylesheet">
+<script src="./rt-i18n.js"></script>
+<style>
+  html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+  body { margin: 0; background: #FFFFFF; color: #000000;
+         font-family: "Manrope", system-ui, sans-serif; -webkit-font-smoothing: antialiased;
+         text-wrap: pretty; }
+  * { box-sizing: border-box; }
+  a { color: #0B1B33; text-decoration: none; }
+  a:hover { color: #0A66E8; }
+  h1, h2, h3, h4 { margin: 0; font-family: 'Manrope', system-ui, sans-serif; font-weight: 700; letter-spacing: -0.02em; line-height: 1.14; color: #0B1B33; }
+  p { margin: 0; line-height: 1.625; }
+  button { font: inherit; cursor: pointer; }
+  input, select, textarea { font: inherit; }
+  input[type="checkbox"], input[type="radio"] { accent-color: #0A66E8; width: 18px; height: 18px; cursor: pointer; flex: none; }
+  ::selection { background: rgba(255,194,51,0.32); }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</helmet>
+
+<div data-rt-root="1" data-screen-label="Dizayn tizimi" style="min-height:100vh;overflow-x:hidden">
+
+  <dc-import name="RTHeader" active="home" locale="{{ locale }}" on-locale="{{ setLocale }}" hint-size="100%,76px"></dc-import>
+
+  <main data-rt-page="1">
+
+    <section style="background:#0A66E8;color:#FFFFFF">
+      <div style="max-width:1180px;margin:0 auto;padding:clamp(36px,5vw,68px) clamp(18px,4vw,48px)">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
+          <svg data-no-i18n="1" width="30" height="10" viewBox="0 0 30 10" aria-hidden="true" style="flex:none;overflow:visible"><path d="M1 5c3.2-3.4 6.4-3.4 9.6 0s6.4 3.4 9.6 0 6.4-3.4 9.6 0" style="fill:none;stroke:#FFC233;stroke-width:1.6;stroke-linecap:round"/></svg>
+          <span style="font-size:11.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#FFFFFF">Dizayn tizimi</span>
+        </div>
+        <h1 style="font-size:clamp(1.9rem,1rem + 2.4vw,3rem);color:#FFFFFF;letter-spacing:-0.02em;max-width:720px;margin-bottom:16px">Ranglar, tipografiya va komponentlar</h1>
+        <p style="font-size:clamp(0.98rem,0.92rem + 0.35vw,1.1rem);color:#EAF3FF;max-width:620px">Yozgi, quvnoq uslub: okean ko'ki, quyosh sarig'i va osmon foni. Bu sahifa dasturchi uchun yagona manba.</p>
+      </div>
+    </section>
+
+    <nav data-no-i18n="1" style="position:sticky;top:76px;z-index:40;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid #DCE7F5">
+      <div style="max-width:1180px;margin:0 auto;padding:12px clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;gap:8px">
+        <a href="#ranglar" style="padding:8px 15px;border:1px solid #DCE7F5;border-radius:99px;font-size:13px;font-weight:600" style-hover="border-color:#0A66E8">Ranglar</a>
+        <a href="#tipografiya" style="padding:8px 15px;border:1px solid #DCE7F5;border-radius:99px;font-size:13px;font-weight:600" style-hover="border-color:#0A66E8">Tipografiya</a>
+        <a href="#masshtab" style="padding:8px 15px;border:1px solid #DCE7F5;border-radius:99px;font-size:13px;font-weight:600" style-hover="border-color:#0A66E8">Masshtab</a>
+        <a href="#tugmalar" style="padding:8px 15px;border:1px solid #DCE7F5;border-radius:99px;font-size:13px;font-weight:600" style-hover="border-color:#0A66E8">Tugmalar</a>
+        <a href="#formalar" style="padding:8px 15px;border:1px solid #DCE7F5;border-radius:99px;font-size:13px;font-weight:600" style-hover="border-color:#0A66E8">Formalar</a>
+        <a href="#belgilar" style="padding:8px 15px;border:1px solid #DCE7F5;border-radius:99px;font-size:13px;font-weight:600" style-hover="border-color:#0A66E8">Belgilar</a>
+        <a href="#ikonkalar" style="padding:8px 15px;border:1px solid #DCE7F5;border-radius:99px;font-size:13px;font-weight:600" style-hover="border-color:#0A66E8">Ikonkalar</a>
+      </div>
+    </nav>
+
+    <section id="ranglar" style="max-width:1180px;margin:0 auto;padding:clamp(40px,5vw,72px) clamp(18px,4vw,48px) 0">
+      <h2 style="font-size:clamp(1.5rem,1rem + 1.4vw,2.1rem);margin-bottom:10px">Ranglar</h2>
+      <p style="font-size:14.5px;color:#5C5C5C;max-width:640px;margin-bottom:26px">Beshta asosiy rang va ulardan olingan yordamchi tovlanishlar. Har bir yordamchi rang kontrast talabini bajarish uchun kiritilgan.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,196px),1fr));gap:14px">
+        <sc-for list="{{ colors }}" as="c" hint-placeholder-count="10">
+          <div data-no-i18n="1" style="border:1px solid #DCE7F5;border-radius:16px;overflow:hidden;background:#FFFFFF">
+            <span data-swatch="{{ c.hex }}" style="display:block;height:96px;border-bottom:1px solid #DCE7F5"></span>
+            <span style="display:flex;flex-direction:column;gap:5px;padding:14px 16px 16px">
+              <span style="font-size:13.5px;font-weight:700;color:#0B1B33">{{ c.name }}</span>
+              <span style="font-family:ui-monospace,monospace;font-size:12.5px;color:#5C5C5C">{{ c.hex }}</span>
+              <span style="font-size:12px;color:#5C5C5C;line-height:1.5;margin-top:3px">{{ c.use }}</span>
+            </span>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:20px;padding:20px;border-left:3px solid #FFC233;background:#EAF3FF;border-radius:0 12px 12px 0;display:flex;flex-direction:column;gap:8px">
+        <span style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0B1B33">Kontrast qoidasi</span>
+        <p style="font-size:13.5px;color:#333333;max-width:700px">Quyosh sarig'i oq fonda matn uchun ishlatilmaydi — faqat fon, belgi va grafika uchun; uning ustidagi matn har doim Chuqurlik rangida. Okean ko'ki oq matn bilan 5.1:1 — tugma va havolalar uchun xavfsiz. Ko'k fonda mayda matn faqat oq.</p>
+      </div>
+    </section>
+
+    <section id="tipografiya" style="max-width:1180px;margin:0 auto;padding:clamp(40px,5vw,72px) clamp(18px,4vw,48px) 0">
+      <h2 style="font-size:clamp(1.5rem,1rem + 1.4vw,2.1rem);margin-bottom:10px">Tipografiya</h2>
+      <p style="font-size:14.5px;color:#5C5C5C;max-width:640px;margin-bottom:26px">Bitta shrift — Manrope. Ierarxiya o'lcham va qalinlik bilan quriladi.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px;margin-bottom:26px">
+        <div style="padding:22px;border:1px solid #DCE7F5;border-radius:16px;background:#FFFFFF;display:flex;flex-direction:column;gap:10px">
+          <span data-no-i18n="1" style="font-family:'Manrope',system-ui,sans-serif;font-size:46px;font-weight:700;color:#0B1B33;line-height:1">Aa</span>
+          <span data-no-i18n="1" style="font-size:14.5px;font-weight:700;color:#0B1B33">Manrope · Sarlavha</span>
+          <span style="font-size:13px;color:#5C5C5C">Sarlavhalar, narxlar va katta raqamlar — 700 va 800 qalinlikda, harflar oralig'i −2%.</span>
+        </div>
+        <div style="padding:22px;border:1px solid #DCE7F5;border-radius:16px;background:#FFFFFF;display:flex;flex-direction:column;gap:10px">
+          <span data-no-i18n="1" style="font-size:46px;font-weight:700;color:#0B1B33;line-height:1">Aa</span>
+          <span data-no-i18n="1" style="font-size:14.5px;font-weight:700;color:#0B1B33">Manrope · Matn</span>
+          <span style="font-size:13px;color:#5C5C5C">Asosiy matn, navigatsiya, tugmalar, yorliqlar. Og'irliklar: 400, 500, 600, 700, 800.</span>
+        </div>
+      </div>
+
+      <div style="border:1px solid #DCE7F5;border-radius:16px;overflow:hidden">
+        <sc-for list="{{ typeScale }}" as="ts" hint-placeholder-count="8">
+          <div data-no-i18n="1" style="display:flex;flex-wrap:wrap;align-items:baseline;gap:14px 24px;padding:18px 20px;border-bottom:1px solid #DCE7F5">
+            <span style="flex:none;min-width:118px;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#5C5C5C">{{ ts.role }}</span>
+            <span data-type-sample="{{ ts.i }}" style="flex:1;min-width:200px;color:#0B1B33">{{ ts.sample }}</span>
+            <span style="flex:none;font-family:ui-monospace,monospace;font-size:12px;color:#5C5C5C">{{ ts.spec }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section id="masshtab" style="max-width:1180px;margin:0 auto;padding:clamp(40px,5vw,72px) clamp(18px,4vw,48px) 0">
+      <h2 style="font-size:clamp(1.5rem,1rem + 1.4vw,2.1rem);margin-bottom:26px">Masshtab va radiuslar</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:16px">
+        <div style="padding:22px;border:1px solid #DCE7F5;border-radius:16px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#0B1B33">Bo'shliq</span>
+          <div data-no-i18n="1" style="display:flex;flex-direction:column;gap:9px">
+            <sc-for list="{{ spacing }}" as="sp" hint-placeholder-count="6">
+              <span style="display:flex;align-items:center;gap:12px">
+                <span data-space="{{ sp.px }}" style="display:block;height:12px;background:#FFC233;border-radius:3px"></span>
+                <span style="font-family:ui-monospace,monospace;font-size:12px;color:#5C5C5C">{{ sp.label }}</span>
+              </span>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:22px;border:1px solid #DCE7F5;border-radius:16px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#0B1B33">Radius</span>
+          <div data-no-i18n="1" style="display:flex;flex-wrap:wrap;gap:12px">
+            <sc-for list="{{ radii }}" as="r" hint-placeholder-count="5">
+              <span style="display:flex;flex-direction:column;align-items:center;gap:7px">
+                <span data-radius="{{ r.px }}" style="width:56px;height:56px;background:#0A66E8;display:block"></span>
+                <span style="font-family:ui-monospace,monospace;font-size:11.5px;color:#5C5C5C">{{ r.label }}</span>
+              </span>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:22px;border:1px solid #DCE7F5;border-radius:16px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#0B1B33">Konteyner va uzilish nuqtalari</span>
+          <div data-no-i18n="1" style="display:flex;flex-direction:column;gap:11px;font-size:13px;color:#333333">
+            <span style="display:flex;justify-content:space-between;gap:12px"><span>Maks. kenglik</span><span style="font-family:ui-monospace,monospace;color:#5C5C5C">1280px</span></span>
+            <span style="display:flex;justify-content:space-between;gap:12px"><span>Yon chekinish</span><span style="font-family:ui-monospace,monospace;color:#5C5C5C">18–48px</span></span>
+            <span style="display:flex;justify-content:space-between;gap:12px"><span>Mobil</span><span style="font-family:ui-monospace,monospace;color:#5C5C5C">&lt; 640px</span></span>
+            <span style="display:flex;justify-content:space-between;gap:12px"><span>Planshet</span><span style="font-family:ui-monospace,monospace;color:#5C5C5C">640–1000px</span></span>
+            <span style="display:flex;justify-content:space-between;gap:12px"><span>Desktop</span><span style="font-family:ui-monospace,monospace;color:#5C5C5C">&gt; 1000px</span></span>
+            <span style="display:flex;justify-content:space-between;gap:12px"><span>Min. bosish maydoni</span><span style="font-family:ui-monospace,monospace;color:#5C5C5C">44×44px</span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tugmalar" style="max-width:1180px;margin:0 auto;padding:clamp(40px,5vw,72px) clamp(18px,4vw,48px) 0">
+      <h2 style="font-size:clamp(1.5rem,1rem + 1.4vw,2.1rem);margin-bottom:10px">Tugmalar</h2>
+      <p style="font-size:14.5px;color:#5C5C5C;max-width:640px;margin-bottom:26px">Uch daraja: asosiy harakat, urg'uli harakat va ikkinchi darajali. Har biri uchun oddiy, ustiga olib borilgan va o'chirilgan holat.</p>
+
+      <div style="border:1px solid #DCE7F5;border-radius:18px;overflow:hidden">
+        <div data-btn-head="1" data-no-i18n="1" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding:16px 20px;background:#EAF3FF;border-bottom:1px solid #C9D8EC;font-size:11px;font-weight:700;letter-spacing:0.11em;text-transform:uppercase;color:#0B1B33">
+          <span>Tur</span><span>Oddiy</span><span>Hover</span><span>O'chirilgan</span>
+        </div>
+
+        <div data-btn-row="1" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:center;padding:18px 20px;border-bottom:1px solid #DCE7F5">
+          <span data-no-i18n="1" style="font-size:13px;font-weight:600;color:#0B1B33">Asosiy</span>
+          <button style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:13px 24px;border:0;border-radius:99px;background:#0A66E8;color:#FFFFFF;font-size:14.5px;font-weight:700">Bron qilish</button>
+          <button style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:13px 24px;border:0;border-radius:99px;background:#0B1B33;color:#FFFFFF;font-size:14.5px;font-weight:700;transform:translateY(-1px);box-shadow:0 8px 20px rgba(11,27,51,0.28)">Bron qilish</button>
+          <button disabled="{{ true }}" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:13px 24px;border:0;border-radius:99px;background:#0A66E8;color:#FFFFFF;font-size:14.5px;font-weight:700;opacity:0.42;cursor:not-allowed">Bron qilish</button>
+        </div>
+
+        <div data-btn-row="1" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:center;padding:18px 20px;border-bottom:1px solid #DCE7F5">
+          <span data-no-i18n="1" style="font-size:13px;font-weight:600;color:#0B1B33">Urg'uli</span>
+          <button style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:13px 24px;border:0;border-radius:99px;background:#FFC233;color:#0B1B33;font-size:14.5px;font-weight:700">To'lash</button>
+          <button style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:13px 24px;border:0;border-radius:99px;background:#FFC233;color:#0B1B33;font-size:14.5px;font-weight:700;transform:translateY(-2px);box-shadow:0 12px 28px rgba(255,194,51,0.42)">To'lash</button>
+          <button disabled="{{ true }}" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:13px 24px;border:0;border-radius:99px;background:#FFC233;color:#0B1B33;font-size:14.5px;font-weight:700;opacity:0.42;cursor:not-allowed">To'lash</button>
+        </div>
+
+        <div data-btn-row="1" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:center;padding:18px 20px">
+          <span data-no-i18n="1" style="font-size:13px;font-weight:600;color:#0B1B33">Ikkinchi darajali</span>
+          <button style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:13px 24px;border:1px solid rgba(11,27,51,0.25);border-radius:99px;background:#FFFFFF;color:#0B1B33;font-size:14.5px;font-weight:600">Batafsil</button>
+          <button style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:13px 24px;border:1px solid #0A66E8;border-radius:99px;background:#0A66E8;color:#FFFFFF;font-size:14.5px;font-weight:600">Batafsil</button>
+          <button disabled="{{ true }}" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:13px 24px;border:1px solid #DCE7F5;border-radius:99px;background:#FFFFFF;color:#5C5C5C;font-size:14.5px;font-weight:600;cursor:not-allowed">Batafsil</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="formalar" style="max-width:1180px;margin:0 auto;padding:clamp(40px,5vw,72px) clamp(18px,4vw,48px) 0">
+      <h2 style="font-size:clamp(1.5rem,1rem + 1.4vw,2.1rem);margin-bottom:26px">Formalar</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px">
+        <div style="padding:22px;border:1px solid #DCE7F5;border-radius:16px;display:flex;flex-direction:column;gap:16px">
+          <span data-no-i18n="1" style="font-size:11.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#5C5C5C">Oddiy</span>
+          <input data-no-i18n="1" type="text" placeholder="Ism va familiya" style="min-height:50px;padding:13px 15px;border:1px solid #DCE7F5;border-radius:12px;font-size:14.5px" style-focus="border-color:#0A66E8;outline:none">
+          <span data-no-i18n="1" style="font-size:11.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#5C5C5C">Fokus</span>
+          <input data-no-i18n="1" type="text" value="Islom" style="min-height:50px;padding:13px 15px;border:1px solid #0A66E8;border-radius:12px;font-size:14.5px;box-shadow:0 0 0 3px rgba(11,27,51,0.12)">
+        </div>
+
+        <div style="padding:22px;border:1px solid #DCE7F5;border-radius:16px;display:flex;flex-direction:column;gap:16px">
+          <span data-no-i18n="1" style="font-size:11.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#5C5C5C">Xato</span>
+          <span style="display:flex;flex-direction:column;gap:7px">
+            <input data-no-i18n="1" type="text" value="+998" style="min-height:50px;padding:13px 15px;border:1px solid #B3261E;border-radius:12px;font-size:14.5px">
+            <span style="font-size:12.5px;color:#B3261E">Raqam kamida 9 ta belgidan iborat bo'lishi kerak</span>
+          </span>
+          <span data-no-i18n="1" style="font-size:11.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#5C5C5C">O'chirilgan</span>
+          <input data-no-i18n="1" type="text" value="RV-2026-04871" disabled="{{ true }}" style="min-height:50px;padding:13px 15px;border:1px solid #DCE7F5;border-radius:12px;font-size:14.5px;background:#EAF3FF;color:#5C5C5C;cursor:not-allowed">
+        </div>
+
+        <div style="padding:22px;border:1px solid #DCE7F5;border-radius:16px;display:flex;flex-direction:column;gap:16px">
+          <span data-no-i18n="1" style="font-size:11.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#5C5C5C">Tanlov elementlari</span>
+          <select data-no-i18n="1" style="min-height:50px;padding:13px 15px;border:1px solid #DCE7F5;border-radius:12px;font-size:14.5px;font-weight:600;color:#0B1B33;background:#FFFFFF">
+            <option>Narx: arzondan</option>
+            <option>Narx: qimmatdan</option>
+          </select>
+          <label data-no-i18n="1" style="display:flex;align-items:center;gap:11px;font-size:14px;color:#333333;min-height:34px;cursor:pointer">
+            <input type="checkbox" checked="{{ true }}"><span>Faqat sanasi belgilangan turlar</span>
+          </label>
+          <label data-no-i18n="1" style="display:flex;align-items:center;gap:11px;font-size:14px;color:#333333;min-height:34px;cursor:pointer">
+            <input type="radio" name="ds-radio" checked="{{ true }}"><span>Milliy karta</span>
+          </label>
+          <label data-no-i18n="1" style="display:flex;align-items:center;gap:11px;font-size:14px;color:#333333;min-height:34px;cursor:pointer">
+            <input type="radio" name="ds-radio"><span>Xalqaro karta</span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <section id="belgilar" style="max-width:1180px;margin:0 auto;padding:clamp(40px,5vw,72px) clamp(18px,4vw,48px) 0">
+      <h2 style="font-size:clamp(1.5rem,1rem + 1.4vw,2.1rem);margin-bottom:26px">Belgilar va bildirishnomalar</h2>
+
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px">
+        <span data-no-i18n="1" style="display:inline-flex;align-items:center;gap:5px;padding:6px 12px 6px 10px;border-radius:99px;background:#FFC233;color:#0B1B33;font-size:11.5px;font-weight:800;letter-spacing:0.07em">★ TOP</span>
+        <span data-no-i18n="1" style="display:inline-flex;align-items:center;padding:6px 13px;border-radius:99px;background:#0A66E8;color:#FFFFFF;font-size:11.5px;font-weight:700">Sanasi bor</span>
+        <span data-no-i18n="1" style="display:inline-flex;align-items:center;padding:6px 13px;border-radius:99px;background:#FFFFFF;border:1px solid #DCE7F5;color:#333333;font-size:11.5px;font-weight:700">So'rov bo'yicha</span>
+        <span data-no-i18n="1" style="display:inline-flex;align-items:center;padding:6px 13px;border-radius:8px;background:rgba(255,194,51,0.16);color:#8A5A00;font-size:12px;font-weight:600">4 o'rin qoldi</span>
+        <span data-no-i18n="1" style="display:inline-flex;align-items:center;padding:6px 13px;border-radius:99px;background:rgba(255,194,51,0.18);border:1px solid rgba(255,194,51,0.5);color:#8A5A00;font-size:11.5px;font-weight:700">Rasmiylashtirilmoqda</span>
+        <span data-no-i18n="1" style="display:inline-flex;align-items:center;padding:6px 13px;border-radius:99px;background:#EAF3FF;color:#5C5C5C;font-size:11.5px;font-weight:700">O'rin tugadi</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:14px">
+        <div data-no-i18n="1" style="display:flex;align-items:flex-start;gap:12px;padding:16px 18px;border-radius:14px;background:#0A66E8;color:#FFFFFF">
+          <span data-icon="check" style="flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#FFC233;color:#0B1B33"></span>
+          <span style="display:flex;flex-direction:column;gap:3px">
+            <span style="font-size:14.5px;font-weight:700">To'lov muvaffaqiyatli</span>
+            <span style="font-size:13px;color:#EAF3FF">Vaucher email orqali yuborildi.</span>
+          </span>
+        </div>
+        <div data-no-i18n="1" style="display:flex;align-items:flex-start;gap:12px;padding:16px 18px;border-radius:14px;background:#FFF4F3;border:1px solid rgba(179,38,30,0.35)">
+          <span data-icon="close" style="flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#B3261E;color:#FFFFFF"></span>
+          <span style="display:flex;flex-direction:column;gap:3px">
+            <span style="font-size:14.5px;font-weight:700;color:#B3261E">To'lov amalga oshmadi</span>
+            <span style="font-size:13px;color:#333333">Kartada mablag' yetarli emas.</span>
+          </span>
+        </div>
+        <div data-no-i18n="1" style="display:flex;align-items:flex-start;gap:12px;padding:16px 18px;border-left:3px solid #FFC233;background:#EAF3FF;border-radius:0 12px 12px 0">
+          <span data-icon="clock" style="flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#FFFFFF;color:#0B1B33"></span>
+          <span style="display:flex;flex-direction:column;gap:3px">
+            <span style="font-size:14.5px;font-weight:700;color:#0B1B33">O'rin saqlanmoqda</span>
+            <span style="font-size:13px;color:#333333">29:45 — to'lovni shu vaqt ichida bajaring.</span>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <section id="ikonkalar" style="max-width:1180px;margin:0 auto;padding:clamp(40px,5vw,72px) clamp(18px,4vw,48px) clamp(56px,7vw,96px)">
+      <h2 style="font-size:clamp(1.5rem,1rem + 1.4vw,2.1rem);margin-bottom:10px">Ikonkalar</h2>
+      <p style="font-size:14.5px;color:#5C5C5C;max-width:640px;margin-bottom:26px">Bitta uslub: 24×24 setka, 1.8px chiziq, yumaloq uchlar. To'ldirilgan variant faqat yulduzcha va messenjer belgilarida.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,104px),1fr));gap:12px">
+        <sc-for list="{{ iconList }}" as="ic" hint-placeholder-count="24">
+          <div data-no-i18n="1" style="display:flex;flex-direction:column;align-items:center;gap:9px;padding:16px 8px;border:1px solid #DCE7F5;border-radius:14px;background:#FFFFFF">
+            <span data-icon="{{ ic.key }}" style="display:grid;place-items:center;color:#0B1B33"></span>
+            <span style="font-size:10.5px;color:#5C5C5C;text-align:center;line-height:1.35">{{ ic.label }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+  </main>
+
+  <dc-import name="RTFooter" locale="{{ locale }}" hint-size="100%,440px"></dc-import>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;initialLocale&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;uz&quot;, &quot;ru&quot;, &quot;en&quot;], &quot;default&quot;: &quot;uz&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Sayt&quot; }
+}">
+const PAGE_DICT = {
+  "Dizayn tizimi": { ru: "Дизайн-система", en: "Design system" },
+  "Ranglar, tipografiya va komponentlar": { ru: "Цвета, типографика и компоненты", en: "Colours, type and components" },
+  "Yozgi, quvnoq uslub: okean ko'ki, quyosh sarig'i va osmon foni. Bu sahifa dasturchi uchun yagona manba.": { ru: "Летний, жизнерадостный стиль: океанский синий, солнечный жёлтый и небесный фон. Эта страница — единый источник для разработчика.", en: "A bright summer style: ocean blue, sunshine yellow and sky backgrounds. This page is the single source of truth for the developer." },
+  "Ranglar": { ru: "Цвета", en: "Colours" },
+  "Beshta asosiy rang va ulardan olingan yordamchi tovlanishlar. Har bir yordamchi rang kontrast talabini bajarish uchun kiritilgan.": { ru: "Пять основных цветов и производные оттенки. Каждый вспомогательный оттенок введён для соблюдения контраста.", en: "Five core colours plus derived tints. Every helper tint exists to meet contrast requirements." },
+  "Kontrast qoidasi": { ru: "Правило контраста", en: "Contrast rule" },
+  "Tipografiya": { ru: "Типографика", en: "Typography" },
+  "Bitta shrift — Manrope. Ierarxiya o'lcham va qalinlik bilan quriladi.": { ru: "Один шрифт — Manrope. Иерархия строится размером и насыщенностью.", en: "One typeface — Manrope. Hierarchy comes from size and weight." },
+  "Sarlavhalar, narxlar va katta raqamlar — 700 va 800 qalinlikda, harflar oralig'i −2%.": { ru: "Заголовки, цены и крупные числа — насыщенность 700 и 800, трекинг −2%.", en: "Headings, prices and large figures — weights 700 and 800, tracking −2%." },
+  "Asosiy matn, navigatsiya, tugmalar, yorliqlar. Og'irliklar: 400, 500, 600, 700, 800.": { ru: "Основной текст, навигация, кнопки, метки. Насыщенности: 400, 500, 600, 700, 800.", en: "Body copy, navigation, buttons, labels. Weights: 400, 500, 600, 700, 800." },
+  "Masshtab": { ru: "Масштаб", en: "Scale" },
+  "Masshtab va radiuslar": { ru: "Масштаб и радиусы", en: "Scale and radii" },
+  "Bo'shliq": { ru: "Отступы", en: "Spacing" },
+  "Radius": { ru: "Радиус", en: "Radius" },
+  "Konteyner va uzilish nuqtalari": { ru: "Контейнер и точки перелома", en: "Container and breakpoints" },
+  "Tugmalar": { ru: "Кнопки", en: "Buttons" },
+  "Uch daraja: asosiy harakat, urg'uli harakat va ikkinchi darajali. Har biri uchun oddiy, ustiga olib borilgan va o'chirilgan holat.": { ru: "Три уровня: основное действие, акцентное действие и второстепенное. Для каждого — обычное, наведённое и отключённое состояние.", en: "Three levels: primary action, accent action and secondary. Each with default, hover and disabled states." },
+  "Formalar": { ru: "Формы", en: "Forms" },
+  "Belgilar": { ru: "Метки", en: "Badges" },
+  "Belgilar va bildirishnomalar": { ru: "Метки и уведомления", en: "Badges and notifications" },
+  "Ikonkalar": { ru: "Иконки", en: "Icons" },
+  "Bitta uslub: 24×24 setka, 1.8px chiziq, yumaloq uchlar. To'ldirilgan variant faqat yulduzcha va messenjer belgilarida.": { ru: "Единый стиль: сетка 24×24, обводка 1.8px, скруглённые концы. Залитый вариант — только у звезды и иконок мессенджеров.", en: "One style: a 24×24 grid, 1.8px stroke, round caps. Filled variants only for the star and messenger marks." }
+};
+
+const COLORS = [
+  { name: "Asosiy — Okean", hex: "#0A66E8", use: "Tugmalar, havolalar, tanlangan holatlar, ko'k bo'limlar, logo doirasi" },
+  { name: "Urg'u — Quyosh", hex: "#FFC233", use: "Asosiy CTA, TOP belgisi, yulduzchalar, logo quyoshi" },
+  { name: "Ikkilamchi — Osmon", hex: "#EAF3FF", use: "Bo'limlar foni, kartochka ostlari, tanlov foni" },
+  { name: "Chuqurlik", hex: "#0B1B33", use: "Sarlavhalar, quyosh ustidagi matn, footer" },
+  { name: "Fon — Oq", hex: "#FFFFFF", use: "Asosiy fon va kartochkalar" },
+  { name: "Matn 2-daraja", hex: "#333333", use: "Paragraf matni, navigatsiya" },
+  { name: "Matn 3-daraja", hex: "#5C5C5C", use: "Yorliqlar, izohlar, yordamchi matn" },
+  { name: "Chegara", hex: "#DCE7F5", use: "Kartochka va forma chegaralari" },
+  { name: "Chegara — to'q", hex: "#C9D8EC", use: "Osmon fonidagi chegaralar" },
+  { name: "Ogohlantirish matni", hex: "#8A5A00", use: "Quyosh tusli fondagi matn: «o'rin qoldi», placeholder" },
+  { name: "Xato", hex: "#B3261E", use: "Forma xatolari, muvaffaqiyatsiz to'lov" }
+];
+
+const TYPE_SCALE = [
+  { role: "Display", sample: "Orzudagi sayohat", spec: "Manrope · 700 · 44–86px" },
+  { role: "H1", sample: "Turlar katalogi", spec: "Manrope · 700 · 30–50px" },
+  { role: "H2", sample: "Kunlik marshrut", spec: "Manrope · 700 · 24–34px" },
+  { role: "H3", sample: "Ozarbayjon — «7 mo'jiza»", spec: "Manrope · 700 · 18–21px" },
+  { role: "Narx", sample: "$720", spec: "Manrope · 700 · 21–36px" },
+  { role: "Matn L", sample: "Narx, muddat va marshrut oldindan belgilangan.", spec: "Manrope · 400 · 15.5px" },
+  { role: "Matn M", sample: "Baku, Gobustan, Yanardag va Atashgah.", spec: "Manrope · 400 · 13.5–14.5px" },
+  { role: "Yorliq", sample: "TARIXIY TURLAR", spec: "Manrope · 700 · 10.5–12px · 0.13em" },
+  { role: "Tugma", sample: "Bron qilish", spec: "Manrope · 600–700 · 14–15.5px" }
+];
+
+const TYPE_STYLES = [
+  "font-family:'Manrope',system-ui,sans-serif;font-size:40px;font-weight:700;letter-spacing:-0.02em",
+  "font-family:'Manrope',system-ui,sans-serif;font-size:31px;font-weight:700;letter-spacing:-0.015em",
+  "font-family:'Manrope',system-ui,sans-serif;font-size:25px;font-weight:700",
+  "font-family:'Manrope',system-ui,sans-serif;font-size:20px;font-weight:700",
+  "font-family:'Manrope',system-ui,sans-serif;font-size:26px;font-weight:700",
+  "font-size:15.5px;font-weight:400;color:#333333",
+  "font-size:14px;font-weight:400;color:#333333",
+  "font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#5C5C5C",
+  "font-size:15px;font-weight:700"
+];
+
+const SPACING = [
+  { px: 4, label: "4px · xs" },
+  { px: 8, label: "8px · sm" },
+  { px: 14, label: "14px · md" },
+  { px: 22, label: "22px · lg" },
+  { px: 40, label: "40px · xl" },
+  { px: 72, label: "72px · 2xl" }
+];
+
+const RADII = [
+  { px: 8, label: "8px" },
+  { px: 12, label: "12px" },
+  { px: 16, label: "16px" },
+  { px: 20, label: "20px" },
+  { px: 999, label: "pill" }
+];
+
+const ICONS = {
+  shield: '<path d="M12 3.2l7.4 2.9v5.4c0 4.4-3 7.8-7.4 9.3-4.4-1.5-7.4-4.9-7.4-9.3V6.1z"/><path d="M9.1 12.3l2.2 2.2 4.1-4.3"/>',
+  card: '<rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="M2.6 10h18.8"/><path d="M6.2 14.6h3"/>',
+  globe: '<circle cx="12" cy="12" r="8.6"/><path d="M3.6 9.2h16.8M3.6 14.8h16.8"/><path d="M12 3.4c2.6 2.7 2.6 14.5 0 17.2M12 3.4c-2.6 2.7-2.6 14.5 0 17.2"/>',
+  calendar: '<rect x="3.4" y="5.2" width="17.2" height="15.4" rx="2.6"/><path d="M8.2 3v4.2M15.8 3v4.2M3.4 10.4h17.2"/><path d="M9.4 14.8l1.9 1.9 3.5-3.6"/>',
+  clock: '<circle cx="12" cy="12" r="8.6"/><path d="M12 7.2v5l3.4 2"/>',
+  users: '<path d="M15.6 20.4v-1.9a3.6 3.6 0 0 0-3.6-3.6H7.2a3.6 3.6 0 0 0-3.6 3.6v1.9"/><circle cx="9.6" cy="8" r="3.5"/><path d="M20.6 20.4v-1.9a3.6 3.6 0 0 0-2.7-3.5M15.9 4.6a3.5 3.5 0 0 1 0 6.8"/>',
+  plane: '<path d="M10.6 4.1a1.4 1.4 0 0 1 2.8 0v4.9l6.9 4v2.1l-6.9-2.1v3.7l2.5 1.9v1.5L12 18.9l-3.9 1.2v-1.5l2.5-1.9V13l-6.9 2.1V13l6.9-4z"/>',
+  pin: '<path d="M19.8 10.4c0 5.4-7.8 11.8-7.8 11.8S4.2 15.8 4.2 10.4a7.8 7.8 0 0 1 15.6 0z"/><circle cx="12" cy="10.3" r="2.8"/>',
+  layers: '<path d="M12 3.2l8.8 4.9-8.8 4.9-8.8-4.9z"/><path d="M3.2 13l8.8 4.9 8.8-4.9"/>',
+  tag: '<path d="M20.4 13.3l-7.2 7.2a2 2 0 0 1-2.8 0l-6.8-6.8a2 2 0 0 1-.6-1.4V5.1c0-.9.7-1.6 1.6-1.6h6.5c.5 0 1 .2 1.4.6l7.9 7.9a1.6 1.6 0 0 1 0 1.3z"/><circle cx="8.1" cy="8.1" r="1.5"/>',
+  headset: '<path d="M4.2 14.4v-2.2a7.8 7.8 0 0 1 15.6 0v2.2"/><path d="M4.2 13.6h2.2c.7 0 1.2.5 1.2 1.2v3.8c0 .7-.5 1.2-1.2 1.2H5.6a1.4 1.4 0 0 1-1.4-1.4zM19.8 13.6h-2.2c-.7 0-1.2.5-1.2 1.2v3.8c0 .7.5 1.2 1.2 1.2h.8a1.4 1.4 0 0 0 1.4-1.4z"/>',
+  chat: '<path d="M20.6 11.8c0 4.1-3.9 7.4-8.6 7.4-1 0-2-.15-2.9-.42L4.6 20.6l1.2-3.5C4.3 15.7 3.4 13.9 3.4 11.8c0-4.1 3.9-7.4 8.6-7.4s8.6 3.3 8.6 7.4z"/>',
+  mail: '<rect x="3.4" y="5.4" width="17.2" height="13.2" rx="2.4"/><path d="M3.8 7l8.2 6 8.2-6"/>',
+  phone: '<path d="M6.4 3.6h3l1.4 3.6-2 1.4a11 11 0 0 0 4.6 4.6l1.4-2 3.6 1.4v3a2 2 0 0 1-2.2 2A15.6 15.6 0 0 1 4.4 5.8a2 2 0 0 1 2-2.2z"/>',
+  lock: '<rect x="4.6" y="10.4" width="14.8" height="9.6" rx="2.4"/><path d="M8.4 10.4V7.8a3.6 3.6 0 0 1 7.2 0v2.6"/>',
+  search: '<circle cx="11" cy="11" r="7.2"/><path d="M16.4 16.4l4.2 4.2"/>',
+  filter: '<path d="M4 6.4h16M7 12h10M10 17.6h4"/>',
+  arrow: '<path d="M4.4 12h15.2M13.4 6l6.2 6-6.2 6"/>',
+  back: '<path d="M19.6 12H4.4M10.6 6L4.4 12l6.2 6"/>',
+  chevron: '<path d="M5.5 9.5l6.5 6.5 6.5-6.5"/>',
+  plus: '<path d="M12 6v12M6 12h12"/>',
+  minus: '<path d="M6 12h12"/>',
+  check: '<path d="M5 12.6l4.4 4.4L19 7.4"/>',
+  close: '<path d="M7 7l10 10M17 7L7 17"/>',
+  menu: '<path d="M4 7.2h16M4 12h16M4 16.8h10.5"/>',
+  download: '<path d="M12 3.8v11.4M7 10.4l5 4.8 5-4.8"/><path d="M4.4 19.6h15.2"/>',
+  refresh: '<path d="M19.6 8.4A8 8 0 1 0 20 12"/><path d="M20 4.4v4.4h-4.4"/>',
+  doc: '<path d="M6.4 3.4h11.2v17.2l-5.6-3.4-5.6 3.4z"/><path d="M9.4 8.6h5.2M9.4 12h3.4"/>',
+  image: '<rect x="3.6" y="4.6" width="16.8" height="14.8" rx="2.6"/><path d="M3.6 15l4.4-4 3.4 3 3-2.6 6 5"/><circle cx="15.4" cy="9" r="1.4"/>',
+  warn: '<path d="M12 4.4l8.4 15.2H3.6z"/><path d="M12 10v4M12 16.8v.2"/>',
+  star: { fill: true, d: '<path d="M12 3.4l2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.8-5.4 2.8 1-6L3.3 9.8l6-.9z"/>' },
+  telegram: { fill: true, d: '<path d="M21.7 4.2 2.9 11.4c-.9.35-.87 1.62.05 1.93l4.35 1.45 1.68 5.16c.27.83 1.34 1 1.85.3l2.32-3.15 4.45 3.24c.7.51 1.7.13 1.88-.72L21.7 4.2z"/>' },
+  instagram: '<rect x="3.4" y="3.4" width="17.2" height="17.2" rx="5"/><circle cx="12" cy="12" r="4.1"/><circle cx="16.9" cy="7.1" r="1.15" style="fill:currentColor;stroke:none"/>',
+  whatsapp: '<path d="M20.6 11.6c0 4.6-3.9 8.3-8.6 8.3-1.5 0-2.9-.37-4.2-1.02L3.4 20.6l1.7-4.4A8 8 0 0 1 3.4 11.6C3.4 7 7.3 3.3 12 3.3s8.6 3.7 8.6 8.3z"/><path d="M9.1 8.7c.3-.5.6-.5.9-.5.3 0 .6.05.86.55.26.5.6 1.3.6 1.5s-.35.6-.5.85c-.15.25 0 .5.25.85.4.55 1.2 1.3 2.05 1.65.35.15.6.1.8-.1s.5-.6.7-.85"/>'
+};
+
+const ICON_LABELS = {
+  shield: "Litsenziya", card: "To'lov", globe: "Tillar", calendar: "Sana", clock: "Vaqt",
+  users: "O'rinlar", plane: "Tur", pin: "Manzil", layers: "Kategoriya", tag: "Narx",
+  headset: "Qo'llab-quvvatlash", chat: "So'rov", mail: "Email", phone: "Telefon", lock: "Xavfsizlik",
+  search: "Qidiruv", filter: "Filtr", arrow: "Keyingi", back: "Ortga", chevron: "Ochish",
+  plus: "Qo'shish", minus: "Ayirish", check: "Tasdiq", close: "Yopish", menu: "Menyu",
+  download: "Yuklab olish", refresh: "Qayta urinish", doc: "Hujjat", image: "Rasm", warn: "Ogohlantirish",
+  star: "TOP", telegram: "Telegram", instagram: "Instagram", whatsapp: "WhatsApp"
+};
+
+function iconSvg(key, size) {
+  const raw = ICONS[key];
+  if (!raw) return "";
+  const filled = typeof raw === "object";
+  const body = filled ? raw.d : raw;
+  const style = filled
+    ? "fill:currentColor;stroke:none"
+    : "fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round";
+  return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;' + style + '">' + body + "</svg>";
+}
+
+class Component extends DCLogic {
+  state = { locale: this.props.initialLocale || "uz" };
+
+  root() { return document.querySelector("[data-rt-root]"); }
+  page() { return document.querySelector("[data-rt-page]"); }
+
+  t(s) {
+    if (window.RT && !this._merged) { Object.assign(window.RT.DICT, PAGE_DICT); this._merged = true; }
+    return window.RT ? window.RT.t(s, this.state.locale) : s;
+  }
+
+  renderVals() {
+    const t = x => this.t(x);
+    return {
+      locale: this.state.locale,
+      setLocale: loc => this.setState({ locale: loc }),
+      colors: COLORS.map(c => ({ name: c.name, hex: c.hex, use: c.use })),
+      typeScale: TYPE_SCALE.map((x, i) => ({ i: i, role: x.role, sample: x.sample, spec: x.spec })),
+      spacing: SPACING,
+      radii: RADII,
+      iconList: Object.keys(ICONS).map(k => ({ key: k, label: ICON_LABELS[k] || k }))
+    };
+  }
+
+  componentDidMount() {
+    this.sync();
+    this._vp = () => this.sync();
+    window.addEventListener("resize", this._vp);
+  }
+
+  componentDidUpdate(prev) {
+    if (prev.initialLocale !== this.props.initialLocale && this.props.initialLocale) {
+      this.setState({ locale: this.props.initialLocale });
+      return;
+    }
+    this.sync();
+  }
+
+  componentWillUnmount() { window.removeEventListener("resize", this._vp); }
+
+  sync() {
+    const root = this.root();
+    if (!root) return;
+    if (window.RT && !this._merged) { Object.assign(window.RT.DICT, PAGE_DICT); this._merged = true; }
+    if (window.RT) window.RT.applyLocale(this.page(), this.state.locale);
+
+    root.querySelectorAll("[data-swatch]").forEach(el => {
+      const hex = el.dataset.swatch;
+      el.style.background = hex;
+      if (hex === "#FFFFFF") el.style.boxShadow = "inset 0 0 0 1px #DCE7F5";
+    });
+    root.querySelectorAll("[data-space]").forEach(el => { el.style.width = el.dataset.space + "px"; });
+    root.querySelectorAll("[data-radius]").forEach(el => {
+      const px = Number(el.dataset.radius);
+      el.style.borderRadius = px > 100 ? "999px" : px + "px";
+    });
+    root.querySelectorAll("[data-type-sample]").forEach(el => {
+      const i = Number(el.dataset.typeSample);
+      if (TYPE_STYLES[i]) el.setAttribute("style", "flex:1;min-width:200px;color:#0B1B33;" + TYPE_STYLES[i]);
+    });
+    root.querySelectorAll("[data-icon]").forEach(el => {
+      if (el.childElementCount) return;
+      const inGrid = el.parentElement && el.parentElement.getAttribute("style") &&
+                     el.parentElement.getAttribute("style").indexOf("flex-direction:column") > -1;
+      el.innerHTML = iconSvg(el.dataset.icon, inGrid ? 24 : 18);
+    });
+
+    // button matrix collapses to a stacked list on narrow screens
+    const narrow = window.innerWidth < 860;
+    root.querySelectorAll("[data-btn-row]").forEach(r => {
+      r.style.gridTemplateColumns = narrow ? "minmax(0,1fr)" : "repeat(4,minmax(0,1fr))";
+    });
+    const head = root.querySelector("[data-btn-head]");
+    if (head) head.style.display = narrow ? "none" : "grid";
+  }
+}
+
+</script>
+</body>
+</html>

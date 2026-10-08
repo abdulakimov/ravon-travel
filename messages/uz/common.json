@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "title": "Ravon Travel — chiquvchi turizm bo'yicha turoperator",
+    "titleTemplate": "%s — Ravon Travel",
+    "description": "Ozarbayjondan Yunoniston orollarigacha — 9 yo'nalish bo'yicha tayyor turlar. Onlayn bron qiling, karta bilan to'lang."
+  },
+  "skip": "Asosiy kontentga o'tish",
+  "nav": {
+    "home": "Bosh sahifa",
+    "tours": "Turlar",
+    "destinations": "Yo'nalishlar",
+    "blog": "Blog",
+    "about": "Biz haqimizda",
+    "contact": "Aloqa",
+    "book": "Bron qilish",
+    "menu": "Menyu",
+    "close": "Yopish",
+    "main": "Asosiy navigatsiya",
+    "language": "Til",
+    "breadcrumb": "Yo'l"
+  },
+  "footer": {
+    "tagline": "Chiquvchi turizm bo'yicha litsenziyalangan turoperator.",
+    "navigation": "Navigatsiya",
+    "company": "Kompaniya",
+    "help": "Yordam",
+    "license": "Litsenziya",
+    "team": "Jamoa",
+    "requisites": "Rekvizitlar",
+    "faq": "Savol-javob",
+    "terms": "Foydalanish shartlari",
+    "privacy": "Maxfiylik siyosati",
+    "cancellation": "Bekor qilish siyosati",
+    "copyright": "© {year} Ravon Travel. Barcha huquqlar himoyalangan.",
+    "stir": "STIR:",
+    "address": "Manzil:",
+    "hours": "Ish vaqti:",
+    "phone": "Tel:",
+    "email": "Email:",
+    "licenseLine": "Turizm faoliyati litsenziyasi:",
+    "licensedDirection": "Litsenziyalangan yo'nalish:",
+    "photoCredit": "Fotolar: Wikimedia Commons (CC litsenziyasi)."
+  },
+  "workingHours": "Du–Sha 09:00–19:00 (UTC+5)",
+  "outbound": "Chiquvchi turizm",
+  "pending": "Rasmiylashtirilmoqda",
+  "soon": "Tez orada",
+  "tourCard": {
+    "top": "TOP",
+    "fixed": "Sanasi bor",
+    "request": "So'rov bo'yicha",
+    "days": "{count} kun",
+    "seatsLeft": "{count} o'rin qoldi",
+    "soldOut": "O'rin qolmadi",
+    "perPerson": "1 kishi uchun · dan",
+    "details": "Batafsil"
+  },
+  "tourCount": "{count} tur",
+  "actions": {
+    "viewTours": "Turlarni ko'rish",
+    "consult": "Bepul maslahat olish",
+    "telegram": "Telegram orqali yozish",
+    "backHome": "Bosh sahifaga qaytish",
+    "backToTop": "Yuqoriga qaytish"
+  }
+}

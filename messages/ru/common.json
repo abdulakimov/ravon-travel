@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "title": "Ravon Travel — туроператор по выездному туризму",
+    "titleTemplate": "%s — Ravon Travel",
+    "description": "От Азербайджана до греческих островов — готовые туры по 9 направлениям. Бронируйте онлайн и оплачивайте картой."
+  },
+  "skip": "Перейти к основному содержимому",
+  "nav": {
+    "home": "Главная",
+    "tours": "Туры",
+    "destinations": "Направления",
+    "blog": "Блог",
+    "about": "О нас",
+    "contact": "Контакты",
+    "book": "Забронировать",
+    "menu": "Меню",
+    "close": "Закрыть",
+    "main": "Основная навигация",
+    "language": "Язык",
+    "breadcrumb": "Навигационная цепочка"
+  },
+  "footer": {
+    "tagline": "Лицензированный туроператор по выездному туризму.",
+    "navigation": "Навигация",
+    "company": "Компания",
+    "help": "Помощь",
+    "license": "Лицензия",
+    "team": "Команда",
+    "requisites": "Реквизиты",
+    "faq": "Вопросы и ответы",
+    "terms": "Условия использования",
+    "privacy": "Политика конфиденциальности",
+    "cancellation": "Политика отмены",
+    "copyright": "© {year} Ravon Travel. Все права защищены.",
+    "stir": "ИНН:",
+    "address": "Адрес:",
+    "hours": "Часы работы:",
+    "phone": "Тел:",
+    "email": "Email:",
+    "licenseLine": "Лицензия на туристическую деятельность:",
+    "licensedDirection": "Лицензированное направление:",
+    "photoCredit": "Фото: Wikimedia Commons (лицензия CC)."
+  },
+  "workingHours": "Пн–Сб 09:00–19:00 (UTC+5)",
+  "outbound": "Выездной туризм",
+  "pending": "Оформляется",
+  "soon": "Скоро",
+  "tourCard": {
+    "top": "TOP",
+    "fixed": "С датой",
+    "request": "По запросу",
+    "days": "{count, plural, one {# день} few {# дня} other {# дней}}",
+    "seatsLeft": "{count, plural, one {Осталось # место} few {Осталось # места} other {Осталось # мест}}",
+    "soldOut": "Мест нет",
+    "perPerson": "за человека · от",
+    "details": "Подробнее"
+  },
+  "tourCount": "{count, plural, one {# тур} few {# тура} other {# туров}}",
+  "actions": {
+    "viewTours": "Смотреть туры",
+    "consult": "Получить консультацию",
+    "telegram": "Написать в Telegram",
+    "backHome": "Вернуться на главную",
+    "backToTop": "Наверх"
+  }
+}

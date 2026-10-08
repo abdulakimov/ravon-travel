@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&display=swap" rel="stylesheet">
+<script src="./rt-i18n.js"></script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #FFFFFF; color: #000000;
+         font-family: "Manrope", system-ui, sans-serif; -webkit-font-smoothing: antialiased;
+         text-wrap: pretty; }
+  * { box-sizing: border-box; }
+  a { color: #0B1B33; text-decoration: none; }
+  a:hover { color: #0A66E8; }
+  h1, h2, h3, h4 { margin: 0; font-family: 'Manrope', system-ui, sans-serif; font-weight: 700; letter-spacing: -0.02em; line-height: 1.14; color: #0B1B33; }
+  p { margin: 0; line-height: 1.625; }
+  button { font: inherit; cursor: pointer; }
+  input { font: inherit; }
+  ::selection { background: rgba(255,194,51,0.32); }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</helmet>
+
+<div data-rt-root="1" data-screen-label="To'lov" style="min-height:100vh;overflow-x:hidden">
+
+  <dc-import name="RTHeader" active="catalog" locale="{{ locale }}" on-locale="{{ setLocale }}" hint-size="100%,76px"></dc-import>
+
+  <main data-rt-page="1">
+
+    <section style="border-bottom:1px solid #DCE7F5">
+      <div style="max-width:1080px;margin:0 auto;padding:clamp(24px,3vw,40px) clamp(18px,4vw,48px) clamp(20px,2.6vw,28px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px">
+        <div>
+          <h1 style="font-size:clamp(1.6rem,1rem + 1.8vw,2.4rem);letter-spacing:-0.015em;margin-bottom:10px">To'lov</h1>
+          <p data-no-i18n="1" style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:#5C5C5C">
+            <span>{{ bookingLabel }}</span>
+            <span style="font-family:ui-monospace,monospace;font-weight:700;color:#0B1B33">RV-2026-04871</span>
+          </p>
+        </div>
+        <div data-hold="1" style="display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:14px;background:rgba(255,194,51,0.16);border:1px solid rgba(255,194,51,0.5)">
+          <svg data-no-i18n="1" width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:#0A66E8;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.2v5l3.4 2"/></svg>
+          <span style="display:flex;flex-direction:column;gap:1px">
+            <span style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0A66E8">O'rin saqlanmoqda</span>
+            <span data-no-i18n="1" data-timer="1" style="font-family:ui-monospace,monospace;font-size:16px;font-weight:700;color:#0B1B33;font-variant-numeric:tabular-nums">29:45</span>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <section style="border-bottom:1px solid #DCE7F5;background:#FFFFFF">
+      <div style="max-width:1080px;margin:0 auto;padding:18px clamp(18px,4vw,48px)">
+        <ol data-rt-stages="1" style="margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px">
+          <sc-for list="{{ stages }}" as="st" hint-placeholder-count="2">
+            <li data-no-i18n="1" data-stage="{{ st.i }}" style="display:flex;align-items:center;gap:10px;padding:9px 16px 9px 12px;border:1px solid #DCE7F5;border-radius:99px;background:#FFFFFF">
+              <span data-stage-num="{{ st.i }}" style="flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12.5px;font-weight:700;background:#EAF3FF;color:#5C5C5C">{{ st.n }}</span>
+              <span data-stage-title="{{ st.i }}" style="font-size:13.5px;font-weight:600;color:#333333">{{ st.title }}</span>
+            </li>
+          </sc-for>
+        </ol>
+      </div>
+    </section>
+
+    <div data-rt-cols="1" style="max-width:1080px;margin:0 auto;padding:clamp(26px,3.4vw,44px) clamp(18px,4vw,48px) clamp(56px,7vw,96px);display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(24px,3vw,40px);align-items:start">
+
+      <div style="min-width:0">
+
+        <sc-if value="{{ isStage1 }}" hint-placeholder-val="{{ true }}">
+        <section style="display:flex;flex-direction:column;gap:24px">
+          <div>
+            <h2 style="font-size:clamp(1.25rem,1rem + 0.9vw,1.65rem);margin-bottom:8px">To'lov usulini tanlang</h2>
+            <p style="font-size:14.5px;color:#5C5C5C">To'lov bank tomonidan qabul qilinadi. Karta ma'lumotlari bizning serverlarda saqlanmaydi.</p>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,168px),1fr));gap:12px">
+            <sc-for list="{{ methods }}" as="m" hint-placeholder-count="3">
+              <button data-no-i18n="1" data-method="{{ m.id }}" onClick="{{ m.pick }}" style="display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:18px;border:1px solid #DCE7F5;border-radius:16px;background:#FFFFFF;text-align:left;min-height:104px">
+                <span data-method-badge="{{ m.id }}" style="display:inline-flex;align-items:center;justify-content:center;padding:6px 11px;border-radius:8px;background:#EAF3FF;font-size:12px;font-weight:800;letter-spacing:0.06em;color:#0B1B33">{{ m.tag }}</span>
+                <span style="font-size:14.5px;font-weight:600;color:#0B1B33">{{ m.name }}</span>
+                <span style="font-size:12px;color:#5C5C5C">{{ m.note }}</span>
+              </button>
+            </sc-for>
+          </div>
+
+          <div style="padding:22px;border:1px solid #DCE7F5;border-radius:18px;background:#FFFFFF;display:flex;flex-direction:column;gap:16px">
+            <span style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+              <span style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#0B1B33">Karta ma'lumotlari</span>
+              <span data-no-i18n="1" style="display:flex;align-items:center;gap:7px;font-size:11.5px;color:#5C5C5C">
+                <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:#0A66E8;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><rect x="4.6" y="10.4" width="14.8" height="9.6" rx="2.4"/><path d="M8.4 10.4V7.8a3.6 3.6 0 0 1 7.2 0v2.6"/></svg>
+                <span>PCI DSS · 3-D Secure</span>
+              </span>
+            </span>
+
+            <label style="display:flex;flex-direction:column;gap:7px">
+              <span style="font-size:12.5px;font-weight:600;color:#5C5C5C">Karta raqami</span>
+              <input data-no-i18n="1" type="text" inputmode="numeric" value="{{ cardNumber }}" onInput="{{ setCard }}" placeholder="8600 0000 0000 0000" maxlength="19" style="min-height:52px;padding:14px 16px;border:1px solid #DCE7F5;border-radius:12px;font-family:ui-monospace,monospace;font-size:17px;letter-spacing:0.06em;color:#000000" style-focus="border-color:#0A66E8;outline:none">
+            </label>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr));gap:14px">
+              <label style="display:flex;flex-direction:column;gap:7px">
+                <span style="font-size:12.5px;font-weight:600;color:#5C5C5C">Amal qilish muddati</span>
+                <input data-no-i18n="1" type="text" inputmode="numeric" value="{{ expiry }}" onInput="{{ setExpiry }}" placeholder="MM/YY" maxlength="5" style="min-height:52px;padding:14px 16px;border:1px solid #DCE7F5;border-radius:12px;font-family:ui-monospace,monospace;font-size:17px;color:#000000" style-focus="border-color:#0A66E8;outline:none">
+              </label>
+              <label style="display:flex;flex-direction:column;gap:7px">
+                <span style="font-size:12.5px;font-weight:600;color:#5C5C5C">SMS uchun telefon</span>
+                <input data-no-i18n="1" type="tel" placeholder="+998 __ ___ __ __" style="min-height:52px;padding:14px 16px;border:1px solid #DCE7F5;border-radius:12px;font-size:15.5px;color:#000000" style-focus="border-color:#0A66E8;outline:none">
+              </label>
+            </div>
+
+            <sc-if value="{{ cardError }}" hint-placeholder-val="{{ false }}">
+              <span data-no-i18n="1" style="display:flex;align-items:center;gap:9px;font-size:13px;color:#B3261E">
+                <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.6v5.2M12 16.2v.2"/></svg>
+                <span>{{ cardError }}</span>
+              </span>
+            </sc-if>
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;gap:12px 20px">
+            <span style="display:flex;align-items:center;gap:9px;font-size:12.5px;color:#5C5C5C">
+              <svg data-no-i18n="1" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:#0A66E8;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M12 3.2l7.4 2.9v5.4c0 4.4-3 7.8-7.4 9.3-4.4-1.5-7.4-4.9-7.4-9.3V6.1z"/><path d="M9.1 12.3l2.2 2.2 4.1-4.3"/></svg>
+              <span>Ma'lumotlar shifrlangan kanal orqali uzatiladi</span>
+            </span>
+            <span style="display:flex;align-items:center;gap:9px;font-size:12.5px;color:#5C5C5C">
+              <svg data-no-i18n="1" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:#0A66E8;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M4.2 12.4l5 5 10.6-11"/></svg>
+              <span>To'lovdan so'ng vaucher avtomatik yuboriladi</span>
+            </span>
+          </div>
+        </section>
+        </sc-if>
+
+        <sc-if value="{{ isStage2 }}" hint-placeholder-val="{{ false }}">
+        <section style="display:flex;flex-direction:column;gap:24px">
+          <div>
+            <h2 style="font-size:clamp(1.25rem,1rem + 0.9vw,1.65rem);margin-bottom:8px">SMS kodni kiriting</h2>
+            <p data-no-i18n="1" style="font-size:14.5px;color:#5C5C5C">{{ smsHint }}</p>
+          </div>
+
+          <div style="padding:26px 22px;border:1px solid #DCE7F5;border-radius:18px;background:#FFFFFF;display:flex;flex-direction:column;gap:18px;align-items:flex-start">
+            <label style="display:flex;flex-direction:column;gap:9px;width:100%;max-width:340px">
+              <span style="font-size:12.5px;font-weight:600;color:#5C5C5C">Tasdiqlash kodi</span>
+              <input data-no-i18n="1" data-sms="1" type="text" inputmode="numeric" value="{{ smsCode }}" onInput="{{ setSms }}" placeholder="······" maxlength="6" style="min-height:60px;padding:14px 18px;border:1px solid #DCE7F5;border-radius:14px;font-family:ui-monospace,monospace;font-size:26px;font-weight:700;letter-spacing:0.34em;text-align:center;color:#0B1B33" style-focus="border-color:#0A66E8;outline:none">
+            </label>
+
+            <sc-if value="{{ smsError }}" hint-placeholder-val="{{ false }}">
+              <span data-no-i18n="1" style="display:flex;align-items:center;gap:9px;font-size:13.5px;color:#B3261E">
+                <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.6v5.2M12 16.2v.2"/></svg>
+                <span>{{ smsError }}</span>
+              </span>
+            </sc-if>
+
+            <span style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px">
+              <button onClick="{{ resend }}" style="border:0;background:transparent;padding:8px 10px;border-radius:8px;font-size:13.5px;font-weight:600;color:#0A66E8" style-hover="background:rgba(255,194,51,0.16)">Kodni qayta yuborish</button>
+              <span data-no-i18n="1" style="font-size:12.5px;color:#5C5C5C">{{ resendHint }}</span>
+            </span>
+          </div>
+        </section>
+        </sc-if>
+
+        <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+        <section style="display:flex;flex-direction:column;gap:20px">
+          <div data-result="1" style="display:flex;flex-wrap:wrap;align-items:center;gap:18px;padding:26px 22px;border-radius:18px">
+            <span data-result-icon="1" style="flex:none;width:56px;height:56px;border-radius:50%;display:grid;place-items:center">
+              <svg data-no-i18n="1" data-icon-ok="1" width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12.6l4.4 4.4L19 7.4"/></svg>
+              <svg data-no-i18n="1" data-icon-bad="1" width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" style="display:none;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round"><path d="M7 7l10 10M17 7L7 17"/></svg>
+            </span>
+            <span style="flex:1;min-width:220px;display:flex;flex-direction:column;gap:6px">
+              <span data-result-title="1" data-no-i18n="1" style="font-family:'Manrope',system-ui,sans-serif;font-size:clamp(1.3rem,1rem + 1vw,1.8rem);font-weight:700">{{ resultTitle }}</span>
+              <span data-result-text="1" data-no-i18n="1" style="font-size:14.5px;line-height:1.6">{{ resultText }}</span>
+            </span>
+          </div>
+
+          <sc-if value="{{ isSuccess }}" hint-placeholder-val="{{ true }}">
+            <div style="padding:22px;border:1px solid #DCE7F5;border-radius:18px;background:#FFFFFF;display:flex;flex-direction:column;gap:16px">
+              <h3 style="font-size:17px">To'lov cheki</h3>
+              <dl data-no-i18n="1" style="margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:16px">
+                <sc-for list="{{ receiptRows }}" as="row" hint-placeholder-count="4">
+                  <div style="display:flex;flex-direction:column;gap:4px">
+                    <dt style="font-size:11.5px;font-weight:700;letter-spacing:0.11em;text-transform:uppercase;color:#5C5C5C">{{ row.k }}</dt>
+                    <dd style="margin:0;font-size:15px;font-weight:600;color:#0B1B33">{{ row.v }}</dd>
+                  </div>
+                </sc-for>
+              </dl>
+              <div style="display:flex;flex-wrap:wrap;gap:10px;padding-top:16px;border-top:1px solid #DCE7F5">
+                <button style="display:inline-flex;align-items:center;gap:9px;min-height:48px;padding:13px 22px;border:0;border-radius:99px;background:#0A66E8;color:#FFFFFF;font-size:14.5px;font-weight:600">
+                  <svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M12 3.8v11.4M7 10.4l5 4.8 5-4.8"/><path d="M4.4 19.6h15.2"/></svg>
+                  <span>Vaucherni yuklab olish</span>
+                </button>
+                <a href="Ravon%20Travel%20-%20Bosh%20sahifa.dc.html" style="display:inline-flex;align-items:center;gap:9px;min-height:48px;padding:13px 22px;border:1px solid rgba(11,27,51,0.25);border-radius:99px;font-size:14.5px;font-weight:600;color:#0B1B33" style-hover="border-color:#0A66E8">
+                  <span>Bosh sahifaga qaytish</span>
+                </a>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isFailure }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:20px;border-left:3px solid #FFC233;background:#EAF3FF;border-radius:0 12px 12px 0;display:flex;flex-direction:column;gap:10px">
+              <span style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0B1B33">Nima qilish kerak</span>
+              <ul data-no-i18n="1" style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px">
+                <sc-for list="{{ recoverySteps }}" as="s" hint-placeholder-count="3">
+                  <li style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:#333333">
+                    <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;margin-top:3px;fill:none;stroke:#0A66E8;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M4.4 12h15.2M13.4 6l6.2 6-6.2 6"/></svg>
+                    <span>{{ s }}</span>
+                  </li>
+                </sc-for>
+              </ul>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:10px">
+              <button onClick="{{ retry }}" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:14px 28px;border:0;border-radius:99px;background:#0A66E8;color:#FFFFFF;font-size:15px;font-weight:700">
+                <svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><path d="M19.6 8.4A8 8 0 1 0 20 12"/><path d="M20 4.4v4.4h-4.4"/></svg>
+                <span>Qayta urinish</span>
+              </button>
+              <a href="Ravon%20Travel%20-%20Aloqa.dc.html" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:14px 28px;border:1px solid rgba(11,27,51,0.25);border-radius:99px;font-size:15px;font-weight:600;color:#0B1B33" style-hover="border-color:#0A66E8">
+                <span>Menejer bilan bog'lanish</span>
+              </a>
+            </div>
+          </sc-if>
+        </section>
+        </sc-if>
+
+        <sc-if value="{{ showFlowButtons }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:clamp(24px,3vw,36px);padding-top:22px;border-top:1px solid #DCE7F5">
+          <sc-if value="{{ canGoBack }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ back }}" style="display:inline-flex;align-items:center;gap:9px;min-height:52px;padding:14px 24px;border:1px solid rgba(11,27,51,0.25);border-radius:99px;background:#FFFFFF;font-size:15px;font-weight:600;color:#0B1B33" style-hover="border-color:#0A66E8">
+              <svg data-no-i18n="1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M19.6 12H4.4M10.6 6L4.4 12l6.2 6"/></svg>
+              <span>Ortga</span>
+            </button>
+          </sc-if>
+          <button data-pay="1" onClick="{{ next }}" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:14px 32px;border:0;border-radius:99px;background:#FFC233;color:#0B1B33;font-size:15.5px;font-weight:700;transition:transform 0.3s cubic-bezier(0.4,0,0.2,1)" style-hover="transform:translateY(-2px)">
+            <svg data-no-i18n="1" width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><rect x="4.6" y="10.4" width="14.8" height="9.6" rx="2.4"/><path d="M8.4 10.4V7.8a3.6 3.6 0 0 1 7.2 0v2.6"/></svg>
+            <span data-no-i18n="1">{{ payLabel }}</span>
+          </button>
+        </div>
+        </sc-if>
+      </div>
+
+      <aside data-rt-side="1" style="min-width:0">
+        <div style="border:1px solid #DCE7F5;border-radius:18px;background:#FFFFFF;overflow:hidden">
+          <div style="padding:18px;border-bottom:1px solid #DCE7F5;background:#0A66E8;color:#FFFFFF;display:flex;flex-direction:column;gap:4px">
+            <span style="font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.9)">To'lanadi</span>
+            <span data-no-i18n="1" style="font-family:'Manrope',system-ui,sans-serif;font-size:32px;font-weight:700;color:#FFC233;line-height:1.1">{{ totalLabel }}</span>
+          </div>
+          <div style="padding:18px;display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ orderRows }}" as="row" hint-placeholder-count="4">
+              <span data-no-i18n="1" style="display:flex;justify-content:space-between;gap:14px;font-size:13.5px;color:#333333">
+                <span>{{ row.k }}</span><span style="font-weight:600;color:#0B1B33;text-align:right">{{ row.v }}</span>
+              </span>
+            </sc-for>
+            <span style="padding-top:12px;border-top:1px solid #DCE7F5;display:flex;align-items:center;gap:9px;font-size:12px;color:#5C5C5C">
+              <svg data-no-i18n="1" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="M2.6 10h18.8"/></svg>
+              <span data-no-i18n="1">Humo · Uzcard · Visa · Mastercard</span>
+            </span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <dc-import name="RTFooter" locale="{{ locale }}" hint-size="100%,440px"></dc-import>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;initialLocale&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;uz&quot;, &quot;ru&quot;, &quot;en&quot;], &quot;default&quot;: &quot;uz&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Sayt&quot; },
+  &quot;paymentResult&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;success&quot;, &quot;declined&quot;, &quot;expired&quot;, &quot;error&quot;], &quot;default&quot;: &quot;success&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Natija holati&quot; },
+  &quot;currency&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;USD&quot;, &quot;UZS&quot;], &quot;default&quot;: &quot;USD&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Narxlar&quot; }
+}">
+const PAGE_DICT = {
+  "To'lov": { ru: "Оплата", en: "Payment" },
+  "Bron raqami": { ru: "Номер брони", en: "Booking number" },
+  "O'rin saqlanmoqda": { ru: "Места удерживаются", en: "Seats on hold" },
+  "Karta ma'lumotlari": { ru: "Данные карты", en: "Card details" },
+  "To'lov usulini tanlang": { ru: "Выберите способ оплаты", en: "Choose a payment method" },
+  "To'lov bank tomonidan qabul qilinadi. Karta ma'lumotlari bizning serverlarda saqlanmaydi.": { ru: "Платёж принимает банк. Данные карты не хранятся на наших серверах.", en: "The payment is processed by the bank. Card data is never stored on our servers." },
+  "Milliy karta": { ru: "Национальная карта", en: "National card" },
+  "Xalqaro karta": { ru: "Международная карта", en: "International card" },
+  "Bank o'tkazmasi": { ru: "Банковский перевод", en: "Bank transfer" },
+  "SMS tasdiq bilan": { ru: "С подтверждением по SMS", en: "With SMS confirmation" },
+  "3-D Secure bilan": { ru: "С 3-D Secure", en: "With 3-D Secure" },
+  "Yuridik shaxslar uchun": { ru: "Для юридических лиц", en: "For companies" },
+  "Karta raqami": { ru: "Номер карты", en: "Card number" },
+  "Amal qilish muddati": { ru: "Срок действия", en: "Expiry date" },
+  "SMS uchun telefon": { ru: "Телефон для SMS", en: "Phone for SMS" },
+  "Karta raqami to'liq kiritilmagan": { ru: "Номер карты введён не полностью", en: "The card number is incomplete" },
+  "Ma'lumotlar shifrlangan kanal orqali uzatiladi": { ru: "Данные передаются по шифрованному каналу", en: "Data is sent over an encrypted channel" },
+  "To'lovdan so'ng vaucher avtomatik yuboriladi": { ru: "После оплаты ваучер отправляется автоматически", en: "The voucher is sent automatically after payment" },
+  "SMS kodni kiriting": { ru: "Введите код из SMS", en: "Enter the SMS code" },
+  "raqamiga 6 xonali kod yuborildi": { ru: "— на этот номер отправлен 6-значный код", en: "— a six-digit code was sent to this number" },
+  "Tasdiqlash kodi": { ru: "Код подтверждения", en: "Confirmation code" },
+  "Kod noto'g'ri. Yana bir marta urinib ko'ring.": { ru: "Неверный код. Попробуйте ещё раз.", en: "Wrong code. Please try again." },
+  "Kodni qayta yuborish": { ru: "Отправить код повторно", en: "Resend the code" },
+  "Qayta yuborish": { ru: "Повторная отправка через", en: "Resend available in" },
+  "soniyadan keyin": { ru: "сек.", en: "s" },
+  "Kod qayta yuborildi": { ru: "Код отправлен повторно", en: "Code resent" },
+  "To'lov muvaffaqiyatli": { ru: "Оплата прошла успешно", en: "Payment successful" },
+  "Bron to'liq tasdiqlandi. Vaucher va chek email orqali yuborildi.": { ru: "Бронь полностью подтверждена. Ваучер и чек отправлены на email.", en: "Your booking is confirmed. The voucher and receipt have been emailed." },
+  "To'lov amalga oshmadi": { ru: "Платёж не прошёл", en: "Payment declined" },
+  "Kartada mablag' yetarli emas. Bron hali 12 daqiqa saqlanadi.": { ru: "На карте недостаточно средств. Бронь сохраняется ещё 12 минут.", en: "Insufficient funds. Your booking is held for another 12 minutes." },
+  "To'lov vaqti tugadi": { ru: "Время оплаты истекло", en: "The payment window expired" },
+  "30 daqiqa ichida to'lov amalga oshmadi va o'rinlar bo'shatildi. Sanani qaytadan tanlashingiz mumkin.": { ru: "Оплата не поступила в течение 30 минут, места освобождены. Вы можете выбрать дату заново.", en: "No payment arrived within 30 minutes and the seats were released. You can pick a date again." },
+  "Texnik xatolik": { ru: "Техническая ошибка", en: "Technical error" },
+  "Bank bilan aloqa uzildi. Pul kartadan yechilmagan — bir necha daqiqadan keyin qayta urinib ko'ring.": { ru: "Связь с банком прервана. Деньги с карты не списаны — повторите попытку через несколько минут.", en: "The connection to the bank dropped. No money was taken — try again in a few minutes." },
+  "Nima qilish kerak": { ru: "Что делать", en: "What to do" },
+  "Kartadagi mablag'ni tekshiring yoki boshqa karta bilan urinib ko'ring": { ru: "Проверьте баланс карты или попробуйте другую карту", en: "Check the card balance or try another card" },
+  "Kartada onlayn to'lov yoqilganini bankdan tasdiqlang": { ru: "Уточните в банке, включены ли онлайн-платежи по карте", en: "Confirm with your bank that online payments are enabled" },
+  "Muammo davom etsa — menejerga yozing, bronni qo'lda saqlab turamiz": { ru: "Если проблема повторяется — напишите менеджеру, мы сохраним бронь вручную", en: "If it keeps failing, message our manager and we'll hold the booking manually" },
+  "Sanani qaytadan tanlang — o'rinlar hali mavjud": { ru: "Выберите дату заново — места ещё есть", en: "Pick a date again — seats are still available" },
+  "Bir necha daqiqadan keyin qayta urinib ko'ring": { ru: "Повторите попытку через несколько минут", en: "Try again in a few minutes" },
+  "To'lov cheki": { ru: "Чек об оплате", en: "Payment receipt" },
+  "Summa": { ru: "Сумма", en: "Amount" },
+  "To'lov usuli": { ru: "Способ оплаты", en: "Payment method" },
+  "Tranzaksiya raqami": { ru: "Номер транзакции", en: "Transaction ID" },
+  "Sana va vaqt": { ru: "Дата и время", en: "Date and time" },
+  "Vaucherni yuklab olish": { ru: "Скачать ваучер", en: "Download the voucher" },
+  "Bosh sahifaga qaytish": { ru: "Вернуться на главную", en: "Back to the homepage" },
+  "Qayta urinish": { ru: "Повторить попытку", en: "Try again" },
+  "Menejer bilan bog'lanish": { ru: "Связаться с менеджером", en: "Contact a manager" },
+  "Ortga": { ru: "Назад", en: "Back" },
+  "To'lash": { ru: "Оплатить", en: "Pay" },
+  "Tasdiqlash": { ru: "Подтвердить", en: "Confirm" },
+  "To'lanadi": { ru: "К оплате", en: "Amount due" },
+  "Tur": { ru: "Тур", en: "Tour" },
+  "Sana": { ru: "Дата", en: "Date" },
+  "Sayohatchilar": { ru: "Путешественники", en: "Travellers" },
+  "kishi": { ru: "чел.", en: "people" },
+  "Ozarbayjon — «7 mo'jiza» ekskursiyasi": { ru: "Азербайджан — экскурсия «7 чудес»", en: "Azerbaijan — the '7 Wonders' tour" },
+  "1-bosqich · Usul va karta": { ru: "Этап 1 · Способ и карта", en: "Stage 1 · Method and card" },
+  "2-bosqich · Tasdiqlash": { ru: "Этап 2 · Подтверждение", en: "Stage 2 · Confirmation" },
+  "Humo / Uzcard": { ru: "Humo / Uzcard", en: "Humo / Uzcard" }
+};
+
+const METHODS = [
+  { id: "humo", tag: "HUMO · UZCARD", name: "Milliy karta", note: "SMS tasdiq bilan" },
+  { id: "visa", tag: "VISA · MC", name: "Xalqaro karta", note: "3-D Secure bilan" },
+  { id: "bank", tag: "B2B", name: "Bank o'tkazmasi", note: "Yuridik shaxslar uchun" }
+];
+
+const RESULTS = {
+  success: { ok: true, title: "To'lov muvaffaqiyatli", text: "Bron to'liq tasdiqlandi. Vaucher va chek email orqali yuborildi." },
+  declined: { ok: false, title: "To'lov amalga oshmadi", text: "Kartada mablag' yetarli emas. Bron hali 12 daqiqa saqlanadi.",
+    steps: ["Kartadagi mablag'ni tekshiring yoki boshqa karta bilan urinib ko'ring", "Kartada onlayn to'lov yoqilganini bankdan tasdiqlang", "Muammo davom etsa — menejerga yozing, bronni qo'lda saqlab turamiz"] },
+  expired: { ok: false, title: "To'lov vaqti tugadi", text: "30 daqiqa ichida to'lov amalga oshmadi va o'rinlar bo'shatildi. Sanani qaytadan tanlashingiz mumkin.",
+    steps: ["Sanani qaytadan tanlang — o'rinlar hali mavjud", "Muammo davom etsa — menejerga yozing, bronni qo'lda saqlab turamiz"] },
+  error: { ok: false, title: "Texnik xatolik", text: "Bank bilan aloqa uzildi. Pul kartadan yechilmagan — bir necha daqiqadan keyin qayta urinib ko'ring.",
+    steps: ["Bir necha daqiqadan keyin qayta urinib ko'ring", "Kartada onlayn to'lov yoqilganini bankdan tasdiqlang", "Muammo davom etsa — menejerga yozing, bronni qo'lda saqlab turamiz"] }
+};
+
+const TOTAL_USD = 1440;
+
+class Component extends DCLogic {
+  state = {
+    locale: this.props.initialLocale || "uz",
+    stage: 1, method: "humo", card: "", expiry: "", sms: "",
+    cardErr: false, smsErr: false, resent: false, left: 1785
+  };
+
+  root() { return document.querySelector("[data-rt-root]"); }
+  page() { return document.querySelector("[data-rt-page]"); }
+
+  t(s) {
+    if (window.RT && !this._merged) { Object.assign(window.RT.DICT, PAGE_DICT); this._merged = true; }
+    return window.RT ? window.RT.t(s, this.state.locale) : s;
+  }
+  money(usd) { return window.RT ? window.RT.money(usd, this.props.currency, this.state.locale) : "$" + usd; }
+
+  result() {
+    const key = this.props.paymentResult || "success";
+    return RESULTS[key] || RESULTS.success;
+  }
+
+  renderVals() {
+    const s = this.state;
+    const t = x => this.t(x);
+    const res = this.result();
+    const done = s.stage === 3;
+
+    return {
+      locale: s.locale,
+      setLocale: loc => this.setState({ locale: loc }),
+      bookingLabel: t("Bron raqami"),
+
+      stages: [
+        { i: 1, n: "1", title: t("1-bosqich · Usul va karta") },
+        { i: 2, n: "2", title: t("2-bosqich · Tasdiqlash") }
+      ],
+
+      isStage1: s.stage === 1,
+      isStage2: s.stage === 2,
+      isDone: done,
+      isSuccess: done && res.ok,
+      isFailure: done && !res.ok,
+
+      methods: METHODS.map(m => ({
+        id: m.id, tag: m.tag, name: t(m.name), note: t(m.note),
+        pick: () => this.setState({ method: m.id })
+      })),
+
+      cardNumber: s.card,
+      setCard: e => {
+        const digits = e.target.value.replace(/\D/g, "").slice(0, 16);
+        const grouped = digits.replace(/(.{4})/g, "$1 ").trim();
+        this.setState({ card: grouped, cardErr: false });
+      },
+      expiry: s.expiry,
+      setExpiry: e => {
+        const d = e.target.value.replace(/\D/g, "").slice(0, 4);
+        this.setState({ expiry: d.length > 2 ? d.slice(0, 2) + "/" + d.slice(2) : d });
+      },
+      cardError: s.cardErr ? t("Karta raqami to'liq kiritilmagan") : "",
+
+      smsHint: "+998 (__) ___-__-__ " + t("raqamiga 6 xonali kod yuborildi"),
+      smsCode: s.sms,
+      setSms: e => this.setState({ sms: e.target.value.replace(/\D/g, "").slice(0, 6), smsErr: false }),
+      smsError: s.smsErr ? t("Kod noto'g'ri. Yana bir marta urinib ko'ring.") : "",
+      resend: () => this.setState({ resent: true, sms: "", smsErr: false }),
+      resendHint: s.resent ? t("Kod qayta yuborildi") : t("Qayta yuborish") + " 42 " + t("soniyadan keyin"),
+
+      resultTitle: t(res.title),
+      resultText: t(res.text),
+      recoverySteps: (res.steps || []).map(t),
+      receiptRows: [
+        { k: t("Summa"), v: this.money(TOTAL_USD) },
+        { k: t("To'lov usuli"), v: t("Humo / Uzcard") + " ·· 4417" },
+        { k: t("Tranzaksiya raqami"), v: "TX-885203914" },
+        { k: t("Sana va vaqt"), v: "12.10.2026 · 14:38" }
+      ],
+      retry: () => this.setState({ stage: 1, sms: "", smsErr: false }),
+
+      showFlowButtons: !done,
+      canGoBack: s.stage === 2,
+      payLabel: s.stage === 1 ? t("To'lash") + " " + this.money(TOTAL_USD) : t("Tasdiqlash"),
+      next: () => {
+        if (s.stage === 1) {
+          if (s.card.replace(/\D/g, "").length < 16) { this.setState({ cardErr: true }); return; }
+          this.setState({ stage: 2 });
+        } else if (s.stage === 2) {
+          if (s.sms.length < 6) { this.setState({ smsErr: true }); return; }
+          this.setState({ stage: 3 });
+        }
+      },
+      back: () => this.setState({ stage: 1 }),
+
+      totalLabel: this.money(TOTAL_USD),
+      orderRows: [
+        { k: t("Tur"), v: t("Ozarbayjon — «7 mo'jiza» ekskursiyasi") },
+        { k: t("Sana"), v: "12–17.10.2026" },
+        { k: t("Sayohatchilar"), v: "2 " + t("kishi") },
+        { k: t("Bron raqami"), v: "RV-2026-04871" }
+      ]
+    };
+  }
+
+  componentDidMount() {
+    this.sync();
+    this._vp = () => this.sync();
+    window.addEventListener("resize", this._vp);
+    this._tick = setInterval(() => {
+      if (this.state.stage === 3) return;
+      this.setState(p => ({ left: Math.max(0, p.left - 1) }));
+    }, 1000);
+  }
+
+  componentDidUpdate(prev) {
+    if (prev.initialLocale !== this.props.initialLocale && this.props.initialLocale) {
+      this.setState({ locale: this.props.initialLocale });
+      return;
+    }
+    this.sync();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this._vp);
+    clearInterval(this._tick);
+  }
+
+  sync() {
+    const root = this.root();
+    if (!root || !window.RT) return;
+    const s = this.state;
+    window.RT.applyLocale(this.page(), s.locale);
+
+    const wide = window.innerWidth >= 1000;
+    const cols = root.querySelector("[data-rt-cols]");
+    const side = root.querySelector("[data-rt-side]");
+    if (cols) cols.style.gridTemplateColumns = wide ? "minmax(0,1fr) 320px" : "minmax(0,1fr)";
+    if (side) side.style.cssText = wide ? "min-width:0;position:sticky;top:96px" : "min-width:0";
+
+    const timer = root.querySelector("[data-timer]");
+    const hold = root.querySelector("[data-hold]");
+    if (timer) {
+      const m = Math.floor(s.left / 60), sec = s.left % 60;
+      timer.textContent = m + ":" + String(sec).padStart(2, "0");
+    }
+    if (hold) hold.style.display = s.stage === 3 ? "none" : "flex";
+
+    root.querySelectorAll("[data-stage]").forEach(li => {
+      const n = Number(li.dataset.stage);
+      const cur = n === Math.min(s.stage, 2);
+      const done = n < s.stage;
+      const num = li.querySelector('[data-stage-num="' + n + '"]');
+      const title = li.querySelector('[data-stage-title="' + n + '"]');
+      li.style.borderColor = cur ? "#0A66E8" : "#DCE7F5";
+      li.style.background = cur ? "#0A66E8" : "#FFFFFF";
+      if (num) {
+        num.style.background = cur ? "#FFC233" : done ? "#0A66E8" : "#EAF3FF";
+        num.style.color = cur ? "#0B1B33" : done ? "#FFFFFF" : "#5C5C5C";
+        num.textContent = done ? "✓" : String(n);
+      }
+      if (title) title.style.color = cur ? "#FFFFFF" : done ? "#0B1B33" : "#333333";
+    });
+
+    root.querySelectorAll("[data-method]").forEach(b => {
+      const on = b.dataset.method === s.method;
+      b.style.borderColor = on ? "#0A66E8" : "#DCE7F5";
+      b.style.background = on ? "rgba(255,194,51,0.1)" : "#FFFFFF";
+      b.style.boxShadow = on ? "0 0 0 1px #0A66E8 inset" : "none";
+      const badge = b.querySelector("[data-method-badge]");
+      if (badge) {
+        badge.style.background = on ? "#0A66E8" : "#EAF3FF";
+        badge.style.color = on ? "#FFFFFF" : "#0B1B33";
+      }
+    });
+
+    const res = this.result();
+    const box = root.querySelector("[data-result]");
+    if (box) {
+      box.style.background = res.ok ? "#0A66E8" : "#FFF4F3";
+      box.style.border = res.ok ? "1px solid #0A66E8" : "1px solid rgba(179,38,30,0.35)";
+      const icon = box.querySelector("[data-result-icon]");
+      const title = box.querySelector("[data-result-title]");
+      const text = box.querySelector("[data-result-text]");
+      const ok = box.querySelector("[data-icon-ok]");
+      const bad = box.querySelector("[data-icon-bad]");
+      if (icon) {
+        icon.style.background = res.ok ? "#FFC233" : "#B3261E";
+        icon.style.color = res.ok ? "#0B1B33" : "#FFFFFF";
+      }
+      if (ok) ok.style.display = res.ok ? "block" : "none";
+      if (bad) bad.style.display = res.ok ? "none" : "block";
+      if (title) title.style.color = res.ok ? "#FFFFFF" : "#B3261E";
+      if (text) text.style.color = res.ok ? "#EAF3FF" : "#333333";
+    }
+
+    const sms = root.querySelector("[data-sms]");
+    if (sms) sms.style.borderColor = s.smsErr ? "#B3261E" : "#DCE7F5";
+  }
+}
+
+</script>
+</body>
+</html>

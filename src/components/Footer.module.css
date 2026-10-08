@@ -1,0 +1,118 @@
+.footer {
+  background: var(--ink);
+  color: var(--sky);
+  padding-top: clamp(48px, 6vw, 80px);
+}
+
+.cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+  gap: clamp(30px, 4vw, 48px);
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.tagline {
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 250px;
+}
+.socials {
+  display: flex;
+  gap: 8px;
+}
+.social {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  display: grid;
+  place-items: center;
+  color: var(--sky);
+  transition:
+    background var(--t),
+    color var(--t);
+}
+.social:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--white);
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.heading {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  line-height: 1.4;
+}
+.col a {
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.78);
+  padding: 2px 0;
+}
+.col a:hover {
+  color: var(--accent);
+}
+
+.legal {
+  margin: clamp(38px, 5vw, 60px) 0 0;
+  padding: 18px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 26px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.78);
+}
+.legalName {
+  flex-basis: 100%;
+  font-weight: 700;
+  color: var(--white);
+}
+.legalRow {
+  display: flex;
+  gap: 6px;
+}
+.legalRow dt {
+  color: rgba(255, 255, 255, 0.6);
+}
+.legalRow dd {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.bottom {
+  padding: 16px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 28px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.9);
+}
+.pay {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+}
+
+.credit {
+  padding-bottom: 26px;
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 640px;
+}
