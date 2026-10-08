@@ -10,7 +10,10 @@ import { Catalog, ResultCount } from "./Catalog";
 import { CatalogFromUrl, ResultCountFromUrl } from "./CatalogFromUrl";
 import styles from "./catalog.module.css";
 
-type Props = { params: Promise<{ locale: string }> };
+type Props = {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
 
 // So'rov vaqtida render: kartochkalardagi sana/o'rin/narx joriy kunga mos bo'lishi uchun (liveTour).
 export const dynamic = "force-dynamic";
@@ -37,14 +40,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function ToursPage({ params }: Props) {
+export default async function ToursPage({ params, searchParams }: Props) {
   const { locale } = await params;
+  // Server ham URL'dagi filtrlarni qo'llaydi: filtrlangan havola ochilganda HTML darhol to'g'ri
+  // ro'yxatni beradi (parseFilters noma'lum qiymatlarni tashlab yuboradi).
+  const query = new URLSearchParams(
+    Object.entries(await searchParams).flatMap(([key, value]) =>
+      value === undefined ? [] : [[key, Array.isArray(value) ? value[0] : value]],
+    ),
+  ).toString();
   setRequestLocale(locale);
   const t = await getTranslations("catalog");
   const tc = await getTranslations("common");
 
-  // Sahifa statik: `searchParams` serverda o'qilmaydi. Suspense fallback'lari — filtrsiz to'liq
-  // ro'yxat (HTML'da barcha turlar bor); brauzerda *FromUrl komponentlari URL'dagi filtrlarni qo'llaydi.
   return (
     <>
       <section className="page-banner">
@@ -59,14 +67,14 @@ export default async function ToursPage({ params }: Props) {
               <h1>{t("title")}</h1>
               <p>{t("lead")}</p>
             </div>
-            <Suspense fallback={<ResultCount query="" />}>
+            <Suspense fallback={<ResultCount query={query} />}>
               <ResultCountFromUrl />
             </Suspense>
           </div>
         </div>
       </section>
 
-      <Suspense fallback={<Catalog query="" />}>
+      <Suspense fallback={<Catalog query={query} />}>
         <CatalogFromUrl />
       </Suspense>
     </>

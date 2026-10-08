@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { ArrowDown, ListFilter, RotateCw, X, ZoomOut } from "lucide-react";
-import { Link, useRouter } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { PRICE_MAX, PRICE_MIN, categories, categoryIds, countries, countryIds, liveToursByRank } from "@/data/tours";
 import { Icon } from "@/components/Icon";
@@ -55,7 +55,6 @@ export function Catalog({ query }: { query: string }) {
   const t = useTranslations("catalog");
   const tc = useTranslations("common");
   const locale = useLocale() as Locale;
-  const router = useRouter();
   const uid = useId();
 
   // URL — haqiqat manbai. `pending` — router.replace tugaguncha UI darhol javob berishi uchun
@@ -80,12 +79,14 @@ export function Catalog({ query }: { query: string }) {
       const next = { ...filters, ...patch };
       setPending({ from: query, filters: next });
       const qs = serializeFilters(next);
-      const go = () => router.replace(qs ? `/tours?${qs}` : "/tours", { scroll: false });
+      // history.replaceState: Next uni useSearchParams bilan sinxronlaydi va serverga so'rov YUBORMAYDI
+      // (sahifa dinamik — router.replace har filtr bosilganda serverga borib kelardi).
+      const go = () => window.history.replaceState(null, "", `/${locale}/tours${qs ? `?${qs}` : ""}`);
       window.clearTimeout(timer.current);
       if (debounceMs > 0) timer.current = window.setTimeout(go, debounceMs);
       else go();
     },
-    [filters, query, router],
+    [filters, query, locale],
   );
 
   const toggle = <K extends "countries" | "categories">(key: K, id: Filters[K][number]) => {
