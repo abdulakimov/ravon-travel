@@ -14,7 +14,6 @@ concurrency:
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
   test:
@@ -32,6 +31,9 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-buildx-action@v3
@@ -62,6 +64,10 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    # Serverga beriladigan token faqat o'qiy oladi (pull).
+    permissions:
+      contents: read
+      packages: read
     steps:
       - uses: actions/checkout@v4
 
@@ -74,6 +80,7 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_SSH_PORT }}
+          fingerprint: ${{ secrets.VPS_FINGERPRINT }}
           source: "docker-compose.yml"
           target: ${{ vars.DEPLOY_DIR || format('/opt/{0}', github.event.repository.name) }}
 
@@ -91,6 +98,7 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_SSH_PORT }}
+          fingerprint: ${{ secrets.VPS_FINGERPRINT }}
           envs: OWNER,IMAGE_TAG,GHCR_USER,GHCR_TOKEN,DEPLOY_DIR,PUBLIC_URL
           command_timeout: 15m
           script: |
@@ -103,10 +111,16 @@ jobs:
 
             cd "$DEPLOY_DIR"
             PREV_TAG=$(cat .deployed_tag 2>/dev/null || true)
-            HOST_PORT=$(grep -E '^HOST_PORT=' .env 2>/dev/null | cut -d= -f2 || true)
+            HOST_PORT=$( (grep -E '^HOST_PORT=' .env 2>/dev/null || true) | cut -d= -f2 | tr -d "\"' \r")
             HOST_PORT=${HOST_PORT:-3130}
 
-            # Box PRIVATE image tortadi; job'ning GITHUB_TOKEN'i shu job davomida amal qiladi.
+            # Xabarlar fayli uchun katalog (konteyner uid 1000 bilan yozadi).
+            mkdir -p data && chown 1000:1000 data && chmod 700 data
+
+            # GHCR login alohida vaqtinchalik config'da: box'dagi boshqa loyihalarning
+            # ~/.docker/config.json'iga tegmaydi va chiqishda izsiz o'chadi.
+            export DOCKER_CONFIG=$(mktemp -d)
+            trap 'rm -rf "$DOCKER_CONFIG"' EXIT
             echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
 
             # ULASHILGAN box: servis nomi har doim aniq ko'rsatiladi (bare `up -d` yo'q).
@@ -114,43 +128,45 @@ jobs:
             SERVICES="web"
             for attempt in 1 2 3 4 5; do
               docker compose pull $SERVICES && break
+              [ "${attempt}" = 5 ] && { echo "GHCR pull failed after 5 attempts"; exit 1; }
               echo "GHCR pull attempt ${attempt} failed — retrying in 15s"
               sleep 15
-              [ "${attempt}" = 5 ] && { echo "GHCR pull failed after 5 attempts"; exit 1; }
             done
             # Shu yergacha xato bo'lsa eski konteyner ishlab turadi (pull-then-swap).
-            docker compose up -d $SERVICES
-            docker logout ghcr.io >/dev/null 2>&1 || true
+            # --no-build: image topilmasa serverda build qilishga URINMAYDI.
+            docker compose up -d --no-build $SERVICES
 
             healthy() {
               for attempt in 1 2 3 4 5 6 7 8 9 10; do
-                code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$1" || echo 000)
-                case "$code" in 2*|3*) echo "  $1 -> ${code}"; return 0 ;; esac
-                echo "  $1 -> ${code} (attempt ${attempt}) — waiting for boot"
+                code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$1" || true)
+                case "$code" in 2*) echo "  $1 -> ${code}"; return 0 ;; esac
+                echo "  $1 -> ${code:-000} (attempt ${attempt}) — waiting for boot"
                 sleep 5
               done
               return 1
             }
 
-            # Yashil bo'lishdan oldin isbot: avval konteynerning o'zi, keyin tashqi URL (nginx+TLS).
-            ok=1
-            healthy "http://127.0.0.1:${HOST_PORT}/api/health" || ok=0
-            if [ "$ok" = 1 ] && [ -n "${PUBLIC_URL:-}" ]; then healthy "$PUBLIC_URL" || ok=0; fi
-
-            if [ "$ok" != 1 ]; then
+            # 1) Konteynerning o'zi. Faqat SHU tekshiruv rollback'ga sabab bo'ladi.
+            if ! healthy "http://127.0.0.1:${HOST_PORT}/api/health"; then
               echo "FAILED: new image ${NEW_TAG} is not healthy"
               docker compose logs --tail 60 $SERVICES || true
               if [ -n "$PREV_TAG" ] && [ "$PREV_TAG" != "$NEW_TAG" ]; then
                 echo "Rolling back to ${PREV_TAG}"
-                IMAGE_TAG="$PREV_TAG" docker compose up -d $SERVICES || true
+                IMAGE_TAG="$PREV_TAG" docker compose up -d --no-build $SERVICES \
+                  || echo "ROLLBACK FAILED — site is still on ${NEW_TAG}"
               fi
               exit 1
             fi
-
             echo "$NEW_TAG" > .deployed_tag
-            # Eski image'larni tozalash: joriy va oldingisi (rollback uchun) qoladi.
-            docker images "${IMAGE_REGISTRY}/ravon-travel-web" --format '{{.Tag}}' \
+
+            # Eski image'larni tozalash: FAQAT shu loyiha; joriy va oldingisi (rollback uchun) qoladi.
+            (docker images "${IMAGE_REGISTRY}/ravon-travel-web" --format '{{.Tag}}' \
               | grep -v -e '^latest$' -e "^${NEW_TAG}$" -e "^${PREV_TAG:-none}$" \
-              | xargs -r -I{} docker rmi "${IMAGE_REGISTRY}/ravon-travel-web:{}" >/dev/null 2>&1 || true
-            docker image prune -f >/dev/null 2>&1 || true
+              | xargs -r -I{} docker rmi "${IMAGE_REGISTRY}/ravon-travel-web:{}" >/dev/null 2>&1) || true
+
+            # 2) Tashqi URL (nginx + TLS + DNS). Bu image aybi emas — rollback qilinmaydi, lekin job qizil.
+            if [ -n "${PUBLIC_URL:-}" ] && ! healthy "$PUBLIC_URL"; then
+              echo "Container is healthy but ${PUBLIC_URL} is failing — check nginx / DNS / TLS"
+              exit 1
+            fi
             echo "Deploy OK: ${NEW_TAG}"

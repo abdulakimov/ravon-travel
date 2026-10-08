@@ -6,7 +6,7 @@
     "imageAlt": "Dubai city skyline",
     "trustLabel": "Why travellers choose us",
     "trust": {
-      "licensed": "Officially licensed tour operator",
+      "licensed": "Outbound tour operator",
       "online": "Online booking and card payment",
       "languages": "Service in three languages: UZ · RU · EN"
     }
@@ -35,8 +35,8 @@
     "eyebrow": "Why us",
     "title": "Trust, backed by documents",
     "license": {
-      "title": "Official licence",
-      "text": "We operate under a tourism licence. Licence, certificate and company details are published on the site."
+      "title": "Transparent paperwork",
+      "text": "Licence status, team and company details are published on the site. Every booking is under a formal contract."
     },
     "payment": {
       "title": "Online payment",

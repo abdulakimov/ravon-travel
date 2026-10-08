@@ -45,7 +45,8 @@ for (const locale of locales) {
       expect(text).not.toMatch(/\b(common|home|catalog|tour|booking|payment|about|contact|inquiry|legal|faq|blog)\.[a-zA-Z]+\.[a-zA-Z]+/);
 
       // TZ L10: gorizontal scroll yo'q (360px loyihasida ham)
-      const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+      // isMobile'da Chrome innerWidth'ni kontentga qarab kengaytiradi — sozlangan viewport bilan solishtiramiz
+      const overflow = (await page.evaluate(() => document.documentElement.scrollWidth)) - page.viewportSize()!.width;
       expect(overflow).toBeLessThanOrEqual(1);
 
       expect(errors, errors.join("\n")).toEqual([]);

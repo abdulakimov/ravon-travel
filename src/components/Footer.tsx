@@ -23,7 +23,9 @@ export async function Footer() {
     { label: t("footer.hours"), value: t("workingHours") },
     {
       label: t("footer.licenseLine"),
-      value: site.licenseNo ? `№ ${site.licenseNo}${site.licenseDate ? `, ${site.licenseDate}` : ""}` : t("pending"),
+      value: site.licenseNo
+        ? [`№ ${site.licenseNo}`, site.licenseDate, site.licenseAuthority].filter(Boolean).join(", ")
+        : t("pending"),
     },
     { label: t("footer.licensedDirection"), value: t("outbound") },
     ...(site.phone ? [{ label: t("footer.phone"), value: site.phone }] : []),

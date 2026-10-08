@@ -1,14 +1,20 @@
+import { appendFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { NextResponse } from "next/server";
 import type { z } from "zod";
 
 // Aloqa va so'rov formalari uchun umumiy server ishlovchisi:
 // origin tekshiruvi → rate limit → hajm cheklovi → zod validatsiya → honeypot → yetkazish.
-// Yetkazish: server log'i (har doim) + LEAD_WEBHOOK_URL berilgan bo'lsa JSON POST (CRM/Telegram ko'prigi).
+// Yetkazish: /data/leads.ndjson fayliga yoziladi (doimiy) + LEAD_WEBHOOK_URL berilgan bo'lsa JSON POST.
 
 const WINDOW_MS = 10 * 60 * 1000;
 const MAX_PER_WINDOW = 5;
 const MAX_BODY_BYTES = 16 * 1024;
 const MAX_TRACKED_IPS = 5000;
+// Productionda /data — host'dagi bind-mount. Lokal ishlab chiqishda vaqtinchalik katalog.
+const LEADS_FILE =
+  process.env.LEADS_FILE ?? (process.env.NODE_ENV === "production" ? "/data/leads.ndjson" : join(tmpdir(), "ravon-leads.ndjson"));
 
 // Bitta konteyner uchun xotiradagi hisoblagich yetarli (bitta replika). Ko'p replikada Redis kerak bo'ladi.
 const hits = new Map<string, number[]>();
@@ -20,6 +26,11 @@ function clientIp(req: Request): string {
     req.headers.get("x-forwarded-for")?.split(",").pop()?.trim() ??
     "unknown"
   );
+}
+
+/** IPv6'da mijozga odatda butun /64 beriladi — manzilni almashtirib chetlab o'tilmasin. */
+export function ipBucket(ip: string): string {
+  return ip.includes(":") ? ip.toLowerCase().split(":").slice(0, 4).join(":") : ip;
 }
 
 export function rateLimited(ip: string, now = Date.now()): boolean {
@@ -58,6 +69,7 @@ async function deliver(kind: string, data: unknown): Promise<void> {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ kind, receivedAt: new Date().toISOString(), data }),
+    redirect: "error",
     signal: AbortSignal.timeout(8000),
   });
   if (!res.ok) throw new Error(`lead webhook responded ${res.status}`);
@@ -70,13 +82,16 @@ async function deliver(kind: string, data: unknown): Promise<void> {
 export async function handleLead<T extends z.ZodType>(req: Request, kind: "contact" | "inquiry" | "booking", schema: T) {
   if (!sameOrigin(req)) return NextResponse.json({ error: "forbidden" }, { status: 403 });
 
-  const ip = clientIp(req);
-  if (rateLimited(ip)) {
+  // Har forma turi alohida hisoblanadi: aloqa formasini ko'p yuborish bron xabarini bloklamaydi.
+  if (rateLimited(`${kind}:${ipBucket(clientIp(req))}`)) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429, headers: { "retry-after": "600" } });
   }
 
+  if (Number(req.headers.get("content-length") ?? 0) > MAX_BODY_BYTES) {
+    return NextResponse.json({ error: "too_large" }, { status: 413 });
+  }
   const raw = await req.text().catch(() => "");
-  if (raw.length > MAX_BODY_BYTES) return NextResponse.json({ error: "too_large" }, { status: 413 });
+  if (Buffer.byteLength(raw) > MAX_BODY_BYTES) return NextResponse.json({ error: "too_large" }, { status: 413 });
 
   let body: Record<string, unknown>;
   try {
@@ -98,22 +113,38 @@ export async function handleLead<T extends z.ZodType>(req: Request, kind: "conta
       const key = String(issue.path[0] ?? "_");
       fields[key] ??= issue.message;
     }
+    // PII'siz: rad etilgan so'rovlar (masalan narx o'zgargandagi bron) ko'rinib tursin.
+    console.warn(JSON.stringify({ event: "lead_rejected", kind, fields: Object.keys(fields) }));
     return NextResponse.json({ error: "invalid", fields }, { status: 400 });
   }
 
-  // Log'da shaxsiy ma'lumot to'liq yozilmaydi — faqat tur va vaqt; to'liq yozuv webhook'ga ketadi.
-  console.info(JSON.stringify({ event: "lead", kind, at: new Date().toISOString(), delivered: Boolean(process.env.LEAD_WEBHOOK_URL) }));
-  if (!process.env.LEAD_WEBHOOK_URL) {
-    // Webhook sozlanmagan: xabar yo'qolmasligi uchun to'liq yozuv konteyner log'ida qoladi.
-    console.info(JSON.stringify({ event: "lead_payload", kind, data: result.data }));
-    return NextResponse.json({ ok: true });
+  // 1) Avval DISKKA: /data — host'dagi bind-mount, deploy va restart'dan omon qoladi.
+  //    Bu xabarning asosiy nusxasi; shaxsiy ma'lumot konteyner log'iga yozilmaydi.
+  const record = { kind, receivedAt: new Date().toISOString(), data: result.data };
+  let stored = false;
+  try {
+    await appendFile(LEADS_FILE, JSON.stringify(record) + "\n", { mode: 0o600 });
+    stored = true;
+  } catch (err) {
+    console.error(JSON.stringify({ event: "lead_store_failed", kind, error: String(err) }));
   }
 
-  try {
-    await deliver(kind, result.data);
-  } catch (err) {
-    console.error(JSON.stringify({ event: "lead_delivery_failed", kind, error: String(err), data: result.data }));
+  // 2) Keyin webhook (sozlangan bo'lsa). Diskka yozilgan bo'lsa webhook xatosi mijozga xato emas.
+  let delivered = false;
+  if (process.env.LEAD_WEBHOOK_URL) {
+    try {
+      await deliver(kind, result.data);
+      delivered = true;
+    } catch (err) {
+      console.error(JSON.stringify({ event: "lead_delivery_failed", kind, error: String(err), stored }));
+    }
+  }
+
+  if (!stored && !delivered) {
+    // Hech qayerga saqlanmadi: yo'qotmaslik uchun oxirgi chora — log'ga to'liq yozuv, mijozga xato.
+    console.error(JSON.stringify({ event: "lead_payload", ...record }));
     return NextResponse.json({ error: "delivery_failed" }, { status: 502 });
   }
+  console.info(JSON.stringify({ event: "lead", kind, at: record.receivedAt, stored, delivered }));
   return NextResponse.json({ ok: true });
 }

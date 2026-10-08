@@ -14,3 +14,4 @@ coverage
 .DS_Store
 Dockerfile
 docker-compose*.yml
+data

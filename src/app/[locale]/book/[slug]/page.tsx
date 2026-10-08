@@ -18,6 +18,9 @@ const isBookable = (slug: string) => {
   return Boolean(tour && tour.fixedDeparture && openDepartures(tour).length > 0);
 };
 
+// So'rov vaqtida render: jo'nab ketgan sanalar taklif qilinmasligi uchun (getTour joriy sanani hisobga oladi).
+export const dynamic = "force-dynamic";
+
 export function generateStaticParams() {
   return tours.filter((t) => isBookable(t.slug)).map((t) => ({ slug: t.slug }));
 }

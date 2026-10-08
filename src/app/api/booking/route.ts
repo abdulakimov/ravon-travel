@@ -2,6 +2,7 @@ import { z } from "zod";
 import { getTour } from "@/data/tours";
 import { locales } from "@/i18n/routing";
 import { BOOKING_ID_RE } from "@/lib/booking-constants";
+import { bookingTotal } from "@/lib/format";
 import { handleLead } from "@/lib/leads";
 
 // Bron tasdiqlanganda menejerga bildirishnoma. Backend yo'qligi sababli bron o'zi brauzerda
@@ -31,6 +32,9 @@ const schema = z
     if (!departure) ctx.addIssue({ code: "custom", path: ["departureId"], message: "unknown departure" });
     else if (data.adults + data.children > departure.seatsLeft)
       ctx.addIssue({ code: "custom", path: ["adults"], message: "not enough seats" });
+    // Narx mijozga ishonib olinmaydi — tur ma'lumotidan qayta hisoblanadi.
+    else if (data.totalUsd !== bookingTotal(departure.priceUsd, data.adults, data.children))
+      ctx.addIssue({ code: "custom", path: ["totalUsd"], message: "total mismatch" });
     if (data.travelers.length !== data.adults + data.children)
       ctx.addIssue({ code: "custom", path: ["travelers"], message: "traveller count mismatch" });
   });

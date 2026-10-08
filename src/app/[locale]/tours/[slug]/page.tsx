@@ -22,6 +22,9 @@ type Props = { params: Promise<{ locale: string; slug: string }> };
 
 export const dynamicParams = false;
 
+// So'rov vaqtida render: jo'nab ketgan sanalar taklif qilinmasligi uchun (getTour joriy sanani hisobga oladi).
+export const dynamic = "force-dynamic";
+
 export function generateStaticParams() {
   return tours.map((tour) => ({ slug: tour.slug }));
 }

@@ -17,20 +17,26 @@ Serverda image **qurilmaydi**. Server faqat tortadi va qayta ishga tushiradi.
 
 ## Actions sozlamalari
 
-Secrets: `VPS_HOST`, `VPS_USERNAME`, `VPS_SSH_PORT`, `VPS_SSH_KEY` (alohida deploy kalit:
+Secrets: `VPS_HOST`, `VPS_USERNAME`, `VPS_SSH_PORT`, `VPS_FINGERPRINT` (server host-key SHA256 — `ssh-keyscan -t ed25519 <host> | ssh-keygen -lf -`), `VPS_SSH_KEY` (alohida deploy kalit:
 `~/.ssh/ravon-travel_deploy`, public qismi serverda `authorized_keys`da `gha-ravon-travel-deploy` izohi bilan).
-Variables: `DEPLOY_DIR=/opt/ravon-travel`, `PUBLIC_URL=https://ravontravel.uz/uz`.
+Variables: `DEPLOY_DIR=/opt/ravon-travel`, `PUBLIC_URL=https://ravontravel.uz/api/health`.
+
+## Xabarlar (aloqa / so'rov / bron) qayerga tushadi
+
+Har bir xabar serverda **`/opt/ravon-travel/data/leads.ndjson`** fayliga yoziladi (har qatori bitta JSON;
+bind-mount, deploy va restart'dan omon qoladi, faqat root/uid 1000 o'qiy oladi):
+
+```bash
+ssh new-vps 'tail -n 20 /opt/ravon-travel/data/leads.ndjson'
+```
+
+Qo'shimcha: `.env` da `LEAD_WEBHOOK_URL` berilsa, har xabar o'sha manzilga ham JSON POST qilinadi
+(CRM / Telegram ko'prigi). Webhook ishlamasa xabar yo'qolmaydi — faylda qoladi, log'da `lead_delivery_failed`.
 
 ## Serverdagi `.env` (git'da yo'q, pipeline tegmaydi)
 
-`.env.example` ga qarang. `LEAD_WEBHOOK_URL` berilsa aloqa/so'rov formalari o'sha manzilga JSON
-yuboriladi; berilmasa xabarlar konteyner log'ida qoladi:
-
-```bash
-ssh new-vps 'docker logs ravon-travel-web-1 2>&1 | grep lead_payload'
-```
-
-`.env` o'zgarsa: `cd /opt/ravon-travel && IMAGE_REGISTRY=ghcr.io/nodirmuxammadjanov IMAGE_TAG=$(cat .deployed_tag) docker compose up -d web`.
+`.env.example` ga qarang (`LEAD_WEBHOOK_URL`, `HOST_PORT`). `.env` o'zgarsa:
+`cd /opt/ravon-travel && IMAGE_REGISTRY=ghcr.io/nodirmuxammadjanov IMAGE_TAG=$(cat .deployed_tag) docker compose up -d --no-build web`.
 
 ## Tekshirish
 
@@ -43,15 +49,16 @@ BASE_URL=https://ravontravel.uz npm run test:e2e
 
 ## Rollback
 
-Deploy job sog'lik tekshiruvidan o'tmasa **o'zi** oldingi tegga qaytaradi (`.deployed_tag`).
+Yangi konteyner sog'lik tekshiruvidan o'tmasa deploy job **o'zi** oldingi tegga qaytaradi (`.deployed_tag`).
+Tashqi URL tekshiruvi (nginx/DNS/TLS) yiqilsa rollback qilinmaydi — job qizil bo'ladi, sabab log'da.
 Qo'lda:
 
 ```bash
-ssh new-vps 'cd /opt/ravon-travel && IMAGE_REGISTRY=ghcr.io/nodirmuxammadjanov IMAGE_TAG=<eski-sha> docker compose up -d web'
+ssh new-vps 'cd /opt/ravon-travel && IMAGE_REGISTRY=ghcr.io/nodirmuxammadjanov IMAGE_TAG=<eski-sha> docker compose up -d --no-build web'
 ```
 
 (Eski image serverda qolmagan bo'lsa — avval `docker login ghcr.io` (PAT, `read:packages`) kerak,
-yoki Actions'da o'sha commit uchun **Deploy → Run workflow**.)
+yoki Actions'da o'sha commit'ning eski run'ida **Re-run all jobs**.)
 
 ## nginx (bir martalik, bajarilgan)
 
@@ -68,3 +75,8 @@ Eslatma: box'dagi nginx 1.24 — `http2 on;` direktivasi yo'q (1.25.1+), shuning
 
 Faqat favqulodda: lokalda `docker buildx build --platform linux/amd64 -t ghcr.io/nodirmuxammadjanov/ravon-travel-web:manual --push .`
 so'ng serverda `IMAGE_TAG=manual docker compose pull web && docker compose up -d web`. Serverda build qilinmaydi.
+
+## Monitoring (tavsiya)
+
+Tashqi uptime monitor (UptimeRobot / Better Stack, 1–5 daqiqa) → `https://ravontravel.uz/api/health`,
+kalit so'z `"ok"`, ogohlantirish Telegram'ga. Bu nginx, TLS muddati va DNS muammolarini ham ushlaydi.

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { CalendarCheck, Menu, X } from "lucide-react";
@@ -32,6 +32,8 @@ export function Header() {
   const search = useSearchParams();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const burgerRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -40,16 +42,37 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Mobil menyu ochiq bo'lsa sahifa scroll'i bloklanadi, Esc yopadi.
+  // Mobil menyu ochiq bo'lsa: scroll bloklanadi, Esc yopadi, Tab panel ichida aylanadi,
+  // yopilganda fokus hamburger tugmasiga qaytadi.
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const burger = burgerRef.current;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const items = drawerRef.current?.querySelectorAll<HTMLElement>("a[href], button:not([disabled])");
+      if (!items?.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      const active = document.activeElement;
+      if (e.shiftKey && (active === first || !drawerRef.current?.contains(active))) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && (active === last || !drawerRef.current?.contains(active))) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
     window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = prev;
       window.removeEventListener("keydown", onKey);
+      burger?.focus();
     };
   }, [open]);
 
@@ -101,6 +124,7 @@ export function Header() {
           </Link>
 
           <button
+            ref={burgerRef}
             type="button"
             className={styles.burger}
             aria-label={t("menu")}
@@ -116,7 +140,7 @@ export function Header() {
 
       {/* Drawer <header>dan tashqarida: backdrop-filter ichidagi position:fixed ni qamab qo'yadi. */}
       {open && (
-        <div className={styles.drawer} id="mobile-menu" role="dialog" aria-modal="true" aria-label={t("menu")}>
+        <div ref={drawerRef} className={styles.drawer} id="mobile-menu" role="dialog" aria-modal="true" aria-label={t("menu")}>
           <div className={styles.drawerTop}>
             <Logo emblem={34} size={17} />
             <button type="button" className={styles.burgerClose} aria-label={t("close")} onClick={() => setOpen(false)} autoFocus>

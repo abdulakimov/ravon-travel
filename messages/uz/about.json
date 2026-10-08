@@ -4,7 +4,7 @@
     "description": "Ravon Travel — chiquvchi turizm bo'yicha turoperator: litsenziya ma'lumotlari, mas'ul mutaxassislar va kompaniya rekvizitlari."
   },
   "hero": {
-    "title": "Litsenziyalangan turoperator — hujjat bilan ishlaymiz",
+    "title": "Chiquvchi turizm turoperatori — hujjat bilan ishlaymiz",
     "lead": "Chiquvchi turizm yo'nalishi bo'yicha faoliyat yuritamiz: O'zbekistondan xorijga tayyor turlar, rasmiy shartnoma va onlayn to'lov bilan."
   },
   "intro": {
@@ -43,7 +43,7 @@
     },
     "scan": {
       "title": "Litsenziya skani",
-      "text": "Hujjat rasmiylashtirilgach, skan nusxasi shu joyga qo'yiladi."
+      "text": "Hujjat rasmiylashtirilgach, skan nusxasi shu joyga qo'yiladi. Turizm xizmatlari sertifikati ham olingach shu bo'limda e'lon qilinadi."
     }
   },
   "team": {

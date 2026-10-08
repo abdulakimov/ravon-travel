@@ -20,7 +20,7 @@
     "breadcrumb": "Breadcrumb"
   },
   "footer": {
-    "tagline": "Licensed tour operator for outbound tourism.",
+    "tagline": "Tour operator for outbound tourism.",
     "navigation": "Navigation",
     "company": "Company",
     "help": "Help",
@@ -62,5 +62,10 @@
     "telegram": "Message on Telegram",
     "backHome": "Back to home",
     "backToTop": "Back to top"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "text": "An error occurred while loading the page. Please try again — if it keeps happening, contact us.",
+    "retry": "Reload the page"
   }
 }

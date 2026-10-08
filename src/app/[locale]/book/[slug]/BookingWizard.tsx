@@ -544,7 +544,7 @@ export function BookingWizard({ tour }: { tour: Tour }) {
                   type="email"
                   inputMode="email"
                   autoComplete="email"
-                  placeholder="siz@example.com"
+                  placeholder="name@example.com"
                   maxLength={120}
                   value={email}
                   error={show3 ? contactErrors.email : undefined}

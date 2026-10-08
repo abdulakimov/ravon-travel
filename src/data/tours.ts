@@ -311,8 +311,31 @@ export const tours: Tour[] = [
 
 export const toursByRank = [...tours].sort((a, b) => a.rank - b.rank);
 
-export function getTour(slug: string): Tour | undefined {
-  return tours.find((t) => t.slug === slug);
+/** Bugungi sana Toshkent vaqti bo'yicha (YYYY-MM-DD). */
+export function todayIso(now = new Date()): string {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Tashkent" }).format(now);
+}
+
+/**
+ * Turning "jonli" ko'rinishi: jo'nab ketgan (bugun yoki undan oldingi) sanalar olib tashlanadi,
+ * kartochka narxi va o'rin soni qolgan sanalardan qayta hisoblanadi.
+ */
+export function liveTour(tour: Tour, today = todayIso()): Tour {
+  if (!tour.fixedDeparture) return tour;
+  const departures = tour.departures.filter((d) => d.from > today);
+  const open = departures.filter((d) => d.seatsLeft > 0);
+  return {
+    ...tour,
+    departures,
+    seatsLeft: open[0]?.seatsLeft ?? null,
+    priceFromUsd: open.length ? Math.min(...open.map((d) => d.priceUsd)) : tour.priceFromUsd,
+  };
+}
+
+/** Slug bo'yicha tur — har doim joriy sanaga nisbatan (o'tgan sanalarsiz). */
+export function getTour(slug: string, today = todayIso()): Tour | undefined {
+  const tour = tours.find((t) => t.slug === slug);
+  return tour && liveTour(tour, today);
 }
 
 export function toursInCountry(country: CountryId): Tour[] {
@@ -328,8 +351,8 @@ export function similarTours(tour: Tour, limit = 3): Tour[] {
 }
 
 /** Bron qilish mumkin bo'lgan (o'rni bor) sanalar. */
-export function openDepartures(tour: Tour): Departure[] {
-  return tour.departures.filter((d) => d.seatsLeft > 0);
+export function openDepartures(tour: Tour, today = todayIso()): Departure[] {
+  return tour.departures.filter((d) => d.seatsLeft > 0 && d.from > today);
 }
 
 export const PRICE_MIN = 400;

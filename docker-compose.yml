@@ -23,11 +23,16 @@ services:
       start_period: 20s
     read_only: true
     tmpfs:
-      - /tmp
-      - /app/.next/cache
+      - /tmp:size=16m
+      - /app/.next/cache:size=64m
+    # Aloqa/so'rov/bron xabarlari (leads.ndjson) — deploy'dan omon qoladi. uid 1000 (node) ga tegishli.
+    volumes:
+      - ./data:/data
     cap_drop: [ALL]
     security_opt: ["no-new-privileges:true"]
     mem_limit: 512m
+    # Ulashilgan box: rasm optimizatsiyasi boshqa saytlarning CPU'sini yemasin.
+    cpus: "1.0"
     pids_limit: 256
     logging:
       driver: json-file

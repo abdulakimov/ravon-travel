@@ -4,7 +4,7 @@
     "description": "Ravon Travel is an outbound tour operator: licence information, responsible specialists and company details."
   },
   "hero": {
-    "title": "A licensed tour operator — we work on paper",
+    "title": "An outbound tour operator — we work on paper",
     "lead": "We operate in outbound tourism: ready-made tours from Uzbekistan, a formal contract and online payment."
   },
   "intro": {
@@ -43,7 +43,7 @@
     },
     "scan": {
       "title": "Licence scan",
-      "text": "Once the document is issued, its scan goes here."
+      "text": "Once the document is issued, its scan goes here. The tourism services certificate will also be published in this section once obtained."
     }
   },
   "team": {

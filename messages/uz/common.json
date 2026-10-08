@@ -20,7 +20,7 @@
     "breadcrumb": "Yo'l"
   },
   "footer": {
-    "tagline": "Chiquvchi turizm bo'yicha litsenziyalangan turoperator.",
+    "tagline": "Chiquvchi turizm bo'yicha turoperator.",
     "navigation": "Navigatsiya",
     "company": "Kompaniya",
     "help": "Yordam",
@@ -62,5 +62,10 @@
     "telegram": "Telegram orqali yozish",
     "backHome": "Bosh sahifaga qaytish",
     "backToTop": "Yuqoriga qaytish"
+  },
+  "error": {
+    "title": "Nimadir noto'g'ri ketdi",
+    "text": "Sahifani yuklashda xato yuz berdi. Qayta urinib ko'ring — muammo takrorlansa, biz bilan bog'laning.",
+    "retry": "Sahifani yangilash"
   }
 }

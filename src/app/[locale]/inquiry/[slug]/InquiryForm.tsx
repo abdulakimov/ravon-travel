@@ -232,7 +232,7 @@ export function InquiryForm({ slug }: { slug: string }) {
             inputMode="email"
             autoComplete="email"
             maxLength={120}
-            placeholder="siz@example.com"
+            placeholder="name@example.com"
             value={email}
             {...aria("email")}
             onChange={(e) => {

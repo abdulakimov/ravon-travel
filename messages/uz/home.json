@@ -6,7 +6,7 @@
     "imageAlt": "Dubay shahri panoramasi",
     "trustLabel": "Afzalliklarimiz",
     "trust": {
-      "licensed": "Rasmiy litsenziyalangan turoperator",
+      "licensed": "Chiquvchi turizm bo'yicha turoperator",
       "online": "Onlayn bron va karta bilan to'lov",
       "languages": "Uch tilda xizmat: UZ · RU · EN"
     }
@@ -35,8 +35,8 @@
     "eyebrow": "Nega aynan biz",
     "title": "Ishonch — hujjat bilan tasdiqlanadi",
     "license": {
-      "title": "Rasmiy litsenziya",
-      "text": "Turizm faoliyati litsenziyasi bo'yicha ishlaymiz. Litsenziya, sertifikat va rekvizitlar saytda ochiq."
+      "title": "Shaffof hujjatlar",
+      "text": "Litsenziya holati, jamoa va rekvizitlar saytda ochiq ko'rsatiladi. Har bir bron rasmiy shartnoma asosida."
     },
     "payment": {
       "title": "Onlayn to'lov",

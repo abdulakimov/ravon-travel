@@ -24,6 +24,8 @@ ENV NODE_ENV=production \
 COPY --from=build --chown=node:node /app/.next/standalone ./
 COPY --from=build --chown=node:node /app/.next/static ./.next/static
 COPY --from=build --chown=node:node /app/public ./public
+# Xabarlar fayli uchun mount nuqtasi (compose'da ./data bind-mount qilinadi)
+RUN mkdir -p /data && chown node:node /data
 USER node
 EXPOSE 3000
 CMD ["node", "server.js"]

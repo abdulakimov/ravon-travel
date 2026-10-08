@@ -5,6 +5,7 @@
 export const site = {
   name: "Ravon Travel",
   domain: "ravontravel.uz",
+  // Build vaqtida inline bo'ladi (CI). Boshqa domen uchun build-arg kerak — serverdagi .env ta'sir qilmaydi.
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://ravontravel.uz",
 
   legalName: null as string | null, // {LEGAL_NAME}
@@ -14,9 +15,11 @@ export const site = {
   email: "info@ravontravel.uz",
   bankName: null as string | null, // {BANK_NAME}
   bankAccount: null as string | null, // {BANK_ACCOUNT}
+  mfo: null as string | null, // {MFO}
 
   licenseNo: null as string | null, // {LICENSE_NO} — null bo'lsa "Rasmiylashtirilmoqda"
   licenseDate: null as string | null,
+  licenseAuthority: null as string | null, // {LICENSE_AUTHORITY} — bergan organ
 
   team: {
     director: null as string | null, // {DIRECTOR_NAME}

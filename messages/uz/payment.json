@@ -60,7 +60,7 @@
     "card_incomplete": "Karta raqami to'liq kiritilmagan",
     "card_invalid": "Noto'g'ri karta raqami. Iltimos, tekshiring.",
     "card_expired": "Kartaning amal qilish muddati tugagan.",
-    "expiry_invalid": "Muddatni OO/YY ko'rinishida kiriting",
+    "expiry_invalid": "Muddatni MM/YY ko'rinishida kiriting",
     "phone_required": "SMS uchun telefon raqamini kiriting",
     "phone_format": "Raqamni to'liq kiriting: +998 va 9 ta raqam",
     "otp_incomplete": "6 xonali kodni to'liq kiriting",
