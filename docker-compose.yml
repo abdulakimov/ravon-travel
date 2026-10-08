@@ -12,6 +12,9 @@ services:
     env_file: [{ path: .env, required: false }]
     environment:
       NODE_ENV: production
+    # Alohida compose tarmog'i yaratilmaydi: ulashilgan box'da docker'ning manzil hovuzlari tugagan
+    # ("all predefined address pools have been fully subnetted"). Bitta servisga default bridge yetarli.
+    network_mode: bridge
     # Faqat localhost: tashqi trafik host nginx (TLS) orqali keladi.
     ports:
       - "127.0.0.1:${HOST_PORT:-3130}:3000"

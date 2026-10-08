@@ -17,7 +17,7 @@ Serverda image **qurilmaydi**. Server faqat tortadi va qayta ishga tushiradi.
 
 ## Actions sozlamalari
 
-Secrets: `VPS_HOST`, `VPS_USERNAME`, `VPS_SSH_PORT`, `VPS_FINGERPRINT` (server host-key SHA256 — `ssh-keyscan -t ed25519 <host> | ssh-keygen -lf -`), `VPS_SSH_KEY` (alohida deploy kalit:
+Secrets: `VPS_HOST`, `VPS_USERNAME`, `VPS_SSH_PORT`, `VPS_FINGERPRINT` (serverning **ECDSA** host-key SHA256 fingerprinti — appleboy action shu algoritmni tanlaydi: `ssh new-vps "ssh-keygen -lf /etc/ssh/ssh_host_ecdsa_key.pub"`), `VPS_SSH_KEY` (alohida deploy kalit:
 `~/.ssh/ravon-travel_deploy`, public qismi serverda `authorized_keys`da `gha-ravon-travel-deploy` izohi bilan).
 Variables: `DEPLOY_DIR=/opt/ravon-travel`, `PUBLIC_URL=https://ravontravel.uz/api/health`.
 
@@ -70,6 +70,10 @@ ssh new-vps 'nginx -t && systemctl reload nginx'
 ```
 
 Eslatma: box'dagi nginx 1.24 — `http2 on;` direktivasi yo'q (1.25.1+), shuning uchun faylda ishlatilmagan.
+
+Eslatma: konteyner docker'ning default `bridge` tarmog'ida ishlaydi (`network_mode: bridge`) — box'da
+yangi compose tarmog'i uchun bo'sh manzil hovuzi qolmagan. Kelajakda ikkinchi servis (masalan DB) qo'shilsa,
+aniq `subnet` bilan tarmoq e'lon qilish kerak bo'ladi.
 
 ## Break-glass (CI ishlamasa)
 
