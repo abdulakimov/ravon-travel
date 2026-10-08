@@ -1,1 +1,39 @@
-{}
+{
+  "meta": {
+    "title": "Tour catalogue",
+    "description": "Ready-made tours abroad from Uzbekistan: 9 destinations, 5 categories. Filter by destination, price and duration, and book online."
+  },
+  "title": "Tour catalogue",
+  "lead": "Outbound tourism — ready-made tours from Uzbekistan. Price, duration and itinerary are set in advance.",
+  "found": "{count, plural, one {tour found} other {tours found}}",
+  "filters": {
+    "title": "Filters",
+    "clear": "Clear",
+    "destination": "Destination",
+    "category": "Category",
+    "price": "Price range",
+    "upTo": "up to <b>{price}</b>",
+    "upToPlain": "up to {price}",
+    "duration": "Duration",
+    "any": "Any",
+    "durationChip": "{range} days",
+    "fixedOnly": "Fixed-departure tours only",
+    "showing": "Showing {count}",
+    "active": "Active filters",
+    "remove": "Remove filter: {label}"
+  },
+  "sort": {
+    "label": "Sort by",
+    "popular": "Popular",
+    "priceAsc": "Price: low to high",
+    "priceDesc": "Price: high to low",
+    "daysAsc": "Duration: shortest first"
+  },
+  "loadMore": "Load more",
+  "empty": {
+    "title": "No tours found",
+    "text": "No tours match these filters. Try widening them, or contact us and we'll build a custom tour.",
+    "clear": "Clear filters",
+    "custom": "Request a custom tour"
+  }
+}

@@ -1,1 +1,18 @@
-{}
+{
+  "meta": {
+    "title": "Blog — sayohat bo'yicha maslahatlar",
+    "description": "Viza qoidalari, eng yaxshi mavsum va sayohat byudjeti haqida amaliy maqolalar — Ravon Travel mutaxassislaridan."
+  },
+  "banner": {
+    "title": "Blog",
+    "text": "Sayohat oldidan o'qing: hujjatlar, mavsum va byudjet haqida amaliy maslahatlar."
+  },
+  "listLabel": "Maqolalar",
+  "readTime": "{count} daqiqa o'qish",
+  "author": "Ravon Travel jamoasi",
+  "toc": "Mundarija",
+  "more": "Yana o'qing",
+  "all": "Barcha maqolalar",
+  "notice": "Kirish qoidalari, narxlar va reyslar o'zgarib turadi. Sayohatdan oldin amaldagi shartlarni menejerimizdan aniqlang.",
+  "noticeLink": "Menejerga yozish"
+}

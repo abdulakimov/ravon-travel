@@ -58,7 +58,7 @@ export default async function LocaleLayout({
   const t = await getTranslations("common");
 
   return (
-    <html lang={locale} className={manrope.variable}>
+    <html lang={locale} className={manrope.variable} suppressHydrationWarning>
       <head>
         {/* .reveal faqat JS bor bo'lganda yashiriladi */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />

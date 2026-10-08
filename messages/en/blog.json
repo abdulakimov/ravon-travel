@@ -1,1 +1,18 @@
-{}
+{
+  "meta": {
+    "title": "Blog — travel advice",
+    "description": "Practical articles on entry rules, the best season and trip budgets — from the Ravon Travel team."
+  },
+  "banner": {
+    "title": "Blog",
+    "text": "Read before you go: practical advice on documents, seasons and budgets."
+  },
+  "listLabel": "Articles",
+  "readTime": "{count} min read",
+  "author": "The Ravon Travel team",
+  "toc": "Contents",
+  "more": "Read more",
+  "all": "All articles",
+  "notice": "Entry rules, prices and flights change. Check the current conditions with our manager before you travel.",
+  "noticeLink": "Message a manager"
+}

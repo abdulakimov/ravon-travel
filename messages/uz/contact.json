@@ -1,1 +1,65 @@
-{}
+{
+  "meta": {
+    "title": "Aloqa",
+    "description": "Ravon Travel bilan bog'laning: xabar yuboring, ish vaqti, manzil va messenjerlar. Ish vaqtida bir soat ichida javob beramiz."
+  },
+  "banner": {
+    "eyebrow": "Aloqa",
+    "title": "Savolingiz bormi? Yozing — javob beramiz",
+    "lead": "Ish vaqtida bir soat ichida, dam olish kunlari — ertasi kuni ertalab javob qaytaramiz."
+  },
+  "form": {
+    "title": "Xabar yuborish",
+    "required": "Yulduzcha bilan belgilangan maydonlar to'ldirilishi shart.",
+    "name": "Ismingiz",
+    "namePlaceholder": "Ism va familiya",
+    "phone": "Telefon",
+    "email": "Email",
+    "subject": "Mavzu",
+    "subjects": {
+      "tour": "Tur bo'yicha savol",
+      "custom": "Individual tur so'rovi",
+      "booking": "Bron va to'lov",
+      "other": "Boshqa savol"
+    },
+    "message": "Xabar",
+    "messagePlaceholder": "Qaysi yo'nalish, qancha kishi va qaysi sanalar sizni qiziqtiradi?",
+    "consent": "Shaxsiy ma'lumotlarim so'rovni ko'rib chiqish uchun qayta ishlanishiga roziman. <link>Maxfiylik siyosati</link>",
+    "submit": "Xabarni yuborish",
+    "sending": "Yuborilmoqda…",
+    "hint": "Ish vaqtida bir soat ichida javob beramiz",
+    "errors": {
+      "nameRequired": "Ismingizni kiriting",
+      "phoneRequired": "Telefon raqamini kiriting",
+      "phoneShort": "Raqam kamida 9 ta belgidan iborat bo'lishi kerak",
+      "emailInvalid": "Email manzilini to'g'ri kiriting",
+      "messageRequired": "Xabar matnini kiriting",
+      "messageShort": "Kamida 10 belgi yozing",
+      "consentRequired": "Davom etish uchun rozilik bering",
+      "invalid": "Ba'zi maydonlar noto'g'ri to'ldirilgan. Belgilangan maydonlarni tekshiring.",
+      "rateLimited": "Juda ko'p so'rov yuborildi. Iltimos, 10 daqiqadan so'ng qayta urinib ko'ring yoki bizga to'g'ridan-to'g'ri yozing.",
+      "server": "Xabarni yuborib bo'lmadi. Birozdan so'ng qayta urinib ko'ring yoki {email} manziliga yozing.",
+      "network": "Internet aloqasi uzildi. Ulanishni tekshirib, qayta yuboring."
+    }
+  },
+  "sent": {
+    "title": "Xabar yuborildi",
+    "text": "So'rovingiz mas'ul mutaxassisga yo'naltirildi. Ish vaqtida bir soat ichida siz bilan bog'lanamiz.",
+    "again": "Yana bir xabar yozish"
+  },
+  "details": {
+    "title": "Bog'lanish",
+    "phone": "Telefon",
+    "email": "Email",
+    "hours": "Ish vaqti",
+    "address": "Manzil"
+  },
+  "messengers": {
+    "title": "Messenjerlar"
+  },
+  "map": {
+    "title": "Ofis xaritada",
+    "text": "Yuridik manzil aniqlangach, shu joyga interaktiv xarita va ofisga yo'l ko'rsatmasi qo'yiladi.",
+    "iframeTitle": "Ravon Travel ofisi xaritada"
+  }
+}

@@ -1,1 +1,68 @@
-{}
+{
+  "meta": {
+    "tail": "{days, plural, one {# day} other {# days}} / {nights, plural, one {# night} other {# nights}}, from {price}."
+  },
+  "duration": "{days, plural, one {# day} other {# days}} / {nights, plural, one {# night} other {# nights}}",
+  "group": "Group {min}–{max}",
+  "about": "About the tour",
+  "gallery": {
+    "label": "Photo gallery",
+    "show": "Show photo: {alt}"
+  },
+  "itinerary": {
+    "title": "Day-by-day itinerary",
+    "expandAll": "Expand all",
+    "collapseAll": "Collapse all",
+    "day": "Day {n}"
+  },
+  "included": {
+    "title": "What's included",
+    "yes": "Included",
+    "no": "Not included"
+  },
+  "dates": {
+    "title": "Departure dates and seats",
+    "note": "Dates and seat counts update in real time. Sold-out dates cannot be selected.",
+    "select": "Select",
+    "selected": "Selected",
+    "soldOut": "Sold out"
+  },
+  "specialist": {
+    "title": "Named specialist",
+    "role": "Specialist for the {country} programme",
+    "ask": "Ask a question"
+  },
+  "info": {
+    "title": "Important information",
+    "visa": "Visa",
+    "passport": "Passport",
+    "cancellation": "Cancellation"
+  },
+  "booking": {
+    "title": "Book this tour",
+    "date": "Departure date",
+    "travellers": "Travellers",
+    "adults": "Adults",
+    "adultsHint": "12+",
+    "children": "Children",
+    "childrenHint": "2–11 · −25%",
+    "decrease": "{label}: decrease",
+    "increase": "{label}: increase",
+    "adultsLine": "{count} × {count, plural, one {adult} other {adults}}",
+    "childrenLine": "{count} × {count, plural, one {child} other {children}}",
+    "total": "Total",
+    "cta": "Book now",
+    "note": "Booking is free — payment comes next",
+    "limit": "{count, plural, one {# seat is left} other {# seats are left}} on this date — the number of travellers can't exceed that.",
+    "allSoldOut": "All dates are currently sold out. Ask our specialist about new departures."
+  },
+  "request": {
+    "text": "This tour is arranged on request: dates, hotel and programme are agreed with you. The price shown is a starting price.",
+    "cta": "Send a request",
+    "note": "Requests are free — we reply within an hour during working hours"
+  },
+  "similar": {
+    "title": "Similar tours",
+    "all": "All tours"
+  }
+}

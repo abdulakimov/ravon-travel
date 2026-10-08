@@ -1,1 +1,64 @@
-{}
+{
+  "meta": {
+    "title": "Tour request — {tour}",
+    "description": "Send a request for {tour} — our manager will get back to you about dates, price and itinerary."
+  },
+  "breadcrumb": { "tours": "Tours", "current": "Request" },
+  "eyebrow": "On-request tour",
+  "h1": "Send a request for this tour",
+  "lead": "This tour is arranged on request. Leave your details — during working hours we reply within an hour about dates, price and itinerary.",
+  "form": {
+    "title": "Request details",
+    "required": "Fields marked with an asterisk are required.",
+    "name": "Your name",
+    "namePlaceholder": "First and last name",
+    "phone": "Phone",
+    "email": "Email",
+    "date": "Approximate date",
+    "datePlaceholder": "e.g. early May",
+    "travelers": "Number of travellers",
+    "decrease": "Decrease",
+    "increase": "Increase",
+    "budget": "Budget",
+    "budgetPlaceholder": "e.g. up to $1,500 per person",
+    "comment": "Comment",
+    "commentPlaceholder": "Hotel level, children's ages, special wishes…",
+    "website": "Website (leave empty)",
+    "consent": "I consent to my personal data being processed to review this request — <privacy>privacy policy</privacy>.",
+    "submit": "Send request",
+    "sending": "Sending…",
+    "note": "We reply within an hour during working hours"
+  },
+  "errors": {
+    "name": "Enter your name (at least 2 letters)",
+    "phone": "The phone number must contain at least 9 digits",
+    "email": "The email address is not valid",
+    "date": "The date text is too long",
+    "travelers": "The number of travellers must be between 1 and 50",
+    "budget": "The budget text is too long",
+    "comment": "The comment is too long (1000 characters max)",
+    "consent": "Please give your consent to continue",
+    "invalid": "Some fields are filled in incorrectly. Please check and send again.",
+    "rateLimited": "Too many requests. Please try again in a few minutes.",
+    "server": "We could not send your request. Please try again later or call us.",
+    "network": "No internet connection or the server did not respond. Please try again."
+  },
+  "success": {
+    "title": "Your request has been received",
+    "text": "The request has been passed to the specialist in charge. During working hours we will contact you within an hour.",
+    "tours": "Back to tours",
+    "tour": "Back to the tour page"
+  },
+  "tour": {
+    "aria": "Selected tour",
+    "duration": "Duration",
+    "days": "{days, plural, one {# day} other {# days}} / {nights, plural, one {# night} other {# nights}}",
+    "priceFrom": "per person · from",
+    "type": "Tour type",
+    "onRequest": "On request",
+    "fixed": "Fixed departure",
+    "details": "Tour details",
+    "book": "Book online",
+    "hours": "Working hours"
+  }
+}

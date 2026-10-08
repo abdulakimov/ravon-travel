@@ -1,1 +1,16 @@
-{}
+{
+  "meta": {
+    "title": "Savol-javob",
+    "description": "Bron qilish, to'lov usullari, bekor qilish, viza, tur narxiga kiradigan xizmatlar va sug'urta haqida ko'p beriladigan savollarga javoblar."
+  },
+  "banner": {
+    "title": "Savol-javob",
+    "lead": "Bron, to'lov va sayohatga tayyorgarlik haqida eng ko'p beriladigan savollar — qisqa va aniq javoblar bilan."
+  },
+  "listLabel": "Savollar ro'yxati",
+  "cta": {
+    "title": "Javob topmadingizmi?",
+    "text": "Savolingizni yozing — mas'ul mutaxassis ish vaqtida bir soat ichida javob beradi.",
+    "button": "Savol yuborish"
+  }
+}

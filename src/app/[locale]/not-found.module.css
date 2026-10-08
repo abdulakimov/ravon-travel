@@ -1,0 +1,48 @@
+/* 404 — markazlashgan, to'lqin motivi bilan */
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: min(72vh, 680px);
+  padding-top: clamp(56px, 8vw, 110px);
+  padding-bottom: clamp(56px, 8vw, 110px);
+  text-align: center;
+}
+.code {
+  font-size: clamp(6rem, 3rem + 16vw, 12.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  color: var(--primary);
+  font-variant-numeric: tabular-nums;
+}
+.wave {
+  width: clamp(120px, 22vw, 190px);
+  height: auto;
+  margin: 18px 0 26px;
+  overflow: visible;
+}
+.wave path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.title {
+  margin-bottom: 14px;
+  font-size: clamp(1.6rem, 1rem + 2vw, 2.4rem);
+}
+.text {
+  max-width: 520px;
+  font-size: 15.5px;
+  color: var(--text-2);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 30px;
+}

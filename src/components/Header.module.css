@@ -90,7 +90,8 @@
   color: var(--white);
 }
 
-.cta {
+/* .actions bilan: global .btn { display: inline-flex } dan ustun bo'lishi uchun */
+.actions .cta {
   display: none;
 }
 
@@ -110,7 +111,7 @@
   .nav {
     display: flex;
   }
-  .cta {
+  .actions .cta {
     display: inline-flex;
   }
   .burger {
@@ -171,4 +172,20 @@
 }
 .drawerCta:hover {
   color: var(--white);
+}
+
+/* 360px: logo + til almashtirgich + hamburger bir qatorga sig'ishi uchun */
+@media (max-width: 420px) {
+  .bar {
+    gap: 10px;
+  }
+  .actions {
+    gap: 8px;
+  }
+  .langBtn {
+    padding: 6px 8px;
+  }
+  .logo {
+    min-width: 0;
+  }
 }

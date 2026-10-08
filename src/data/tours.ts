@@ -43,7 +43,7 @@ export const tours: Tour[] = [
     category: "historical",
     days: 6,
     nights: 5,
-    priceFromUsd: 720,
+    priceFromUsd: 690,
     fixedDeparture: true,
     top: true,
     rank: 1,

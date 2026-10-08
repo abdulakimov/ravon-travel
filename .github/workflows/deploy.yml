@@ -1,0 +1,156 @@
+name: Deploy
+
+# GitHub runner'da image quriladi → GHCR → serverga SSH: `docker compose pull` + `up -d`.
+# Server HECH QACHON image qurmaydi. Bir martalik sozlash: docs/DEPLOY.md.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run lint
+      - run: npm test
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Lowercase owner
+        id: owner
+        run: echo "value=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push web
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ steps.owner.outputs.value }}/${{ github.event.repository.name }}-web:latest
+            ghcr.io/${{ steps.owner.outputs.value }}/${{ github.event.repository.name }}-web:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Faqat compose fayli yuboriladi. Serverning o'z .env fayli va nginx vhost'i
+      # box-local — bu yerda yo'q va ustidan yozilmaydi.
+      - name: Ship compose to the server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_SSH_PORT }}
+          source: "docker-compose.yml"
+          target: ${{ vars.DEPLOY_DIR || format('/opt/{0}', github.event.repository.name) }}
+
+      - name: Pull & restart on the server
+        uses: appleboy/ssh-action@v1.2.2
+        env:
+          OWNER: ${{ github.repository_owner }}
+          IMAGE_TAG: ${{ github.sha }}
+          GHCR_USER: ${{ github.actor }}
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEPLOY_DIR: ${{ vars.DEPLOY_DIR || format('/opt/{0}', github.event.repository.name) }}
+          PUBLIC_URL: ${{ vars.PUBLIC_URL }}
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_SSH_PORT }}
+          envs: OWNER,IMAGE_TAG,GHCR_USER,GHCR_TOKEN,DEPLOY_DIR,PUBLIC_URL
+          command_timeout: 15m
+          script: |
+            set -euo pipefail
+
+            OWNER_LC=$(echo "$OWNER" | tr '[:upper:]' '[:lower:]')
+            export IMAGE_REGISTRY="ghcr.io/${OWNER_LC}"
+            NEW_TAG="${IMAGE_TAG}"
+            export IMAGE_TAG="${NEW_TAG}"
+
+            cd "$DEPLOY_DIR"
+            PREV_TAG=$(cat .deployed_tag 2>/dev/null || true)
+            HOST_PORT=$(grep -E '^HOST_PORT=' .env 2>/dev/null | cut -d= -f2 || true)
+            HOST_PORT=${HOST_PORT:-3130}
+
+            # Box PRIVATE image tortadi; job'ning GITHUB_TOKEN'i shu job davomida amal qiladi.
+            echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
+
+            # ULASHILGAN box: servis nomi har doim aniq ko'rsatiladi (bare `up -d` yo'q).
+            # GHCR pull o'rtada uzilishi mumkin (IPv6) — qatlamlar keshlanadi, qayta urinamiz.
+            SERVICES="web"
+            for attempt in 1 2 3 4 5; do
+              docker compose pull $SERVICES && break
+              echo "GHCR pull attempt ${attempt} failed — retrying in 15s"
+              sleep 15
+              [ "${attempt}" = 5 ] && { echo "GHCR pull failed after 5 attempts"; exit 1; }
+            done
+            # Shu yergacha xato bo'lsa eski konteyner ishlab turadi (pull-then-swap).
+            docker compose up -d $SERVICES
+            docker logout ghcr.io >/dev/null 2>&1 || true
+
+            healthy() {
+              for attempt in 1 2 3 4 5 6 7 8 9 10; do
+                code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$1" || echo 000)
+                case "$code" in 2*|3*) echo "  $1 -> ${code}"; return 0 ;; esac
+                echo "  $1 -> ${code} (attempt ${attempt}) — waiting for boot"
+                sleep 5
+              done
+              return 1
+            }
+
+            # Yashil bo'lishdan oldin isbot: avval konteynerning o'zi, keyin tashqi URL (nginx+TLS).
+            ok=1
+            healthy "http://127.0.0.1:${HOST_PORT}/api/health" || ok=0
+            if [ "$ok" = 1 ] && [ -n "${PUBLIC_URL:-}" ]; then healthy "$PUBLIC_URL" || ok=0; fi
+
+            if [ "$ok" != 1 ]; then
+              echo "FAILED: new image ${NEW_TAG} is not healthy"
+              docker compose logs --tail 60 $SERVICES || true
+              if [ -n "$PREV_TAG" ] && [ "$PREV_TAG" != "$NEW_TAG" ]; then
+                echo "Rolling back to ${PREV_TAG}"
+                IMAGE_TAG="$PREV_TAG" docker compose up -d $SERVICES || true
+              fi
+              exit 1
+            fi
+
+            echo "$NEW_TAG" > .deployed_tag
+            # Eski image'larni tozalash: joriy va oldingisi (rollback uchun) qoladi.
+            docker images "${IMAGE_REGISTRY}/ravon-travel-web" --format '{{.Tag}}' \
+              | grep -v -e '^latest$' -e "^${NEW_TAG}$" -e "^${PREV_TAG:-none}$" \
+              | xargs -r -I{} docker rmi "${IMAGE_REGISTRY}/ravon-travel-web:{}" >/dev/null 2>&1 || true
+            docker image prune -f >/dev/null 2>&1 || true
+            echo "Deploy OK: ${NEW_TAG}"

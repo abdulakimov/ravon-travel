@@ -1,0 +1,36 @@
+/* Yo'nalishlar — prototipda chizilmagan; ichki sahifa uslubi + bosh sahifadagi kartochka. */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: clamp(14px, 1.8vw, 22px);
+}
+
+.cta {
+  margin-top: clamp(40px, 5vw, 72px);
+  padding: clamp(24px, 3.4vw, 40px);
+  background: var(--sky);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-panel);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px 36px;
+}
+.ctaText {
+  max-width: 560px;
+}
+.ctaTitle {
+  font-size: var(--text-sub-h2);
+  margin-bottom: 10px;
+}
+.ctaLead {
+  font-size: 14.5px;
+  color: var(--text-3);
+}
+.ctaActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}

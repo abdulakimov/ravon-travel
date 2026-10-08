@@ -5,6 +5,10 @@
 // sahifalar faqat shu interfeysga tayanadi.
 // DIQQAT: bu yerga karta ma'lumotlari HECH QACHON yozilmaydi.
 
+import { BOOKING_ID_RE, HOLD_MS } from "./booking-constants";
+
+export { BOOKING_ID_RE, HOLD_MS };
+
 export interface Traveler {
   firstName: string;
   lastName: string;
@@ -32,7 +36,6 @@ export interface Booking {
   payment?: { method: string; transactionId: string; paidAt: number };
 }
 
-export const HOLD_MS = 30 * 60 * 1000;
 const KEY = "rt.booking.";
 
 export function newBookingId(now = new Date()): string {
@@ -40,7 +43,6 @@ export function newBookingId(now = new Date()): string {
   return `RV-${now.getFullYear()}-${String(n).padStart(5, "0")}`;
 }
 
-export const BOOKING_ID_RE = /^RV-\d{4}-\d{5}$/;
 
 export function saveBooking(booking: Booking): void {
   try {

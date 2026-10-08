@@ -1,0 +1,604 @@
+/* Bron — 4 qadam. Manba: design/Ravon Travel - Bron.dc.html */
+
+.page {
+  background: var(--white);
+}
+
+.head {
+  border-bottom: 1px solid var(--border);
+  background: var(--white);
+}
+.headInner {
+  max-width: var(--container-md);
+  margin: 0 auto;
+  padding: clamp(24px, 3vw, 40px) var(--gutter) clamp(20px, 2.6vw, 30px);
+}
+.h1 {
+  font-size: clamp(1.6rem, 1rem + 1.8vw, 2.4rem);
+  letter-spacing: -0.015em;
+  margin-bottom: 22px;
+}
+
+/* ── Stepper ───────────────────────────────────────────────────────────── */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+  gap: 10px;
+}
+.step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-tile);
+  background: var(--white);
+  transition:
+    background var(--t),
+    border-color var(--t);
+}
+.stepNum {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 13.5px;
+  font-weight: 700;
+  background: var(--sky);
+  color: var(--text-3);
+}
+.stepText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.stepLabel {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.stepTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+.step[data-state="current"] {
+  border-color: var(--primary);
+  background: var(--primary);
+}
+.step[data-state="current"] .stepNum {
+  background: var(--accent);
+  color: var(--ink);
+}
+.step[data-state="current"] .stepLabel {
+  color: rgba(255, 255, 255, 0.9);
+}
+.step[data-state="current"] .stepTitle {
+  color: var(--white);
+}
+.step[data-state="done"] {
+  border-color: rgba(11, 27, 51, 0.3);
+}
+.step[data-state="done"] .stepNum {
+  background: var(--primary);
+  color: var(--white);
+}
+.step[data-state="done"] .stepTitle {
+  color: var(--ink);
+}
+
+/* ── Ustunlar ──────────────────────────────────────────────────────────── */
+.cols {
+  max-width: var(--container-md);
+  margin: 0 auto;
+  padding: clamp(26px, 3.4vw, 44px) var(--gutter) clamp(56px, 7vw, 96px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(24px, 3vw, 40px);
+  align-items: start;
+}
+.main,
+.side {
+  min-width: 0;
+}
+@media (min-width: 1000px) {
+  .cols {
+    grid-template-columns: minmax(0, 1fr) 340px;
+  }
+  .side {
+    position: sticky;
+    top: 96px;
+  }
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.sectionWide {
+  gap: 26px;
+}
+.sectionTight {
+  gap: 22px;
+}
+.h2 {
+  font-size: clamp(1.3rem, 1rem + 1vw, 1.75rem);
+  margin-bottom: 8px;
+}
+.h2:focus {
+  outline: none;
+}
+.lead {
+  font-size: 14.5px;
+  color: var(--text-3);
+}
+
+.fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+/* ── 1-qadam: sanalar ──────────────────────────────────────────────────── */
+.dates {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.date {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 20px;
+  width: 100%;
+  min-height: 76px;
+  padding: 18px 20px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--white);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color var(--t),
+    background var(--t),
+    box-shadow var(--t);
+}
+.date:hover {
+  border-color: var(--border-strong);
+}
+.date:has(input:checked) {
+  border-color: var(--primary);
+  background: rgba(255, 194, 51, 0.1);
+  box-shadow: 0 0 0 1px var(--primary) inset;
+}
+.date:has(input:focus-visible) {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.date:has(input:disabled) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.date:has(input:disabled):hover {
+  border-color: var(--border);
+}
+.radio {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: grid;
+  place-items: center;
+}
+.radio::after {
+  content: "";
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: transparent;
+}
+.date:has(input:checked) .radio {
+  border-color: var(--primary);
+}
+.date:has(input:checked) .radio::after {
+  background: var(--primary);
+}
+.dateText {
+  flex: 1;
+  min-width: 170px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.dateRange {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.dateSub {
+  font-size: 12.5px;
+  color: var(--text-3);
+}
+.seatPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
+  font-size: 12.5px;
+  font-weight: 600;
+  background: rgba(11, 27, 51, 0.08);
+  color: var(--ink);
+}
+.seatPill[data-level="low"] {
+  background: rgba(255, 194, 51, 0.18);
+  color: var(--warn-text);
+}
+.seatPill[data-level="out"] {
+  background: var(--sky);
+  color: var(--text-3);
+}
+.datePrice {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink);
+  min-width: 104px;
+}
+
+/* Sanagichlar */
+.party {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--white);
+}
+.partyRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.partyLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.partyName {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.partyHint {
+  font-size: 12px;
+  color: var(--text-3);
+}
+.counter {
+  gap: 5px;
+}
+.counter :global(.stepper__value) {
+  min-width: 36px;
+}
+
+/* ── 2- va 3-qadam: kartochkalar ───────────────────────────────────────── */
+.box {
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--white);
+}
+.traveller {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.travellerHead {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0;
+}
+.travellerNum {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--primary);
+  color: var(--white);
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+.travellerLabel {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.grid4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 14px;
+}
+.grid2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 14px;
+}
+.full {
+  grid-column: 1 / -1;
+}
+.note {
+  min-height: 92px;
+}
+
+.consents {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.consent {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.consent :global(.check) {
+  gap: 12px;
+  font-size: 14px;
+  min-height: 24px;
+}
+.consent :global(.check) input {
+  width: 18px;
+  height: 18px;
+}
+.consentError {
+  padding-left: 30px;
+}
+
+/* ── 4-qadam ───────────────────────────────────────────────────────────── */
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px;
+  border-radius: 16px;
+  background: var(--primary);
+  color: var(--white);
+}
+.bannerIcon {
+  flex: none;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+}
+.bannerText {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.bannerTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--white);
+}
+.bannerTitle:focus {
+  outline: none;
+}
+.bannerSub {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--sky);
+}
+.details {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.h3 {
+  font-size: 17px;
+}
+.dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+  gap: 16px;
+}
+.dl > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.dl dt {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.dl dd {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.mono {
+  font-family: var(--font-mono);
+}
+.info {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 16px;
+  border-left: 3px solid var(--accent);
+  background: var(--sky);
+  border-radius: 0 12px 12px 0;
+  color: var(--primary);
+}
+.info p {
+  font-size: 13.5px;
+  color: var(--text-2);
+}
+
+/* ── Pastki tugmalar ───────────────────────────────────────────────────── */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: clamp(24px, 3vw, 36px);
+  padding-top: 22px;
+  border-top: 1px solid var(--border);
+}
+.cta.cta {
+  min-height: 52px;
+  padding: 14px 30px;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.back.back {
+  min-height: 52px;
+  padding: 14px 24px;
+  gap: 9px;
+  font-size: 15px;
+}
+.back.back:hover {
+  background: var(--white);
+  color: var(--ink);
+  border-color: var(--primary);
+}
+.hint {
+  font-size: 13px;
+  color: var(--primary);
+}
+.warn {
+  border-radius: var(--r-input);
+  padding: 14px 16px;
+}
+
+/* ── O'ng panel ────────────────────────────────────────────────────────── */
+.summary {
+  border: 1px solid var(--border);
+  border-radius: var(--r-card);
+  background: var(--white);
+  overflow: hidden;
+}
+.summaryHead {
+  display: flex;
+  gap: 14px;
+  padding: 18px;
+  border-bottom: 1px solid var(--border);
+  background: var(--sky);
+}
+.thumb {
+  position: relative;
+  flex: none;
+  width: 74px;
+  height: 74px;
+  border-radius: var(--r-input);
+  overflow: hidden;
+  background: var(--white);
+}
+.thumb img {
+  object-fit: cover;
+}
+.summaryTitleBox {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+.summaryCat {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.summaryTitle {
+  font-size: 16.5px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+.summaryBody {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  font-size: 13.5px;
+  color: var(--text-2);
+}
+.row > :last-child {
+  font-weight: 600;
+  color: var(--ink);
+  text-align: right;
+}
+.total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding-top: 13px;
+  border-top: 1px solid var(--border);
+}
+.totalLabel {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.totalValue {
+  font-size: 27px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.free {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  color: var(--text-3);
+}
+.free svg {
+  color: var(--primary);
+}
+
+/* ── Skeleton (query o'qilguncha) ──────────────────────────────────────── */
+.skeletonSteps {
+  height: 62px;
+  border-radius: var(--r-tile);
+  background: var(--sky);
+}
+.skeletonBody {
+  min-height: 420px;
+  border-radius: 16px;
+  background: var(--sky);
+}

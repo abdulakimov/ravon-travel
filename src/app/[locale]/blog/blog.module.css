@@ -1,0 +1,7 @@
+/* Blog ro'yxati — bosh sahifadagi blog gridi bilan bir xil. */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
+  gap: clamp(28px, 3vw, 40px) clamp(20px, 2.4vw, 30px);
+}

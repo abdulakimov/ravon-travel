@@ -1,1 +1,96 @@
-{}
+{
+  "meta": { "title": "Booking — {tour}" },
+  "h1": "Booking",
+  "loading": "Loading…",
+  "steps": {
+    "aria": "Booking steps",
+    "label": "Step {n}",
+    "date": "Date and seats",
+    "travellers": "Travellers",
+    "contact": "Contact",
+    "confirm": "Confirmation",
+    "done": "completed"
+  },
+  "date": {
+    "title": "Choose a date and seats",
+    "lead": "The date list updates as seats fill. A booking is held for 30 minutes.",
+    "legend": "Departure date",
+    "seatsLeft": "{count, plural, one {# seat left} other {# seats left}}",
+    "soldOut": "Sold out",
+    "partyLegend": "Number of travellers",
+    "adults": "Adults",
+    "adultsHint": "12+",
+    "children": "Children",
+    "childrenHint": "2–11 · −25%",
+    "decrease": "Decrease",
+    "increase": "Increase",
+    "seatWarning": "{count, plural, one {Only # seat is available on this date} other {Only # seats are available on this date}}"
+  },
+  "travellers": {
+    "title": "Traveller details",
+    "lead": "Enter names in Latin letters exactly as in the passport — the ticket is issued from these details.",
+    "adult": "Adult traveller",
+    "child": "Child traveller",
+    "firstName": "First name (Latin)",
+    "lastName": "Surname (Latin)",
+    "birthDate": "Date of birth",
+    "passport": "Passport number"
+  },
+  "contact": {
+    "title": "Contact details",
+    "lead": "Our manager will use this number and email to reach you about the booking and payment.",
+    "phone": "Phone",
+    "email": "Email",
+    "note": "Additional notes",
+    "notePlaceholder": "e.g. seats together, vegetarian meals",
+    "consentOffer": "I have read and accept the <terms>public offer</terms> and <cancel>cancellation terms</cancel>.",
+    "consentData": "I consent to my <privacy>personal data being processed</privacy> to complete the booking.",
+    "blockedHint": "Accept both terms to continue"
+  },
+  "done": {
+    "bannerTitle": "Seats are held",
+    "bannerText": "Pay within 30 minutes or the booking will be released.",
+    "detailsTitle": "Booking details",
+    "bookingNo": "Booking number",
+    "tour": "Tour",
+    "date": "Date",
+    "travellers": "Travellers",
+    "people": "{count, plural, one {# person} other {# people}}",
+    "deadline": "Payment deadline",
+    "deadlineValue": "until {time} · 30 minutes",
+    "info": "Keep your booking number. The booking is stored in this browser — complete the payment on this device, in this window. Any questions — write to your specialist."
+  },
+  "nav": {
+    "back": "Back",
+    "next": "Continue",
+    "confirm": "Confirm booking",
+    "toPayment": "Go to payment"
+  },
+  "summary": {
+    "aria": "Booking summary",
+    "adults": "{count} × adults",
+    "children": "{count} × children",
+    "date": "Date",
+    "total": "Total",
+    "free": "Booking is free — payment after step 4"
+  },
+  "errors": {
+    "summary": "Please correct the highlighted fields",
+    "firstNameRequired": "Enter the first name",
+    "lastNameRequired": "Enter the surname",
+    "latin": "Latin letters only, as in the passport",
+    "birthRequired": "Enter the date of birth",
+    "birthInvalid": "The date is not valid",
+    "birthFuture": "The date of birth must be in the past",
+    "adultAge": "An adult traveller must be at least 12 on the departure date",
+    "childAge": "A child must be 2–11 years old on the departure date",
+    "passportRequired": "Enter the passport number",
+    "passportFormat": "Format: 2 Latin letters and 7 digits (AB1234567)",
+    "phoneRequired": "Enter a phone number",
+    "phoneFormat": "Enter the full number: +998 and 9 digits",
+    "emailRequired": "Enter an email address",
+    "emailFormat": "The email address is not valid",
+    "consentRequired": "This consent is required",
+    "storage": "The booking could not be saved: browser storage is disabled (private mode). Try again in a regular window or message our manager."
+  }
+}

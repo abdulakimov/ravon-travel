@@ -1,0 +1,796 @@
+/* To'lov. Manba: design/Ravon Travel - Tolov.dc.html */
+
+.page {
+  background: var(--white);
+}
+
+.head,
+.stagesBar {
+  border-bottom: 1px solid var(--border);
+  background: var(--white);
+}
+.headInner {
+  max-width: var(--container-sm);
+  margin: 0 auto;
+  padding: clamp(24px, 3vw, 40px) var(--gutter) clamp(20px, 2.6vw, 28px);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+.h1 {
+  font-size: clamp(1.6rem, 1rem + 1.8vw, 2.4rem);
+  letter-spacing: -0.015em;
+  margin-bottom: 10px;
+}
+.ref {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--text-3);
+}
+.refId {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--ink);
+}
+.hold {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border-radius: var(--r-tile);
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  color: var(--primary);
+}
+.holdText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.holdLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.timer {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Bosqichlar ────────────────────────────────────────────────────────── */
+.stagesInner {
+  max-width: var(--container-sm);
+  margin: 0 auto;
+  padding: 18px var(--gutter);
+}
+.stages {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+}
+.stage {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  background: var(--white);
+}
+.stageNum {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 12.5px;
+  font-weight: 700;
+  background: var(--sky);
+  color: var(--text-3);
+}
+.stageTitle {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+.stage[data-state="current"] {
+  border-color: var(--primary);
+  background: var(--primary);
+}
+.stage[data-state="current"] .stageNum {
+  background: var(--accent);
+  color: var(--ink);
+}
+.stage[data-state="current"] .stageTitle {
+  color: var(--white);
+}
+.stage[data-state="done"] .stageNum {
+  background: var(--primary);
+  color: var(--white);
+}
+.stage[data-state="done"] .stageTitle {
+  color: var(--ink);
+}
+
+/* ── Ustunlar ──────────────────────────────────────────────────────────── */
+.cols {
+  max-width: var(--container-sm);
+  margin: 0 auto;
+  padding: clamp(26px, 3.4vw, 44px) var(--gutter) clamp(56px, 7vw, 96px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(24px, 3vw, 40px);
+  align-items: start;
+}
+.main,
+.side {
+  min-width: 0;
+}
+@media (min-width: 1000px) {
+  .cols[data-side="1"] {
+    grid-template-columns: minmax(0, 1fr) 320px;
+  }
+  .side {
+    position: sticky;
+    top: 96px;
+  }
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.sectionResult {
+  gap: 20px;
+}
+.h2 {
+  font-size: clamp(1.25rem, 1rem + 0.9vw, 1.65rem);
+  margin-bottom: 8px;
+}
+.h2:focus,
+.resultTitle:focus {
+  outline: none;
+}
+.lead {
+  font-size: 14.5px;
+  color: var(--text-3);
+}
+
+/* Demo ogohlantirishi */
+.demo {
+  margin-bottom: 24px;
+}
+.demoBody {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.demoTitle {
+  font-weight: 700;
+}
+.demo p {
+  line-height: 1.5;
+}
+.demo a {
+  color: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.demoRulesTitle {
+  margin-top: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.demoRules {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-left: 18px;
+  list-style: disc;
+  font-size: 13px;
+}
+.demoRules code {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ── 1-bosqich ─────────────────────────────────────────────────────────── */
+.fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 168px), 1fr));
+  gap: 12px;
+}
+.method {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  min-height: 104px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--white);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color var(--t),
+    background var(--t),
+    box-shadow var(--t);
+}
+.method:hover {
+  border-color: var(--border-strong);
+}
+.method:has(input:checked) {
+  border-color: var(--primary);
+  background: rgba(255, 194, 51, 0.1);
+  box-shadow: 0 0 0 1px var(--primary) inset;
+}
+.method:has(input:focus-visible) {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.methodTag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 11px;
+  border-radius: var(--r-tag);
+  background: var(--sky);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  transition:
+    background var(--t),
+    color var(--t);
+}
+.method:has(input:checked) .methodTag {
+  background: var(--primary);
+  color: var(--white);
+}
+.methodName {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.methodNote {
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.cardBox {
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-card);
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.boxLabel {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.cardBadge {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  color: var(--text-3);
+}
+.cardBadge svg {
+  color: var(--primary);
+}
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
+  gap: 14px;
+}
+.cardInput.cardInput {
+  min-height: 52px;
+  padding: 14px 16px;
+  font-family: var(--font-mono);
+  font-size: 17px;
+}
+.cardNumber.cardNumber {
+  letter-spacing: 0.06em;
+}
+.phoneInput.phoneInput {
+  min-height: 52px;
+  padding: 14px 16px;
+  font-size: 15.5px;
+}
+.inlineError {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  color: var(--error);
+}
+.otpError {
+  font-size: 13.5px;
+}
+
+.trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+}
+.trust span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12.5px;
+  color: var(--text-3);
+}
+.trust svg {
+  color: var(--primary);
+}
+
+.bankText {
+  font-size: 14.5px;
+  color: var(--text-2);
+}
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+.list svg {
+  margin-top: 3px;
+  color: var(--primary);
+}
+
+/* ── 2-bosqich ─────────────────────────────────────────────────────────── */
+.otpBox {
+  padding: 26px 22px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-card);
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: flex-start;
+}
+.otpField {
+  width: 100%;
+  max-width: 340px;
+  gap: 9px;
+}
+.otpInput.otpInput {
+  min-height: 60px;
+  padding: 14px 18px;
+  border-radius: var(--r-tile);
+  font-family: var(--font-mono);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.34em;
+  text-align: center;
+  color: var(--ink);
+}
+.resendRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+}
+.resend {
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  padding: 8px 10px;
+  border-radius: var(--r-tag);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--primary);
+  transition: background var(--t);
+}
+.resend:hover:not(:disabled) {
+  background: var(--warn-bg);
+}
+.resend:disabled {
+  color: var(--text-3);
+  cursor: not-allowed;
+}
+.resendHint {
+  font-size: 12.5px;
+  color: var(--text-3);
+}
+
+/* ── Natija ────────────────────────────────────────────────────────────── */
+.result {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  padding: 26px 22px;
+  border-radius: var(--r-card);
+  background: var(--error-bg);
+  border: 1px solid var(--error-border);
+}
+.resultIcon {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--error);
+  color: var(--white);
+}
+.resultText {
+  flex: 1;
+  min-width: min(100%, 220px);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.resultTitle {
+  font-size: clamp(1.3rem, 1rem + 1vw, 1.8rem);
+  font-weight: 700;
+  color: var(--error);
+}
+.resultBody {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--text-2);
+}
+.result[data-ok="1"] {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+.result[data-ok="1"] .resultIcon {
+  background: var(--accent);
+  color: var(--ink);
+}
+.result[data-ok="1"] .resultTitle {
+  color: var(--white);
+}
+.result[data-ok="1"] .resultBody {
+  color: var(--sky);
+}
+
+.receipt {
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-card);
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.h3 {
+  font-size: 17px;
+}
+.dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 16px;
+}
+.dl > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.dl dt {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.dl dd {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.receiptActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.receiptBtn.receiptBtn {
+  min-height: 48px;
+  padding: 13px 22px;
+  gap: 9px;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+.outline.outline:hover {
+  background: var(--white);
+  color: var(--ink);
+  border-color: var(--primary);
+}
+
+.todo {
+  padding: 20px;
+  border-left: 3px solid var(--accent);
+  background: var(--sky);
+  border-radius: 0 12px 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.todoLabel {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.resultActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* ── Pastki tugmalar ───────────────────────────────────────────────────── */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: clamp(24px, 3vw, 36px);
+  padding-top: 22px;
+  border-top: 1px solid var(--border);
+}
+.pay.pay {
+  min-height: 52px;
+  padding: 14px 32px;
+  gap: 10px;
+  font-size: 15.5px;
+  font-weight: 700;
+}
+.cta.cta {
+  min-height: 52px;
+  padding: 14px 28px;
+  gap: 10px;
+  font-size: 15px;
+}
+.ctaBold.ctaBold {
+  font-weight: 700;
+}
+.back.back {
+  min-height: 52px;
+  padding: 14px 24px;
+  gap: 9px;
+  font-size: 15px;
+}
+
+/* ── O'ng panel ────────────────────────────────────────────────────────── */
+.summary {
+  border: 1px solid var(--border);
+  border-radius: var(--r-card);
+  background: var(--white);
+  overflow: hidden;
+}
+.summaryHead {
+  padding: 18px;
+  border-bottom: 1px solid var(--border);
+  background: var(--primary);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.dueLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+}
+.dueValue {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.summaryBody {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  font-size: 13.5px;
+  color: var(--text-2);
+}
+.row > :last-child {
+  font-weight: 600;
+  color: var(--ink);
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+.cards {
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+/* ── Skeleton ──────────────────────────────────────────────────────────── */
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.skeleton span {
+  display: block;
+  border-radius: 16px;
+  background: var(--sky);
+}
+.skeleton span:nth-child(1) {
+  height: 34px;
+  max-width: 320px;
+  border-radius: var(--r-input);
+}
+.skeleton span:nth-child(2) {
+  height: 104px;
+}
+.skeleton span:nth-child(3) {
+  height: 220px;
+}
+
+/* ── Vaucher (faqat chop etishda) ──────────────────────────────────────── */
+.voucher {
+  display: none;
+}
+
+@media print {
+  /* Sahifada faqat vaucher qoladi: header/footer va oqimning qolgan qismi yashiriladi. */
+  :global(body):has(.voucher) > :not(:global(#main)) {
+    display: none !important;
+  }
+  .page > :not(.voucher) {
+    display: none !important;
+  }
+  .voucher {
+    display: block;
+    position: relative;
+    padding: 32px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-card);
+    color: var(--ink);
+    font-size: 13px;
+    overflow: hidden;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .voucherMark {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 150px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: rgba(11, 27, 51, 0.07);
+    transform: rotate(-24deg);
+    pointer-events: none;
+  }
+  .voucherHead {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 18px;
+    border-bottom: 2px solid var(--primary);
+  }
+  .voucherTitle {
+    font-size: 24px;
+    margin-top: 14px;
+  }
+  .voucherDemo {
+    padding: 6px 12px;
+    border: 2px solid var(--error);
+    border-radius: var(--r-tag);
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    color: var(--error);
+  }
+  .voucherNote {
+    margin-top: 14px;
+    padding: 10px 14px;
+    border: 1px solid var(--error-border);
+    border-radius: var(--r-tag);
+    color: var(--error);
+    font-weight: 600;
+  }
+  .voucherGrid {
+    margin: 20px 0 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 24px;
+  }
+  .voucherGrid dt,
+  .voucherLabel {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+  .voucherGrid dd {
+    margin: 3px 0 0;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .voucherLabel {
+    margin-top: 22px;
+  }
+  .voucherTable {
+    width: 100%;
+    margin-top: 8px;
+    border-collapse: collapse;
+  }
+  .voucherTable td {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13.5px;
+  }
+  .voucherTable td:last-child {
+    text-align: right;
+    color: var(--text-3);
+  }
+  .voucherFoot {
+    margin-top: 22px;
+    font-size: 12px;
+    color: var(--text-3);
+  }
+}

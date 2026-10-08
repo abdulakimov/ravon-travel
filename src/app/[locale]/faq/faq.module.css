@@ -1,0 +1,132 @@
+/* Savol-javob: banner + akkordeon */
+
+.wrap {
+  padding-top: clamp(28px, 4vw, 56px);
+  padding-bottom: clamp(48px, 6vw, 90px);
+}
+
+.list {
+  border-top: 1px solid var(--border);
+}
+.item {
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: 100px;
+}
+.heading {
+  font-size: inherit;
+  letter-spacing: 0;
+  line-height: inherit;
+}
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  width: 100%;
+  min-height: 68px;
+  padding: 18px 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  font-size: clamp(1rem, 0.95rem + 0.35vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  color: var(--ink);
+  transition: color var(--t);
+}
+.trigger:hover {
+  color: var(--primary);
+}
+.sign {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--ink);
+  transition:
+    transform var(--t),
+    background var(--t),
+    border-color var(--t),
+    color var(--t);
+}
+.trigger:hover .sign {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.item[data-open="true"] .sign {
+  transform: rotate(45deg);
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--white);
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 680px;
+  padding-bottom: 24px;
+  font-size: 15px;
+  color: var(--text-2);
+}
+/* Yopiq holat faqat JS yoqilganda: JS'siz barcha javoblar ko'rinadi */
+:global(.js) .item[data-open="false"] .panel {
+  display: none;
+}
+:global(html:not(.js)) .sign {
+  display: none;
+}
+.panel ul {
+  display: grid;
+  gap: 8px;
+  padding-left: 20px;
+  list-style: disc;
+  line-height: 1.6;
+}
+.panel li::marker {
+  color: var(--primary);
+}
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  margin-bottom: -10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+}
+.more svg {
+  transition: transform var(--t);
+}
+.more:hover svg {
+  transform: translateX(3px);
+}
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: clamp(32px, 4vw, 52px);
+  padding: clamp(22px, 3vw, 32px);
+  border: 1px solid var(--border);
+  border-radius: var(--r-panel);
+  background: var(--sky);
+}
+.cta h2 {
+  margin-bottom: 8px;
+  font-size: clamp(1.2rem, 1rem + 0.8vw, 1.5rem);
+}
+.cta p {
+  max-width: 420px;
+  font-size: 14.5px;
+  color: var(--text-2);
+}

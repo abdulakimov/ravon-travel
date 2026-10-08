@@ -1,1 +1,94 @@
-{}
+{
+  "meta": {
+    "title": "About us",
+    "description": "Ravon Travel is an outbound tour operator: licence information, responsible specialists and company details."
+  },
+  "hero": {
+    "title": "A licensed tour operator — we work on paper",
+    "lead": "We operate in outbound tourism: ready-made tours from Uzbekistan, a formal contract and online payment."
+  },
+  "intro": {
+    "eyebrow": "About us",
+    "title": "Travel should be a pleasure, not a chore",
+    "p1": "Ravon Travel is an outbound tour operator. Our team assembles every tour — flight, hotel, transfers and excursions in one package at a price fixed in advance.",
+    "p2": "We sign a formal contract, accept card payments and assign a named specialist to every destination — no question goes unanswered.",
+    "stats": {
+      "tours": "Ready tours",
+      "destinations": "Destinations",
+      "languages": "Service languages"
+    },
+    "alt": {
+      "baku": "View of Baku, Azerbaijan",
+      "greece": "The Greek islands",
+      "issykKul": "Issyk-Kul, Kyrgyzstan"
+    }
+  },
+  "docs": {
+    "eyebrow": "Documents",
+    "title": "Licence and certificates",
+    "leadPending": "The tourism licence is being processed. Its number and scan will be published here as soon as it is issued.",
+    "lead": "We operate under a tourism activity licence. Its number and licensed direction are shown below.",
+    "license": {
+      "title": "Tourism activity licence",
+      "number": "Number:",
+      "numberPending": "published once issued",
+      "date": "Issued on:",
+      "direction": "Direction:",
+      "active": "Active"
+    },
+    "offer": {
+      "title": "Public offer",
+      "text": "Service terms, cancellations and refunds are published as a formal public offer.",
+      "link": "Read the offer"
+    },
+    "scan": {
+      "title": "Licence scan",
+      "text": "Once the document is issued, its scan goes here."
+    }
+  },
+  "team": {
+    "eyebrow": "Team",
+    "title": "Who you'll work with",
+    "leadPending": "A qualified specialist is assigned to each destination. Names and contacts will be filled in once the paperwork is complete.",
+    "lead": "A qualified specialist is assigned to each destination.",
+    "namePending": "Name to be announced",
+    "members": {
+      "director": {
+        "role": "Director",
+        "area": "Management and contracts"
+      },
+      "manager": {
+        "role": "Head of sales",
+        "area": "Azerbaijan, Georgia, Kyrgyzstan"
+      },
+      "specialist": {
+        "role": "Destination specialist",
+        "area": "UAE, Qatar, Malaysia, China"
+      },
+      "accountant": {
+        "role": "Accountant",
+        "area": "Payments and accounting"
+      }
+    }
+  },
+  "requisites": {
+    "eyebrow": "Company details",
+    "title": "Official details",
+    "leadPending": "Fields marked “{label}” will be filled in from the registration documents.",
+    "lead": "These are the details shown on contracts and payment documents.",
+    "fields": {
+      "legalName": "Legal name",
+      "stir": "TIN",
+      "address": "Registered address",
+      "phone": "Phone",
+      "email": "Email",
+      "hours": "Working hours",
+      "bank": "Bank",
+      "account": "Bank account"
+    }
+  },
+  "cta": {
+    "title": "Need help choosing a tour?",
+    "text": "A specialist will match a destination to your budget and dates — free of charge."
+  }
+}

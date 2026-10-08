@@ -1,1 +1,39 @@
-{}
+{
+  "meta": {
+    "title": "Turlar katalogi",
+    "description": "O'zbekistondan xorijga tayyor turlar: 9 yo'nalish, 5 kategoriya. Yo'nalish, narx va muddat bo'yicha saralang, onlayn bron qiling."
+  },
+  "title": "Turlar katalogi",
+  "lead": "Chiquvchi turizm — O'zbekistondan xorijga tayyor turlar. Narx, muddat va marshrut oldindan belgilangan.",
+  "found": "tur topildi",
+  "filters": {
+    "title": "Filtrlar",
+    "clear": "Tozalash",
+    "destination": "Yo'nalish",
+    "category": "Kategoriya",
+    "price": "Narx oralig'i",
+    "upTo": "<b>{price}</b> gacha",
+    "upToPlain": "{price} gacha",
+    "duration": "Muddat",
+    "any": "Istalgan",
+    "durationChip": "{range} kun",
+    "fixedOnly": "Faqat sanasi belgilangan turlar",
+    "showing": "Ko'rsatilmoqda {count}",
+    "active": "Faol filtrlar",
+    "remove": "Filtrni olib tashlash: {label}"
+  },
+  "sort": {
+    "label": "Saralash",
+    "popular": "Ommabop",
+    "priceAsc": "Narx: arzondan",
+    "priceDesc": "Narx: qimmatdan",
+    "daysAsc": "Muddat: qisqadan"
+  },
+  "loadMore": "Ko'proq yuklash",
+  "empty": {
+    "title": "Hech qanday tur topilmadi",
+    "text": "Tanlangan filtrlar bo'yicha mos tur yo'q. Filtrlarni kengaytirib ko'ring yoki biz bilan bog'laning — sizga individual tur tuzamiz.",
+    "clear": "Filtrlarni tozalash",
+    "custom": "Individual tur so'rash"
+  }
+}

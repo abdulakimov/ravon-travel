@@ -1,1 +1,96 @@
-{}
+{
+  "meta": { "title": "Bron qilish — {tour}" },
+  "h1": "Bron qilish",
+  "loading": "Yuklanmoqda…",
+  "steps": {
+    "aria": "Bron bosqichlari",
+    "label": "{n}-qadam",
+    "date": "Sana va o'rin",
+    "travellers": "Sayohatchilar",
+    "contact": "Aloqa",
+    "confirm": "Tasdiqlash",
+    "done": "bajarildi"
+  },
+  "date": {
+    "title": "Sana va o'rinlarni tanlang",
+    "lead": "O'rin band qilinishi bilan sana ro'yxati yangilanadi. Bron 30 daqiqa davomida saqlanadi.",
+    "legend": "Jo'nash sanasi",
+    "seatsLeft": "{count} o'rin qoldi",
+    "soldOut": "O'rin tugadi",
+    "partyLegend": "Sayohatchilar soni",
+    "adults": "Kattalar",
+    "adultsHint": "12+",
+    "children": "Bolalar",
+    "childrenHint": "2–11 · −25%",
+    "decrease": "Kamaytirish",
+    "increase": "Ko'paytirish",
+    "seatWarning": "Tanlangan sanada faqat {count} o'rin bor"
+  },
+  "travellers": {
+    "title": "Sayohatchilar ma'lumoti",
+    "lead": "Ism-familiya pasportdagi kabi lotin harflarida kiritiladi — chipta shu ma'lumot bo'yicha rasmiylashtiriladi.",
+    "adult": "Kattalar sayohatchi",
+    "child": "Bola sayohatchi",
+    "firstName": "Ism (lotin)",
+    "lastName": "Familiya (lotin)",
+    "birthDate": "Tug'ilgan sana",
+    "passport": "Pasport raqami"
+  },
+  "contact": {
+    "title": "Aloqa ma'lumotlari",
+    "lead": "Menejer bron va to'lov bo'yicha shu raqam va email orqali siz bilan bog'lanadi.",
+    "phone": "Telefon",
+    "email": "Email",
+    "note": "Qo'shimcha izoh",
+    "notePlaceholder": "Masalan: yonma-yon o'rindiq, vegetarian taom",
+    "consentOffer": "<terms>Ommaviy oferta</terms> va <cancel>bekor qilish shartlari</cancel> bilan tanishdim va roziman.",
+    "consentData": "Shaxsiy ma'lumotlarimni bron rasmiylashtirish uchun <privacy>qayta ishlashga</privacy> ruxsat beraman.",
+    "blockedHint": "Davom etish uchun ikkala shartga rozilik bering"
+  },
+  "done": {
+    "bannerTitle": "O'rin band qilindi",
+    "bannerText": "To'lovni 30 daqiqa ichida amalga oshiring, aks holda bron bekor qilinadi.",
+    "detailsTitle": "Bron ma'lumotlari",
+    "bookingNo": "Bron raqami",
+    "tour": "Tur",
+    "date": "Sana",
+    "travellers": "Sayohatchilar soni",
+    "people": "{count} kishi",
+    "deadline": "To'lov muddati",
+    "deadlineValue": "{time} gacha · 30 daqiqa",
+    "info": "Bron raqamini saqlab qo'ying. Bron shu brauzerda saqlanadi — to'lovni shu qurilmada, shu oynada yakunlang. Savol tug'ilsa — mas'ul mutaxassisga yozing."
+  },
+  "nav": {
+    "back": "Ortga",
+    "next": "Davom etish",
+    "confirm": "Bronni tasdiqlash",
+    "toPayment": "To'lovga o'tish"
+  },
+  "summary": {
+    "aria": "Bron xulosasi",
+    "adults": "{count} × kattalar",
+    "children": "{count} × bolalar",
+    "date": "Sana",
+    "total": "Jami",
+    "free": "Bron bepul — to'lov 4-qadamdan keyin"
+  },
+  "errors": {
+    "summary": "Belgilangan maydonlarni to'g'rilang",
+    "firstNameRequired": "Ismni kiriting",
+    "lastNameRequired": "Familiyani kiriting",
+    "latin": "Faqat lotin harflari, pasportdagi kabi",
+    "birthRequired": "Tug'ilgan sanani kiriting",
+    "birthInvalid": "Sana noto'g'ri",
+    "birthFuture": "Tug'ilgan sana o'tgan kun bo'lishi kerak",
+    "adultAge": "Kattalar sayohatchi jo'nash kunida 12 yoshdan katta bo'lishi kerak",
+    "childAge": "Bola jo'nash kunida 2–11 yoshda bo'lishi kerak",
+    "passportRequired": "Pasport raqamini kiriting",
+    "passportFormat": "Format: 2 ta lotin harfi va 7 ta raqam (AB1234567)",
+    "phoneRequired": "Telefon raqamini kiriting",
+    "phoneFormat": "Raqamni to'liq kiriting: +998 va 9 ta raqam",
+    "emailRequired": "Emailni kiriting",
+    "emailFormat": "Email manzili noto'g'ri",
+    "consentRequired": "Bu rozilik majburiy",
+    "storage": "Bronni saqlab bo'lmadi: brauzer xotirasi o'chirilgan (maxfiy rejim). Oddiy oynada qayta urinib ko'ring yoki menejerga yozing."
+  }
+}

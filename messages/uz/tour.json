@@ -1,1 +1,68 @@
-{}
+{
+  "meta": {
+    "tail": "{days} kun / {nights} kecha, narxi {price} dan."
+  },
+  "duration": "{days} kun / {nights} kecha",
+  "group": "Guruh {min}–{max}",
+  "about": "Tur haqida",
+  "gallery": {
+    "label": "Fotogalereya",
+    "show": "Rasmni ko'rsatish: {alt}"
+  },
+  "itinerary": {
+    "title": "Kunlik marshrut",
+    "expandAll": "Hammasini ochish",
+    "collapseAll": "Hammasini yopish",
+    "day": "{n}-kun"
+  },
+  "included": {
+    "title": "Narxga nima kiradi",
+    "yes": "Kiritilgan",
+    "no": "Kiritilmagan"
+  },
+  "dates": {
+    "title": "Jo'nash sanalari va o'rinlar",
+    "note": "Sanalar va o'rinlar soni real vaqtda yangilanadi. O'rin tugagan sanani tanlash mumkin emas.",
+    "select": "Tanlash",
+    "selected": "Tanlandi",
+    "soldOut": "O'rin tugadi"
+  },
+  "specialist": {
+    "title": "Mas'ul mutaxassis",
+    "role": "{country} yo'nalishi bo'yicha mutaxassis",
+    "ask": "Savol berish"
+  },
+  "info": {
+    "title": "Muhim ma'lumot",
+    "visa": "Viza",
+    "passport": "Pasport",
+    "cancellation": "Bekor qilish"
+  },
+  "booking": {
+    "title": "Bron qilish",
+    "date": "Jo'nash sanasi",
+    "travellers": "Sayohatchilar",
+    "adults": "Kattalar",
+    "adultsHint": "12+",
+    "children": "Bolalar",
+    "childrenHint": "2–11 · −25%",
+    "decrease": "{label}: kamaytirish",
+    "increase": "{label}: ko'paytirish",
+    "adultsLine": "{count} × kattalar",
+    "childrenLine": "{count} × bolalar",
+    "total": "Jami",
+    "cta": "Bron qilish",
+    "note": "Bron bepul — to'lov keyingi qadamda",
+    "limit": "Bu sanada {count} ta o'rin qolgan — sayohatchilar soni shundan oshmasligi kerak.",
+    "allSoldOut": "Hozircha barcha sanalarda o'rin tugagan. Yangi sanalar haqida mutaxassisimizdan so'rang."
+  },
+  "request": {
+    "text": "Bu tur so'rov bo'yicha tashkil etiladi: sana, mehmonxona va dastur siz bilan kelishiladi. Ko'rsatilgan narx — boshlang'ich narx.",
+    "cta": "So'rov yuborish",
+    "note": "So'rov bepul — ish vaqtida bir soat ichida javob beramiz"
+  },
+  "similar": {
+    "title": "Shunga o'xshash turlar",
+    "all": "Barcha turlar"
+  }
+}

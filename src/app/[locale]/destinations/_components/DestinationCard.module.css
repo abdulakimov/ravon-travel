@@ -1,0 +1,51 @@
+.card {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--sky);
+  transition:
+    transform var(--t),
+    box-shadow var(--t);
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 40px rgba(11, 27, 51, 0.2);
+}
+
+.img {
+  object-fit: cover;
+}
+
+.shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 34%, rgba(10, 16, 30, 0.82) 100%);
+}
+
+.text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 18px;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.name {
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--white);
+}
+/* Sariq faqat qorong'i foto qoplamasi ustida (oq fonda emas). */
+.count {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}

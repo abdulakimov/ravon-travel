@@ -1,1 +1,65 @@
-{}
+{
+  "meta": {
+    "title": "Contact",
+    "description": "Get in touch with Ravon Travel: send a message, working hours, address and messengers. We reply within an hour during business hours."
+  },
+  "banner": {
+    "eyebrow": "Contact",
+    "title": "Got a question? Write to us",
+    "lead": "We reply within an hour during business hours, and the next morning at weekends."
+  },
+  "form": {
+    "title": "Send a message",
+    "required": "Fields marked with an asterisk are required.",
+    "name": "Your name",
+    "namePlaceholder": "First and last name",
+    "phone": "Phone",
+    "email": "Email",
+    "subject": "Subject",
+    "subjects": {
+      "tour": "A question about a tour",
+      "custom": "Custom tour request",
+      "booking": "Booking and payment",
+      "other": "Something else"
+    },
+    "message": "Message",
+    "messagePlaceholder": "Which destination, how many people and which dates are you interested in?",
+    "consent": "I consent to my personal data being processed to handle this request. <link>Privacy policy</link>",
+    "submit": "Send the message",
+    "sending": "Sending…",
+    "hint": "We reply within an hour in business hours",
+    "errors": {
+      "nameRequired": "Enter your name",
+      "phoneRequired": "Enter your phone number",
+      "phoneShort": "The number must contain at least nine digits",
+      "emailInvalid": "Enter a valid email address",
+      "messageRequired": "Enter your message",
+      "messageShort": "Please write at least 10 characters",
+      "consentRequired": "Please give your consent to continue",
+      "invalid": "Some fields are not filled in correctly. Please check the highlighted fields.",
+      "rateLimited": "Too many requests. Please try again in 10 minutes or write to us directly.",
+      "server": "We couldn't send your message. Please try again shortly or email {email}.",
+      "network": "No internet connection. Check your connection and send again."
+    }
+  },
+  "sent": {
+    "title": "Message sent",
+    "text": "Your request has gone to the right specialist. We'll contact you within an hour during business hours.",
+    "again": "Write another message"
+  },
+  "details": {
+    "title": "Get in touch",
+    "phone": "Phone",
+    "email": "Email",
+    "hours": "Working hours",
+    "address": "Address"
+  },
+  "messengers": {
+    "title": "Messengers"
+  },
+  "map": {
+    "title": "The office on a map",
+    "text": "Once the registered address is set, an interactive map and directions will appear here.",
+    "iframeTitle": "Ravon Travel office on the map"
+  }
+}

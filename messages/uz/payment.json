@@ -1,1 +1,150 @@
-{}
+{
+  "meta": { "title": "To'lov" },
+  "h1": "To'lov",
+  "loading": "Bron yuklanmoqda…",
+  "bookingNo": "Bron raqami",
+  "hold": "O'rin saqlanmoqda",
+  "holdAria": "O'rin saqlanadigan vaqt: {time}",
+  "stages": {
+    "aria": "To'lov bosqichlari",
+    "card": "1-bosqich · Usul va karta",
+    "confirm": "2-bosqich · Tasdiqlash",
+    "done": "bajarildi"
+  },
+  "demo": {
+    "title": "Onlayn to'lov sinov (demo) rejimida",
+    "text": "Pul yechilmaydi, SMS yuborilmaydi va karta ma'lumotlari brauzeringizdan chiqmaydi. To'lovni yakunlash uchun menejer siz bilan bog'lanadi — kutishni istamasangiz, <contact>bizga yozing</contact>.",
+    "rulesTitle": "Sinov uchun",
+    "card": "Karta: Luhn tekshiruvidan o'tadigan istalgan raqam, masalan <mono>{card}</mono>; muddat — kelajakdagi istalgan oy.",
+    "success": "Kod <mono>{code}</mono> — to'lov muvaffaqiyatli",
+    "declined": "Kod <mono>{code}</mono> — rad etildi (mablag' yetarli emas)",
+    "error": "Kod <mono>{code}</mono> — texnik xato (bank bilan aloqa uzildi)",
+    "other": "Boshqa har qanday kod — «kod noto'g'ri» xabari",
+    "paid": "Bu demo to'lov: kartadan pul yechilmadi, email va SMS yuborilmadi. To'lovni yakunlash uchun menejer siz bilan bog'lanadi — kutishni istamasangiz, <contact>bizga yozing</contact>."
+  },
+  "method": {
+    "title": "To'lov usulini tanlang",
+    "lead": "To'lov bank tomonidan qabul qilinadi. Karta ma'lumotlari bizning serverlarda saqlanmaydi.",
+    "legend": "To'lov usuli",
+    "humo": { "name": "Milliy karta", "note": "SMS tasdiq bilan" },
+    "visa": { "name": "Xalqaro karta", "note": "3-D Secure bilan" },
+    "bank": { "name": "Bank o'tkazmasi", "note": "Yuridik shaxslar uchun" }
+  },
+  "card": {
+    "title": "Karta ma'lumotlari",
+    "badge": "Demo rejim",
+    "number": "Karta raqami",
+    "expiry": "Amal qilish muddati",
+    "phone": "SMS uchun telefon",
+    "trustPrivacy": "Karta ma'lumotlari saqlanmaydi va serverga yuborilmaydi",
+    "trustVoucher": "To'lovdan so'ng vaucherni yuklab olish mumkin"
+  },
+  "bank": {
+    "title": "Hisob-faktura bo'yicha to'lov",
+    "text": "Yuridik shaxslar bank o'tkazmasi orqali to'laydi. Menejerga bron raqamini va tashkilot rekvizitlarini yuboring — shartnoma va hisob-fakturani tayyorlab beramiz.",
+    "step1": "Bron raqamini ko'rsating: {id}",
+    "step2": "Tashkilot nomi, STIR va bank rekvizitlarini yuboring",
+    "step3": "Hisob-faktura kelguncha bronni menejer qo'lda saqlab turadi",
+    "cta": "Hisob-faktura so'rash"
+  },
+  "otp": {
+    "title": "SMS kodni kiriting",
+    "hint": "{phone} raqamiga 6 xonali kod yuborildi",
+    "label": "Tasdiqlash kodi",
+    "resend": "Kodni qayta yuborish",
+    "resendIn": "Qayta yuborish {seconds} soniyadan keyin",
+    "resent": "Kod qayta yuborildi",
+    "change": "Karta ma'lumotlarini o'zgartirish"
+  },
+  "errors": {
+    "card_incomplete": "Karta raqami to'liq kiritilmagan",
+    "card_invalid": "Noto'g'ri karta raqami. Iltimos, tekshiring.",
+    "card_expired": "Kartaning amal qilish muddati tugagan.",
+    "expiry_invalid": "Muddatni OO/YY ko'rinishida kiriting",
+    "phone_required": "SMS uchun telefon raqamini kiriting",
+    "phone_format": "Raqamni to'liq kiriting: +998 va 9 ta raqam",
+    "otp_incomplete": "6 xonali kodni to'liq kiriting",
+    "otp_invalid": "Kod noto'g'ri. Yana bir marta urinib ko'ring.",
+    "otp_expired": "Tasdiqlash kodi muddati tugadi. Qaytadan urinib ko'ring.",
+    "insufficient_funds": "Kartada mablag' yetarli emas.",
+    "provider_unavailable": "To'lov tizimi vaqtincha ishlamayapti. Keyinroq urinib ko'ring."
+  },
+  "result": {
+    "success": {
+      "title": "To'lov muvaffaqiyatli",
+      "text": "Demo to'lov qabul qilindi va bron shu brauzerda «to'langan» deb belgilandi."
+    },
+    "declined": {
+      "title": "To'lov amalga oshmadi",
+      "text": "Kartada mablag' yetarli emas. Bron hali {minutes} daqiqa saqlanadi."
+    },
+    "expired": {
+      "title": "To'lov vaqti tugadi",
+      "text": "30 daqiqa ichida to'lov amalga oshmadi va o'rinlar bo'shatildi. Sanani qaytadan tanlashingiz mumkin."
+    },
+    "error": {
+      "title": "Texnik xatolik",
+      "text": "Bank bilan aloqa uzildi. Pul kartadan yechilmagan — bir necha daqiqadan keyin qayta urinib ko'ring."
+    },
+    "whatToDo": "Nima qilish kerak",
+    "steps": {
+      "balance": "Kartadagi mablag'ni tekshiring yoki boshqa karta bilan urinib ko'ring",
+      "bankOnline": "Kartada onlayn to'lov yoqilganini bankdan tasdiqlang",
+      "manager": "Muammo davom etsa — menejerga yozing, bronni qo'lda saqlab turamiz",
+      "pickDate": "Sanani qaytadan tanlang — o'rinlar hali mavjud",
+      "later": "Bir necha daqiqadan keyin qayta urinib ko'ring"
+    }
+  },
+  "receipt": {
+    "title": "To'lov cheki",
+    "amount": "Summa",
+    "method": "To'lov usuli",
+    "methodHumo": "Humo / Uzcard",
+    "methodVisa": "Visa / Mastercard",
+    "transaction": "Tranzaksiya raqami",
+    "datetime": "Sana va vaqt",
+    "voucher": "Vaucherni yuklab olish",
+    "home": "Bosh sahifaga qaytish"
+  },
+  "actions": {
+    "back": "Ortga",
+    "pay": "To'lash {amount}",
+    "confirm": "Tasdiqlash",
+    "retry": "Qayta urinish",
+    "pickDate": "Sanani qaytadan tanlash",
+    "manager": "Menejer bilan bog'lanish"
+  },
+  "summary": {
+    "aria": "Buyurtma xulosasi",
+    "due": "To'lanadi",
+    "tour": "Tur",
+    "date": "Sana",
+    "travellers": "Sayohatchilar",
+    "people": "{count} kishi",
+    "bookingNo": "Bron raqami",
+    "cards": "Humo · Uzcard · Visa · Mastercard"
+  },
+  "notFound": {
+    "title": "Bron topilmadi",
+    "text": "{id} raqamli bron bu brauzerda topilmadi. Bron vaqtincha shu qurilma va shu oynada saqlanadi — havola boshqa qurilmada yoki yangi oynada ochilgan bo'lishi mumkin.",
+    "step1": "Bron qilgan oynangizga qayting va to'lovni o'sha yerda yakunlang",
+    "step2": "Oyna yopilgan bo'lsa — turni qaytadan tanlab, bronni yangidan rasmiylashtiring",
+    "step3": "Yordam kerak bo'lsa — menejerga yozing",
+    "cta": "Turlarni ko'rish"
+  },
+  "voucher": {
+    "title": "Sayohat vaucheri",
+    "demo": "DEMO",
+    "demoNote": "Sinov hujjati — to'lov amalga oshirilmagan, hujjat haqiqiy emas.",
+    "bookingNo": "Bron raqami",
+    "tour": "Tur",
+    "dates": "Sanalar",
+    "travellers": "Sayohatchilar",
+    "adult": "katta yoshli",
+    "child": "bola",
+    "amount": "Summa",
+    "paidAt": "To'lov vaqti",
+    "transaction": "Tranzaksiya raqami",
+    "contact": "Aloqa"
+  }
+}

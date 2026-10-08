@@ -1,0 +1,343 @@
+/* Bosh sahifa — prototip: design/Ravon Travel - Bosh sahifa.dc.html */
+
+.cover {
+  object-fit: cover;
+}
+
+/* ── Hero ──────────────────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: min(86vh, 800px);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: var(--primary);
+}
+.heroShade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 16, 30, 0.55) 0%,
+    rgba(10, 16, 30, 0.22) 38%,
+    rgba(8, 13, 26, 0.88) 100%
+  );
+}
+.heroInner {
+  position: relative;
+  padding-top: clamp(56px, 9vw, 110px);
+  padding-bottom: clamp(30px, 4vw, 48px);
+}
+.heroText {
+  max-width: 760px;
+}
+.heroEyebrow {
+  display: flex;
+  margin-bottom: 22px;
+}
+.heroEyebrow :global(.eyebrow) {
+  gap: 12px;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+}
+.heroTitle {
+  font-size: var(--text-hero);
+  color: var(--white);
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+  overflow-wrap: break-word;
+}
+.heroLead {
+  font-size: clamp(1rem, 0.92rem + 0.4vw, 1.2rem);
+  color: var(--sky);
+  max-width: 600px;
+  margin-bottom: 36px;
+}
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: clamp(36px, 5vw, 60px);
+}
+
+.trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 32px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+.trust li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--white);
+}
+.trust svg {
+  color: var(--accent);
+}
+
+/* ── CTA tugmalari (hero + yakuniy band) ───────────────────────────────── */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 16px 28px;
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  transition:
+    background var(--t),
+    transform var(--t),
+    box-shadow var(--t);
+}
+.ctaBand {
+  padding: 17px 30px;
+}
+.ctaAccent {
+  background: var(--accent);
+  color: var(--ink);
+  font-weight: 700;
+}
+.ctaAccent:hover {
+  color: var(--ink);
+  transform: translateY(-2px);
+}
+.ctaAccentHero:hover {
+  box-shadow: 0 14px 34px rgba(10, 16, 30, 0.4);
+}
+.ctaGlass {
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.42);
+  backdrop-filter: blur(8px);
+}
+.ctaGlass:hover {
+  background: rgba(255, 255, 255, 0.26);
+  color: var(--white);
+}
+.ctaLine {
+  background: transparent;
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.46);
+}
+.ctaLine:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: var(--white);
+}
+
+/* ── Raqamlar qatori ───────────────────────────────────────────────────── */
+.stats {
+  background: var(--sky);
+  border-bottom: 1px solid var(--border-strong);
+}
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 28px 20px;
+  padding-top: clamp(36px, 5vw, 60px);
+  padding-bottom: clamp(36px, 5vw, 60px);
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.statValue {
+  font-size: clamp(2.2rem, 1rem + 2.4vw, 3.1rem);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.statLabel {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+/* ── Bo'lim sarlavhasi ─────────────────────────────────────────────────── */
+.skyBoth {
+  background: var(--sky);
+  border-top: 1px solid var(--border-strong);
+  border-bottom: 1px solid var(--border-strong);
+}
+.skyTop {
+  background: var(--sky);
+  border-top: 1px solid var(--border-strong);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: clamp(34px, 4vw, 54px);
+}
+.headText {
+  max-width: 620px;
+}
+.headTextNarrow {
+  max-width: 560px;
+}
+.headSolo {
+  max-width: 620px;
+  margin-bottom: clamp(34px, 4vw, 54px);
+}
+.eyebrow {
+  display: flex;
+  margin-bottom: 16px;
+}
+.eyebrow :global(.eyebrow) {
+  gap: 12px;
+}
+.h2 {
+  font-size: var(--text-section-h2);
+  letter-spacing: -0.015em;
+  margin-bottom: 16px;
+}
+.h2Flush {
+  margin-bottom: 0;
+}
+.lead {
+  font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.06rem);
+  color: var(--text-3);
+}
+
+.outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 12px 20px;
+  border: 1px solid rgba(11, 27, 51, 0.25);
+  border-radius: var(--r-pill);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ink);
+  transition:
+    background var(--t),
+    color var(--t),
+    border-color var(--t);
+}
+.outline:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--white);
+}
+
+/* ── Gridlar ───────────────────────────────────────────────────────────── */
+.tourGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 304px), 1fr));
+  gap: clamp(20px, 2.4vw, 30px);
+}
+/* Reveal o'rami kartochkani to'liq balandlikka cho'zadi */
+.tourGrid > * {
+  display: grid;
+  min-width: 0;
+}
+
+.destGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+  gap: clamp(14px, 1.8vw, 22px);
+}
+
+.whyGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  gap: clamp(18px, 2vw, 26px);
+}
+.whyCard {
+  padding: 28px 26px;
+  background: var(--sky);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-card);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.whyIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  background: var(--primary);
+  color: var(--white);
+  display: grid;
+  place-items: center;
+}
+.whyTitle {
+  font-size: 19px;
+}
+.whyText {
+  font-size: 13.5px;
+  color: var(--text-3);
+}
+
+.blogGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
+  gap: clamp(20px, 2.4vw, 30px);
+}
+
+/* ── Yakuniy CTA bandi ─────────────────────────────────────────────────── */
+.band {
+  position: relative;
+  overflow: hidden;
+  background: var(--primary);
+}
+.bandImg {
+  opacity: 0.42;
+}
+.bandShade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(100deg, rgba(11, 27, 51, 0.94) 0%, rgba(11, 27, 51, 0.62) 100%);
+}
+.bandInner {
+  position: relative;
+  padding-top: clamp(64px, 9vw, 120px);
+  padding-bottom: clamp(64px, 9vw, 120px);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 36px;
+}
+.bandText {
+  max-width: 620px;
+}
+.bandTitle {
+  font-size: clamp(2rem, 1rem + 2.8vw, 3.4rem);
+  color: var(--white);
+  letter-spacing: -0.015em;
+  margin-bottom: 18px;
+}
+.bandLead {
+  font-size: clamp(0.98rem, 0.92rem + 0.35vw, 1.14rem);
+  color: var(--sky);
+}
+.bandActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}

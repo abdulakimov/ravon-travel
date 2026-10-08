@@ -1,1 +1,16 @@
-{}
+{
+  "meta": {
+    "title": "Yo'nalishlar",
+    "description": "Ravon Travel uchadigan davlatlar: Ozarbayjon, Gruziya, BAA, Xitoy, Malayziya, Bolgariya, Yunoniston, Qatar va Qirg'iziston. Yo'nalishni tanlang va turlarni ko'ring."
+  },
+  "banner": {
+    "title": "Yo'nalishlar",
+    "text": "{count} ta davlat bo'yicha tayyor turlar. Yo'nalishni tanlang — shu davlatdagi barcha turlar katalogda ochiladi."
+  },
+  "listLabel": "Davlatlar ro'yxati",
+  "cta": {
+    "title": "Kerakli yo'nalishni topmadingizmi?",
+    "text": "Menejerimizga yozing — so'rovingiz bo'yicha individual tur taklif qilamiz.",
+    "all": "Barcha turlar"
+  }
+}

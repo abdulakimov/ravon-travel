@@ -1,0 +1,46 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: var(--ink);
+}
+.card:hover {
+  color: var(--primary);
+}
+
+.media {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--sky);
+}
+.img {
+  object-fit: cover;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.title {
+  font-size: 21px;
+  color: inherit;
+  transition: color var(--t);
+}
+
+.excerpt {
+  margin-top: -6px;
+  font-size: 14px;
+  line-height: 1.625;
+  color: var(--text-3);
+}

@@ -1,0 +1,226 @@
+/* So'rov formasi (chizilmagan ekran) — Aloqa sahifasi uslubida. */
+
+.eyebrow {
+  margin-bottom: 18px;
+}
+
+.cols {
+  padding-top: clamp(30px, 4vw, 56px);
+  padding-bottom: clamp(48px, 6vw, 86px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(24px, 3vw, 44px);
+  align-items: start;
+}
+.main,
+.side {
+  min-width: 0;
+}
+@media (min-width: 960px) {
+  .cols {
+    grid-template-columns: minmax(0, 1fr) 360px;
+  }
+  .side {
+    position: sticky;
+    top: 96px;
+  }
+}
+
+/* ── Forma kartochkasi ─────────────────────────────────────────────────── */
+.card {
+  padding: clamp(22px, 3vw, 30px);
+  border: 1px solid var(--border);
+  border-radius: var(--r-panel);
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.h2 {
+  font-size: clamp(1.25rem, 1rem + 0.9vw, 1.65rem);
+  margin-bottom: 8px;
+}
+.sub {
+  font-size: 14px;
+  color: var(--text-3);
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+  gap: 16px;
+}
+.full {
+  grid-column: 1 / -1;
+}
+.req {
+  color: var(--error);
+}
+.counter {
+  min-height: 50px;
+}
+.consent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.consent :global(.check) {
+  gap: 12px;
+  min-height: 24px;
+}
+.consentError {
+  padding-left: 29px;
+}
+/* Honeypot: odam ko'rmaydi, klaviatura bilan ham tushmaydi */
+.trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.submitRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  padding-top: 6px;
+}
+.submit.submit {
+  min-height: 52px;
+  padding: 14px 30px;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.note {
+  font-size: 12.5px;
+  color: var(--text-3);
+}
+
+/* ── Yuborildi ─────────────────────────────────────────────────────────── */
+.success {
+  padding: clamp(28px, 4vw, 44px);
+  border: 1px solid var(--primary);
+  border-radius: var(--r-panel);
+  background: var(--primary);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: flex-start;
+}
+.successIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+}
+.successTitle {
+  font-size: clamp(1.3rem, 1rem + 1vw, 1.9rem);
+  color: var(--white);
+}
+.successTitle:focus {
+  outline: none;
+}
+.successText {
+  font-size: 15px;
+  color: var(--sky);
+  max-width: 480px;
+}
+.successActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.successBtn.successBtn {
+  min-height: 48px;
+  padding: 13px 24px;
+  gap: 9px;
+  backdrop-filter: none;
+}
+
+/* ── Tur kartochkasi ───────────────────────────────────────────────────── */
+.tour {
+  border: 1px solid var(--border);
+  border-radius: var(--r-card);
+  background: var(--white);
+  overflow: hidden;
+}
+.media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: var(--sky);
+}
+.img {
+  object-fit: cover;
+}
+.tourBody {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.cat {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.tourTitle {
+  font-size: 19px;
+  line-height: 1.25;
+}
+.tourSummary {
+  font-size: 14px;
+  color: var(--text-2);
+}
+.facts {
+  margin: 4px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  padding: 14px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.facts > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  font-size: 13.5px;
+}
+.facts dt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-2);
+}
+.facts dt svg {
+  color: var(--primary);
+}
+.facts dd {
+  margin: 0;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: right;
+}
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+}
+.priceLabel {
+  font-size: 12px;
+  color: var(--text-3);
+}
+.price {
+  font-size: 27px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}

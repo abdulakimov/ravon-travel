@@ -1,0 +1,16 @@
+.git
+.github
+.next
+node_modules
+design_handoff_ravon_travel
+docs
+infra
+tests
+test-results
+playwright-report
+coverage
+*.md
+.env*
+.DS_Store
+Dockerfile
+docker-compose*.yml

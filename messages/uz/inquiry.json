@@ -1,1 +1,64 @@
-{}
+{
+  "meta": {
+    "title": "So'rov yuborish — {tour}",
+    "description": "{tour} bo'yicha so'rov qoldiring — menejer sana, narx va dastur bo'yicha siz bilan bog'lanadi."
+  },
+  "breadcrumb": { "tours": "Turlar", "current": "So'rov" },
+  "eyebrow": "So'rov bo'yicha tur",
+  "h1": "Tur bo'yicha so'rov yuborish",
+  "lead": "Bu tur so'rov bo'yicha tashkil etiladi. Ma'lumotlaringizni qoldiring — ish vaqtida bir soat ichida sana, narx va dastur bo'yicha javob beramiz.",
+  "form": {
+    "title": "So'rov ma'lumotlari",
+    "required": "Yulduzcha bilan belgilangan maydonlar to'ldirilishi shart.",
+    "name": "Ismingiz",
+    "namePlaceholder": "Ism va familiya",
+    "phone": "Telefon",
+    "email": "Email",
+    "date": "Taxminiy sana",
+    "datePlaceholder": "Masalan: may oyining boshi",
+    "travelers": "Kishilar soni",
+    "decrease": "Kamaytirish",
+    "increase": "Ko'paytirish",
+    "budget": "Byudjet",
+    "budgetPlaceholder": "Masalan: bir kishiga $1 500 gacha",
+    "comment": "Izoh",
+    "commentPlaceholder": "Mehmonxona darajasi, bolalar yoshi, maxsus istaklar…",
+    "website": "Veb-sayt (to'ldirmang)",
+    "consent": "Shaxsiy ma'lumotlarim so'rovni ko'rib chiqish uchun qayta ishlanishiga roziman — <privacy>maxfiylik siyosati</privacy>.",
+    "submit": "So'rovni yuborish",
+    "sending": "Yuborilmoqda…",
+    "note": "Ish vaqtida bir soat ichida javob beramiz"
+  },
+  "errors": {
+    "name": "Ismingizni kiriting (kamida 2 ta harf)",
+    "phone": "Telefon raqamida kamida 9 ta raqam bo'lishi kerak",
+    "email": "Email manzili noto'g'ri",
+    "date": "Sana matni juda uzun",
+    "travelers": "Kishilar soni 1 dan 50 gacha bo'lishi kerak",
+    "budget": "Byudjet matni juda uzun",
+    "comment": "Izoh juda uzun (ko'pi bilan 1000 belgi)",
+    "consent": "Davom etish uchun rozilik bering",
+    "invalid": "Ba'zi maydonlar noto'g'ri to'ldirilgan. Tekshirib, qayta yuboring.",
+    "rateLimited": "Juda ko'p so'rov yuborildi. Bir necha daqiqadan keyin qayta urinib ko'ring.",
+    "server": "So'rovni yuborib bo'lmadi. Birozdan keyin qayta urinib ko'ring yoki bizga qo'ng'iroq qiling.",
+    "network": "Internet aloqasi yo'q yoki server javob bermadi. Qayta urinib ko'ring."
+  },
+  "success": {
+    "title": "So'rovingiz qabul qilindi",
+    "text": "So'rov mas'ul mutaxassisga yo'naltirildi. Ish vaqtida bir soat ichida siz bilan bog'lanamiz.",
+    "tours": "Turlarga qaytish",
+    "tour": "Tur sahifasiga qaytish"
+  },
+  "tour": {
+    "aria": "Tanlangan tur",
+    "duration": "Davomiyligi",
+    "days": "{days} kun / {nights} kecha",
+    "priceFrom": "1 kishi uchun · dan",
+    "type": "Tur turi",
+    "onRequest": "So'rov bo'yicha",
+    "fixed": "Sanasi bor",
+    "details": "Tur tafsilotlari",
+    "book": "Onlayn bron qilish",
+    "hours": "Ish vaqti"
+  }
+}

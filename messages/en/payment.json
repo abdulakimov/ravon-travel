@@ -1,1 +1,150 @@
-{}
+{
+  "meta": { "title": "Payment" },
+  "h1": "Payment",
+  "loading": "Loading your booking…",
+  "bookingNo": "Booking number",
+  "hold": "Seats on hold",
+  "holdAria": "Seats are held for another {time}",
+  "stages": {
+    "aria": "Payment stages",
+    "card": "Stage 1 · Method and card",
+    "confirm": "Stage 2 · Confirmation",
+    "done": "completed"
+  },
+  "demo": {
+    "title": "Online payment is running in test (demo) mode",
+    "text": "No money is charged, no SMS is sent and your card details never leave your browser. A manager will contact you to complete the payment — if you would rather not wait, <contact>write to us</contact>.",
+    "rulesTitle": "For testing",
+    "card": "Card: any number that passes the Luhn check, e.g. <mono>{card}</mono>; expiry — any future month.",
+    "success": "Code <mono>{code}</mono> — payment successful",
+    "declined": "Code <mono>{code}</mono> — declined (insufficient funds)",
+    "error": "Code <mono>{code}</mono> — technical error (bank connection lost)",
+    "other": "Any other code — the 'wrong code' message",
+    "paid": "This is a demo payment: no money was taken from the card and no email or SMS was sent. A manager will contact you to complete the payment — if you would rather not wait, <contact>write to us</contact>."
+  },
+  "method": {
+    "title": "Choose a payment method",
+    "lead": "The payment is processed by the bank. Card data is never stored on our servers.",
+    "legend": "Payment method",
+    "humo": { "name": "National card", "note": "With SMS confirmation" },
+    "visa": { "name": "International card", "note": "With 3-D Secure" },
+    "bank": { "name": "Bank transfer", "note": "For companies" }
+  },
+  "card": {
+    "title": "Card details",
+    "badge": "Demo mode",
+    "number": "Card number",
+    "expiry": "Expiry date",
+    "phone": "Phone for SMS",
+    "trustPrivacy": "Card details are not stored or sent to a server",
+    "trustVoucher": "You can download the voucher after payment"
+  },
+  "bank": {
+    "title": "Payment by invoice",
+    "text": "Companies pay by bank transfer. Send our manager the booking number and your company details — we will prepare the contract and the invoice.",
+    "step1": "Quote the booking number: {id}",
+    "step2": "Send the company name, tax ID and bank details",
+    "step3": "The manager holds the booking manually until the invoice is issued",
+    "cta": "Request an invoice"
+  },
+  "otp": {
+    "title": "Enter the SMS code",
+    "hint": "{phone} — a six-digit code was sent to this number",
+    "label": "Confirmation code",
+    "resend": "Resend the code",
+    "resendIn": "Resend available in {seconds} s",
+    "resent": "Code resent",
+    "change": "Change card details"
+  },
+  "errors": {
+    "card_incomplete": "The card number is incomplete",
+    "card_invalid": "Invalid card number. Please check it.",
+    "card_expired": "The card has expired.",
+    "expiry_invalid": "Enter the expiry as MM/YY",
+    "phone_required": "Enter the phone number for SMS",
+    "phone_format": "Enter the full number: +998 and 9 digits",
+    "otp_incomplete": "Enter all 6 digits of the code",
+    "otp_invalid": "Wrong code. Please try again.",
+    "otp_expired": "The confirmation code has expired. Please try again.",
+    "insufficient_funds": "Insufficient funds on the card.",
+    "provider_unavailable": "The payment system is temporarily unavailable. Please try again later."
+  },
+  "result": {
+    "success": {
+      "title": "Payment successful",
+      "text": "The demo payment was accepted and the booking is marked as paid in this browser."
+    },
+    "declined": {
+      "title": "Payment declined",
+      "text": "{minutes, plural, one {Insufficient funds. Your booking is held for another # minute.} other {Insufficient funds. Your booking is held for another # minutes.}}"
+    },
+    "expired": {
+      "title": "The payment window expired",
+      "text": "No payment arrived within 30 minutes and the seats were released. You can pick a date again."
+    },
+    "error": {
+      "title": "Technical error",
+      "text": "The connection to the bank dropped. No money was taken — try again in a few minutes."
+    },
+    "whatToDo": "What to do",
+    "steps": {
+      "balance": "Check the card balance or try another card",
+      "bankOnline": "Confirm with your bank that online payments are enabled",
+      "manager": "If it keeps failing, message our manager and we'll hold the booking manually",
+      "pickDate": "Pick a date again — seats are still available",
+      "later": "Try again in a few minutes"
+    }
+  },
+  "receipt": {
+    "title": "Payment receipt",
+    "amount": "Amount",
+    "method": "Payment method",
+    "methodHumo": "Humo / Uzcard",
+    "methodVisa": "Visa / Mastercard",
+    "transaction": "Transaction ID",
+    "datetime": "Date and time",
+    "voucher": "Download the voucher",
+    "home": "Back to the homepage"
+  },
+  "actions": {
+    "back": "Back",
+    "pay": "Pay {amount}",
+    "confirm": "Confirm",
+    "retry": "Try again",
+    "pickDate": "Pick a date again",
+    "manager": "Contact a manager"
+  },
+  "summary": {
+    "aria": "Order summary",
+    "due": "Amount due",
+    "tour": "Tour",
+    "date": "Date",
+    "travellers": "Travellers",
+    "people": "{count, plural, one {# person} other {# people}}",
+    "bookingNo": "Booking number",
+    "cards": "Humo · Uzcard · Visa · Mastercard"
+  },
+  "notFound": {
+    "title": "Booking not found",
+    "text": "Booking {id} was not found in this browser. For now a booking is stored only on this device and in this window — the link may have been opened on another device or in a new window.",
+    "step1": "Go back to the window where you made the booking and finish the payment there",
+    "step2": "If that window is closed, choose the tour again and make a new booking",
+    "step3": "Need help? Message our manager",
+    "cta": "Browse tours"
+  },
+  "voucher": {
+    "title": "Travel voucher",
+    "demo": "DEMO",
+    "demoNote": "Test document — no payment was made, this document is not valid.",
+    "bookingNo": "Booking number",
+    "tour": "Tour",
+    "dates": "Dates",
+    "travellers": "Travellers",
+    "adult": "adult",
+    "child": "child",
+    "amount": "Amount",
+    "paidAt": "Paid at",
+    "transaction": "Transaction ID",
+    "contact": "Contact"
+  }
+}

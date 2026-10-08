@@ -1,1 +1,63 @@
-{}
+{
+  "hero": {
+    "eyebrow": "Discover the world",
+    "title": "Your dream journey starts here",
+    "text": "From Azerbaijan to the Greek islands — ready-made tours across {count} destinations. Book online and pay by card.",
+    "imageAlt": "Dubai city skyline",
+    "trustLabel": "Why travellers choose us",
+    "trust": {
+      "licensed": "Officially licensed tour operator",
+      "online": "Online booking and card payment",
+      "languages": "Service in three languages: UZ · RU · EN"
+    }
+  },
+  "stats": {
+    "label": "In numbers",
+    "tours": "{count, plural, one {Ready tour} other {Ready tours}}",
+    "destinations": "{count, plural, one {Destination} other {Destinations}}",
+    "categories": "{count, plural, one {Category} other {Categories}}",
+    "languages": "{count, plural, one {Service language} other {Service languages}}"
+  },
+  "featured": {
+    "eyebrow": "Featured tours",
+    "title": "Most popular destinations",
+    "text": "Every tour has a set price, duration and itinerary. Fixed-departure tours can be booked on the site instantly.",
+    "all": "{count, plural, one {View # tour} other {View all # tours}}"
+  },
+  "destinations": {
+    "eyebrow": "Destinations",
+    "title": "Where we fly",
+    "text": "All tours are outbound: from Uzbekistan abroad.",
+    "all": "All destinations",
+    "aeLabel": "UAE — Dubai"
+  },
+  "why": {
+    "eyebrow": "Why us",
+    "title": "Trust, backed by documents",
+    "license": {
+      "title": "Official licence",
+      "text": "We operate under a tourism licence. Licence, certificate and company details are published on the site."
+    },
+    "payment": {
+      "title": "Online payment",
+      "text": "Pay by Humo, Uzcard, Visa or Mastercard. Card data is never stored on our servers."
+    },
+    "price": {
+      "title": "Transparent pricing",
+      "text": "Each tour page states exactly what is and isn't included."
+    },
+    "specialist": {
+      "title": "A named specialist",
+      "text": "Every destination has a qualified specialist in charge — named on the site."
+    }
+  },
+  "blog": {
+    "eyebrow": "Blog",
+    "title": "Read before you go",
+    "all": "All articles"
+  },
+  "cta": {
+    "title": "Start your journey today",
+    "text": "Seats on fixed-departure tours go fast. Get a free consultation with our manager."
+  }
+}

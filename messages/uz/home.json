@@ -1,1 +1,63 @@
-{}
+{
+  "hero": {
+    "eyebrow": "Dunyoni kashf eting",
+    "title": "Orzudagi sayohat shu yerdan boshlanadi",
+    "text": "Ozarbayjondan Yunoniston orollarigacha — {count} yo'nalish bo'yicha tayyor turlar. Onlayn bron qiling, karta bilan to'lang.",
+    "imageAlt": "Dubay shahri panoramasi",
+    "trustLabel": "Afzalliklarimiz",
+    "trust": {
+      "licensed": "Rasmiy litsenziyalangan turoperator",
+      "online": "Onlayn bron va karta bilan to'lov",
+      "languages": "Uch tilda xizmat: UZ · RU · EN"
+    }
+  },
+  "stats": {
+    "label": "Raqamlarda",
+    "tours": "Tayyor tur",
+    "destinations": "Yo'nalish",
+    "categories": "Kategoriya",
+    "languages": "Xizmat tili"
+  },
+  "featured": {
+    "eyebrow": "Tanlangan turlar",
+    "title": "Eng ko'p tanlanadigan yo'nalishlar",
+    "text": "Har bir tur narxi, muddati va marshruti bilan oldindan belgilangan. «Sanasi bor» turlarni saytda darhol bron qilish mumkin.",
+    "all": "Barcha {count} turni ko'rish"
+  },
+  "destinations": {
+    "eyebrow": "Yo'nalishlar",
+    "title": "Qayerga uchamiz",
+    "text": "Barcha turlar chiquvchi turizm yo'nalishi bo'yicha — O'zbekistondan xorijga.",
+    "all": "Barcha yo'nalishlar",
+    "aeLabel": "BAA — Dubay"
+  },
+  "why": {
+    "eyebrow": "Nega aynan biz",
+    "title": "Ishonch — hujjat bilan tasdiqlanadi",
+    "license": {
+      "title": "Rasmiy litsenziya",
+      "text": "Turizm faoliyati litsenziyasi bo'yicha ishlaymiz. Litsenziya, sertifikat va rekvizitlar saytda ochiq."
+    },
+    "payment": {
+      "title": "Onlayn to'lov",
+      "text": "Humo, Uzcard, Visa va Mastercard bilan to'lang. Karta ma'lumotlari bizning serverda saqlanmaydi."
+    },
+    "price": {
+      "title": "Shaffof narx",
+      "text": "Narxga nima kirishi va nima kirmasligi har bir tur sahifasida aniq yozilgan."
+    },
+    "specialist": {
+      "title": "Mas'ul mutaxassis",
+      "text": "Har bir yo'nalish bo'yicha malakali mas'ul mutaxassis biriktirilgan — ismi saytda ko'rsatilgan."
+    }
+  },
+  "blog": {
+    "eyebrow": "Blog",
+    "title": "Sayohat oldidan o'qing",
+    "all": "Barcha maqolalar"
+  },
+  "cta": {
+    "title": "Sayohatingizni bugun boshlang",
+    "text": "Sanasi belgilangan turlarda o'rinlar tez tugaydi. Menejerimiz bilan bepul maslahatlashing."
+  }
+}

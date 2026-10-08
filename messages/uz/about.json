@@ -1,1 +1,94 @@
-{}
+{
+  "meta": {
+    "title": "Biz haqimizda",
+    "description": "Ravon Travel — chiquvchi turizm bo'yicha turoperator: litsenziya ma'lumotlari, mas'ul mutaxassislar va kompaniya rekvizitlari."
+  },
+  "hero": {
+    "title": "Litsenziyalangan turoperator — hujjat bilan ishlaymiz",
+    "lead": "Chiquvchi turizm yo'nalishi bo'yicha faoliyat yuritamiz: O'zbekistondan xorijga tayyor turlar, rasmiy shartnoma va onlayn to'lov bilan."
+  },
+  "intro": {
+    "eyebrow": "Biz haqimizda",
+    "title": "Sayohat — tashvish emas, zavq bo'lishi kerak",
+    "p1": "Ravon Travel chiquvchi turizm bo'yicha ishlaydigan turoperator. Har bir tur bizning jamoamiz tomonidan tuziladi: aviachipta, mehmonxona, transfer va ekskursiyalar bitta paketga jamlanadi va narxi oldindan belgilanadi.",
+    "p2": "Mijoz bilan rasmiy shartnoma tuzamiz, to'lovni bank kartasi orqali qabul qilamiz va har bir yo'nalish uchun mas'ul mutaxassis biriktiramiz — savolingiz javobsiz qolmaydi.",
+    "stats": {
+      "tours": "Tayyor tur",
+      "destinations": "Yo'nalish",
+      "languages": "Xizmat tili"
+    },
+    "alt": {
+      "baku": "Baku shahri manzarasi, Ozarbayjon",
+      "greece": "Yunoniston orollari",
+      "issykKul": "Issiq-Ko'l, Qirg'iziston"
+    }
+  },
+  "docs": {
+    "eyebrow": "Hujjatlar",
+    "title": "Litsenziya va sertifikatlar",
+    "leadPending": "Turizm faoliyati litsenziyasi rasmiylashtirilmoqda. Hujjat tayyor bo'lishi bilan raqami va skani shu yerda ochiq ko'rsatiladi.",
+    "lead": "Faoliyatimiz turizm faoliyati litsenziyasi asosida olib boriladi. Litsenziya raqami va yo'nalishi quyida ochiq ko'rsatilgan.",
+    "license": {
+      "title": "Turizm faoliyati litsenziyasi",
+      "number": "Raqam:",
+      "numberPending": "hujjat berilgach e'lon qilinadi",
+      "date": "Berilgan sana:",
+      "direction": "Yo'nalish:",
+      "active": "Amalda"
+    },
+    "offer": {
+      "title": "Ommaviy oferta",
+      "text": "Xizmat shartlari, bekor qilish va pul qaytarish tartibi rasmiy oferta shaklida e'lon qilinadi.",
+      "link": "Ofertani o'qish"
+    },
+    "scan": {
+      "title": "Litsenziya skani",
+      "text": "Hujjat rasmiylashtirilgach, skan nusxasi shu joyga qo'yiladi."
+    }
+  },
+  "team": {
+    "eyebrow": "Jamoa",
+    "title": "Kim bilan ishlaysiz",
+    "leadPending": "Har bir yo'nalish bo'yicha malakali mas'ul mutaxassis biriktirilgan. Ism va aloqa ma'lumotlari hujjatlar tayyor bo'lgach to'ldiriladi.",
+    "lead": "Har bir yo'nalish bo'yicha malakali mas'ul mutaxassis biriktirilgan.",
+    "namePending": "Ism e'lon qilinadi",
+    "members": {
+      "director": {
+        "role": "Direktor",
+        "area": "Umumiy rahbarlik va shartnomalar"
+      },
+      "manager": {
+        "role": "Bosh menejer",
+        "area": "Ozarbayjon, Gruziya, Qirg'iziston"
+      },
+      "specialist": {
+        "role": "Mas'ul mutaxassis",
+        "area": "BAA, Qatar, Malayziya, Xitoy"
+      },
+      "accountant": {
+        "role": "Buxgalter",
+        "area": "To'lovlar va hisob-kitob"
+      }
+    }
+  },
+  "requisites": {
+    "eyebrow": "Rekvizitlar",
+    "title": "Rasmiy ma'lumotlar",
+    "leadPending": "«{label}» deb belgilangan maydonlar ro'yxatdan o'tish hujjatlari asosida to'ldiriladi.",
+    "lead": "Shartnoma va to'lov hujjatlarida aynan shu rekvizitlar ko'rsatiladi.",
+    "fields": {
+      "legalName": "Yuridik nom",
+      "stir": "STIR",
+      "address": "Yuridik manzil",
+      "phone": "Telefon",
+      "email": "Email",
+      "hours": "Ish vaqti",
+      "bank": "Bank",
+      "account": "Hisob raqami"
+    }
+  },
+  "cta": {
+    "title": "Turni tanlashda yordam kerakmi?",
+    "text": "Mas'ul mutaxassis byudjet va sanaga qarab mos yo'nalishni tanlab beradi — bepul."
+  }
+}

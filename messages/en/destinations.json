@@ -1,1 +1,16 @@
-{}
+{
+  "meta": {
+    "title": "Destinations",
+    "description": "Countries Ravon Travel flies to: Azerbaijan, Georgia, the UAE, China, Malaysia, Bulgaria, Greece, Qatar and Kyrgyzstan. Pick a destination and browse its tours."
+  },
+  "banner": {
+    "title": "Destinations",
+    "text": "Ready-made tours across {count, plural, one {# country} other {# countries}}. Pick a destination to see all of its tours in the catalogue."
+  },
+  "listLabel": "List of countries",
+  "cta": {
+    "title": "Can't find the destination you want?",
+    "text": "Message our manager — we will put together a tailor-made tour for your request.",
+    "all": "All tours"
+  }
+}

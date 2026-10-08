@@ -1,0 +1,71 @@
+import type { Metadata } from "next";
+import { Suspense } from "react";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { site } from "@/config/site";
+import { alternates } from "@/lib/seo";
+import { ChevronRight } from "lucide-react";
+import { Link } from "@/i18n/navigation";
+import { Icon } from "@/components/Icon";
+import { Catalog, ResultCount } from "./Catalog";
+import { CatalogFromUrl, ResultCountFromUrl } from "./CatalogFromUrl";
+import styles from "./catalog.module.css";
+
+type Props = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "catalog.meta" });
+  const title = t("title");
+  const description = t("description");
+  return {
+    title,
+    description,
+    // Filtrlangan ko'rinishlar (?country=…) ham shu kanonik manzilga ishora qiladi.
+    alternates: alternates(locale, "/tours"),
+    openGraph: {
+      type: "website",
+      siteName: site.name,
+      locale: locale === "uz" ? "uz_UZ" : locale === "ru" ? "ru_RU" : "en_US",
+      title,
+      description,
+      url: `${site.url}/${locale}/tours`,
+      images: [{ url: "/img/hero-dubai.jpg", width: 1600, height: 900, alt: site.name }],
+    },
+  };
+}
+
+export default async function ToursPage({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("catalog");
+  const tc = await getTranslations("common");
+
+  // Sahifa statik: `searchParams` serverda o'qilmaydi. Suspense fallback'lari — filtrsiz to'liq
+  // ro'yxat (HTML'da barcha turlar bor); brauzerda *FromUrl komponentlari URL'dagi filtrlarni qo'llaydi.
+  return (
+    <>
+      <section className="page-banner">
+        <div className="container page-banner__inner">
+          <nav aria-label={tc("nav.breadcrumb")} className="breadcrumb breadcrumb--light">
+            <Link href="/">{tc("nav.home")}</Link>
+            <Icon icon={ChevronRight} size={13} strokeWidth={2} />
+            <span aria-current="page">{t("title")}</span>
+          </nav>
+          <div className={styles.bannerRow}>
+            <div className={styles.bannerText}>
+              <h1>{t("title")}</h1>
+              <p>{t("lead")}</p>
+            </div>
+            <Suspense fallback={<ResultCount query="" />}>
+              <ResultCountFromUrl />
+            </Suspense>
+          </div>
+        </div>
+      </section>
+
+      <Suspense fallback={<Catalog query="" />}>
+        <CatalogFromUrl />
+      </Suspense>
+    </>
+  );
+}

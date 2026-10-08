@@ -608,6 +608,11 @@ input[type="range"] {
 }
 .breadcrumb a {
   color: inherit;
+  /* bosish maydoni ≥ 44px, ko'rinish o'zgarmaydi */
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: -14px 0;
 }
 .breadcrumb [aria-current="page"] {
   color: var(--ink);

@@ -1,1 +1,16 @@
-{}
+{
+  "meta": {
+    "title": "FAQ",
+    "description": "Answers to common questions about booking, payment methods, cancellation, visas, what a tour includes and insurance."
+  },
+  "banner": {
+    "title": "Frequently asked questions",
+    "lead": "The questions we hear most about booking, payment and getting ready to travel — with short, clear answers."
+  },
+  "listLabel": "List of questions",
+  "cta": {
+    "title": "Didn't find your answer?",
+    "text": "Write to us — a specialist will reply within an hour during business hours.",
+    "button": "Ask a question"
+  }
+}
