@@ -176,5 +176,12 @@
     "cards": "Click · Uzcard · Humo",
     "paidLabel": "To'landi",
     "notFound": "{id} raqamli bron topilmadi. Havola to'liq ko'chirilmagan bo'lishi mumkin."
+  },
+  "verify": {
+    "qrAria": "Chekni tekshirish uchun QR kod",
+    "codeLabel": "Tekshirish kodi",
+    "hint": "Chek haqiqiyligini QR kod yoki ravontravel.uz/verify sahifasida bron raqami va shu kod bilan tekshirish mumkin.",
+    "link": "Chekni tekshirish sahifasi",
+    "printHint": "Haqiqiyligini tekshirish: QR kodni skanerlang yoki {url} sahifasida bron raqami va kodni kiriting."
   }
 }

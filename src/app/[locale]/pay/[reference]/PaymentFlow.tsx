@@ -161,7 +161,8 @@ export function PaymentFlow({ reference }: { reference: string }) {
     previousView.current = view;
   }, [view]);
 
-  const head = (timer: React.ReactNode) => (
+  // Sarlavha, bosqichlar va taymer bitta qatorda — sahifa noutbuk ekraniga to'liq sig'sin.
+  const head = (timer: React.ReactNode, stages: React.ReactNode = null) => (
     <section className={styles.head}>
       <div className={styles.headInner}>
         <div>
@@ -171,6 +172,7 @@ export function PaymentFlow({ reference }: { reference: string }) {
             <span className={styles.refId}>{reference}</span>
           </p>
         </div>
+        {stages}
         {timer}
       </div>
     </section>
@@ -369,52 +371,46 @@ export function PaymentFlow({ reference }: { reference: string }) {
             </span>
           </div>
         ),
+        <ol className={styles.stages} aria-label={t("stages.aria")}>
+          {([1, 2] as const).map((n) => {
+            const state = stageState(n);
+            return (
+              <li key={n} className={styles.stage} data-state={state} aria-current={state === "current" ? "step" : undefined}>
+                <span className={styles.stageNum} aria-hidden="true">
+                  {state === "done" ? <Icon icon={Check} size={14} strokeWidth={2.6} /> : n}
+                </span>
+                <span className={styles.stageTitle}>
+                  {n === 1 ? t("stages.card") : t("stages.confirm")}
+                  {state === "done" && <span className="sr-only"> — {t("stages.done")}</span>}
+                </span>
+              </li>
+            );
+          })}
+        </ol>,
       )}
 
-      <section className={styles.stagesBar}>
-        <div className={styles.stagesInner}>
-          <ol className={styles.stages} aria-label={t("stages.aria")}>
-            {([1, 2] as const).map((n) => {
-              const state = stageState(n);
-              return (
-                <li key={n} className={styles.stage} data-state={state} aria-current={state === "current" ? "step" : undefined}>
-                  <span className={styles.stageNum} aria-hidden="true">
-                    {state === "done" ? <Icon icon={Check} size={14} strokeWidth={2.6} /> : n}
-                  </span>
-                  <span className={styles.stageTitle}>
-                    {n === 1 ? t("stages.card") : t("stages.confirm")}
-                    {state === "done" && <span className="sr-only"> — {t("stages.done")}</span>}
-                  </span>
-                </li>
-              );
-            })}
-          </ol>
-        </div>
-      </section>
-
       <div className={styles.cols} data-side="1">
-        <form ref={formRef} className={styles.main} onSubmit={onSubmit} noValidate>
-          {/* Halol ogohlantirish: to'lov demo rejimida */}
-          <div className={`notice notice--warn ${styles.demo}`} role="note">
-            <Icon icon={TriangleAlert} size={17} strokeWidth={2} style={{ marginTop: 2 }} />
-            <div className={styles.demoBody}>
-              <span className={styles.demoTitle}>{t("demo.title")}</span>
-              <p>{t.rich(view === "success" ? "demo.paid" : "demo.text", { contact: contactLink })}</p>
-              {!done && (
-                <>
-                  <span className={styles.demoRulesTitle}>{t("demo.rulesTitle")}</span>
-                  <ul className={styles.demoRules}>
-                    <li>{t.rich("demo.card", { card: DEMO_CARD, mono })}</li>
-                    <li>{t.rich("demo.success", { code: DEMO_CODES.success, mono })}</li>
-                    <li>{t.rich("demo.declined", { code: DEMO_CODES.declined, mono })}</li>
-                    <li>{t.rich("demo.error", { code: DEMO_CODES.error, mono })}</li>
-                    <li>{t("demo.other")}</li>
-                  </ul>
-                </>
-              )}
-            </div>
+        {/* Halol ogohlantirish: to'lov demo rejimida. Desktopda o'ng ustunda (xulosa ostida), mobilda tepada. */}
+        <div className={`notice notice--warn ${styles.demo}`} role="note">
+          <Icon icon={TriangleAlert} size={17} strokeWidth={2} style={{ marginTop: 2 }} />
+          <div className={styles.demoBody}>
+            <span className={styles.demoTitle}>{t("demo.title")}</span>
+            <p>{t.rich(view === "success" ? "demo.paid" : "demo.text", { contact: contactLink })}</p>
+            {!done && (
+              <>
+                <span className={styles.demoRulesTitle}>{t("demo.rulesTitle")}</span>
+                <ul className={styles.demoRules}>
+                  <li>{t.rich("demo.card", { card: DEMO_CARD, mono })}</li>
+                  <li>{t.rich("demo.success", { code: DEMO_CODES.success, mono })}</li>
+                  <li>{t.rich("demo.declined", { code: DEMO_CODES.declined, mono })}</li>
+                  <li>{t.rich("demo.error", { code: DEMO_CODES.error, mono })}</li>
+                  <li>{t("demo.other")}</li>
+                </ul>
+              </>
+            )}
           </div>
-
+        </div>
+        <form ref={formRef} className={styles.main} onSubmit={onSubmit} noValidate>
           {view === "card" && (
             <section className={styles.section}>
               <div>
@@ -618,7 +614,7 @@ export function PaymentFlow({ reference }: { reference: string }) {
 
           {view === "success" && (
             <section className={`${styles.section} ${styles.sectionResult}`}>
-              <div className={styles.result} data-ok="1">
+              <div className={styles.result} data-ok="1" data-celebrate="1">
                 <span className={styles.resultIcon}>
                   <Icon icon={Check} size={28} strokeWidth={2.4} />
                 </span>

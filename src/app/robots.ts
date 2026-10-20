@@ -6,8 +6,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      // API hamda shaxsiy bron/to'lov sahifalari indekslanmaydi
-      disallow: ["/api/", "/*/book/", "/*/pay/"],
+      // API hamda shaxsiy bron/to'lov/chek tekshirish sahifalari indekslanmaydi
+      disallow: ["/api/", "/*/book/", "/*/pay/", "/*/verify"],
     },
     sitemap: `${site.url}/sitemap.xml`,
     host: site.url,

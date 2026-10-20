@@ -18,6 +18,7 @@ export const namespaces = [
   "faq",
   "legal",
   "notFound",
+  "verify",
 ] as const;
 
 export default getRequestConfig(async ({ requestLocale }) => {

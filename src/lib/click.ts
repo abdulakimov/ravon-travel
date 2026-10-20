@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { getTour, todayIso } from "@/data/tours";
 import { recordLead } from "./leads";
-import { nextSeq, readOrder, saveOrder, withOrdersLock, type Order } from "./orders";
+import { newVerifyCode, nextSeq, readOrder, saveOrder, withOrdersLock, type Order } from "./orders";
 
 // Click SHOP API (https://docs.click.uz/shop-api/requests): Click serveri bizga ikki marta POST qiladi —
 //   Prepare  (action=0): "bu buyurtma bormi, summa to'g'rimi?" → merchant_prepare_id
@@ -208,6 +208,7 @@ export async function handleClick(
       tx.finishedAt = now;
       order.status = "paid";
       order.paidAt = now;
+      order.verifyCode ??= newVerifyCode();
       await saveOrder(order);
       return id;
     }, order.id);

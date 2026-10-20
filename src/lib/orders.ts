@@ -7,7 +7,8 @@ import { BOOKING_ID_RE, HOLD_MS } from "./booking-constants";
 // To'lov uchun bronlarning SERVERDAGI nusxasi (Click Prepare/Complete shunga tayanadi).
 // Har bron — /data/orders/<id>.json (bind-mount, deploy'dan omon qoladi). Konteyner bitta,
 // shuning uchun barcha yozuvlar bitta jarayon ichidagi navbat (mutex) orqali ketma-ket bajariladi.
-// Bu yerda shaxsiy ma'lumot YO'Q: ism, telefon, pasport — faqat leads.ndjson da (menejer uchun).
+// Shaxsiy ma'lumot MINIMAL: faqat qisqartirilgan ismlar («ISLOM K.» — chekni tekshirish uchun).
+// To'liq ism, telefon, pasport, tug'ilgan sana — bu yerda yo'q (telefon/ism faqat leads.ndjson da, menejer uchun).
 
 export type OrderStatus = "awaiting" | "paid" | "cancelled";
 
@@ -39,7 +40,50 @@ export interface Order {
    * holat endpoint'i faqat `?k=<payToken>` bilan ochiladi. Faqat mijozga qaytariladi, log/xabarga yozilmaydi.
    */
   payToken: string;
+  /** Sayohatchilar, qisqartirilgan («ISLOM K.»): avval kattalar, keyin bolalar. Chek va tekshirish sahifasi uchun. */
+  travelers?: string[];
+  /**
+   * Chekni tekshirish kodi (Crockford base32, 12 belgi ≈ 60 bit) — to'lov tasdiqlanganda beriladi, chekdagi QR'da.
+   * payToken'dan alohida: chek uchinchi shaxsga (elchixona, ish joyi) beriladi va to'lov sahifasini ochmasligi kerak.
+   */
+  verifyCode?: string;
   transactions: ClickTransaction[];
+}
+
+/** `"ISLOM KARIMOV"` → `"ISLOM K."`. Ism-familiya pasportdagidek lotin, bo'shliq bilan ajratilgan. */
+export function maskName(full: string): string {
+  const parts = full.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "";
+  if (parts.length === 1) return parts[0].slice(0, 40);
+  return `${parts[0].slice(0, 40)} ${parts[parts.length - 1][0]}.`;
+}
+
+// Crockford base32: I, L, O, U yo'q — qo'lda terishda adashtirilmaydi.
+const CROCKFORD = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
+
+export function newVerifyCode(): string {
+  const bytes = randomBytes(12);
+  return Array.from(bytes, (b) => CROCKFORD[b & 31]).join("");
+}
+
+/** `ABCD1234WXYZ` → `ABCD-1234-WXYZ` (chekda ko'rsatish uchun). */
+export const formatVerifyCode = (code: string) => code.match(/.{1,4}/g)?.join("-") ?? code;
+
+/** Foydalanuvchi kiritgan kodni me'yorlash: katta harf, chiziq/bo'shliqsiz, I/L → 1, O → 0. */
+export function normalizeVerifyCode(input: string): string {
+  return input
+    .toUpperCase()
+    .replace(/[\s-]/g, "")
+    .replace(/[IL]/g, "1")
+    .replace(/O/g, "0");
+}
+
+/** Faqat TO'LANGAN bron va to'g'ri kod — aks holda false (sabab oshkor qilinmaydi). */
+export function verifyMatches(order: Order, input: string | null | undefined): boolean {
+  if (order.status !== "paid" || !order.verifyCode || typeof input !== "string") return false;
+  const a = Buffer.from(normalizeVerifyCode(input), "utf8");
+  const b = Buffer.from(order.verifyCode, "utf8");
+  return a.length === b.length && timingSafeEqual(a, b);
 }
 
 const ORDERS_DIR =
@@ -132,6 +176,8 @@ export interface NewOrder {
   children: number;
   locale: string;
   amountUzs: number;
+  /** To'liq ismlar — saqlashdan oldin qisqartiriladi. */
+  travelers?: string[];
 }
 
 /** Bron raqamini SERVER beradi (takrorlanmaydi) va bronni saqlaydi. */
@@ -141,9 +187,11 @@ export function createOrder(input: NewOrder, now = Date.now()): Promise<Order> {
     for (let attempt = 0; attempt < 20; attempt++) {
       const id = `RV-${year}-${String(randomInt(0, 100000)).padStart(5, "0")}`;
       if (await readOrder(id)) continue;
+      const { travelers, ...rest } = input;
       const order: Order = {
         id,
-        ...input,
+        ...rest,
+        travelers: travelers?.map(maskName),
         status: "awaiting",
         createdAt: now,
         holdUntil: now + HOLD_MS,

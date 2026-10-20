@@ -12,7 +12,7 @@ process.env.CLICK_LOG_FILE = join(dir, "click.ndjson");
 process.env.LEADS_FILE = join(dir, "leads.ndjson");
 
 const { ClickError, PREPARE_GRACE_MS, clickConfig, clickPOST, expectedSign, handleClick } = await import("../click");
-const { createOrder, publicStatus, readOrder, saveOrder, tokenMatches, withOrdersLock } = await import("../orders");
+const { createOrder, publicStatus, readOrder, saveOrder, tokenMatches, withOrdersLock, formatVerifyCode, maskName, normalizeVerifyCode, verifyMatches, newVerifyCode } = await import("../orders");
 const { BOOKING_ID_RE } = await import("../booking-constants");
 type ClickConfig = import("../click").ClickConfig;
 
@@ -349,5 +349,58 @@ describe("clickPOST (HTTP)", () => {
     );
     vi.unstubAllEnvs();
     expect(await res.json()).toMatchObject({ error: 0, merchant_trans_id: order.id });
+  });
+});
+
+describe("receipt verification", () => {
+  it("masks traveller names to first name + last initial", () => {
+    expect(maskName("ISLOM KARIMOV")).toBe("ISLOM K.");
+    expect(maskName("  ANNA   MARIA  LEE ")).toBe("ANNA L.");
+    expect(maskName("MADINA")).toBe("MADINA");
+    expect(maskName("")).toBe("");
+  });
+
+  it("issues 12-char Crockford codes and normalises typed input", () => {
+    const code = newVerifyCode();
+    expect(code).toMatch(/^[0-9A-HJKMNP-TV-Z]{12}$/);
+    expect(formatVerifyCode("ABCD1234WXYZ")).toBe("ABCD-1234-WXYZ");
+    expect(normalizeVerifyCode(" abcd-1234 wxyz ")).toBe("ABCD1234WXYZ");
+    expect(normalizeVerifyCode("O1LI")).toBe("0111");
+  });
+
+  it("stores masked names and gives a verify code only once the payment is confirmed", async () => {
+    const order = await createOrder(
+      {
+        tourSlug: "azerbaijan-7-wonders",
+        departureId: "2026-10-26",
+        adults: 1,
+        children: 0,
+        locale: "uz",
+        amountUzs: AMOUNT,
+        travelers: ["ISLOM KARIMOV"],
+      },
+      T0,
+    );
+    expect(order.travelers).toEqual(["ISLOM K."]);
+    expect(JSON.stringify(await readOrder(order.id))).not.toContain("KARIMOV");
+    expect(order.verifyCode).toBeUndefined();
+
+    const prep = prepareForm(order.id);
+    const prepareId = (await run(prep)).response.merchant_prepare_id;
+    expect((await readOrder(order.id))?.verifyCode).toBeUndefined();
+    await run(completeForm(prep, prepareId));
+    const paid = (await readOrder(order.id))!;
+    expect(paid.verifyCode).toMatch(/^[0-9A-HJKMNP-TV-Z]{12}$/);
+
+    expect(verifyMatches(paid, paid.verifyCode)).toBe(true);
+    expect(verifyMatches(paid, formatVerifyCode(paid.verifyCode!).toLowerCase())).toBe(true);
+    expect(verifyMatches(paid, "AAAA-AAAA-AAAA")).toBe(false);
+    expect(verifyMatches(paid, "")).toBe(false);
+    expect(verifyMatches(paid, null)).toBe(false);
+    expect(verifyMatches({ ...paid, status: "awaiting" }, paid.verifyCode)).toBe(false);
+
+    // Takroriy Complete kodni almashtirmaydi (chop etilgan chek eskirib qolmasin)
+    await run(completeForm(prep, prepareId));
+    expect((await readOrder(order.id))?.verifyCode).toBe(paid.verifyCode);
   });
 });

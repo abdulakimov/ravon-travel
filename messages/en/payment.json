@@ -176,5 +176,12 @@
     "cards": "Click · Uzcard · Humo",
     "paidLabel": "Paid",
     "notFound": "Booking {id} was not found. The link may not have been copied in full."
+  },
+  "verify": {
+    "qrAria": "QR code to verify the receipt",
+    "codeLabel": "Verification code",
+    "hint": "Anyone can verify this receipt by scanning the QR code or entering the booking number and this code at ravontravel.uz/verify.",
+    "link": "Receipt verification page",
+    "printHint": "To verify: scan the QR code or enter the booking number and code at {url}."
   }
 }

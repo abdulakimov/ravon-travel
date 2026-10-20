@@ -6,8 +6,9 @@ import { routing } from "@/i18n/routing";
 import { site } from "@/config/site";
 import { BOOKING_ID_RE } from "@/lib/booking-constants";
 import { clickConfig } from "@/lib/click";
-import { publicStatus, readOrder, tokenMatches } from "@/lib/orders";
-import { ClickPayment, type OrderView } from "./ClickPayment";
+import { formatVerifyCode, publicStatus, readOrder, tokenMatches } from "@/lib/orders";
+import { qrSvg, verifyUrl } from "@/lib/receipt";
+import { ClickPayment, type OrderView, type ReceiptView } from "./ClickPayment";
 import { PaymentFlow } from "./PaymentFlow";
 
 type Params = Promise<{ locale: string; reference: string }>;
@@ -50,6 +51,13 @@ export default async function PayPage({ params, searchParams }: { params: Params
     children: order.children,
   };
 
+  // To'langan bo'lsa — chek uchun tekshirish kodi va QR (serverda chiziladi).
+  let receipt: ReceiptView | null = null;
+  if (order?.status === "paid" && order.verifyCode) {
+    const url = verifyUrl(locale, order.id, order.verifyCode);
+    receipt = { code: formatVerifyCode(order.verifyCode), url, qrSvg: await qrSvg(url), travelers: order.travelers ?? [] };
+  }
+
   return (
     <ClickPayment
       reference={reference}
@@ -57,6 +65,7 @@ export default async function PayPage({ params, searchParams }: { params: Params
       // Maxfiy kalit (secretKey) client'ga HECH QACHON uzatilmaydi — faqat ochiq identifikatorlar.
       click={{ serviceId: click.serviceId, merchantId: click.merchantId, merchantUserId: click.merchantUserId }}
       payToken={order?.payToken ?? null}
+      receipt={receipt}
       returnUrl={`${site.url}/${locale}/pay/${reference}?k=${encodeURIComponent(order?.payToken ?? "")}&return=1`}
       returned={query.return === "1"}
     />

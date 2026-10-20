@@ -11,7 +11,7 @@ import { Icon } from "@/components/Icon";
 import { Logo } from "@/components/Brand";
 import { formatDate, formatDateRange, money } from "@/lib/format";
 import { tr } from "@/lib/l10n";
-import { loadBooking, type Traveler } from "@/lib/booking-store";
+import { loadBooking } from "@/lib/booking-store";
 import { clockTime, formatCountdown, localIsoDate } from "@/lib/payment";
 import type { PublicStatus } from "@/lib/orders";
 import styles from "./pay.module.css";
@@ -30,6 +30,14 @@ export interface OrderView {
   departureId: string;
   adults: number;
   children: number;
+}
+
+/** To'langan bron cheki: tekshirish kodi, QR (serverda chizilgan SVG) va qisqartirilgan ismlar. */
+export interface ReceiptView {
+  code: string; // ABCD-1234-WXYZ
+  url: string;
+  qrSvg: string;
+  travelers: string[];
 }
 
 export interface ClickPublicConfig {
@@ -87,6 +95,7 @@ export function ClickPayment({
   order: initial,
   click,
   payToken,
+  receipt,
   returnUrl,
   returned,
 }: {
@@ -95,6 +104,7 @@ export function ClickPayment({
   click: ClickPublicConfig;
   /** Holat endpoint'i uchun kalit (`?k=`); bron topilmasa null. */
   payToken: string | null;
+  receipt: ReceiptView | null;
   returnUrl: string;
   /** Click sahifasidan qaytildi (`?return=1`) — darhol holatni tekshiramiz. */
   returned: boolean;
@@ -110,22 +120,15 @@ export function ClickPayment({
   const pollUntil = useRef(0);
   const headingRef = useRef<HTMLHeadingElement>(null);
 
-  // Sayohatchilar ro'yxati (vaucher uchun) faqat shu brauzerda bo'ladi; bo'lmasa vaucher ismlarsiz.
-  // Mount'dan keyin o'qiladi — server HTML'i bilan farq (hydration mismatch) bo'lmasin.
-  const [travelers, setTravelers] = useState<Traveler[] | null>(null);
-
   useEffect(() => {
     const tick = () => setNow(Date.now());
-    const first = window.setTimeout(() => {
-      tick();
-      setTravelers(loadBooking(reference)?.travelers ?? null);
-    }, 0);
+    const first = window.setTimeout(tick, 0);
     const timer = window.setInterval(tick, 1000);
     return () => {
       window.clearTimeout(first);
       window.clearInterval(timer);
     };
-  }, [reference]);
+  }, []);
 
   const refresh = useCallback(async () => {
     try {
@@ -134,6 +137,13 @@ export function ClickPayment({
       if (!res.ok) return;
       const body = (await res.json()) as { status?: PublicStatus; paidAt?: number | null };
       if (!body.status) return;
+      if (body.status === "paid") {
+        // Chek (QR, tekshirish kodi) serverda chiziladi — sahifani server holati bilan qayta ochamiz.
+        const url = new URL(window.location.href);
+        url.searchParams.set("return", "1");
+        window.location.replace(url.toString());
+        return;
+      }
       setOrder((o) => (o ? { ...o, status: body.status!, paidAt: body.paidAt ?? o.paidAt } : o));
     } catch {
       // tarmoq xatosi — keyingi so'rovda qayta urinadi
@@ -399,8 +409,14 @@ export function ClickPayment({
 
           {paid && (
             <section className={`${styles.section} ${styles.sectionResult}`}>
-              <div className={styles.result} data-ok="1">
+              {/* Click'dan qaytgan zahoti (return=1) — bayram animatsiyasi; keyin ochilganda jim. */}
+              <div className={styles.result} data-ok="1" data-celebrate={returned ? "1" : undefined}>
                 <span className={styles.resultIcon}>
+                  <span className={styles.burst} aria-hidden="true">
+                    {Array.from({ length: 8 }, (_, i) => (
+                      <span key={i} style={{ "--i": i } as React.CSSProperties} />
+                    ))}
+                  </span>
                   <Icon icon={Check} size={28} strokeWidth={2.4} />
                 </span>
                 <div className={styles.resultText}>
@@ -433,6 +449,25 @@ export function ClickPayment({
                     <dd>{paidAtLabel}</dd>
                   </div>
                 </dl>
+                {receipt && (
+                  <div className={styles.verify}>
+                    <span
+                      className={styles.qr}
+                      role="img"
+                      aria-label={t("verify.qrAria")}
+                      // SVG serverda qrcode kutubxonasi bilan bizning URL'dan chiziladi (foydalanuvchi matni yo'q)
+                      dangerouslySetInnerHTML={{ __html: receipt.qrSvg }}
+                    />
+                    <div className={styles.verifyText}>
+                      <span className={styles.verifyLabel}>{t("verify.codeLabel")}</span>
+                      <span className={styles.verifyCode}>{receipt.code}</span>
+                      <p className={styles.verifyHint}>{t("verify.hint")}</p>
+                      <a href={receipt.url} className={styles.verifyLink} target="_blank" rel="noopener">
+                        {t("verify.link")}
+                      </a>
+                    </div>
+                  </div>
+                )}
                 <div className={styles.receiptActions}>
                   <button type="button" className={`btn btn--primary ${styles.receiptBtn}`} onClick={() => window.print()}>
                     <Icon icon={Download} size={16} />
@@ -552,24 +587,32 @@ export function ClickPayment({
               </div>
             )}
           </dl>
-          {travelers && travelers.length > 0 && (
+          {receipt && receipt.travelers.length > 0 && (
             <>
               <p className={styles.voucherLabel}>{t("voucher.travellers")}</p>
               <table className={styles.voucherTable}>
                 <tbody>
-                  {travelers.map((person, i) => (
+                  {receipt.travelers.map((name, i) => (
                     <tr key={i}>
                       <td>
-                        {i + 1}. {person.lastName} {person.firstName}
+                        {i + 1}. {name}
                       </td>
-                      <td>
-                        {i < order.adults ? t("voucher.adult") : t("voucher.child")} · {formatDate(person.birthDate, locale)}
-                      </td>
+                      <td>{i < order.adults ? t("voucher.adult") : t("voucher.child")}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </>
+          )}
+          {receipt && (
+            <div className={styles.voucherVerify}>
+              <span className={styles.qr} dangerouslySetInnerHTML={{ __html: receipt.qrSvg }} />
+              <div>
+                <p className={styles.voucherLabel}>{t("verify.codeLabel")}</p>
+                <p className={styles.verifyCode}>{receipt.code}</p>
+                <p className={styles.voucherVerifyNote}>{t("verify.printHint", { url: `${site.domain}/verify` })}</p>
+              </div>
+            </div>
           )}
           <p className={styles.voucherFoot}>
             {t("voucher.contact")}: {site.name} · {site.domain} · {site.email}

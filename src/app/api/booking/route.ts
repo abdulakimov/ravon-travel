@@ -50,6 +50,7 @@ export async function POST(req: Request) {
         locale: data.locale ?? "uz",
         // superRefine allaqachon tekshirdi: totalUzs === tur ma'lumotidan hisoblangan summa
         amountUzs: data.totalUzs,
+        travelers: data.travelers, // serverda «ISLOM K.» ko'rinishida saqlanadi
       });
       return {
         record: { bookingId: order.id, amountUzs: order.amountUzs },

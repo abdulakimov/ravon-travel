@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026-10-20 — chek QR'i, tekshirish sahifasi, ixcham bron/to'lov sahifalari
+
+### Qo'shildi
+- **Chekni tekshirish:** to'lov tasdiqlanganda bronga 12 belgili tekshirish kodi beriladi (`ABCD-1234-WXYZ`).
+  Chekda (ekranda va chop etilgan vaucherda) QR kod va shu kod bor. QR `/<til>/verify?id=…&c=…` sahifasini
+  ochadi; u yerda bron raqami va kod qo'lda ham kiritiladi. Sahifa faqat serverdagi ma'lumotni ko'rsatadi
+  (tur, sanalar, summa, to'lov vaqti, Click raqami, sayohatchilar «ISLOM K.» ko'rinishida) — qog'ozdagi chekni
+  soxtalashtirib bo'lmaydi. Noto'g'ri kod / to'lanmagan bron — bir xil «topilmadi» javobi.
+- To'lov muvaffaqiyatli bo'lganda animatsiya (belgi chiziladi, halqa va uchqunlar); `prefers-reduced-motion`
+  da o'chadi.
+
+### O'zgardi
+- Bron (4 qadam) va to'lov sahifalari desktopda bitta ekranga sig'adi (1366×640 dan): sarlavha, qadamlar va
+  taymer bitta qatorda; demo ogohlantirishi o'ng ustunda; karta maydonlari bitta qatorda; chekda QR yonida.
+- Serverdagi bron yozuvida sayohatchilar qisqartirilgan holda saqlanadi («ISLOM K.»), to'liq ism emas.
+
 ## 2026-10-20 — Click to'lovi, narxlar so'mda
 
 ### Qo'shildi

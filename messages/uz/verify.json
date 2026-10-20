@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "title": "Chekni tekshirish"
+  },
+  "banner": {
+    "title": "Chek haqiqiymi?",
+    "lead": "Chekdagi QR kodni skanerlang yoki bron raqami va tekshirish kodini kiriting — to'lov ma'lumotlari to'g'ridan-to'g'ri bizning tizimdan ko'rsatiladi."
+  },
+  "valid": {
+    "title": "Chek haqiqiy",
+    "text": "Bu to'lov Ravon Travel tizimida tasdiqlangan.",
+    "note": "Qog'ozdagi chekni shu ma'lumotlar bilan solishtiring. Biror maydon farq qilsa — chek o'zgartirilgan bo'lishi mumkin; bizga murojaat qiling."
+  },
+  "invalid": {
+    "title": "Bunday chek topilmadi",
+    "text": "Bron raqami yoki tekshirish kodi noto'g'ri, yoki to'lov tasdiqlanmagan. Ma'lumotlarni qaytadan tekshiring — muammo davom etsa, menejerga murojaat qiling."
+  },
+  "fields": {
+    "bookingNo": "Bron raqami",
+    "code": "Tekshirish kodi",
+    "tour": "Tur",
+    "dates": "Sanalar",
+    "amount": "To'langan summa",
+    "paidAt": "To'lov vaqti (Toshkent)",
+    "method": "To'lov usuli",
+    "travellers": "Sayohatchilar"
+  },
+  "adult": "katta yoshli",
+  "child": "bola",
+  "people": "{count} kishi",
+  "form": {
+    "aria": "Chekni tekshirish formasi",
+    "title": "Ma'lumotlarni kiriting",
+    "again": "Boshqa chekni tekshirish",
+    "id": "Bron raqami",
+    "code": "Tekshirish kodi",
+    "submit": "Tekshirish",
+    "hint": "Ikkalasi ham chekda, QR kod yonida yozilgan."
+  }
+}

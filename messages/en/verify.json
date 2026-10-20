@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "title": "Verify a receipt"
+  },
+  "banner": {
+    "title": "Is this receipt genuine?",
+    "lead": "Scan the QR code on the receipt or enter the booking number and verification code — payment details are shown straight from our system."
+  },
+  "valid": {
+    "title": "Receipt is genuine",
+    "text": "This payment is confirmed in the Ravon Travel system.",
+    "note": "Compare the paper receipt with these details. If any field differs, the receipt may have been altered — please contact us."
+  },
+  "invalid": {
+    "title": "No such receipt",
+    "text": "The booking number or verification code is wrong, or the payment is not confirmed. Check the details again — if the problem persists, contact a manager."
+  },
+  "fields": {
+    "bookingNo": "Booking number",
+    "code": "Verification code",
+    "tour": "Tour",
+    "dates": "Dates",
+    "amount": "Amount paid",
+    "paidAt": "Paid at (Tashkent)",
+    "method": "Payment method",
+    "travellers": "Travellers"
+  },
+  "adult": "adult",
+  "child": "child",
+  "people": "{count} people",
+  "form": {
+    "aria": "Receipt verification form",
+    "title": "Enter the details",
+    "again": "Check another receipt",
+    "id": "Booking number",
+    "code": "Verification code",
+    "submit": "Verify",
+    "hint": "Both are printed on the receipt next to the QR code."
+  }
+}
