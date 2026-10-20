@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = `${tr(tour.summary, locale)} ${t("tail", {
     days: tour.days,
     nights: tour.nights,
-    price: money(tour.priceFromUsd, locale),
+    price: money(tour.priceFromUzs, locale),
   })}`;
   const path = `/tours/${tour.slug}`;
 
@@ -126,13 +126,13 @@ export default async function TourPage({ params }: Props) {
     offers: tour.fixedDeparture
       ? tour.departures.map((d) => ({
           "@type": "Offer",
-          price: d.priceUsd,
-          priceCurrency: "USD",
+          price: d.priceUzs,
+          priceCurrency: "UZS",
           availability: d.seatsLeft > 0 ? "https://schema.org/InStock" : "https://schema.org/SoldOut",
           validThrough: d.from,
           url: pageUrl,
         }))
-      : { "@type": "AggregateOffer", lowPrice: tour.priceFromUsd, priceCurrency: "USD", url: pageUrl },
+      : { "@type": "AggregateOffer", lowPrice: tour.priceFromUzs, priceCurrency: "UZS", url: pageUrl },
   };
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -205,7 +205,7 @@ export default async function TourPage({ params }: Props) {
         tour={{
           slug: tour.slug,
           fixedDeparture: tour.fixedDeparture,
-          priceFromUsd: tour.priceFromUsd,
+          priceFromUzs: tour.priceFromUzs,
           departures: tour.departures,
         }}
       >

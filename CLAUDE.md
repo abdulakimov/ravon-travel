@@ -58,16 +58,22 @@ messages/<locale>/<ns>.json   tarjimalar, namespace bo'yicha
 7. **Rasmlar** `next/image` orqali, manba `public/img/*.jpg`. Build vaqtida `scripts/optimize-images.mjs` ulardan
    WebP variantlar yaratadi (`public/img/opt/`, git'da yo'q), `src/lib/image-loader.ts` shularga yo'naltiradi.
    Ish vaqtida `/_next/image` ISHLATILMAYDI (ulashilgan serverda juda sekin edi). Kengliklar ro'yxati ikkala faylda bir xil bo'lsin.
-8. **Karta ma'lumotlari hech qachon serverga yuborilmaydi va saqlanmaydi** (to'lov hozircha demo —
-   pastga qarang). Forma endpoint'lari zod bilan tekshiradi va rate-limit qiladi.
+8. **Karta ma'lumotlari hech qachon serverga yuborilmaydi va saqlanmaydi** — karta faqat Click sahifasi/oynasida
+   kiritiladi (demo rejimda esa brauzer xotirasidan chiqmaydi). Forma endpoint'lari zod bilan tekshiradi va rate-limit qiladi.
 9. Pul va sana faqat `src/lib/format.ts` orqali formatlanadi.
 10. Server komponent default; `"use client"` faqat holat/hodisa kerak bo'lgan joyda.
 
 ## Hozirgi cheklovlar (ochiq qolgan)
 
-- **To'lov demo rejimida** — shlyuz (Atmos/Payme/Click) tanlanmagan. `/pay/[ref]` oqimi to'liq
-  ishlaydi, lekin pul yechilmaydi; sahifada "demo" ogohlantirishi bor. Real integratsiya — backend ishi (TZ B5).
-- Bron brauzerda (`sessionStorage`) saqlanadi; tasdiqlanganda `/api/booking` menejerga xabar yozadi (pasport/tug'ilgan sana/karta YUBORILMAYDI); o'rin qoldig'i statik. Backend kelganda `src/lib/booking-store.ts` almashtiriladi.
+- **To'lov — Click** (`src/lib/click.ts`, `/api/click/prepare|complete`, `ClickPayment.tsx`). `.env` da
+  `CLICK_SERVICE_ID`+`CLICK_MERCHANT_ID`+`CLICK_SECRET_KEY` bo'lmasa — eski demo oqim (`PaymentFlow.tsx`, pul yechilmaydi).
+  "To'landi" holatini FAQAT imzolangan Click Complete o'rnatadi; brauzerga ishonilmaydi. Fiskalizatsiya qilinmaydi
+  (bitta IKPU deb faraz qilingan — bir nechta bo'lsa Merchant API `submit_items` kerak).
+- **Narxlar so'mda** (`priceUzs`, `priceFromUzs`, `totalUzs`), dollar yo'q. `money(uzs, locale)`.
+- Bron serverda: `/api/booking` raqamni va summani o'zi beradi va `/data/orders/<id>.json` ga yozadi (`src/lib/orders.ts`,
+  shaxsiy ma'lumotsiz). To'lov sahifasi va `/api/payment/<id>` faqat `?k=<payToken>` bilan ochiladi (raqamni taxmin
+  qilish yetmaydi). Bron yozuvlari bitta jarayon navbatida (`withOrdersLock`, globalThis) — konteyner faqat BITTA. Nusxasi brauzerda (`sessionStorage`) — vaucher uchun sayohatchilar ro'yxati. Pasport/tug'ilgan
+  sana/karta serverga YUBORILMAYDI; o'rin qoldig'i statik.
 - Aloqa/so'rov/bron xabarlari serverda `/opt/ravon-travel/data/leads.ndjson` ga yoziladi; `.env` da `TELEGRAM_BOT_TOKEN`+`TELEGRAM_CHAT_ID` va/yoki `LEAD_WEBHOOK_URL` berilsa — o'sha kanallarga ham yuboriladi (hozircha berilmagan).
 - Rekvizit, litsenziya raqami, jamoa ismlari, ijtimoiy tarmoq havolalari, xarita — `site.ts` da `null`.
 - Fotolar — Wikimedia Commons (CC); o'z fotolariga almashtirilishi kerak.
@@ -78,4 +84,4 @@ messages/<locale>/<ns>.json   tarjimalar, namespace bo'yicha
 ## Deploy
 
 GitHub Actions → GHCR → `new-vps` (`/opt/ravon-travel`, `127.0.0.1:3130`) → host nginx → `ravontravel.uz`.
-Serverda build QILINMAYDI. Batafsil: `docs/DEPLOY.md`.
+Serverda build QILINMAYDI. Batafsil: `docs/DEPLOY.md` (Click sozlash ham shu yerda).

@@ -67,7 +67,10 @@ const KIND_TITLE: Record<string, string> = {
   contact: "✉️ Aloqa formasi",
   inquiry: "🧭 Tur so'rovi",
   booking: "🎫 Yangi bron",
+  payment: "💳 To'lov qabul qilindi (Click)",
 };
+
+export type LeadKind = "contact" | "inquiry" | "booking" | "payment";
 
 /** Telegram xabari matni (oddiy matn — parse_mode yo'q, shuning uchun escape kerak emas). */
 export function telegramText(kind: string, data: unknown): string {
@@ -120,10 +123,55 @@ async function deliver(kind: string, data: unknown): Promise<void> {
 }
 
 /**
- * @param schema  zod sxema; `website` maydoni honeypot sifatida ajratib olinadi (sxemada bo'lmasin).
- * Javob: 200 {ok:true} · 400 {error:"invalid", fields} · 403 · 413 · 429 · 502
+ * Xabarni saqlaydi va yetkazadi: 1) avval DISKKA (/data — host'dagi bind-mount, deploy va restart'dan
+ * omon qoladi; bu asosiy nusxa, shaxsiy ma'lumot konteyner log'iga yozilmaydi), 2) keyin sozlangan
+ * kanallarga (Telegram / webhook). Diskka yozilgan bo'lsa kanal xatosi — xato emas.
  */
-export async function handleLead<T extends z.ZodType>(req: Request, kind: "contact" | "inquiry" | "booking", schema: T) {
+export async function recordLead(kind: LeadKind, data: unknown): Promise<{ stored: boolean; delivered: boolean; at: string }> {
+  const record = { kind, receivedAt: new Date().toISOString(), data };
+  let stored = false;
+  try {
+    await appendFile(LEADS_FILE, JSON.stringify(record) + "\n", { mode: 0o600 });
+    stored = true;
+  } catch (err) {
+    console.error(JSON.stringify({ event: "lead_store_failed", kind, error: String(err) }));
+  }
+
+  let delivered = false;
+  if (leadChannelsConfigured()) {
+    try {
+      await deliver(kind, data);
+      delivered = true;
+    } catch (err) {
+      console.error(JSON.stringify({ event: "lead_delivery_failed", kind, error: String(err), stored }));
+    }
+  }
+
+  if (!stored && !delivered) {
+    // Hech qayerga saqlanmadi: yo'qotmaslik uchun oxirgi chora — log'ga to'liq yozuv.
+    console.error(JSON.stringify({ event: "lead_payload", ...record }));
+  }
+  return { stored, delivered, at: record.receivedAt };
+}
+
+export interface LeadOptions<T> {
+  /**
+   * Validatsiyadan keyin, saqlashdan OLDIN chaqiriladi (masalan bronni serverda yaratish).
+   * `record` — yozuvga (va menejer xabariga) qo'shiladi, `response` — faqat mijozga javobga. Xato tashlasa — 503.
+   */
+  accept?: (data: T) => Promise<{ record: Record<string, unknown>; response: Record<string, unknown> }>;
+}
+
+/**
+ * @param schema  zod sxema; `website` maydoni honeypot sifatida ajratib olinadi (sxemada bo'lmasin).
+ * Javob: 200 {ok:true, ...accept()} · 400 {error:"invalid", fields} · 403 · 413 · 429 · 502 · 503
+ */
+export async function handleLead<T extends z.ZodType>(
+  req: Request,
+  kind: Exclude<LeadKind, "payment">,
+  schema: T,
+  options: LeadOptions<z.infer<T>> = {},
+) {
   if (!sameOrigin(req)) return NextResponse.json({ error: "forbidden" }, { status: 403 });
 
   // Har forma turi alohida hisoblanadi: aloqa formasini ko'p yuborish bron xabarini bloklamaydi.
@@ -162,33 +210,19 @@ export async function handleLead<T extends z.ZodType>(req: Request, kind: "conta
     return NextResponse.json({ error: "invalid", fields }, { status: 400 });
   }
 
-  // 1) Avval DISKKA: /data — host'dagi bind-mount, deploy va restart'dan omon qoladi.
-  //    Bu xabarning asosiy nusxasi; shaxsiy ma'lumot konteyner log'iga yozilmaydi.
-  const record = { kind, receivedAt: new Date().toISOString(), data: result.data };
-  let stored = false;
-  try {
-    await appendFile(LEADS_FILE, JSON.stringify(record) + "\n", { mode: 0o600 });
-    stored = true;
-  } catch (err) {
-    console.error(JSON.stringify({ event: "lead_store_failed", kind, error: String(err) }));
-  }
-
-  // 2) Keyin webhook (sozlangan bo'lsa). Diskka yozilgan bo'lsa webhook xatosi mijozga xato emas.
-  let delivered = false;
-  if (leadChannelsConfigured()) {
+  let extra: { record: Record<string, unknown>; response: Record<string, unknown> } = { record: {}, response: {} };
+  if (options.accept) {
     try {
-      await deliver(kind, result.data);
-      delivered = true;
+      extra = await options.accept(result.data);
     } catch (err) {
-      console.error(JSON.stringify({ event: "lead_delivery_failed", kind, error: String(err), stored }));
+      console.error(JSON.stringify({ event: "lead_accept_failed", kind, error: String(err) }));
+      return NextResponse.json({ error: "unavailable" }, { status: 503 });
     }
   }
 
-  if (!stored && !delivered) {
-    // Hech qayerga saqlanmadi: yo'qotmaslik uchun oxirgi chora — log'ga to'liq yozuv, mijozga xato.
-    console.error(JSON.stringify({ event: "lead_payload", ...record }));
-    return NextResponse.json({ error: "delivery_failed" }, { status: 502 });
-  }
-  console.info(JSON.stringify({ event: "lead", kind, at: record.receivedAt, stored, delivered }));
-  return NextResponse.json({ ok: true });
+  const { stored, delivered, at } = await recordLead(kind, { ...extra.record, ...(result.data as Record<string, unknown>) });
+  // Bron serverda yaratilgan bo'lsa (extra bor) — xabar yetkazilmasa ham bron haqiqiy, mijozga xato bermaymiz.
+  if (!stored && !delivered && !options.accept) return NextResponse.json({ error: "delivery_failed" }, { status: 502 });
+  console.info(JSON.stringify({ event: "lead", kind, at, stored, delivered }));
+  return NextResponse.json({ ok: true, ...extra.response });
 }

@@ -19,7 +19,7 @@ export const BOOKING_ANCHOR = "booking";
 interface BookingTour {
   slug: string;
   fixedDeparture: boolean;
-  priceFromUsd: number;
+  priceFromUzs: number;
   departures: Departure[];
 }
 
@@ -105,7 +105,7 @@ export function DatesTable() {
                 <Icon icon={User} size={14} />
                 <span>{soldOut ? t("soldOut") : tc("seatsLeft", { count: d.seatsLeft })}</span>
               </span>
-              <span className={styles.datePrice}>{money(d.priceUsd, locale)}</span>
+              <span className={styles.datePrice}>{money(d.priceUzs, locale)}</span>
               <button
                 type="button"
                 className={styles.dateButton}
@@ -183,7 +183,7 @@ export function BookingCard() {
   const uid = useId();
   const { tour, open, selected, adults, children, selectDate, setAdults, setChildren } = useBooking();
 
-  const price = selected?.priceUsd ?? tour.priceFromUsd;
+  const price = selected?.priceUzs ?? tour.priceFromUzs;
   const header = (
     <div className={styles.bookHead}>
       <span className={styles.bookHeadLabel}>{tc("perPerson")}</span>
@@ -336,7 +336,7 @@ export function MobileBar() {
     return () => io.disconnect();
   }, []);
 
-  const price = selected?.priceUsd ?? tour.priceFromUsd;
+  const price = selected?.priceUzs ?? tour.priceFromUzs;
   const bookable = tour.fixedDeparture && selected;
 
   return (

@@ -10,7 +10,7 @@ export interface Departure {
   from: string;
   to: string;
   seatsLeft: number;
-  priceUsd: number;
+  priceUzs: number;
 }
 
 export interface Tour {
@@ -20,7 +20,7 @@ export interface Tour {
   category: CategoryId;
   days: number;
   nights: number;
-  priceFromUsd: number;
+  priceFromUzs: number;
   /** true → "Sanasi bor": saytda bron + to'lov. false → "So'rov bo'yicha": so'rov formasi. */
   fixedDeparture: boolean;
   top: boolean;

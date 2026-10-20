@@ -27,12 +27,12 @@ export const categories: Record<CategoryId, { name: L10n }> = {
 
 export const categoryIds = Object.keys(categories) as CategoryId[];
 
-const dep = (from: string, to: string, seatsLeft: number, priceUsd: number): Departure => ({
+const dep = (from: string, to: string, seatsLeft: number, priceUzs: number): Departure => ({
   id: from,
   from,
   to,
   seatsLeft,
-  priceUsd,
+  priceUzs,
 });
 
 export const tours: Tour[] = [
@@ -43,7 +43,7 @@ export const tours: Tour[] = [
     category: "historical",
     days: 6,
     nights: 5,
-    priceFromUsd: 690,
+    priceFromUzs: 8_730_000,
     fixedDeparture: true,
     top: true,
     rank: 1,
@@ -60,10 +60,10 @@ export const tours: Tour[] = [
       en: "Baku, Gobustan, Yanardag and Ateshgah — seven unique sites in six days.",
     },
     departures: [
-      dep("2026-10-12", "2026-10-17", 4, 720),
-      dep("2026-10-26", "2026-10-31", 9, 720),
-      dep("2026-11-09", "2026-11-14", 0, 690),
-      dep("2026-11-26", "2026-12-01", 14, 690),
+      dep("2026-10-12", "2026-10-17", 4, 9_110_000),
+      dep("2026-10-26", "2026-10-31", 9, 9_110_000),
+      dep("2026-11-09", "2026-11-14", 0, 8_730_000),
+      dep("2026-11-26", "2026-12-01", 14, 8_730_000),
     ],
   },
   {
@@ -73,7 +73,7 @@ export const tours: Tour[] = [
     category: "nature",
     days: 8,
     nights: 7,
-    priceFromUsd: 470,
+    priceFromUzs: 5_950_000,
     fixedDeparture: true,
     top: true,
     rank: 2,
@@ -90,9 +90,9 @@ export const tours: Tour[] = [
       en: "A salt lake in the Tian Shan, local cuisine and hot springs.",
     },
     departures: [
-      dep("2026-10-18", "2026-10-25", 12, 470),
-      dep("2026-11-01", "2026-11-08", 16, 470),
-      dep("2027-05-16", "2027-05-23", 20, 490),
+      dep("2026-10-18", "2026-10-25", 12, 5_950_000),
+      dep("2026-11-01", "2026-11-08", 16, 5_950_000),
+      dep("2027-05-16", "2027-05-23", 20, 6_200_000),
     ],
   },
   {
@@ -102,7 +102,7 @@ export const tours: Tour[] = [
     category: "beach",
     days: 8,
     nights: 7,
-    priceFromUsd: 1375,
+    priceFromUzs: 17_390_000,
     fixedDeparture: false,
     top: true,
     rank: 3,
@@ -127,7 +127,7 @@ export const tours: Tour[] = [
     category: "cruise",
     days: 8,
     nights: 7,
-    priceFromUsd: 1650,
+    priceFromUzs: 20_870_000,
     fixedDeparture: true,
     top: true,
     rank: 4,
@@ -144,9 +144,9 @@ export const tours: Tour[] = [
       en: "An Aegean cruise: Santorini, Mykonos and Crete.",
     },
     departures: [
-      dep("2026-10-24", "2026-10-31", 3, 1650),
-      dep("2027-04-24", "2027-05-01", 10, 1690),
-      dep("2027-05-15", "2027-05-22", 14, 1750),
+      dep("2026-10-24", "2026-10-31", 3, 20_870_000),
+      dep("2027-04-24", "2027-05-01", 10, 21_380_000),
+      dep("2027-05-15", "2027-05-22", 14, 22_140_000),
     ],
   },
   {
@@ -156,7 +156,7 @@ export const tours: Tour[] = [
     category: "historical",
     days: 8,
     nights: 7,
-    priceFromUsd: 1100,
+    priceFromUzs: 13_920_000,
     fixedDeparture: true,
     top: false,
     rank: 5,
@@ -173,9 +173,9 @@ export const tours: Tour[] = [
       en: "Seaside Batumi, the Bakuriani mountain resort and old Tbilisi.",
     },
     departures: [
-      dep("2026-10-20", "2026-10-27", 9, 1100),
-      dep("2026-11-10", "2026-11-17", 0, 1100),
-      dep("2026-12-27", "2027-01-03", 7, 1240),
+      dep("2026-10-20", "2026-10-27", 9, 13_920_000),
+      dep("2026-11-10", "2026-11-17", 0, 13_920_000),
+      dep("2026-12-27", "2027-01-03", 7, 15_690_000),
     ],
   },
   {
@@ -185,7 +185,7 @@ export const tours: Tour[] = [
     category: "beach",
     days: 8,
     nights: 7,
-    priceFromUsd: 890,
+    priceFromUzs: 11_260_000,
     fixedDeparture: true,
     top: false,
     rank: 6,
@@ -202,9 +202,9 @@ export const tours: Tour[] = [
       en: "Black Sea sand and the UNESCO-listed old town of Nessebar.",
     },
     departures: [
-      dep("2027-06-05", "2027-06-12", 6, 890),
-      dep("2027-06-19", "2027-06-26", 18, 920),
-      dep("2027-07-10", "2027-07-17", 22, 980),
+      dep("2027-06-05", "2027-06-12", 6, 11_260_000),
+      dep("2027-06-19", "2027-06-26", 18, 11_640_000),
+      dep("2027-07-10", "2027-07-17", 22, 12_400_000),
     ],
   },
   {
@@ -214,7 +214,7 @@ export const tours: Tour[] = [
     category: "wellness",
     days: 7,
     nights: 6,
-    priceFromUsd: 680,
+    priceFromUzs: 8_600_000,
     fixedDeparture: false,
     top: false,
     rank: 7,
@@ -239,7 +239,7 @@ export const tours: Tour[] = [
     category: "nature",
     days: 8,
     nights: 7,
-    priceFromUsd: 1520,
+    priceFromUzs: 19_230_000,
     fixedDeparture: false,
     top: false,
     rank: 8,
@@ -264,7 +264,7 @@ export const tours: Tour[] = [
     category: "beach",
     days: 9,
     nights: 8,
-    priceFromUsd: 1290,
+    priceFromUzs: 16_320_000,
     fixedDeparture: false,
     top: false,
     rank: 9,
@@ -289,7 +289,7 @@ export const tours: Tour[] = [
     category: "historical",
     days: 5,
     nights: 4,
-    priceFromUsd: 980,
+    priceFromUzs: 12_400_000,
     fixedDeparture: false,
     top: false,
     rank: 10,
@@ -328,7 +328,7 @@ export function liveTour(tour: Tour, today = todayIso()): Tour {
     ...tour,
     departures,
     seatsLeft: open[0]?.seatsLeft ?? null,
-    priceFromUsd: open.length ? Math.min(...open.map((d) => d.priceUsd)) : tour.priceFromUsd,
+    priceFromUzs: open.length ? Math.min(...open.map((d) => d.priceUzs)) : tour.priceFromUzs,
   };
 }
 
@@ -360,5 +360,5 @@ export function openDepartures(tour: Tour, today = todayIso()): Departure[] {
   return tour.departures.filter((d) => d.seatsLeft > 0 && d.from > today);
 }
 
-export const PRICE_MIN = 400;
-export const PRICE_MAX = 1700;
+export const PRICE_MIN = 5_000_000;
+export const PRICE_MAX = 23_000_000;

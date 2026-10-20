@@ -47,9 +47,58 @@ Shundan keyin har bir aloqa / so'rov / bron xabari guruhga keladi (faylga ham yo
 Qo'shimcha: `.env` da `LEAD_WEBHOOK_URL` berilsa, har xabar o'sha manzilga ham JSON POST qilinadi
 (CRM / Telegram ko'prigi). Webhook ishlamasa xabar yo'qolmaydi — faylda qoladi, log'da `lead_delivery_failed`.
 
+## Click to'lov tizimi
+
+Kod tayyor; kalitlar `.env` ga yozilmaguncha sayt **demo rejimda** (pul yechilmaydi). Ulash tartibi:
+
+1. **Kalitlar** — merchant.click.uz kabinetidan: `SERVICE_ID`, `MERCHANT_ID`, `SECRET_KEY`, `MERCHANT_USER_ID`.
+   Serverdagi `.env` ga yozing (git'ga ham, chatga ham emas) va konteynerni qayta yarating:
+   ```bash
+   ssh new-vps
+   cd /opt/ravon-travel && nano .env   # CLICK_SERVICE_ID=…  CLICK_MERCHANT_ID=…  CLICK_SECRET_KEY=…  CLICK_MERCHANT_USER_ID=…
+   IMAGE_REGISTRY=ghcr.io/nodirmuxammadjanov IMAGE_TAG=$(cat .deployed_tag) docker compose up -d --no-build web
+   ```
+2. **Firewall oq ro'yxati** — server TAS-IX tarmog'ida emas. Birinchi real to'lovdan OLDIN Click guruhiga yozing:
+   domen `ravontravel.uz`, IP `167.86.86.68`, port `443`. IP statik bo'lishi shart; IP yoki domen o'zgarsa —
+   avval Click'ga xabar beriladi, keyin almashtiriladi.
+3. **Kabinetda URL'lar** — merchant.click.uz → «Сервисы» → qalam belgisi:
+   - Prepare (проверка): `https://ravontravel.uz/api/click/prepare`
+   - Complete (результат): `https://ravontravel.uz/api/click/complete`
+4. **Test** — docs.click.uz/click-api-testing dasturi bilan ikkala URL'ni tekshiring, so'ng Click'ga xabar bering —
+   ular servisni yoqadi (default o'chiq).
+5. **Birinchi to'lov** — saytda bron qiling (eng arzon tur) va Click Up ilovasida to'lang. Yoki to'g'ridan-to'g'ri havola:
+   `https://my.click.uz/services/pay?service_id=<SERVICE_ID>&merchant_id=<MERCHANT_ID>&amount=<summa>&transaction_param=<RV-…>`
+   (`transaction_param` — saytda yaratilgan haqiqiy bron raqami, summa aynan bron summasi bo'lishi kerak).
+
+**Qanday ishlaydi:** bron tasdiqlanganda server bron raqami va so'mdagi summani belgilab `data/orders/<RV-…>.json` ga
+yozadi. Click avval Prepare (summa va bron tekshiriladi), pul yechilgach Complete yuboradi — shundagina bron
+«to'landi» bo'ladi va menejerga «💳 To'lov qabul qilindi» xabari ketadi (Telegram/`leads.ndjson`). Imzo
+`md5(... SECRET_KEY ...)` tekshiriladi. Bron 30 daqiqa saqlanadi (+10 daqiqa Click sahifasi uchun).
+
+**Loglar va muammo qidirish** (Click so'raganda — so'rov/javoblarni guruhga yuborish uchun):
+```bash
+ssh new-vps 'tail -n 20 /opt/ravon-travel/data/click.ndjson'      # har Prepare/Complete so'rovi va javobi
+ssh new-vps 'cat /opt/ravon-travel/data/orders/RV-2026-12345.json' # bron holati va Click tranzaksiyalari
+ssh new-vps 'docker logs ravon-travel-web-1 2>&1 | grep click'      # qisqa jurnal
+```
+
+**Log hajmi:** `click.ndjson` va `leads.ndjson` faqat o'sadi (har so'rov ~0.5 KB). Yiliga bir necha MB — yetarli,
+lekin xohlansa host'da `/etc/logrotate.d/ravon-travel`:
+`/opt/ravon-travel/data/*.ndjson { monthly rotate 24 compress missingok notifempty copytruncate }`.
+`data/orders/` — to'lov dalili, o'chirilmaydi (har bron ~0.5 KB).
+
+**Fiskalizatsiya:** hozir qilinmaydi — bitta IKPU bo'lsa Click o'zi chek beradi. Kabinetda bir nechta IKPU bo'lsa,
+`https://api.click.uz/v2/merchant/payment/ofd_data/submit_items` integratsiyasi qo'shilishi kerak (IKPU, qadoq kodi,
+QQS, STIR kerak bo'ladi).
+
+**Demo'ga qaytish (favqulodda):** `.env` dan `CLICK_SECRET_KEY` ni o'chirib, konteynerni qayta yarating.
+
+**E2E (production):** Click yoqilgach, demo karta bilan to'lov testlari productionda o'tmaydi — ular faqat
+lokal (Click kalitlarisiz) muhitda yuritiladi.
+
 ## Serverdagi `.env` (git'da yo'q, pipeline tegmaydi)
 
-`.env.example` ga qarang (`LEAD_WEBHOOK_URL`, `HOST_PORT`). `.env` o'zgarsa:
+`.env.example` ga qarang (`LEAD_WEBHOOK_URL`, `TELEGRAM_*`, `CLICK_*`, `HOST_PORT`). `.env` o'zgarsa:
 `cd /opt/ravon-travel && IMAGE_REGISTRY=ghcr.io/nodirmuxammadjanov IMAGE_TAG=$(cat .deployed_tag) docker compose up -d --no-build web`.
 
 ## Tekshirish

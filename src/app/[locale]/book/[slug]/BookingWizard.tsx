@@ -12,7 +12,7 @@ import { categories } from "@/data/tours";
 import { Icon } from "@/components/Icon";
 import { bookingTotal, formatDateRange, money, weekday } from "@/lib/format";
 import { tr } from "@/lib/l10n";
-import { HOLD_MS, loadBooking, newBookingId, saveBooking, type Booking, type Traveler } from "@/lib/booking-store";
+import { BOOKING_ID_RE, HOLD_MS, loadBooking, saveBooking, type Booking, type Traveler } from "@/lib/booking-store";
 import { clockTime, localIsoDate } from "@/lib/payment";
 import {
   MAX_ADULTS,
@@ -40,47 +40,49 @@ const emptyList = (n: number) => Array.from({ length: n }, emptyTraveler);
 
 type TravelerErrors = Partial<Record<keyof Traveler, string>>;
 
-/** Bronni yaratadi va 30 daqiqaga saqlaydi (faqat hodisa ishlovchisidan chaqiriladi). Saqlanmasa — null. */
-function holdBooking(draft: Omit<Booking, "id" | "status" | "createdAt" | "holdUntil">): Booking | null {
-  const now = Date.now();
-  const booking: Booking = {
-    ...draft,
-    id: newBookingId(new Date(now)),
-    status: "held",
-    createdAt: now,
-    holdUntil: now + HOLD_MS,
-  };
-  saveBooking(booking);
-  if (!loadBooking(booking.id)) return null;
-  notifyManager(booking);
-  return booking;
-}
+type Draft = Omit<Booking, "id" | "status" | "createdAt" | "holdUntil">;
+type SubmitError = "rate_limited" | "invalid" | "failed" | "storage";
 
 /**
- * Menejerga bron haqida xabar (/api/booking). Bron oqimini to'xtatmaydi: yetkazilmasa ham mijoz
- * to'lovga o'ta oladi. Pasport raqami va tug'ilgan sana ATAYLAB yuborilmaydi.
+ * Bronni SERVERDA yaratadi (/api/booking): bron raqami va summani server beradi, to'lov (Click) shu
+ * yozuvga tayanadi. Javobdan keyin nusxasi brauzerga ham yoziladi (to'lov sahifasida sayohatchilar uchun).
+ * Pasport raqami va tug'ilgan sana serverga ATAYLAB yuborilmaydi.
  */
-function notifyManager(booking: Booking): void {
-  void fetch("/api/booking", {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    keepalive: true,
-    body: JSON.stringify({
-      bookingId: booking.id,
-      slug: booking.tourSlug,
-      departureId: booking.departureId,
-      locale: document.documentElement.lang,
-      adults: booking.adults,
-      children: booking.children,
-      travelers: booking.travelers.map((p) => `${p.firstName} ${p.lastName}`.trim()),
-      phone: booking.phone,
-      email: booking.email,
-      note: booking.note,
-      totalUsd: booking.totalUsd,
-    }),
-  }).catch(() => {
-    // tarmoq xatosi — bron brauzerda saqlangan, mijoz aloqa sahifasi orqali yozishi mumkin
-  });
+async function createBooking(draft: Draft): Promise<{ booking: Booking } | { error: SubmitError }> {
+  let res: Response;
+  try {
+    res = await fetch("/api/booking", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        slug: draft.tourSlug,
+        departureId: draft.departureId,
+        locale: document.documentElement.lang,
+        adults: draft.adults,
+        children: draft.children,
+        travelers: draft.travelers.map((p) => `${p.firstName} ${p.lastName}`.trim()),
+        phone: draft.phone,
+        email: draft.email,
+        note: draft.note,
+        totalUzs: draft.totalUzs,
+      }),
+    });
+  } catch {
+    return { error: "failed" };
+  }
+  if (res.status === 429) return { error: "rate_limited" };
+  if (res.status === 400) return { error: "invalid" };
+  const body = (await res.json().catch(() => null)) as { bookingId?: unknown; payToken?: unknown } | null;
+  if (!res.ok || typeof body?.bookingId !== "string" || !BOOKING_ID_RE.test(body.bookingId)) return { error: "failed" };
+  const payToken = typeof body.payToken === "string" && /^[\w-]{16,64}$/.test(body.payToken) ? body.payToken : undefined;
+
+  const now = Date.now();
+  // Ushlab turish muddati mijoz soatidan hisoblanadi (server soati bilan farq taymerni buzmasin).
+  const booking: Booking = { ...draft, id: body.bookingId, status: "held", createdAt: now, holdUntil: now + HOLD_MS, payToken };
+  saveBooking(booking);
+  // Brauzer xotirasi o'chirilgan bo'lsa demo to'lov sahifasi bronni topa olmaydi — foydalanuvchiga aytamiz.
+  if (!loadBooking(booking.id)) return { error: "storage" };
+  return { booking };
 }
 
 /** Yorliq + input + xato (aria-invalid / aria-describedby bilan). */
@@ -202,7 +204,8 @@ export function BookingWizard({ tour }: { tour: Tour }) {
   const [personalData, setPersonalData] = useState(false);
   const [attempted, setAttempted] = useState<{ 2: boolean; 3: boolean }>({ 2: false, 3: false });
   const [booking, setBooking] = useState<Booking | null>(null);
-  const [storageFailed, setStorageFailed] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<SubmitError | null>(null);
   // "Bugun" faqat validatsiyada ishlatiladi (markup'ga tushmaydi).
   const [today] = useState(() => localIsoDate(Date.now()));
 
@@ -224,8 +227,8 @@ export function BookingWizard({ tour }: { tour: Tour }) {
 
   const pax = adults + children;
   const over = pax > dep.seatsLeft;
-  const total = bookingTotal(dep.priceUsd, adults, children);
-  const adultsSum = adults * dep.priceUsd;
+  const total = bookingTotal(dep.priceUzs, adults, children);
+  const adultsSum = adults * dep.priceUzs;
   const range = formatDateRange(dep.from, dep.to, locale);
   const title = tr(tour.title, locale);
 
@@ -287,8 +290,11 @@ export function BookingWizard({ tour }: { tour: Tour }) {
     set((list) => list.map((item, i) => (i === index ? { ...item, ...patch } : item)));
   };
 
-  const confirmBooking = () => {
-    const created = holdBooking({
+  const confirmBooking = async () => {
+    if (submitting) return;
+    setSubmitting(true);
+    setSubmitError(null);
+    const result = await createBooking({
       tourSlug: tour.slug,
       departureId: dep.id,
       adults,
@@ -303,15 +309,14 @@ export function BookingWizard({ tour }: { tour: Tour }) {
       email: email.trim(),
       note: note.trim(),
       consents: { offer, personalData },
-      totalUsd: total,
+      totalUzs: total,
     });
-    // sessionStorage o'chirilgan bo'lsa to'lov sahifasi bronni topa olmaydi — foydalanuvchiga aytamiz.
-    if (!created) {
-      setStorageFailed(true);
+    setSubmitting(false);
+    if ("error" in result) {
+      setSubmitError(result.error);
       return;
     }
-    setStorageFailed(false);
-    setBooking(created);
+    setBooking(result.booking);
     setStep(4);
   };
 
@@ -325,7 +330,7 @@ export function BookingWizard({ tour }: { tour: Tour }) {
       else focusFirstInvalid();
     } else if (step === 3) {
       setAttempted((a) => ({ ...a, 3: true }));
-      if (step3Valid) confirmBooking();
+      if (step3Valid) void confirmBooking();
       else focusFirstInvalid();
     }
   };
@@ -397,7 +402,7 @@ export function BookingWizard({ tour }: { tour: Tour }) {
                         <span className={styles.seatPill} data-level={out ? "out" : d.seatsLeft <= 5 ? "low" : "ok"}>
                           {out ? t("date.soldOut") : t("date.seatsLeft", { count: d.seatsLeft })}
                         </span>
-                        <span className={styles.datePrice}>{money(d.priceUsd, locale)}</span>
+                        <span className={styles.datePrice}>{money(d.priceUzs, locale)}</span>
                       </label>
                     );
                   })}
@@ -626,10 +631,14 @@ export function BookingWizard({ tour }: { tour: Tour }) {
                 </div>
               </div>
 
-              {storageFailed && (
+              {submitError && (
                 <p className="notice notice--error" role="alert">
                   <Icon icon={TriangleAlert} size={17} strokeWidth={2} style={{ marginTop: 2 }} />
-                  <span>{t("errors.storage")}</span>
+                  <span>
+                    {t.rich(`errors.submit.${submitError}`, {
+                      contact: (chunks) => <Link href="/contact">{chunks}</Link>,
+                    })}
+                  </span>
                 </p>
               )}
             </section>
@@ -698,7 +707,8 @@ export function BookingWizard({ tour }: { tour: Tour }) {
               <button
                 type="submit"
                 className={`btn btn--primary ${styles.cta}`}
-                aria-disabled={(step === 1 && over) || (step === 3 && !consentsOk) ? true : undefined}
+                aria-disabled={(step === 1 && over) || (step === 3 && (!consentsOk || submitting)) ? true : undefined}
+                aria-busy={step === 3 && submitting ? true : undefined}
                 aria-describedby={
                   step === 3 && !consentsOk ? `${uid}-blocked` : step === 1 && over ? `${uid}-seats` : undefined
                 }
@@ -709,7 +719,10 @@ export function BookingWizard({ tour }: { tour: Tour }) {
             )}
 
             {step === 4 && booking && (
-              <Link href={`/pay/${booking.id}`} className={`btn btn--accent ${styles.cta}`}>
+              <Link
+                href={booking.payToken ? `/pay/${booking.id}?k=${encodeURIComponent(booking.payToken)}` : `/pay/${booking.id}`}
+                className={`btn btn--accent ${styles.cta}`}
+              >
                 <Icon icon={CreditCard} size={17} />
                 <span>{t("nav.toPayment")}</span>
               </Link>

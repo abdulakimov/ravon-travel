@@ -170,9 +170,9 @@ const terms: LegalDoc = {
       title: l("Narxlar", "Цены", "Prices"),
       blocks: [
         p(
-          "Narxlar saytda bir kishi uchun AQSH dollarida ko'rsatiladi; so'mdagi summa ma'lumot uchun beriladi. To'lov O'zbekiston so'mida, to'lov sahifasida ko'rsatilgan yakuniy summa bo'yicha amalga oshiriladi.",
-          "Цены на сайте указаны за одного человека в долларах США; сумма в сумах приводится справочно. Оплата производится в узбекских сумах в размере итоговой суммы, показанной на странице оплаты.",
-          "Prices on the website are shown per person in US dollars; the amount in Uzbek soum is given for reference. Payment is made in Uzbek soum for the final amount shown on the payment page.",
+          "Narxlar saytda bir kishi uchun O'zbekiston so'mida ko'rsatiladi. To'lov O'zbekiston so'mida, to'lov sahifasida ko'rsatilgan yakuniy summa bo'yicha amalga oshiriladi.",
+          "Цены на сайте указаны за одного человека в узбекских сумах. Оплата производится в узбекских сумах в размере итоговой суммы, показанной на странице оплаты.",
+          "Prices on the website are shown per person in Uzbek soum. Payment is made in Uzbek soum for the final amount shown on the payment page.",
         ),
         p(
           "«dan» so'zi bilan ko'rsatilgan narx — eng arzon sana bo'yicha boshlang'ich narx. Aniq narx tanlangan sana va yo'lovchilar tarkibiga bog'liq bo'lib, to'lovdan oldin bron sahifasida ko'rsatiladi.",

@@ -91,6 +91,11 @@
     "emailRequired": "Emailni kiriting",
     "emailFormat": "Email manzili noto'g'ri",
     "consentRequired": "Bu rozilik majburiy",
-    "storage": "Bronni saqlab bo'lmadi: brauzer xotirasi o'chirilgan (maxfiy rejim). Oddiy oynada qayta urinib ko'ring yoki menejerga yozing."
+    "submit": {
+      "rate_limited": "Juda ko'p urinish. 10 daqiqadan keyin qayta urinib ko'ring yoki <contact>menejerga yozing</contact>.",
+      "invalid": "Bronni yaratib bo'lmadi: narx yoki bo'sh o'rinlar o'zgargan bo'lishi mumkin. Sahifani yangilab, qaytadan urinib ko'ring.",
+      "failed": "Bronni saqlab bo'lmadi — aloqa uzildi. Qayta urinib ko'ring yoki <contact>menejerga yozing</contact>.",
+      "storage": "Bronni saqlab bo'lmadi: brauzer xotirasi o'chirilgan (maxfiy rejim). Oddiy oynada qayta urinib ko'ring yoki <contact>menejerga yozing</contact>."
+    }
   }
 }

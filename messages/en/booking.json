@@ -91,6 +91,11 @@
     "emailRequired": "Enter an email address",
     "emailFormat": "The email address is not valid",
     "consentRequired": "This consent is required",
-    "storage": "The booking could not be saved: browser storage is disabled (private mode). Try again in a regular window or message our manager."
+    "submit": {
+      "rate_limited": "Too many attempts. Try again in 10 minutes or <contact>message a manager</contact>.",
+      "invalid": "We couldn't create the booking: the price or seat availability may have changed. Refresh the page and try again.",
+      "failed": "We couldn't save the booking — the connection dropped. Try again or <contact>message a manager</contact>.",
+      "storage": "The booking could not be saved: browser storage is disabled (private mode). Try again in a regular window or <contact>message a manager</contact>."
+    }
   }
 }

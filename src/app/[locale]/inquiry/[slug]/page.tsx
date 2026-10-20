@@ -111,7 +111,7 @@ export default async function InquiryPage({ params }: { params: Params }) {
 
               <div className={styles.priceRow}>
                 <span className={styles.priceLabel}>{t("tour.priceFrom")}</span>
-                <span className={styles.price}>{money(tour.priceFromUsd, locale)}</span>
+                <span className={styles.price}>{money(tour.priceFromUzs, locale)}</span>
               </div>
 
               <Link href={`/tours/${tour.slug}`} className="link-arrow">

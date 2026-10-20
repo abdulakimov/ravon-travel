@@ -2,16 +2,18 @@ import { describe, expect, it } from "vitest";
 import { bookingTotal, formatDate, formatDateRange, money, weekday } from "../format";
 
 describe("money", () => {
-  it("formats USD with thousands separator and no decimals", () => {
-    expect(money(1375)).toBe("$1,375");
-    expect(money(720, "ru")).toBe("$720");
-    expect(money(540.4)).toBe("$540");
+  const nb = (s: string) => s.replace(/ /g, "\u00a0");
+
+  it("formats soum with non-breaking group separators and a per-locale suffix", () => {
+    expect(money(17_390_000)).toBe(nb("17 390 000 so'm"));
+    expect(money(17_390_000, "ru")).toBe(nb("17 390 000 сум"));
+    expect(money(17_390_000, "en")).toBe(nb("17 390 000 UZS"));
   });
 
-  it("converts to UZS, rounds to 1000 and groups with spaces", () => {
-    expect(money(1375, "uz", "UZS")).toBe("17 394 000 so'm");
-    expect(money(1375, "ru", "UZS")).toBe("17 394 000 сум");
-    expect(money(1375, "en", "UZS")).toBe("17 394 000 UZS");
+  it("rounds to whole soum and handles small and zero amounts", () => {
+    expect(money(999)).toBe(nb("999 so'm"));
+    expect(money(1000.4)).toBe(nb("1 000 so'm"));
+    expect(money(0)).toBe(nb("0 so'm"));
   });
 });
 
@@ -39,9 +41,9 @@ describe("dates", () => {
 });
 
 describe("bookingTotal", () => {
-  it("charges children 75% and rounds to whole dollars", () => {
-    expect(bookingTotal(720, 2, 0)).toBe(1440);
-    expect(bookingTotal(720, 2, 1)).toBe(1980);
-    expect(bookingTotal(690, 1, 1)).toBe(1208); // 690 + 517.5 → 1207.5 → 1208
+  it("charges children 75% and returns whole soum", () => {
+    expect(bookingTotal(9_110_000, 2, 0)).toBe(18_220_000);
+    expect(bookingTotal(9_110_000, 2, 1)).toBe(25_052_500); // 18 220 000 + 6 832 500
+    expect(bookingTotal(8_730_001, 1, 1)).toBe(15_277_502); // 8 730 001 + 6 547 500.75 → yaxlitlanadi
   });
 });

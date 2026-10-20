@@ -4,11 +4,13 @@ import {
   clickEvenIfAriaDisabled,
   expectNoHorizontalOverflow,
   isMobile,
+  MOCK_PAY_TOKEN,
   mockLeads,
   openFilters,
   recordRequests,
   resultCounter,
   seedBooking,
+  som,
   visibleCards,
   visiblePrices,
 } from "./helpers";
@@ -38,7 +40,7 @@ async function payWithDemoCard(page: Page): Promise<string> {
   await page.getByLabel("Amal qilish muddati").fill("");
   await page.getByLabel("Amal qilish muddati").pressSequentially("1230"); // terilganda `12/30` ga aylanadi
   await expect(page.getByLabel("Amal qilish muddati")).toHaveValue("12/30");
-  await page.getByRole("button", { name: /^To'lash \$/ }).click();
+  await page.getByRole("button", { name: /^To'lash \d/ }).click();
   await expect(page.getByRole("heading", { name: "SMS kodni kiriting" })).toBeVisible();
   return demoCard;
 }
@@ -120,14 +122,17 @@ test.describe("catalogue", () => {
     await expect(visibleCards(page)).toHaveCount(6);
     const firstPage = await visiblePrices(page);
     expect(firstPage).toEqual([...firstPage].sort((a, b) => a - b));
-    expect(firstPage[0]).toBe(470); // eng arzon tur — Issiq-Ko'l
+    expect(firstPage[0]).toBe(5_950_000); // eng arzon tur — Issiq-Ko'l
+    // Narx so'mda, guruhlar BO'LINMAS bo'shliq bilan (narx qator oxirida uzilib qolmasin)
+    expect(await visibleCards(page).first().textContent()).toContain("5\u00a0950\u00a0000\u00a0so'm");
 
     await page.getByRole("button", { name: "Ko'proq yuklash" }).click();
     await expect(visibleCards(page)).toHaveCount(10);
     await expect(page.getByRole("button", { name: "Ko'proq yuklash" })).toBeHidden();
     const all = await visiblePrices(page);
     expect(all).toEqual([...all].sort((a, b) => a - b));
-    expect(all[all.length - 1]).toBe(1650);
+    // Gretsiya kruizi (DATE-DEPENDENT: 2026-10-24 dan keyin eng arzon sanasi 21 380 000 bo'ladi).
+    expect(all[all.length - 1]).toBe(20_870_000);
 
     await page.getByLabel("Saralash").selectOption({ label: "Narx: qimmatdan" });
     await expect(page).toHaveURL(/\?sort=price-desc$/);
@@ -135,7 +140,7 @@ test.describe("catalogue", () => {
     await expect(visibleCards(page)).toHaveCount(6);
     const desc = await visiblePrices(page);
     expect(desc).toEqual([...desc].sort((a, b) => b - a));
-    expect(desc[0]).toBe(1650);
+    expect(desc[0]).toBe(20_870_000);
   });
 
   test("opening a filtered URL directly shows the filtered result with controls in sync", async ({
@@ -145,7 +150,9 @@ test.describe("catalogue", () => {
     await page.goto("/uz/tours?country=ge,bg&sort=price-desc");
     await expect(resultCounter(page)).toHaveText(/^2\s*tur topildi$/);
     await expect(visibleCards(page)).toHaveCount(2);
-    expect(await visiblePrices(page)).toEqual([1100, 890]);
+    // DATE-DEPENDENT: Gruziyaning 2026-10-20 sanasi (13 920 000) o'sha kuni ro'yxatdan chiqadi va karta keyingi
+    // ochiq sana narxini ko'rsatadi (2026-12-27 — 15 690 000). Soft — qolgan tekshiruvlar baribir bajarilsin.
+    expect.soft(await visiblePrices(page)).toEqual([13_920_000, 11_260_000]);
     await expect(page.getByLabel("Saralash")).toHaveValue("price-desc");
     await expect(page.getByRole("list", { name: "Faol filtrlar" }).getByRole("button")).toHaveCount(2);
 
@@ -165,9 +172,21 @@ test.describe("catalogue", () => {
     await page.goto("/uz/tours?duration=9%2B");
     await expect(resultCounter(page)).toHaveText(/^1\s*tur topildi$/);
     await expect(visibleCards(page).first()).toContainText("Malayziya");
-    await page.goto("/uz/tours?fixed=1&maxPrice=900");
+    // Narx filtri so'mda: 11 500 000 gacha → Issiq-Ko'l (5 950 000), Ozarbayjon (8 730 000), Bolgariya (11 260 000)
+    await page.goto("/uz/tours?fixed=1&maxPrice=11500000");
     await expect(resultCounter(page)).toHaveText(/^3\s*tur topildi$/);
-    for (const price of await visiblePrices(page)) expect(price).toBeLessThanOrEqual(900);
+    for (const price of await visiblePrices(page)) expect(price).toBeLessThanOrEqual(11_500_000);
+    await expect(page.getByRole("list", { name: "Faol filtrlar" })).toContainText(som(11_500_000));
+    // Qadamga (500 000) yaxlitlanadi: 11 200 000 → 11 000 000 → Bolgariya chiqib ketadi
+    await page.goto("/uz/tours?fixed=1&maxPrice=11200000");
+    await expect(resultCounter(page)).toHaveText(/^2\s*tur topildi$/);
+    await expect(page.getByRole("list", { name: "Faol filtrlar" })).toContainText(som(11_000_000));
+    // Eski (dollar) qiymatlar PRICE_MIN (5 000 000) ga qisiladi; 9 xonadan uzun qiymat e'tiborsiz qoldiriladi
+    await page.goto("/uz/tours?maxPrice=900");
+    await expect(resultCounter(page)).toHaveText(/^0\s*tur topildi$/);
+    await page.goto("/uz/tours?maxPrice=1000000000");
+    await expect(resultCounter(page)).toHaveText(/^10\s*tur topildi$/);
+    await expect(page.getByRole("list", { name: "Faol filtrlar" }).getByRole("button")).toHaveCount(0);
   });
 
   test("catalogue fits a 360px viewport in every locale", async ({ page }, testInfo) => {
@@ -191,6 +210,7 @@ test.describe("catalogue", () => {
     await expect(page.locator("html")).toHaveAttribute("lang", "ru");
     await expect(visibleCards(page)).toHaveCount(1);
     await expect(page.getByRole("list", { name: "Активные фильтры" }).getByRole("button")).toHaveCount(2);
+    await expect(visibleCards(page).first()).toContainText(som(8_730_000, "сум"));
   });
 });
 
@@ -202,11 +222,12 @@ test.describe("tour detail", () => {
     const dateSelect = card.getByLabel("Jo'nash sanasi");
     const adults = card.getByRole("group", { name: "Kattalar" });
     const children = card.getByRole("group", { name: "Bolalar" });
-    const total = card.locator("span").filter({ hasText: /^Jami\s*\$[\d,]+$/ });
+    const total = card.locator("span").filter({ hasText: /^Jami\s*[\d\s]+so'm$/ });
 
-    // Boshlang'ich holat: eng yaqin ochiq sana, 2 kattalar × $720
+    // Boshlang'ich holat: eng yaqin ochiq sana, 2 kattalar × 9 110 000
+    // DATE-DEPENDENT: 2026-10-12 sanasi o'tib ketgan (2026-10-20 dan beri birinchi ochiq sana — 2026-10-26).
     await expect(dateSelect).toHaveValue("2026-10-12");
-    await expect(total).toHaveText(/\$1,440$/);
+    await expect(total).toHaveText(som(18_220_000));
 
     // O'rni tugagan sana: jadvalda bosilmaydi, select'da umuman yo'q
     await expect(page.getByRole("button", { name: "O'rin tugadi: 9–14 noyabr 2026" })).toBeDisabled();
@@ -221,7 +242,7 @@ test.describe("tour detail", () => {
       "true",
     );
 
-    // Select orqali boshqa narxdagi sana: $690
+    // Select orqali boshqa narxdagi sana: 8 730 000
     await dateSelect.selectOption("2026-11-26");
     await expect(page.getByRole("button", { name: "Tanlandi: 26 noyabr – 1 dekabr 2026" })).toBeVisible();
 
@@ -231,20 +252,20 @@ test.describe("tour detail", () => {
     await expect(adults.locator(".stepper__value")).toHaveText("3");
     await expect(children.locator(".stepper__value")).toHaveText("2");
 
-    // Jami = kattalar × narx + bolalar × narx × 0.75 = 3×690 + 2×690×0.75 = 3105
-    const price = 690;
+    // Jami = kattalar × narx + bolalar × narx × 0.75 = 3×8 730 000 + 2×8 730 000×0.75 = 39 285 000
+    const price = 8_730_000;
     const expected = 3 * price + 2 * price * 0.75;
-    expect(expected).toBe(3105);
+    expect(expected).toBe(39_285_000);
     await expect(card).toContainText("3 × kattalar");
-    await expect(card).toContainText("$2,070");
+    await expect(card).toContainText(som(26_190_000));
     await expect(card).toContainText("2 × bolalar");
-    await expect(card).toContainText("$1,035");
-    await expect(total).toHaveText(/\$3,105$/);
+    await expect(card).toContainText(som(13_095_000));
+    await expect(total).toHaveText(som(39_285_000));
 
-    // Toq bolalar soni (yarim dollar) — xom kasr ko'rinmasin
+    // Toq bolalar soni — xom kasr ko'rinmasin
     await children.getByRole("button", { name: "Bolalar: kamaytirish" }).click();
-    await expect(total).toHaveText(/\$2,588$/);
-    await expect(card).not.toContainText(/\d\.\d/);
+    await expect(total).toHaveText(som(32_737_500));
+    await expect(card).not.toContainText(/\d[.,]\d/);
     await children.getByRole("button", { name: "Bolalar: ko'paytirish" }).click();
 
     // Kattalar kamida 1
@@ -267,7 +288,7 @@ test.describe("tour detail", () => {
     await expect(page.getByRole("radio", { name: /9–14 noyabr 2026/ })).toBeDisabled();
     await expect(page.getByRole("group", { name: "Kattalar" }).locator(".stepper__value")).toHaveText("3");
     await expect(page.getByRole("group", { name: "Bolalar" }).locator(".stepper__value")).toHaveText("2");
-    await expect(page.getByRole("complementary", { name: "Bron xulosasi" })).toContainText("$3,105");
+    await expect(page.getByRole("complementary", { name: "Bron xulosasi" })).toContainText(som(39_285_000));
   });
 
   test("party size is capped by the seats left on the selected date", async ({ page }) => {
@@ -275,6 +296,7 @@ test.describe("tour detail", () => {
     const card = page.getByRole("complementary", { name: "Bron qilish" });
     const plus = card.getByRole("button", { name: "Kattalar: ko'paytirish" });
     // 12 oktabr — 4 o'rin: 2 → 4, keyin tugma o'chadi va izoh chiqadi
+    // DATE-DEPENDENT: 2026-10-12 o'tib ketgan; endi default — 2026-10-26 (9 o'rin), shuning uchun bu test yiqiladi.
     await plus.click();
     await plus.click();
     await expect(plus).toBeDisabled();
@@ -315,7 +337,7 @@ test.describe("booking → payment", () => {
     );
     await expect(page.getByRole("radio", { name: /26–31 oktabr 2026/ })).toBeChecked();
     const summary = page.getByRole("complementary", { name: "Bron xulosasi" });
-    await expect(summary).toContainText("$1,260"); // 720 + 720×0.75
+    await expect(summary).toContainText(som(15_942_500)); // 9 110 000 + 9 110 000×0.75
     await page.getByRole("button", { name: "Davom etish" }).click();
 
     // ── 2-qadam: sayohatchilar ──
@@ -405,18 +427,20 @@ test.describe("booking → payment", () => {
     const details = page.locator("dl").filter({ hasText: "Bron raqami" });
     const bookingId = (await details.locator("dd").first().innerText()).trim();
     expect(bookingId).toMatch(/^RV-\d{4}-\d{5}$/);
-    expect(bookingId.startsWith(`RV-${year}-`)).toBe(true);
     await expect(details).toContainText("26–31 oktabr 2026");
     await expect(details).toContainText("2 kishi");
     await expect(details).toContainText(/\d{2}:\d{2} gacha · 30 daqiqa/);
     await expectNoHorizontalOverflow(page);
 
-    // /api/booking: menejerga xabar ketdi, lekin pasport raqami va tug'ilgan sanasiz
+    // /api/booking: bron SERVERDA yaratildi — raqamni server berdi (mijoz bookingId yubormaydi),
+    // pasport raqami va tug'ilgan sana yuborilmadi
     await expect.poll(() => leads.length).toBe(1);
     const lead = leads[0];
     expect(lead.kind).toBe("booking");
+    expect(bookingId).toBe((lead.response as { bookingId: string }).bookingId);
+    expect(lead.body).not.toHaveProperty("bookingId");
+    expect(lead.body).not.toHaveProperty("totalUsd");
     expect(lead.body).toMatchObject({
-      bookingId,
       slug: "azerbaijan-7-wonders",
       departureId: "2026-10-26",
       locale: "uz",
@@ -426,24 +450,28 @@ test.describe("booking → payment", () => {
       phone: "+998 90 123 45 67",
       email: "qa@example.com",
       note: "Yonma-yon o'rindiq",
-      totalUsd: 1260,
+      totalUzs: 15_942_500,
     });
     expect(lead.raw).not.toMatch(/AB1234567|AC7654321/i);
     expect(lead.raw).not.toMatch(/1990-05-15|2018-03-10/);
     expect(lead.raw).not.toMatch(/passport|birth/i);
 
     // ── To'lov ──
-    await page.getByRole("link", { name: "To'lovga o'tish" }).click();
-    await expect(page).toHaveURL(new RegExp(`/uz/pay/${bookingId}$`));
+    const toPay = page.getByRole("link", { name: "To'lovga o'tish" });
+    // To'lov havolasi server bergan kalit bilan (?k=) — Click rejimida holat faqat shu kalit bilan ochiladi
+    await expect(toPay).toHaveAttribute("href", `/uz/pay/${bookingId}?k=${MOCK_PAY_TOKEN}`);
+    await toPay.click();
+    await expect(page).toHaveURL(new RegExp(`/uz/pay/${bookingId}\\?k=${MOCK_PAY_TOKEN}$`));
     await expect(page.getByRole("heading", { level: 1, name: "To'lov" })).toBeVisible();
     await expect(page.locator("main")).toContainText(bookingId);
     await expect(page.getByRole("timer")).toHaveText(/^(29:\d\d|30:00)$/);
     await expect(page.getByRole("note")).toContainText("demo");
     const order = page.getByRole("complementary", { name: "Buyurtma xulosasi" });
-    await expect(order).toContainText("$1,260");
+    await expect(order).toContainText(som(15_942_500));
     await expect(order).toContainText("2 kishi");
 
-    const pay = page.getByRole("button", { name: "To'lash $1,260" });
+    const pay = page.getByRole("button", { name: som(15_942_500) });
+    await expect(pay).toHaveText(/^To'lash /);
     const payErrors = page.locator("form [id$='-err']");
     await expect(payErrors).toHaveCount(0);
     // SMS telefoni brondan olinadi
@@ -478,7 +506,7 @@ test.describe("booking → payment", () => {
     const assertReceipt = async () => {
       await expect(page.getByRole("heading", { name: "To'lov muvaffaqiyatli" })).toBeVisible();
       const receipt = page.locator("dl:visible").filter({ hasText: "Tranzaksiya raqami" });
-      await expect(receipt).toContainText("$1,260");
+      await expect(receipt).toContainText(som(15_942_500));
       await expect(receipt).toContainText("Humo / Uzcard");
       await expect(receipt).toContainText(new RegExp(`\\d{1,2} [a-z]+ ${year} · \\d{2}:\\d{2}`));
       await expect(page.getByRole("button", { name: "Vaucherni yuklab olish" })).toBeVisible();
@@ -516,6 +544,7 @@ test.describe("booking → payment", () => {
     await page.goto("/uz/book/azerbaijan-7-wonders?date=2026-10-26&adults=4&children=2");
     await expect(page.getByRole("group", { name: "Kattalar" }).locator(".stepper__value")).toHaveText("4");
     // 12 oktabrda 4 ta o'rin — 6 kishi sig'maydi
+    // DATE-DEPENDENT: 2026-10-12 sanasi o'tib ketgan — radio endi yo'q, test shu yerda yiqiladi.
     await page.getByRole("radio", { name: /12–17 oktabr 2026/ }).check({ force: true });
     await expect(page.getByRole("alert").filter({ hasText: "Tanlangan sanada faqat 4 o'rin bor" })).toBeVisible();
     const next = page.getByRole("button", { name: "Davom etish" });
@@ -530,6 +559,102 @@ test.describe("booking → payment", () => {
     await next.click();
     await expect(page.getByRole("heading", { name: "Sayohatchilar ma'lumoti" })).toBeVisible();
     await expect(page.getByRole("group", { name: /Kattalar sayohatchi$/ })).toHaveCount(4);
+  });
+});
+
+/**
+ * Bron ustasini 1 kattalar bilan 3-qadamgacha (aloqa va roziliklar) to'ldiradi; "Bronni tasdiqlash" tugmasini qaytaradi.
+ * Sana — 2026-11-26 (14 o'rin): narx tekshirilmaydi, shuning uchun eng uzoq ochiq sana olingan.
+ */
+async function wizardToStep3(page: Page) {
+  await page.goto("/uz/book/azerbaijan-7-wonders?date=2026-11-26&adults=1&children=0");
+  await page.getByRole("button", { name: "Davom etish" }).click();
+  const adult = page.getByRole("group", { name: "1. Kattalar sayohatchi" });
+  await adult.getByLabel("Ism (lotin)").fill("ISLOM");
+  await adult.getByLabel("Familiya (lotin)").fill("KARIMOV");
+  await adult.getByLabel("Tug'ilgan sana").fill("1990-05-15");
+  await adult.getByLabel("Pasport raqami").fill("AB1234567");
+  await page.getByRole("button", { name: "Davom etish" }).click();
+  await expect(page.getByRole("heading", { name: "Aloqa ma'lumotlari" })).toBeFocused();
+  await page.getByLabel("Telefon").fill("901234567");
+  await page.getByLabel("Email").fill("qa@example.com");
+  await page.getByRole("checkbox", { name: /Ommaviy oferta/ }).check();
+  await page.getByRole("checkbox", { name: /Shaxsiy ma'lumotlarimni/ }).check();
+  return page.getByRole("button", { name: "Bronni tasdiqlash" });
+}
+
+const storedBookings = (page: Page) =>
+  page.evaluate(() => Object.keys(sessionStorage).filter((key) => key.startsWith("rt.booking.")));
+
+test.describe("booking submit errors", () => {
+  test("429 / 400 / 503 / network error keep the wizard on step 3 with an explanation; retry then succeeds", async ({
+    page,
+  }) => {
+    test.slow();
+    const confirm = await wizardToStep3(page);
+    const alert = page.getByRole("alert").filter({ hasText: /Bronni|Juda ko'p/ });
+
+    for (const [status, json, message, contactLink] of [
+      [429, { error: "rate_limited" }, "Juda ko'p urinish. 10 daqiqadan keyin qayta urinib ko'ring", true],
+      [400, { error: "invalid", fields: { totalUzs: "total mismatch" } }, "Bronni yaratib bo'lmadi: narx yoki bo'sh o'rinlar o'zgargan", false],
+      [503, { error: "unavailable" }, "Bronni saqlab bo'lmadi — aloqa uzildi", true],
+      // 200, lekin bron raqami yo'q/yaroqsiz — mijoz o'zi raqam o'ylab topmaydi
+      [200, { ok: true }, "Bronni saqlab bo'lmadi — aloqa uzildi", true],
+      [200, { ok: true, bookingId: "../../etc" }, "Bronni saqlab bo'lmadi — aloqa uzildi", true],
+    ] as const) {
+      await page.context().unrouteAll({ behavior: "wait" });
+      const leads = await mockLeads(page, { status, json });
+      await confirm.click();
+      await expect(alert).toHaveCount(1);
+      await expect(alert).toContainText(message);
+      await expect(alert.getByRole("link", { name: "menejerga yozing" })).toHaveCount(contactLink ? 1 : 0);
+      if (contactLink) await expect(alert.getByRole("link")).toHaveAttribute("href", "/uz/contact");
+      // 3-qadamda qoladi, kiritilgan ma'lumot saqlangan, bron yaratilmagan
+      await expect(page.getByRole("heading", { name: "Aloqa ma'lumotlari" })).toBeVisible();
+      await expect(page.getByRole("heading", { name: "O'rin band qilindi" })).toHaveCount(0);
+      await expect(page.getByLabel("Email")).toHaveValue("qa@example.com");
+      await expect(confirm).not.toHaveAttribute("aria-disabled", "true");
+      expect(leads).toHaveLength(1);
+      expect(await storedBookings(page)).toEqual([]);
+    }
+
+    // Tarmoq xatosi (so'rov umuman yetib bormadi)
+    await page.context().unrouteAll({ behavior: "wait" });
+    await page.context().route("**/api/booking", (route) => route.abort("internetdisconnected"));
+    await confirm.click();
+    await expect(alert).toContainText("Bronni saqlab bo'lmadi — aloqa uzildi");
+    await expect(page.getByRole("heading", { name: "Aloqa ma'lumotlari" })).toBeVisible();
+
+    // Qayta urinish muvaffaqiyatli: xato yo'qoladi, 4-qadam, bron raqami serverdan
+    await page.context().unrouteAll({ behavior: "wait" });
+    const leads = await mockLeads(page);
+    await confirm.click();
+    await expect(page.getByRole("heading", { name: "O'rin band qilindi" })).toBeVisible();
+    await expect(alert).toHaveCount(0);
+    const issued = (leads[0].response as { bookingId: string }).bookingId;
+    await expect(page.locator("dl").filter({ hasText: "Bron raqami" }).locator("dd").first()).toHaveText(issued);
+    expect(await storedBookings(page)).toEqual([`rt.booking.${issued}`]);
+  });
+
+  test("a slow server is not hit twice by a double click", async ({ page }) => {
+    const confirm = await wizardToStep3(page);
+    let posts = 0;
+    await page.context().route("**/api/booking", async (route) => {
+      posts++;
+      const body = route.request().postDataJSON() as Record<string, unknown>;
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ ok: true, bookingId: "RV-2026-45678", amountUzs: body.totalUzs, holdUntil: Date.now() + 1_800_000 }),
+      });
+    });
+    await confirm.dblclick();
+    await expect(confirm).toHaveAttribute("aria-busy", "true");
+    await expect(page.getByRole("heading", { name: "O'rin band qilindi" })).toBeVisible();
+    expect(posts).toBe(1);
+    // payToken kelmasa (eski server) — havola kalitsiz
+    await expect(page.getByRole("link", { name: "To'lovga o'tish" })).toHaveAttribute("href", "/uz/pay/RV-2026-45678");
   });
 });
 
@@ -569,7 +694,7 @@ test.describe("payment failure paths", () => {
     await page.getByRole("button", { name: "Qayta urinish" }).click();
     await expect(page.getByRole("heading", { name: "To'lov usulini tanlang" })).toBeVisible();
     await expect(page.getByRole("timer")).toBeVisible();
-    await page.getByRole("button", { name: /^To'lash \$/ }).click();
+    await page.getByRole("button", { name: /^To'lash \d/ }).click();
     await expect(otp).toHaveValue("");
     await enterCode(page, "999999");
     await expect(page.getByRole("heading", { name: "Texnik xatolik" })).toBeVisible();
@@ -578,7 +703,7 @@ test.describe("payment failure paths", () => {
 
     // Xatodan keyin qayta urinish muvaffaqiyatli tugaydi
     await page.getByRole("button", { name: "Qayta urinish" }).click();
-    await page.getByRole("button", { name: /^To'lash \$/ }).click();
+    await page.getByRole("button", { name: /^To'lash \d/ }).click();
     await enterCode(page, "111111");
     await expect(page.getByRole("heading", { name: "To'lov muvaffaqiyatli" })).toBeVisible();
     await expect(page.locator("dl:visible").filter({ hasText: "Tranzaksiya raqami" })).toContainText(/TX-\d{9}/);

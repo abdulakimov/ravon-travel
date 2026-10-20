@@ -146,5 +146,35 @@
     "paidAt": "To'lov vaqti",
     "transaction": "Tranzaksiya raqami",
     "contact": "Aloqa"
+  },
+  "click": {
+    "lead": "To'lov CLICK to'lov tizimi orqali qabul qilinadi. Karta ma'lumotlari Click sahifasida kiritiladi — bizning serverga kelmaydi va saqlanmaydi.",
+    "app": {
+      "name": "Click orqali",
+      "note": "Click ilovasi yoki Click sahifasi: telefon raqami yoki karta bilan",
+      "cta": "Click orqali to'lash"
+    },
+    "card": {
+      "name": "Karta bilan",
+      "note": "Uzcard yoki Humo — raqam va muddatni Click oynasida kiriting",
+      "cta": "Karta bilan to'lash"
+    },
+    "loadError": "Click to'lov oynasini ochib bo'lmadi. «Click orqali to'lash» tugmasidan foydalaning yoki keyinroq urinib ko'ring.",
+    "failed": "To'lov amalga oshmadi. Karta ma'lumotlari va balansni tekshirib, qayta urinib ko'ring.",
+    "trust": "Karta ma'lumotlari faqat Click'da kiritiladi",
+    "amountFixed": "Summa qotirilgan: {amount}",
+    "checking": {
+      "title": "To'lov tekshirilmoqda",
+      "text": "Click'dan tasdiq kutilmoqda. Odatda bu bir necha soniya oladi — sahifani yopmang."
+    },
+    "pending": {
+      "title": "To'lov hali tasdiqlanmadi",
+      "text": "Kartadan pul yechilgan bo'lsa, tasdiq bir necha daqiqada keladi — «Holatni tekshirish»ni bosing. Pul yechilmagan bo'lsa, qayta urinib ko'ring.",
+      "recheck": "Holatni tekshirish"
+    },
+    "successText": "To'lov Click orqali qabul qilindi. Menejer tez orada siz bilan bog'lanib, hujjatlarni yuboradi.",
+    "cards": "Click · Uzcard · Humo",
+    "paidLabel": "To'landi",
+    "notFound": "{id} raqamli bron topilmadi. Havola to'liq ko'chirilmagan bo'lishi mumkin."
   }
 }

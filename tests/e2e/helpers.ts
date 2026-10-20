@@ -15,15 +15,32 @@ export interface CapturedLead {
   kind: "contact" | "inquiry" | "booking";
   raw: string;
   body: Record<string, unknown>;
+  /** Mock qaytargan javob tanasi. */
+  response: unknown;
+}
+
+/** Sinov uchun /api/booking javobidagi to'lov kaliti (22 belgi, base64url — server beradigandek). */
+export const MOCK_PAY_TOKEN = "abcdefghijklmnopqrstuv";
+
+/** /api/booking'ning muvaffaqiyatli javobi: bron raqami va summani SERVER beradi (mijoz bookingId yubormaydi). */
+export function bookingResponse(body: Record<string, unknown>): Record<string, unknown> {
+  return {
+    ok: true,
+    bookingId: `RV-${new Date().getFullYear()}-${String(40000 + Math.floor(Math.random() * 50000))}`,
+    amountUzs: body.totalUzs,
+    holdUntil: Date.now() + 30 * 60 * 1000,
+    payToken: MOCK_PAY_TOKEN,
+  };
 }
 
 /**
  * Forma endpoint'larini ushlab qoladi (server chaqirilmaydi) va yuborilgan tanalarni yig'adi.
- * `respond` — javobni almashtirish (masalan 429 holatini tekshirish uchun).
+ * Default javob: aloqa/so'rov — `{ok:true}`, bron — `bookingResponse()` (berilgan javob `response` ga yoziladi).
+ * `respond` — javobni almashtirish (masalan 429 holatini tekshirish uchun); barcha endpoint'larga birdek.
  */
 export async function mockLeads(
   page: Page,
-  respond: { status: number; json: unknown } = { status: 200, json: { ok: true } },
+  respond?: { status: number; json: unknown },
 ): Promise<CapturedLead[]> {
   const captured: CapturedLead[] = [];
   // context darajasida: `keepalive: true` bilan yuborilgan fetch ham shu yerdan o'tadi
@@ -32,8 +49,10 @@ export async function mockLeads(
     if (request.method() !== "POST") return route.fallback();
     const raw = request.postData() ?? "";
     const kind = /\/api\/(contact|inquiry|booking)/.exec(request.url())![1] as CapturedLead["kind"];
-    captured.push({ kind, raw, body: JSON.parse(raw || "{}") as Record<string, unknown> });
-    await route.fulfill({ status: respond.status, contentType: "application/json", body: JSON.stringify(respond.json) });
+    const body = JSON.parse(raw || "{}") as Record<string, unknown>;
+    const reply = respond ?? { status: 200, json: kind === "booking" ? bookingResponse(body) : { ok: true } };
+    captured.push({ kind, raw, body, response: reply.json });
+    await route.fulfill({ status: reply.status, contentType: "application/json", body: JSON.stringify(reply.json) });
   });
   return captured;
 }
@@ -53,7 +72,7 @@ export interface SeedOptions {
   adults?: number;
   children?: number;
   departureId?: string;
-  totalUsd?: number;
+  totalUzs?: number;
 }
 
 /**
@@ -86,7 +105,7 @@ export async function seedBooking(page: Page, options: SeedOptions = {}): Promis
           email: "qa@example.com",
           note: "",
           consents: { offer: true, personalData: true },
-          totalUsd: o.totalUsd ?? 1440,
+          totalUzs: o.totalUzs ?? 18_220_000, // 2 kattalar × 9 110 000
           status: "held",
           createdAt: now,
           holdUntil: now + (o.holdMinutes ?? 30) * 60 * 1000,
@@ -122,14 +141,27 @@ export const visibleCards = (page: Page): Locator => page.locator("main ul.card-
 export const resultCounter = (page: Page): Locator =>
   page.locator("main").getByRole("status").filter({ hasText: "tur topildi" });
 
-/** Ko'rinib turgan kartochkalardagi narxlar (USD, butun son). */
+/**
+ * So'mdagi summa uchun regex: `som(15_942_500)` → /15\s942\s500\s*so'm/. `money()` guruhlarni bo'linmas
+ * bo'shliq (U+00A0) bilan ajratadi; JS'dagi `\s` uni ham qamraydi.
+ */
+export function som(amount: number, suffix = "so'm"): RegExp {
+  const grouped = String(amount).replace(/\B(?=(\d{3})+(?!\d))/g, "\\s");
+  // chapda raqam (yoki "raqam + bo'shliq") bo'lmasin: 15 942 500 summasi 115 942 500 ichida topilmasin
+  return new RegExp(`(?<!\\d)(?<!\\d\\s)${grouped}\\s${suffix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`);
+}
+
+/** Matndagi birinchi so'm summasi (butun son). Guruhlar qat'iy 3 xonali — yonidagi raqamlar yopishmaydi. */
+export function parseSom(text: string): number {
+  const match = /(?<!\d)(?<!\d\s)(\d{1,3}(?:\s\d{3})*)\sso'm/.exec(text);
+  if (!match) throw new Error(`soum amount not found in: ${text}`);
+  return Number(match[1].replace(/\s/g, ""));
+}
+
+/** Ko'rinib turgan kartochkalardagi narxlar (so'm, butun son). */
 export async function visiblePrices(page: Page): Promise<number[]> {
   const texts = await visibleCards(page).allInnerTexts();
-  return texts.map((text) => {
-    const match = /\$([\d,]+)/.exec(text);
-    if (!match) throw new Error(`price not found in card: ${text}`);
-    return Number(match[1].replace(/,/g, ""));
-  });
+  return texts.map(parseSom);
 }
 
 /** `aria-disabled` tugmani Playwright "o'chirilgan" deb hisoblaydi — haqiqiy foydalanuvchi esa bosa oladi. */

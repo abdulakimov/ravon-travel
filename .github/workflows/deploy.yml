@@ -114,8 +114,8 @@ jobs:
             HOST_PORT=$( (grep -E '^HOST_PORT=' .env 2>/dev/null || true) | cut -d= -f2 | tr -d "\"' \r")
             HOST_PORT=${HOST_PORT:-3130}
 
-            # Xabarlar fayli uchun katalog (konteyner uid 1000 bilan yozadi).
-            mkdir -p data && chown 1000:1000 data && chmod 700 data
+            # Xabarlar fayli va to'lov bronlari uchun kataloglar (konteyner uid 1000 bilan yozadi).
+            mkdir -p data/orders && chown 1000:1000 data data/orders && chmod 700 data data/orders
 
             # GHCR login alohida vaqtinchalik config'da: box'dagi boshqa loyihalarning
             # ~/.docker/config.json'iga tegmaydi va chiqishda izsiz o'chadi.

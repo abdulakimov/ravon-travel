@@ -38,7 +38,7 @@ describe("tour data integrity", () => {
         expect(d.id).toBe(d.from);
         expect(d.to > d.from).toBe(true);
         expect(d.seatsLeft).toBeGreaterThanOrEqual(0);
-        expect(d.priceUsd).toBeGreaterThan(0);
+        expect(d.priceUzs).toBeGreaterThan(0);
         const span = (Date.parse(d.to) - Date.parse(d.from)) / 86_400_000 + 1;
         expect(span).toBe(t.days);
       }
@@ -49,7 +49,7 @@ describe("tour data integrity", () => {
   it("card shows the cheapest open departure price and the nearest open departure's seats", () => {
     for (const t of tours.filter((x) => x.fixedDeparture)) {
       const open = openDepartures(t, TODAY);
-      expect(t.priceFromUsd).toBe(Math.min(...open.map((d) => d.priceUsd)));
+      expect(t.priceFromUzs).toBe(Math.min(...open.map((d) => d.priceUzs)));
       expect(t.seatsLeft).toBe(open[0].seatsLeft);
     }
   });
@@ -66,7 +66,7 @@ describe("departures in the past", () => {
 
   it("recompute card price and seats from what is left", () => {
     const later = liveTour(az, "2026-11-20");
-    expect(later.priceFromUsd).toBe(690);
+    expect(later.priceFromUzs).toBe(8_730_000);
     expect(later.seatsLeft).toBe(14);
     const over = liveTour(az, "2027-01-01");
     expect(over.departures).toHaveLength(0);
@@ -104,5 +104,15 @@ describe("lookups", () => {
       expect(sim).toHaveLength(3);
       expect(sim.map((s) => s.id)).not.toContain(t.id);
     }
+  });
+});
+
+describe("catalogue price filter", async () => {
+  const { applyFilters, parseFilters } = await import("@/app/[locale]/tours/filters");
+  const { liveToursByRank } = await import("@/data/tours");
+
+  it("shows every tour at the default (maximum) price, even one priced above the slider maximum", () => {
+    // 2026-10-25: Gretsiya kruizining eng arzon sanasi 21 380 000 so'm
+    expect(applyFilters(liveToursByRank("2026-10-25"), parseFilters(""))).toHaveLength(10);
   });
 });

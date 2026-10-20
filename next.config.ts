@@ -4,15 +4,17 @@ import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 // Sahifalar statik prerender qilinadi (nonce yo'q) va Next inline skript/stil ishlatadi —
-// shuning uchun 'unsafe-inline'. Barcha resurslar same-origin. Xarita/embed qo'shilsa frame-src kerak bo'ladi.
+// shuning uchun 'unsafe-inline'. Tashqi manba faqat Click (to'lov oynasi checkout.js — my.click.uz).
+// "Click orqali to'lash" oddiy havola (navigatsiya) — CSP unga ta'sir qilmaydi.
+const CLICK = "https://my.click.uz";
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  `script-src 'self' 'unsafe-inline' ${CLICK}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
+  `img-src 'self' data: blob: ${CLICK}`,
   "font-src 'self' data:",
-  "connect-src 'self'",
-  "frame-src 'self' https://www.google.com https://yandex.uz https://yandex.com",
+  `connect-src 'self' ${CLICK}`,
+  `frame-src 'self' https://www.google.com https://yandex.uz https://yandex.com ${CLICK}`,
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",

@@ -1,5 +1,4 @@
 import type { Locale } from "@/i18n/routing";
-import { site } from "@/config/site";
 
 const MONTHS: Record<Locale, string[]> = {
   uz: ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avgust", "sentabr", "oktabr", "noyabr", "dekabr"],
@@ -13,14 +12,16 @@ const WEEKDAYS: Record<Locale, string[]> = {
   en: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
 };
 
-export type Currency = "USD" | "UZS";
+const NBSP = "\u00a0";
+const SUFFIX: Record<Locale, string> = { uz: "so'm", ru: "сум", en: "UZS" };
 
-/** `$1,375` yoki `17 394 000 so'm` (1000 gacha yaxlitlanadi). */
-export function money(usd: number, locale: Locale = "uz", currency: Currency = "USD"): string {
-  if (currency !== "UZS") return "$" + Math.round(usd).toLocaleString("en-US");
-  const som = Math.round((usd * site.uzsRate) / 1000) * 1000;
-  const suffix = locale === "ru" ? " сум" : locale === "en" ? " UZS" : " so'm";
-  return som.toLocaleString("ru-RU").replace(/ /g, " ") + suffix;
+/**
+ * `17 390 000 so'm` / `17 390 000 сум` / `17 390 000 UZS` — butun so'm, guruhlar bo'linmas bo'shliq bilan
+ * (narx qatorda uzilib qolmasin). Barcha narxlar so'mda saqlanadi.
+ */
+export function money(uzs: number, locale: Locale = "uz"): string {
+  const digits = String(Math.round(Math.abs(uzs))).replace(/\B(?=(\d{3})+(?!\d))/g, NBSP);
+  return (uzs < 0 ? "-" : "") + digits + NBSP + SUFFIX[locale];
 }
 
 // ISO sana (YYYY-MM-DD) vaqt zonasiga bog'liq bo'lmasligi uchun qo'lda ajratiladi.
@@ -52,6 +53,6 @@ export function weekday(iso: string, locale: Locale = "uz"): string {
 /** Bolalar narxi — kattalar narxining 75%. */
 export const CHILD_FACTOR = 0.75;
 
-export function bookingTotal(priceUsd: number, adults: number, children: number): number {
-  return Math.round(adults * priceUsd + children * priceUsd * CHILD_FACTOR);
+export function bookingTotal(priceUzs: number, adults: number, children: number): number {
+  return Math.round(adults * priceUzs + children * priceUzs * CHILD_FACTOR);
 }

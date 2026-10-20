@@ -1,5 +1,24 @@
 # Changelog
 
+## 2026-10-20 — Click to'lovi, narxlar so'mda
+
+### Qo'shildi
+- **Click to'lov tizimi** (SHOP API): `/api/click/prepare` va `/api/click/complete` — md5 imzo, summa va bron
+  tekshiruvi, takroriy so'rovlarga bir xil javob, barcha xato kodlari (-1 … -9). To'lov sahifasida ikki usul:
+  «Click orqali» (my.click.uz sahifasi) va «Karta bilan» (Click oynasi, checkout.js). Qaytgach sahifa holatni
+  serverdan tekshiradi (`/api/payment/<id>`). Har Prepare/Complete `data/click.ndjson` ga yoziladi; to'lovdan
+  keyin menejerga «💳 To'lov qabul qilindi» xabari. Kalitlar `.env` da yo'q bo'lsa — avvalgi demo rejim.
+- Bron endi serverda yaratiladi: raqam va summani server beradi (`data/orders/<id>.json`, shaxsiy ma'lumotsiz).
+  Bron saqlanmasa (aloqa uzilsa, juda ko'p urinish) ustada xato xabari chiqadi.
+
+### O'zgardi
+- **Barcha narxlar so'mda** (12 650 kurs, 10 000 so'mga yaxlitlangan). Dollar saytdan olib tashlandi; katalog narx
+  filtri 5–21 mln so'm, 500 ming qadam. FAQ va oferta matni yangilandi.
+
+### Sozlash kerak (docs/DEPLOY.md → «Click to'lov tizimi»)
+- `.env`: `CLICK_SERVICE_ID`, `CLICK_MERCHANT_ID`, `CLICK_SECRET_KEY`, `CLICK_MERCHANT_USER_ID`.
+- Click'ga IP oq ro'yxati uchun domen/IP/port, kabinetda Prepare/Complete URL'lari, servisni yoqish.
+
 ## 2026-10-08 — tezlik
 
 - Rasmlar endi build vaqtida WebP ga tayyorlanadi va statik fayl sifatida beriladi (30 kunlik kesh).

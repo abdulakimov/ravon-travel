@@ -238,7 +238,7 @@ export function PaymentFlow({ reference }: { reference: string }) {
   const title = tr(tour.title, locale);
   const range = formatDateRange(departure.from, departure.to, locale);
   const pax = booking.adults + booking.children;
-  const amount = money(booking.totalUsd, locale);
+  const amount = money(booking.totalUzs, locale);
   const phone = phoneInput ?? booking.phone;
 
   const today = new Date(now);

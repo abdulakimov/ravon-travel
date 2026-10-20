@@ -61,7 +61,7 @@ export function TourCard({ tour, priority = false }: { tour: Tour; priority?: bo
 
         <div className={styles.foot}>
           <span className={styles.priceBox}>
-            <span className={styles.price}>{money(tour.priceFromUsd, locale)}</span>
+            <span className={styles.price}>{money(tour.priceFromUzs, locale)}</span>
             <span className={styles.per}>{t("perPerson")}</span>
           </span>
           <span className={styles.more}>

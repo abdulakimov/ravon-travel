@@ -146,5 +146,35 @@
     "paidAt": "Paid at",
     "transaction": "Transaction ID",
     "contact": "Contact"
+  },
+  "click": {
+    "lead": "Payment is processed by the CLICK payment system. You enter your card details on the Click page — they never reach our server and are not stored.",
+    "app": {
+      "name": "Via Click",
+      "note": "Click app or Click page: by phone number or card",
+      "cta": "Pay with Click"
+    },
+    "card": {
+      "name": "By card",
+      "note": "Uzcard or Humo — enter the number and expiry in the Click window",
+      "cta": "Pay by card"
+    },
+    "loadError": "We couldn't open the Click payment window. Use “Pay with Click” or try again later.",
+    "failed": "The payment didn't go through. Check your card details and balance and try again.",
+    "trust": "Card details are entered only in Click",
+    "amountFixed": "Amount fixed: {amount}",
+    "checking": {
+      "title": "Checking your payment",
+      "text": "Waiting for confirmation from Click. This usually takes a few seconds — please keep this page open."
+    },
+    "pending": {
+      "title": "Payment not confirmed yet",
+      "text": "If the money has left your card, confirmation arrives within a few minutes — tap “Check status”. If it hasn't, try again.",
+      "recheck": "Check status"
+    },
+    "successText": "Your payment was received via Click. A manager will contact you shortly and send the documents.",
+    "cards": "Click · Uzcard · Humo",
+    "paidLabel": "Paid",
+    "notFound": "Booking {id} was not found. The link may not have been copied in full."
   }
 }

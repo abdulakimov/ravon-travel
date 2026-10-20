@@ -29,11 +29,13 @@ export interface Booking {
   email: string;
   note: string;
   consents: { offer: boolean; personalData: boolean };
-  totalUsd: number;
+  totalUzs: number;
   status: BookingStatus;
   createdAt: number; // epoch ms
   holdUntil: number; // epoch ms (createdAt + 30 daqiqa)
   payment?: { method: string; transactionId: string; paidAt: number };
+  /** Server bergan to'lov sahifasi kaliti (`/pay/<id>?k=…`). */
+  payToken?: string;
 }
 
 const KEY = "rt.booking.";
@@ -59,7 +61,7 @@ export function loadBooking(id: string): Booking | null {
     if (!raw) return null;
     const b = JSON.parse(raw) as Booking;
     // Shaklni tekshirish: tashqaridan o'zgartirilgan/eskirgan yozuvga ishonmaymiz
-    if (b?.id !== id || typeof b.holdUntil !== "number" || typeof b.totalUsd !== "number") return null;
+    if (b?.id !== id || typeof b.holdUntil !== "number" || typeof b.totalUzs !== "number") return null;
     return b;
   } catch {
     return null;

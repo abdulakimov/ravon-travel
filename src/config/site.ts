@@ -37,9 +37,6 @@ export const site = {
 
   // Xarita embed URL (Google/Yandex). null → "xarita tez orada" joyi ko'rsatiladi.
   mapEmbedUrl: null as string | null,
-
-  // Namuna kurs (handoff). Productionda API'dan olinadi.
-  uzsRate: 12650,
 } as const;
 
 export type Site = typeof site;

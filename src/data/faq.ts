@@ -42,9 +42,9 @@ export const faq: FaqItem[] = [
         "We take payment on the website by bank card: Humo, Uzcard, Visa and Mastercard. The payment is processed by a licensed payment provider and confirmed with an SMS code.",
       ),
       l(
-        "Narxlar AQSH dollarida ko'rsatiladi, to'lov esa so'mda — to'lov sahifasida ko'rsatilgan yakuniy summa bo'yicha amalga oshiriladi.",
-        "Цены указаны в долларах США, а оплата производится в сумах — в размере итоговой суммы, показанной на странице оплаты.",
-        "Prices are shown in US dollars, while payment is made in Uzbek soum for the final amount shown on the payment page.",
+        "Narxlar va to'lov O'zbekiston so'mida. To'lov sahifasida ko'rsatilgan summa bron paytida qotiriladi va keyin o'zgarmaydi.",
+        "Цены и оплата — в узбекских сумах. Сумма на странице оплаты фиксируется при бронировании и потом не меняется.",
+        "Prices and payment are in Uzbek soum. The amount on the payment page is fixed when you book and does not change afterwards.",
       ),
     ],
   },

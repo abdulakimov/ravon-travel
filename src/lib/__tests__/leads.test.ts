@@ -31,7 +31,7 @@ describe("telegramText", () => {
       travelers: ["ALI VALIYEV", "VALI ALIYEV"],
       phone: "+998 90 123 45 67",
       email: "",
-      totalUsd: 1440,
+      totalUzs: 18_220_000,
       consent: true,
     });
     expect(text).toContain("Yangi bron");
