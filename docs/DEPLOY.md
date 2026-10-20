@@ -1,7 +1,7 @@
 # Deploy — ravontravel.uz
 
 **Oqim:** `git push main` → GitHub Actions (`.github/workflows/deploy.yml`): lint + unit testlar →
-image qurish → GHCR (`ghcr.io/nodirmuxammadjanov/ravon-travel-web:{<sha>,latest}`) → serverga SSH →
+image qurish → GHCR (`ghcr.io/abdulakimov/ravon-travel-web:{<sha>,latest}`) → serverga SSH →
 `docker compose pull web` → `docker compose up -d web` → health check → yashil.
 
 Serverda image **qurilmaydi**. Server faqat tortadi va qayta ishga tushiradi.
@@ -13,7 +13,7 @@ Serverda image **qurilmaydi**. Server faqat tortadi va qayta ishga tushiradi.
 | Konteyner | `ravon-travel-web-1`, `127.0.0.1:3130 → 3000` |
 | Reverse proxy | host nginx: `/etc/nginx/sites-available/ravontravel.uz` (nusxasi: `infra/nginx-ravontravel.uz.conf`) |
 | TLS | Let's Encrypt, cert nomi `ravontravel.uz` (apex + www), HTTP-01 webroot `/var/www/letsencrypt`, `renew_hook = systemctl reload nginx` |
-| Repo | `github.com/NodirMuxammadjanov/ravon-travel` (private) |
+| Repo | `github.com/abdulakimov/ravon-travel` (private) |
 
 ## Actions sozlamalari
 
@@ -39,7 +39,7 @@ ssh new-vps 'tail -n 20 /opt/ravon-travel/data/leads.ndjson'
 ```bash
 ssh new-vps
 cd /opt/ravon-travel && nano .env        # TELEGRAM_BOT_TOKEN=…  TELEGRAM_CHAT_ID=…
-IMAGE_REGISTRY=ghcr.io/nodirmuxammadjanov IMAGE_TAG=$(cat .deployed_tag) docker compose up -d --no-build web
+IMAGE_REGISTRY=ghcr.io/abdulakimov IMAGE_TAG=$(cat .deployed_tag) docker compose up -d --no-build web
 ```
 
 Shundan keyin har bir aloqa / so'rov / bron xabari guruhga keladi (faylga ham yozilaveradi).
@@ -56,7 +56,7 @@ Kod tayyor; kalitlar `.env` ga yozilmaguncha sayt **demo rejimda** (pul yechilma
    ```bash
    ssh new-vps
    cd /opt/ravon-travel && nano .env   # CLICK_SERVICE_ID=…  CLICK_MERCHANT_ID=…  CLICK_SECRET_KEY=…  CLICK_MERCHANT_USER_ID=…
-   IMAGE_REGISTRY=ghcr.io/nodirmuxammadjanov IMAGE_TAG=$(cat .deployed_tag) docker compose up -d --no-build web
+   IMAGE_REGISTRY=ghcr.io/abdulakimov IMAGE_TAG=$(cat .deployed_tag) docker compose up -d --no-build web
    ```
 2. **Firewall oq ro'yxati** — server TAS-IX tarmog'ida emas. Birinchi real to'lovdan OLDIN Click guruhiga yozing:
    domen `ravontravel.uz`, IP `167.86.86.68`, port `443`. IP statik bo'lishi shart; IP yoki domen o'zgarsa —
@@ -99,7 +99,7 @@ lokal (Click kalitlarisiz) muhitda yuritiladi.
 ## Serverdagi `.env` (git'da yo'q, pipeline tegmaydi)
 
 `.env.example` ga qarang (`LEAD_WEBHOOK_URL`, `TELEGRAM_*`, `CLICK_*`, `HOST_PORT`). `.env` o'zgarsa:
-`cd /opt/ravon-travel && IMAGE_REGISTRY=ghcr.io/nodirmuxammadjanov IMAGE_TAG=$(cat .deployed_tag) docker compose up -d --no-build web`.
+`cd /opt/ravon-travel && IMAGE_REGISTRY=ghcr.io/abdulakimov IMAGE_TAG=$(cat .deployed_tag) docker compose up -d --no-build web`.
 
 ## Tekshirish
 
@@ -117,7 +117,7 @@ Tashqi URL tekshiruvi (nginx/DNS/TLS) yiqilsa rollback qilinmaydi — job qizil 
 Qo'lda:
 
 ```bash
-ssh new-vps 'cd /opt/ravon-travel && IMAGE_REGISTRY=ghcr.io/nodirmuxammadjanov IMAGE_TAG=<eski-sha> docker compose up -d --no-build web'
+ssh new-vps 'cd /opt/ravon-travel && IMAGE_REGISTRY=ghcr.io/abdulakimov IMAGE_TAG=<eski-sha> docker compose up -d --no-build web'
 ```
 
 (Eski image serverda qolmagan bo'lsa — avval `docker login ghcr.io` (PAT, `read:packages`) kerak,
@@ -140,7 +140,7 @@ aniq `subnet` bilan tarmoq e'lon qilish kerak bo'ladi.
 
 ## Break-glass (CI ishlamasa)
 
-Faqat favqulodda: lokalda `docker buildx build --platform linux/amd64 -t ghcr.io/nodirmuxammadjanov/ravon-travel-web:manual --push .`
+Faqat favqulodda: lokalda `docker buildx build --platform linux/amd64 -t ghcr.io/abdulakimov/ravon-travel-web:manual --push .`
 so'ng serverda `IMAGE_TAG=manual docker compose pull web && docker compose up -d web`. Serverda build qilinmaydi.
 
 ## Monitoring (tavsiya)

@@ -6,7 +6,7 @@ name: ravon-travel
 
 services:
   web:
-    image: ${IMAGE_REGISTRY:-ghcr.io/nodirmuxammadjanov}/ravon-travel-web:${IMAGE_TAG:-latest}
+    image: ${IMAGE_REGISTRY:-ghcr.io/abdulakimov}/ravon-travel-web:${IMAGE_TAG:-latest}
     build: { context: ., dockerfile: Dockerfile }
     restart: unless-stopped
     env_file: [{ path: .env, required: false }]
