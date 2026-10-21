@@ -10,6 +10,7 @@ const dir = mkdtempSync(join(tmpdir(), "ravon-click-test-"));
 process.env.ORDERS_DIR = join(dir, "orders");
 process.env.CLICK_LOG_FILE = join(dir, "click.ndjson");
 process.env.LEADS_FILE = join(dir, "leads.ndjson");
+process.env.CONTENT_DIR = join(dir, "content"); // seed turlar (dev'dagi tahrirlar testga ta'sir qilmasin)
 
 const { ClickError, PREPARE_GRACE_MS, clickConfig, clickPOST, expectedSign, handleClick } = await import("../click");
 const { createOrder, publicStatus, readOrder, saveOrder, tokenMatches, withOrdersLock, formatVerifyCode, maskName, normalizeVerifyCode, verifyMatches, newVerifyCode } = await import("../orders");
@@ -217,6 +218,41 @@ describe("prepare", () => {
     const order = await newOrder();
     // bron yangi, lekin "bugun" — jo'nash kunidan keyin
     expect((await run(prepareForm(order.id), Date.UTC(2026, 9, 27))).response.error).toBe(ClickError.CANCELLED);
+  });
+});
+
+describe("admin-closed orders", () => {
+  it("an order cancelled by the admin after Prepare gets -9 on Complete and never becomes paid", async () => {
+    const order = await newOrder();
+    const prep = prepareForm(order.id);
+    const prepareId = (await run(prep)).response.merchant_prepare_id;
+    await withOrdersLock(async () => {
+      const o = (await readOrder(order.id))!;
+      o.status = "cancelled";
+      await saveOrder(o);
+    });
+    const done = await run(completeForm(prep, prepareId));
+    expect(done.response.error).toBe(ClickError.CANCELLED);
+    expect(done.paid).toBeUndefined();
+    const stored = (await readOrder(order.id))!;
+    expect(stored.status).toBe("cancelled");
+    expect(stored.transactions[0].status).toBe("cancelled");
+    // yangi to'lov ham ochilmaydi
+    expect((await run(prepareForm(order.id))).response.error).toBe(ClickError.CANCELLED);
+  });
+
+  it("a refunded order shows as cancelled to the customer and its receipt no longer verifies", async () => {
+    const order = await newOrder();
+    const prep = prepareForm(order.id);
+    const prepareId = (await run(prep)).response.merchant_prepare_id;
+    await run(completeForm(prep, prepareId));
+    const paid = (await readOrder(order.id))!;
+    expect(verifyMatches(paid, paid.verifyCode)).toBe(true);
+    paid.status = "refunded";
+    expect(verifyMatches(paid, paid.verifyCode)).toBe(false);
+    expect(publicStatus(paid)).toBe("cancelled");
+    await withOrdersLock(() => saveOrder(paid));
+    expect((await run(prepareForm(order.id))).response.error).toBe(ClickError.CANCELLED);
   });
 });
 

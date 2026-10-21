@@ -2,7 +2,7 @@ import { createHash, timingSafeEqual } from "node:crypto";
 import { appendFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { getTour } from "./content";
+import { adjustSeats, getTour } from "./content";
 import { todayIso } from "./tour-utils";
 import { recordLead } from "./leads";
 import { newVerifyCode, nextSeq, readOrder, saveOrder, withOrdersLock, type Order } from "./orders";
@@ -162,7 +162,8 @@ export async function handleClick(
     if (p.action === "0") {
       const existing = order.transactions.find((t) => t.clickTransId === p.click_trans_id);
       if (existing?.status === "confirmed" || order.status === "paid") return { response: base(ClickError.ALREADY_PAID) };
-      if (existing?.status === "cancelled" || order.status === "cancelled") return { response: base(ClickError.CANCELLED) };
+      if (existing?.status === "cancelled" || order.status === "cancelled" || order.status === "refunded")
+        return { response: base(ClickError.CANCELLED) };
       if (!amountMatches(p.amount, order)) return { response: base(ClickError.BAD_AMOUNT) };
       if (existing) return { response: base(ClickError.SUCCESS, { merchant_prepare_id: existing.prepareId }) };
       if (clickError < 0 || !(await payable(order, now))) return { response: base(ClickError.CANCELLED) };
@@ -187,7 +188,8 @@ export async function handleClick(
     if (tx.status === "cancelled") return { response: base(ClickError.CANCELLED) };
     if (!amountMatches(p.amount, order)) return { response: base(ClickError.BAD_AMOUNT) };
 
-    if (clickError < 0) {
+    if (clickError < 0 || order.status === "cancelled" || order.status === "refunded") {
+      // Click: pul yechilmadi — YOKI bronni admin bekor qilgan (Prepare'dan keyin): -9 → Click to'lovni bekor qiladi.
       // Click: pul yechilmadi → tranzaksiyani bekor qilamiz va -9 qaytaramiz. Bron o'zi ochiq qoladi —
       // mijoz qaytadan to'lashi mumkin.
       tx.status = "cancelled";
@@ -322,6 +324,11 @@ export async function clickPOST(req: Request): Promise<Response> {
       clickTransId,
       clickPaydocId,
     }).catch((err) => console.error(JSON.stringify({ event: "payment_notify_failed", error: String(err) })));
+    // O'rinlar sonini kamaytirish — bron qulfidan TASHQARIDA (bitta navbat: ichkarida chaqirilsa o'zini kutib qoladi).
+    // Xato to'lovga ta'sir qilmaydi: pul yechilgan, bron "to'landi" — o'rinni admin qo'lda tuzatadi.
+    void adjustSeats(order.tourSlug, order.departureId, -(order.adults + order.children)).catch((err) =>
+      console.error(JSON.stringify({ event: "seats_adjust_failed", order: order.id, error: String(err) })),
+    );
   }
   return json(result.response);
 }

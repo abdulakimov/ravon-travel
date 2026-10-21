@@ -197,6 +197,19 @@ export async function similarTours(tour: Tour, limit = 3): Promise<Tour[]> {
     .slice(0, limit);
 }
 
+/**
+ * Sana o'rinlarini o'zgartiradi (to'lov: manfiy, qaytarish: musbat). 0 dan pastga tushmaydi.
+ * Natija: yangi qoldiq yoki null (tur/sana topilmadi). DIQQAT: bron qulfi ichidan chaqirilmaydi.
+ */
+export function adjustSeats(slug: string, departureId: string, delta: number): Promise<number | null> {
+  return updateDoc("tours", (doc) => {
+    const dep = doc.tours.find((t) => t.slug === slug)?.departures.find((d) => d.id === departureId);
+    if (!dep) return null;
+    dep.seatsLeft = Math.max(0, dep.seatsLeft + delta);
+    return dep.seatsLeft;
+  });
+}
+
 // ── Blog ──────────────────────────────────────────────────────────────────
 
 /** E'lon qilingan maqolalar, yangisi birinchi. */

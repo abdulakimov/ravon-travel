@@ -11,7 +11,7 @@ import { withDataLock, writeAtomic } from "./fsdb";
 // Shaxsiy ma'lumot MINIMAL: faqat qisqartirilgan ismlar («ISLOM K.» — chekni tekshirish uchun).
 // To'liq ism, telefon, pasport, tug'ilgan sana — bu yerda yo'q (telefon/ism faqat leads.ndjson da, menejer uchun).
 
-export type OrderStatus = "awaiting" | "paid" | "cancelled";
+export type OrderStatus = "awaiting" | "paid" | "cancelled" | "refunded";
 
 export interface ClickTransaction {
   clickTransId: string;
@@ -49,6 +49,14 @@ export interface Order {
    */
   verifyCode?: string;
   transactions: ClickTransaction[];
+  // ── Admin panel ──
+  /** Menejer ko'rib chiqdi (hujjatlar yuborildi va h.k.) */
+  handled?: boolean;
+  /** Ichki izoh (mijozga ko'rinmaydi) */
+  adminNote?: string;
+  /** Bekor qilingan / pul qaytarilgan payt va kim tomonidan */
+  closedAt?: number;
+  closedBy?: string;
 }
 
 /** `"ISLOM KARIMOV"` → `"ISLOM K."`. Ism-familiya pasportdagidek lotin, bo'shliq bilan ajratilgan. */
@@ -87,7 +95,7 @@ export function verifyMatches(order: Order, input: string | null | undefined): b
   return a.length === b.length && timingSafeEqual(a, b);
 }
 
-const ORDERS_DIR =
+export const ORDERS_DIR =
   process.env.ORDERS_DIR ?? (process.env.NODE_ENV === "production" ? "/data/orders" : join(tmpdir(), "ravon-orders"));
 const SEQ_FILE = () => join(ORDERS_DIR, "_seq.json");
 
@@ -187,9 +195,11 @@ export function createOrder(input: NewOrder, now = Date.now()): Promise<Order> {
 }
 
 /** Mijozga ko'rsatiladigan holat: muddati o'tgan, to'lanmagan bron — `expired`. */
-export type PublicStatus = OrderStatus | "expired";
+export type PublicStatus = Exclude<OrderStatus, "refunded"> | "expired";
 
 export function publicStatus(order: Order, now = Date.now()): PublicStatus {
+  // Pul qaytarilgan bron mijozga "bekor qilingan" bo'lib ko'rinadi (chek ham haqiqiy emas — verifyMatches).
+  if (order.status === "refunded") return "cancelled";
   if (order.status !== "awaiting") return order.status;
   // Click'da to'lov boshlangan (Prepare o'tgan) bo'lsa, Complete kelguncha muddat tugadi demaymiz.
   if (order.transactions.some((t) => t.status === "prepared")) return "awaiting";
