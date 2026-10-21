@@ -4,7 +4,8 @@
 
 ### O'zgardi
 - **Logo:** kompaniyaning haqiqiy logosi (CMYK JPEG) vektorlashtirildi va saytga qo'yildi: sarlavhada gorizontal
-  variant (to'q oltin), footer'da to'liq logo (asl oltin gradient). Fayllar: `public/brand/*.svg`. `Logo` endi
+  variant, footer.da to'liq logo — ikkalasi asl oltin rangda, to'q yashil fonda (sarlavha ham yashil bo'ldi).
+  Oq fon uchun to'q oltin `on-light` variantlar ham bor (vaucher, mobil menyu). Fayllar: `public/brand/*.svg`. `Logo` endi
   `height` / `variant` / `inverse` / `alt` qabul qiladi; eski `Emblem` va to'lqin (`Wave`) olib tashlandi, eyebrow
   chizig'i — `Rule` (logodagi «— TRAVEL —» va cho'qqi motivi).
 - **Palitra** logodan olindi: `--ink` #002F1A (chuqur yashil), `--primary` #0B5B3A (zumrad), `--accent` #D6AF55 (oltin),

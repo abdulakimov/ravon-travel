@@ -2,14 +2,19 @@
   position: sticky;
   top: 0;
   z-index: 60;
-  background: rgba(255, 255, 255, 0.88);
+  /* Logodagi chuqur yashil — logo asl oltin rangida turadi (brend fayli bilan bir xil). */
+  background: rgb(var(--ink-rgb) / 0.97);
   backdrop-filter: blur(14px) saturate(1.4);
   -webkit-backdrop-filter: blur(14px) saturate(1.4);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgb(255 255 255 / 0.08);
   transition: box-shadow var(--t);
 }
 .header[data-scrolled="1"] {
   box-shadow: var(--shadow-header);
+}
+/* To'q fonda yashil fokus halqasi ko'rinmaydi */
+.header :focus-visible {
+  outline-color: var(--accent);
 }
 
 .bar {
@@ -39,7 +44,7 @@
 }
 
 .navLink {
-  color: var(--text-2);
+  color: rgb(255 255 255 / 0.86);
   padding: 6px 0;
   border-bottom: 1.5px solid transparent;
   transition:
@@ -48,13 +53,13 @@
   white-space: nowrap;
 }
 .navLink:hover {
-  color: var(--primary);
-  border-bottom-color: rgb(var(--primary-rgb) / 0.45);
+  color: var(--white);
+  border-bottom-color: rgb(var(--accent-rgb) / 0.5);
 }
 .navLink[aria-current="page"] {
-  color: var(--primary);
+  color: var(--accent);
   font-weight: 600;
-  border-bottom-color: var(--primary);
+  border-bottom-color: var(--accent);
 }
 
 .actions {
@@ -69,9 +74,9 @@
   align-items: center;
   gap: 2px;
   padding: 3px;
-  border: 1px solid var(--border);
+  border: 1px solid rgb(255 255 255 / 0.2);
   border-radius: var(--r-pill);
-  background: var(--white);
+  background: transparent;
 }
 .langBtn {
   display: inline-flex;
@@ -83,17 +88,17 @@
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: var(--text-3);
+  color: rgb(255 255 255 / 0.78);
   transition:
     background var(--t),
     color var(--t);
 }
 .langBtn:hover {
-  color: var(--primary);
+  color: var(--white);
 }
 .langBtn[aria-current="true"] {
-  background: var(--primary);
-  color: var(--white);
+  background: var(--accent);
+  color: var(--ink);
 }
 
 /* .actions bilan: global .btn { display: inline-flex } dan ustun bo'lishi uchun */
@@ -111,6 +116,12 @@
   border-radius: 12px;
   background: var(--white);
   color: var(--ink);
+}
+/* Sarlavhadagi tugma to'q fonda; menyudagi yopish tugmasi oq panelda qoladi */
+.burger {
+  border-color: rgb(255 255 255 / 0.22);
+  background: transparent;
+  color: var(--white);
 }
 
 @media (min-width: 940px) {

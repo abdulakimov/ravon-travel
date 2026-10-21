@@ -86,7 +86,7 @@ export function Header() {
     <header className={styles.header} data-scrolled={scrolled ? "1" : undefined}>
       <div className={`container ${styles.bar}`}>
         <Link href="/" className={styles.logo} aria-label={site.name}>
-          <Logo alt="" height={48} />
+          <Logo alt="" height={48} inverse />
         </Link>
 
         <nav className={styles.nav} aria-label={t("main")}>
@@ -119,7 +119,7 @@ export function Header() {
             ))}
           </div>
 
-          <Link href="/tours" className={`btn btn--primary btn--sm ${styles.cta}`}>
+          <Link href="/tours" className={`btn btn--accent btn--sm ${styles.cta}`}>
             <Icon icon={CalendarCheck} size={16} />
             <span>{t("book")}</span>
           </Link>
