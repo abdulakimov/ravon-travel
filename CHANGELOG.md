@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-21 — Click logotipi to'lov sahifasida
+
+- To'lov usullari ichida "CLICK" yozuvi o'rniga Click'ning rasmiy logotipi (`src/components/ClickLogo.tsx`, manba: click.uz).
+- Buyurtma xulosasi pastida «Xavfsiz to'lov + Click» belgisi (`payment.click.securedBy`, uch tilda).
+
 ## 2026-10-20 — chek QR'i, tekshirish sahifasi, ixcham bron/to'lov sahifalari
 
 ### Qo'shildi

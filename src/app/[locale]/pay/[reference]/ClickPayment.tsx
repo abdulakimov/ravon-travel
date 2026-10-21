@@ -9,6 +9,7 @@ import { getTour } from "@/data/tours";
 import { site } from "@/config/site";
 import { Icon } from "@/components/Icon";
 import { Logo } from "@/components/Brand";
+import { ClickLogo } from "@/components/ClickLogo";
 import { formatDate, formatDateRange, money } from "@/lib/format";
 import { tr } from "@/lib/l10n";
 import { loadBooking } from "@/lib/booking-store";
@@ -321,7 +322,7 @@ export function ClickPayment({
 
               <div className={styles.methods}>
                 <div className={styles.payOption}>
-                  <span className={styles.methodTag}>CLICK</span>
+                  <ClickLogo height={22} className={styles.methodLogo} />
                   <span className={styles.methodName}>{t("click.app.name")}</span>
                   <span className={styles.methodNote}>{t("click.app.note")}</span>
                   <a href={payUrl} className={`btn btn--accent ${styles.optionBtn}`}>
@@ -540,6 +541,11 @@ export function ClickPayment({
               <span className={styles.row}>
                 <span>{t("summary.bookingNo")}</span>
                 <span>{reference}</span>
+              </span>
+              <span className={styles.secured}>
+                <Icon icon={ShieldCheck} size={16} />
+                <span>{t("click.securedBy")}</span>
+                <ClickLogo height={18} className={styles.securedLogo} />
               </span>
               <span className={styles.cards}>
                 <Icon icon={CreditCard} size={15} />

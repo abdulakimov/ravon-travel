@@ -886,6 +886,31 @@
   text-align: right;
   overflow-wrap: anywhere;
 }
+/* Click logotipi: so'z qismi currentColor — sahifa matni rangida. */
+.methodLogo {
+  color: var(--ink);
+}
+.secured {
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+.secured > svg:first-child {
+  color: var(--primary);
+}
+.securedLogo {
+  color: var(--ink);
+  margin-left: 2px;
+}
+.secured + .cards {
+  padding-top: 0;
+  border-top: 0;
+}
 .cards {
   padding-top: 12px;
   border-top: 1px solid var(--border);
