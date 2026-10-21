@@ -16,10 +16,10 @@ import {
 } from "lucide-react";
 import { SiTelegram } from "@icons-pack/react-simple-icons";
 import { Link } from "@/i18n/navigation";
-import { routing } from "@/i18n/routing";
+import { routing, type Locale } from "@/i18n/routing";
+import { tr } from "@/lib/l10n";
 import { site } from "@/config/site";
-import { categoryIds, countryIds, liveToursByRank, tours } from "@/data/tours";
-import { postsByDate } from "@/data/blog";
+import { getPosts, getSettings, getTaxonomy, liveToursByRank, type Settings } from "@/lib/content";
 import { alternates } from "@/lib/seo";
 import { Eyebrow } from "@/components/Brand";
 import { Icon } from "@/components/Icon";
@@ -44,12 +44,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-// Bosh sahifadagi yo'nalishlar — prototipdagi 8 ta davlat (Qirg'iziston /destinations da).
-const homeCountries = countryIds.filter((id) => id !== "kg");
-
 /** schema.org TravelAgency — berilmagan (null) rekvizitlar tushirib qoldiriladi. */
-function travelAgencyJsonLd(locale: string, description: string) {
-  const sameAs = Object.values(site.social).filter((v): v is NonNullable<typeof v> => v != null);
+function travelAgencyJsonLd(locale: string, description: string, s: Settings) {
+  const sameAs = Object.values(s.social).filter((v): v is NonNullable<typeof v> => v != null);
   return {
     "@context": "https://schema.org",
     "@type": "TravelAgency",
@@ -59,15 +56,15 @@ function travelAgencyJsonLd(locale: string, description: string) {
     description,
     image: `${site.url}/img/hero-dubai.jpg`,
     logo: `${site.url}/icon.svg`,
-    email: site.email,
+    email: s.email,
     areaServed: "UZ",
     availableLanguage: [...routing.locales],
     openingHours: "Mo-Sa 09:00-19:00",
-    ...(site.legalName ? { legalName: site.legalName } : {}),
-    ...(site.phone ? { telephone: site.phone } : {}),
-    ...(site.stir ? { taxID: site.stir } : {}),
-    ...(site.postalAddress
-      ? { address: { "@type": "PostalAddress", streetAddress: site.postalAddress, addressCountry: "UZ" } }
+    ...(s.legalName ? { legalName: s.legalName } : {}),
+    ...(s.phone ? { telephone: s.phone } : {}),
+    ...(s.stir ? { taxID: s.stir } : {}),
+    ...(s.postalAddress
+      ? { address: { "@type": "PostalAddress", streetAddress: s.postalAddress, addressCountry: "UZ" } }
       : {}),
     ...(sameAs.length ? { sameAs } : {}),
   };
@@ -78,6 +75,15 @@ export default async function Home({ params }: Props) {
   setRequestLocale(locale);
   const t = await getTranslations("home");
   const tc = await getTranslations("common");
+  const [tours, { countries, countryIds, categories, categoryIds }, posts, settings] = await Promise.all([
+    liveToursByRank(),
+    getTaxonomy(),
+    getPosts(),
+    getSettings(),
+  ]);
+  // Bosh sahifadagi yo'nalishlar — admin paneldagi "bosh sahifada" belgisi bo'yicha (standart: ko'rsatiladi).
+  const homeCountries = countryIds.filter((id) => countries[id].home !== false);
+  const countIn = (id: string) => tours.filter((tour) => tour.country === id).length;
 
   const stats: { key: "tours" | "destinations" | "categories" | "languages"; value: number; icon: LucideIcon }[] = [
     { key: "tours", value: tours.length, icon: Plane },
@@ -99,7 +105,7 @@ export default async function Home({ params }: Props) {
     { key: "specialist", icon: Headset },
   ];
 
-  const jsonLd = JSON.stringify(travelAgencyJsonLd(locale, tc("meta.description"))).replace(/</g, "\\u003c");
+  const jsonLd = JSON.stringify(travelAgencyJsonLd(locale, tc("meta.description"), settings)).replace(/</g, "\\u003c");
 
   return (
     <>
@@ -179,9 +185,9 @@ export default async function Home({ params }: Props) {
           </Reveal>
 
           <div className={styles.tourGrid}>
-            {liveToursByRank().slice(0, 6).map((tour) => (
+            {tours.slice(0, 6).map((tour) => (
               <Reveal key={tour.id}>
-                <TourCard tour={tour} />
+                <TourCard tour={tour} categoryLabel={tr(categories[tour.category]?.name, locale as Locale)} />
               </Reveal>
             ))}
           </div>
@@ -209,7 +215,9 @@ export default async function Home({ params }: Props) {
             {homeCountries.map((id) => (
               <Reveal key={id}>
                 <DestinationCard
-                  country={id}
+                  id={id}
+                  data={countries[id]}
+                  count={countIn(id)}
                   label={id === "ae" ? t("destinations.aeLabel") : undefined}
                   sizes="(min-width: 1100px) 290px, (min-width: 760px) 33vw, (min-width: 500px) 50vw, 100vw"
                 />
@@ -260,7 +268,7 @@ export default async function Home({ params }: Props) {
           </Reveal>
 
           <div className={styles.blogGrid}>
-            {postsByDate.slice(0, 3).map((post) => (
+            {posts.slice(0, 3).map((post) => (
               <Reveal key={post.slug}>
                 <PostCard post={post} />
               </Reveal>
@@ -284,9 +292,9 @@ export default async function Home({ params }: Props) {
               {tc("actions.consult")}
             </Link>
             {/* Telegram havolasi hali berilmagan bo'lsa — aloqa sahifasiga. */}
-            {site.social.telegram ? (
+            {settings.social.telegram ? (
               <a
-                href={site.social.telegram}
+                href={settings.social.telegram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`${styles.cta} ${styles.ctaLine} ${styles.ctaBand}`}

@@ -1,8 +1,7 @@
 import type { MetadataRoute } from "next";
 import { locales } from "@/i18n/routing";
 import { site } from "@/config/site";
-import { tours } from "@/data/tours";
-import { posts } from "@/data/blog";
+import { getPosts, liveToursByRank } from "@/lib/content";
 
 // Har bir ommaviy sahifa × 3 til, hreflang muqobillari bilan (TZ §8.4).
 // Bron/to'lov/so'rov oqimlari indekslanmaydi (robots.ts).
@@ -33,7 +32,11 @@ function entries(path: string, extra: Pick<Entry, "changeFrequency" | "priority"
   }));
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+// Turlar va maqolalar admin paneldan qo'shiladi — sitemap har so'rovda yangidan quriladi.
+export const dynamic = "force-dynamic";
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [tours, posts] = await Promise.all([liveToursByRank(), getPosts()]);
   return [
     ...STATIC_PATHS.flatMap((path) =>
       entries(path, {

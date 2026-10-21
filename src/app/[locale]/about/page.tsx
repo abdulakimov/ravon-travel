@@ -5,7 +5,7 @@ import { ArrowRight, Headset, ImageIcon, ScrollText, ShieldCheck } from "lucide-
 import { Link } from "@/i18n/navigation";
 import { locales } from "@/i18n/routing";
 import { site } from "@/config/site";
-import { countryIds, tours } from "@/data/tours";
+import { getSettings, getTaxonomy, liveToursByRank } from "@/lib/content";
 import { alternates } from "@/lib/seo";
 import { Eyebrow } from "@/components/Brand";
 import { Icon } from "@/components/Icon";
@@ -26,13 +26,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 const TEAM = ["director", "manager", "specialist", "accountant"] as const;
 
+// Rekvizitlar admin paneldan (sozlamalar) — so'rov vaqtida render.
+export const dynamic = "force-dynamic";
+
 export default async function AboutPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const [settings, { countryIds }, tours] = await Promise.all([getSettings(), getTaxonomy(), liveToursByRank()]);
   const t = await getTranslations("about");
   const tc = await getTranslations("common");
 
-  const licensed = site.licenseNo !== null;
+  const licensed = settings.licenseNo !== null;
   const pending = tc("pending");
 
   const stats = [
@@ -42,7 +46,7 @@ export default async function AboutPage({ params }: Props) {
   ];
 
   const team = TEAM.map((key) => {
-    const name = site.team[key];
+    const name = settings.team[key];
     const role = t(`team.members.${key}.role`);
     return { key, name, role, area: t(`team.members.${key}.area`), mono: (name ?? role).trim().charAt(0).toUpperCase() };
   });
@@ -50,14 +54,14 @@ export default async function AboutPage({ params }: Props) {
 
   // Rekvizitlar (TZ L9): qiymat faqat site.ts dan; null → "Rasmiylashtirilmoqda".
   const requisites: { label: string; value: string | null }[] = [
-    { label: t("requisites.fields.legalName"), value: site.legalName },
-    { label: t("requisites.fields.stir"), value: site.stir },
-    { label: t("requisites.fields.address"), value: site.postalAddress },
-    { label: t("requisites.fields.phone"), value: site.phone },
-    { label: t("requisites.fields.email"), value: site.email },
+    { label: t("requisites.fields.legalName"), value: settings.legalName },
+    { label: t("requisites.fields.stir"), value: settings.stir },
+    { label: t("requisites.fields.address"), value: settings.postalAddress },
+    { label: t("requisites.fields.phone"), value: settings.phone },
+    { label: t("requisites.fields.email"), value: settings.email },
     { label: t("requisites.fields.hours"), value: tc("workingHours") },
-    { label: t("requisites.fields.bank"), value: site.bankName },
-    { label: t("requisites.fields.account"), value: site.bankAccount },
+    { label: t("requisites.fields.bank"), value: settings.bankName },
+    { label: t("requisites.fields.account"), value: settings.bankAccount },
   ];
   const requisitesComplete = requisites.every((r) => r.value !== null);
 
@@ -150,13 +154,13 @@ export default async function AboutPage({ params }: Props) {
                 <div>
                   <dt>{t("docs.license.number")}</dt>
                   <dd className={licensed ? undefined : styles.muted}>
-                    {site.licenseNo ?? t("docs.license.numberPending")}
+                    {settings.licenseNo ?? t("docs.license.numberPending")}
                   </dd>
                 </div>
-                {site.licenseDate && (
+                {settings.licenseDate && (
                   <div>
                     <dt>{t("docs.license.date")}</dt>
-                    <dd>{site.licenseDate}</dd>
+                    <dd>{settings.licenseDate}</dd>
                   </div>
                 )}
                 <div>

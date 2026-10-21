@@ -5,11 +5,11 @@ import { useLocale, useTranslations } from "next-intl";
 import { ArrowDown, ListFilter, RotateCw, X, ZoomOut } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
-import { PRICE_MAX, PRICE_MIN, categories, categoryIds, countries, countryIds, liveToursByRank } from "@/data/tours";
 import { Icon } from "@/components/Icon";
 import { TourCard } from "@/components/TourCard";
 import { money } from "@/lib/format";
 import { tr } from "@/lib/l10n";
+import { useCatalogData } from "./CatalogData";
 import {
   DURATIONS,
   PAGE_SIZE,
@@ -37,7 +37,8 @@ const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select
 /** Bannerdagi jonli hisoblagich: "N tur topildi". */
 export function ResultCount({ query }: { query: string }) {
   const t = useTranslations("catalog");
-  const count = useMemo(() => applyFilters(liveToursByRank(), parseFilters(query)).length, [query]);
+  const data = useCatalogData();
+  const count = useMemo(() => applyFilters(data.tours, parseFilters(query, data), data).length, [query, data]);
   return (
     <p className={styles.counter} role="status">
       <span className={styles.counterNum}>{count}</span>
@@ -56,15 +57,17 @@ export function Catalog({ query }: { query: string }) {
   const tc = useTranslations("common");
   const locale = useLocale() as Locale;
   const uid = useId();
+  const data = useCatalogData();
+  const { countries, countryIds, categories, categoryIds, price } = data;
 
   // URL — haqiqat manbai. `pending` — router.replace tugaguncha UI darhol javob berishi uchun
   // optimistik qatlam; URL o'zgargach (shu jumladan "orqaga" tugmasi) o'z-o'zidan bekor bo'ladi.
-  const parsed = useMemo(() => parseFilters(query), [query]);
+  const parsed = useMemo(() => parseFilters(query, data), [query, data]);
   const [pending, setPending] = useState<{ from: string; filters: Filters } | null>(null);
   const filters = pending && pending.from === query ? pending.filters : parsed;
-  const canonical = serializeFilters(filters);
+  const canonical = serializeFilters(filters, data);
 
-  const results = useMemo(() => applyFilters(liveToursByRank(), filters), [filters]);
+  const results = useMemo(() => applyFilters(data.tours, filters, data), [filters, data]);
   const count = results.length;
 
   // Filtr/saralash o'zgarsa sahifalash 6 ga qaytadi (effektsiz — kalit bo'yicha hosil qilinadi).
@@ -78,7 +81,7 @@ export function Catalog({ query }: { query: string }) {
     (patch: Partial<Filters>, debounceMs = 0) => {
       const next = { ...filters, ...patch };
       setPending({ from: query, filters: next });
-      const qs = serializeFilters(next);
+      const qs = serializeFilters(next, data);
       // history.replaceState: Next uni useSearchParams bilan sinxronlaydi va serverga so'rov YUBORMAYDI
       // (sahifa dinamik — router.replace har filtr bosilganda serverga borib kelardi).
       const go = () => window.history.replaceState(null, "", `/${locale}/tours${qs ? `?${qs}` : ""}`);
@@ -86,7 +89,7 @@ export function Catalog({ query }: { query: string }) {
       if (debounceMs > 0) timer.current = window.setTimeout(go, debounceMs);
       else go();
     },
-    [filters, query, locale],
+    [filters, query, locale, data],
   );
 
   const toggle = <K extends "countries" | "categories">(key: K, id: Filters[K][number]) => {
@@ -97,17 +100,17 @@ export function Catalog({ query }: { query: string }) {
   };
 
   const clearAll = () =>
-    update({ countries: [], categories: [], maxPrice: PRICE_MAX, duration: null, fixedOnly: false });
+    update({ countries: [], categories: [], maxPrice: price.max, duration: null, fixedOnly: false });
 
   const tourCounts = useMemo(() => {
     const byCountry = new Map<string, number>();
     const byCategory = new Map<string, number>();
-    for (const tour of liveToursByRank()) {
+    for (const tour of data.tours) {
       byCountry.set(tour.country, (byCountry.get(tour.country) ?? 0) + 1);
       byCategory.set(tour.category, (byCategory.get(tour.category) ?? 0) + 1);
     }
     return { byCountry, byCategory };
-  }, []);
+  }, [data]);
 
   // Chip = olib tashlanganda qo'llanadigan o'zgarish (patch).
   const chips: { key: string; label: string; patch: Partial<Filters> }[] = [
@@ -129,11 +132,11 @@ export function Catalog({ query }: { query: string }) {
       patch: { duration: null },
     });
   }
-  if (filters.maxPrice < PRICE_MAX) {
+  if (filters.maxPrice < price.max) {
     chips.push({
       key: "price",
       label: t("filters.upToPlain", { price: money(filters.maxPrice, locale) }),
-      patch: { maxPrice: PRICE_MAX },
+      patch: { maxPrice: price.max },
     });
   }
   if (filters.fixedOnly) {
@@ -216,7 +219,7 @@ export function Catalog({ query }: { query: string }) {
                 <span>{t("filters.title")}</span>
               </h2>
               <span className={styles.panelActions}>
-                <button type="button" className={styles.clear} onClick={clearAll} disabled={!hasActiveFilters(filters)}>
+                <button type="button" className={styles.clear} onClick={clearAll} disabled={!hasActiveFilters(filters, data)}>
                   {t("filters.clear")}
                 </button>
                 <button
@@ -279,8 +282,8 @@ export function Catalog({ query }: { query: string }) {
                 <input
                   id={priceId}
                   type="range"
-                  min={PRICE_MIN}
-                  max={PRICE_MAX}
+                  min={price.min}
+                  max={price.max}
                   step={PRICE_STEP}
                   value={filters.maxPrice}
                   onChange={(e) => update({ maxPrice: Number(e.target.value) }, 160)}
@@ -385,7 +388,7 @@ export function Catalog({ query }: { query: string }) {
               <ul className="card-grid">
                 {results.map((tour, i) => (
                   <li key={tour.id} hidden={i >= shown} className={styles.cell}>
-                    <TourCard tour={tour} priority={i < 2} />
+                    <TourCard tour={tour} categoryLabel={tr(categories[tour.category]?.name, locale)} priority={i < 2} />
                   </li>
                 ))}
               </ul>

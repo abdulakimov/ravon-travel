@@ -6,7 +6,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ArrowRight, CalendarDays, Clock, Tag } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { categories, getTour, openDepartures, tours } from "@/data/tours";
+import { getTaxonomy, getTour } from "@/lib/content";
+import { openDepartures } from "@/lib/tour-utils";
 import { Eyebrow } from "@/components/Brand";
 import { Icon } from "@/components/Icon";
 import { money } from "@/lib/format";
@@ -19,13 +20,9 @@ type Params = Promise<{ locale: string; slug: string }>;
 // So'rov vaqtida render: kartochkalardagi sana/o'rin/narx joriy kunga mos bo'lishi uchun (liveTour).
 export const dynamic = "force-dynamic";
 
-export function generateStaticParams() {
-  return tours.map((tour) => ({ slug: tour.slug }));
-}
-
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { locale, slug } = await params;
-  const tour = getTour(slug);
+  const tour = await getTour(slug);
   if (!tour || !hasLocale(routing.locales, locale)) return { robots: { index: false } };
   const t = await getTranslations({ locale, namespace: "inquiry" });
   const name = tr(tour.title, locale);
@@ -41,8 +38,9 @@ export default async function InquiryPage({ params }: { params: Params }) {
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
 
-  const tour = getTour(slug);
+  const tour = await getTour(slug);
   if (!tour) notFound();
+  const { categories } = await getTaxonomy();
 
   const t = await getTranslations("inquiry");
   const tc = await getTranslations("common");
@@ -81,7 +79,7 @@ export default async function InquiryPage({ params }: { params: Params }) {
               <Image src={tour.image} alt="" fill sizes="(min-width: 960px) 360px, 100vw" className={styles.img} priority />
             </div>
             <div className={styles.tourBody}>
-              <span className={styles.cat}>{tr(categories[tour.category].name, locale)}</span>
+              <span className={styles.cat}>{tr(categories[tour.category]?.name, locale)}</span>
               <h2 className={styles.tourTitle}>{title}</h2>
               <p className={styles.tourSummary}>{tr(tour.summary, locale)}</p>
 

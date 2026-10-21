@@ -5,7 +5,9 @@ import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { redirect } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { getTour, openDepartures, tours } from "@/data/tours";
+import { getTaxonomy, getTour } from "@/lib/content";
+import { openDepartures } from "@/lib/tour-utils";
+import type { Tour } from "@/data/types";
 import { tr } from "@/lib/l10n";
 import { BookingWizard } from "./BookingWizard";
 import styles from "./book.module.css";
@@ -13,21 +15,14 @@ import styles from "./book.module.css";
 type Params = Promise<{ locale: string; slug: string }>;
 
 /** Onlayn bron faqat sanasi belgilangan va kamida bitta ochiq sanasi bor turlar uchun. */
-const isBookable = (slug: string) => {
-  const tour = getTour(slug);
-  return Boolean(tour && tour.fixedDeparture && openDepartures(tour).length > 0);
-};
+const isBookable = (tour: Tour) => tour.fixedDeparture && openDepartures(tour).length > 0;
 
-// So'rov vaqtida render: jo'nab ketgan sanalar taklif qilinmasligi uchun (getTour joriy sanani hisobga oladi).
+// So'rov vaqtida render: jo'nab ketgan sanalar taklif qilinmasligi va admin o'zgarishlari darhol ko'rinishi uchun.
 export const dynamic = "force-dynamic";
-
-export function generateStaticParams() {
-  return tours.filter((t) => isBookable(t.slug)).map((t) => ({ slug: t.slug }));
-}
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { locale, slug } = await params;
-  const tour = getTour(slug);
+  const tour = await getTour(slug);
   if (!tour || !hasLocale(routing.locales, locale)) return { robots: { index: false } };
   const t = await getTranslations({ locale, namespace: "booking" });
   return {
@@ -41,10 +36,10 @@ export default async function BookPage({ params }: { params: Params }) {
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
 
-  const tour = getTour(slug);
+  const tour = await getTour(slug);
   if (!tour) notFound();
   // "So'rov bo'yicha" yoki o'rni qolmagan tur — so'rov formasiga
-  if (!isBookable(slug)) redirect({ href: `/inquiry/${slug}`, locale });
+  if (!isBookable(tour)) redirect({ href: `/inquiry/${slug}`, locale });
 
   const t = await getTranslations("booking");
 
@@ -67,7 +62,7 @@ export default async function BookPage({ params }: { params: Params }) {
         </div>
       }
     >
-      <BookingWizard tour={tour} />
+      <BookingWizard tour={tour} categoryLabel={tr((await getTaxonomy()).categories[tour.category]?.name, locale)} />
     </Suspense>
   );
 }

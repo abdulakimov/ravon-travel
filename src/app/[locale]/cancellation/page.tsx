@@ -5,16 +5,22 @@ import { legalDocs } from "@/data/legal";
 import { tr } from "@/lib/l10n";
 import { alternates } from "@/lib/seo";
 import { LegalPage } from "@/components/LegalPage";
+import { getSettings } from "@/lib/content";
+import { fillLegal } from "@/lib/legal-fill";
 
 type Props = { params: Promise<{ locale: string }> };
 
 const doc = legalDocs.cancellation;
 
+// Kompaniya nomi/email admin sozlamalaridan — so'rov vaqtida render.
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
+  const settings = await getSettings();
   return {
-    title: tr(doc.title, locale as Locale),
-    description: tr(doc.description, locale as Locale),
+    title: fillLegal(tr(doc.title, locale as Locale), settings),
+    description: fillLegal(tr(doc.description, locale as Locale), settings),
     alternates: alternates(locale, "/cancellation"),
   };
 }

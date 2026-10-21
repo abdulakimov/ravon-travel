@@ -5,7 +5,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { BadgeCheck, SearchX } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
-import { getTour } from "@/data/tours";
+import { getTourAnyState } from "@/lib/content";
 import { Icon } from "@/components/Icon";
 import { BOOKING_ID_RE } from "@/lib/booking-constants";
 import { formatDate, formatDateRange, money } from "@/lib/format";
@@ -57,7 +57,7 @@ export default async function VerifyPage({ params, searchParams }: Props) {
 
   const order = BOOKING_ID_RE.test(id) ? await readOrder(id).catch(() => null) : null;
   const valid = order !== null && verifyMatches(order, code);
-  const tour = valid ? getTour(order.tourSlug, "0000-00-00") : undefined;
+  const tour = valid ? await getTourAnyState(order.tourSlug) : undefined;
   const departure = tour?.departures.find((d) => d.id === order?.departureId);
   const paid = valid && order.paidAt ? tashkent(order.paidAt) : null;
   const paydoc = valid ? order.transactions.find((x) => x.status === "confirmed")?.clickPaydocId : undefined;

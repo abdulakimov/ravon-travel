@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { getTour } from "@/data/tours";
+import { liveToursByRank } from "@/lib/content";
 import { locales } from "@/i18n/routing";
 import { handleLead } from "@/lib/leads";
 
@@ -7,8 +7,8 @@ import { handleLead } from "@/lib/leads";
 // honeypot (`website`) — handleLead ichida. Bu yerda faqat qat'iy sxema.
 const text = (max: number) => z.string().trim().max(max);
 
-const schema = z.strictObject({
-  slug: text(80).refine((slug) => getTour(slug) !== undefined, "unknown tour"),
+const makeSchema = (slugs: Set<string>) => z.strictObject({
+  slug: text(80).refine((slug) => slugs.has(slug), "unknown tour"),
   locale: z.enum(locales).optional(),
   name: text(80).min(2),
   phone: text(24)
@@ -23,5 +23,6 @@ const schema = z.strictObject({
 });
 
 export async function POST(req: Request) {
-  return handleLead(req, "inquiry", schema);
+  const slugs = new Set((await liveToursByRank()).map((t) => t.slug));
+  return handleLead(req, "inquiry", makeSchema(slugs));
 }

@@ -2,34 +2,35 @@ import { getTranslations } from "next-intl/server";
 import { CreditCard } from "lucide-react";
 import { SiInstagram, SiTelegram, SiWhatsapp } from "@icons-pack/react-simple-icons";
 import { Link } from "@/i18n/navigation";
-import { site } from "@/config/site";
+import { getSettings } from "@/lib/content";
 import { Icon } from "./Icon";
 import { Logo } from "./Brand";
 import styles from "./Footer.module.css";
 
 export async function Footer() {
+  const settings = await getSettings();
   const t = await getTranslations("common");
 
   const socials = [
-    { label: "Telegram", href: site.social.telegram, Glyph: SiTelegram },
-    { label: "Instagram", href: site.social.instagram, Glyph: SiInstagram },
-    { label: "WhatsApp", href: site.social.whatsapp, Glyph: SiWhatsapp },
+    { label: "Telegram", href: settings.social.telegram, Glyph: SiTelegram },
+    { label: "Instagram", href: settings.social.instagram, Glyph: SiInstagram },
+    { label: "WhatsApp", href: settings.social.whatsapp, Glyph: SiWhatsapp },
   ];
 
   // Litsenziya talabi (TZ L4–L6): rekvizit qatori har sahifada. Berilmagan maydon ko'rsatilmaydi.
   const legal: { label: string; value: string }[] = [
-    ...(site.stir ? [{ label: t("footer.stir"), value: site.stir }] : []),
-    ...(site.postalAddress ? [{ label: t("footer.address"), value: site.postalAddress }] : []),
+    ...(settings.stir ? [{ label: t("footer.stir"), value: settings.stir }] : []),
+    ...(settings.postalAddress ? [{ label: t("footer.address"), value: settings.postalAddress }] : []),
     { label: t("footer.hours"), value: t("workingHours") },
     {
       label: t("footer.licenseLine"),
-      value: site.licenseNo
-        ? [`№ ${site.licenseNo}`, site.licenseDate, site.licenseAuthority].filter(Boolean).join(", ")
+      value: settings.licenseNo
+        ? [`№ ${settings.licenseNo}`, settings.licenseDate, settings.licenseAuthority].filter(Boolean).join(", ")
         : t("pending"),
     },
     { label: t("footer.licensedDirection"), value: t("outbound") },
-    ...(site.phone ? [{ label: t("footer.phone"), value: site.phone }] : []),
-    { label: t("footer.email"), value: site.email },
+    ...(settings.phone ? [{ label: t("footer.phone"), value: settings.phone }] : []),
+    { label: t("footer.email"), value: settings.email },
   ];
 
   return (
@@ -81,7 +82,7 @@ export async function Footer() {
         </div>
 
         <dl className={styles.legal}>
-          {site.legalName && <div className={styles.legalName}>{site.legalName}</div>}
+          {settings.legalName && <div className={styles.legalName}>{settings.legalName}</div>}
           {legal.map((row) => (
             <div key={row.label} className={styles.legalRow}>
               <dt>{row.label}</dt>

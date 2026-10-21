@@ -4,9 +4,9 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ArrowRight, CalendarDays, ChevronRight, Clock, Info } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import { routing, type Locale } from "@/i18n/routing";
+import type { Locale } from "@/i18n/routing";
 import { site } from "@/config/site";
-import { getPost, otherPosts, posts } from "@/data/blog";
+import { getPost, otherPosts } from "@/lib/content";
 import { formatDate } from "@/lib/format";
 import { tr } from "@/lib/l10n";
 import { alternates } from "@/lib/seo";
@@ -17,16 +17,12 @@ import styles from "./article.module.css";
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
-export function generateStaticParams() {
-  return routing.locales.flatMap((locale) => posts.map((post) => ({ locale, slug: post.slug })));
-}
-
-// Faqat ma'lum sluglar — boshqasi 404.
-export const dynamicParams = false;
+// Maqolalar admin paneldan qo'shiladi/tahrirlanadi — so'rov vaqtida render. Noma'lum slug → 404.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
-  const post = getPost(slug);
+  const post = await getPost(slug);
   if (!post) return {};
   const lc = locale as Locale;
   return {
@@ -45,8 +41,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ArticlePage({ params }: Props) {
   const { locale, slug } = await params;
-  const post = getPost(slug);
+  const post = await getPost(slug);
   if (!post) notFound();
+  const others = await otherPosts(post.slug);
   setRequestLocale(locale);
   const lc = locale as Locale;
   const t = await getTranslations("blog");
@@ -168,7 +165,7 @@ export default async function ArticlePage({ params }: Props) {
             </Link>
           </Reveal>
           <div className={styles.moreGrid}>
-            {otherPosts(post.slug).map((other) => (
+            {others.map((other) => (
               <Reveal key={other.slug}>
                 <PostCard post={other} excerpt />
               </Reveal>

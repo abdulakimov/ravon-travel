@@ -3,7 +3,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Clock } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
-import type { BlogPost } from "@/data/blog";
+import type { BlogPost } from "@/lib/content";
 import { formatDate } from "@/lib/format";
 import { tr } from "@/lib/l10n";
 import { Icon } from "@/components/Icon";

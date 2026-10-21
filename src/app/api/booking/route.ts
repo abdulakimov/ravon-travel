@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { getTour } from "@/data/tours";
+import type { Tour } from "@/data/types";
+import { liveToursByRank } from "@/lib/content";
 import { locales } from "@/i18n/routing";
 import { bookingTotal } from "@/lib/format";
 import { handleLead } from "@/lib/leads";
@@ -12,7 +13,8 @@ import { createOrder } from "@/lib/orders";
 // karta ma'lumoti esa umuman hech qayerga yuborilmaydi.
 const text = (max: number) => z.string().trim().max(max);
 
-const schema = z
+// Sxema har so'rovda joriy turlar bilan quriladi (narx/o'rin admin paneldan o'zgarishi mumkin).
+const makeSchema = (tours: Map<string, Tour>) => z
   .strictObject({
     slug: text(80),
     departureId: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
@@ -28,7 +30,7 @@ const schema = z
     totalUzs: z.number().int().positive().max(10_000_000_000),
   })
   .superRefine((data, ctx) => {
-    const departure = getTour(data.slug)?.departures.find((d) => d.id === data.departureId);
+    const departure = tours.get(data.slug)?.departures.find((d) => d.id === data.departureId);
     if (!departure) ctx.addIssue({ code: "custom", path: ["departureId"], message: "unknown departure" });
     else if (data.adults + data.children > departure.seatsLeft)
       ctx.addIssue({ code: "custom", path: ["adults"], message: "not enough seats" });
@@ -40,7 +42,8 @@ const schema = z
   });
 
 export async function POST(req: Request) {
-  return handleLead(req, "booking", schema, {
+  const tours = new Map((await liveToursByRank()).map((t) => [t.slug, t]));
+  return handleLead(req, "booking", makeSchema(tours), {
     accept: async (data) => {
       const order = await createOrder({
         tourSlug: data.slug,

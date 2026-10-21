@@ -1,9 +1,9 @@
-import type { CategoryId, CountryId, Departure, L10n, Tour } from "./types";
+import type { Category, Country, Departure, Tour } from "./types";
 
-// Namuna ma'lumot (handoff prototipidan). Narx va sanalar yakuniy emas —
-// backend/CMS ulanganida shu modul API chaqiruviga almashtiriladi.
+// BOSHLANG'ICH (seed) ma'lumot: /data/content/*.json hali yo'q bo'lsa shu ishlatiladi.
+// Sayt va admin panel src/lib/content.ts orqali o'qiydi — bu faylni boshqa joyda import qilmang.
 
-export const countries: Record<CountryId, { name: L10n; image: string }> = {
+export const countries: Record<string, Country> = {
   az: { name: { uz: "Ozarbayjon", ru: "Азербайджан", en: "Azerbaijan" }, image: "/img/dest-az.jpg" },
   ge: { name: { uz: "Gruziya", ru: "Грузия", en: "Georgia" }, image: "/img/dest-ge.jpg" },
   ae: { name: { uz: "BAA", ru: "ОАЭ", en: "UAE" }, image: "/img/dest-ae.jpg" },
@@ -12,20 +12,16 @@ export const countries: Record<CountryId, { name: L10n; image: string }> = {
   bg: { name: { uz: "Bolgariya", ru: "Болгария", en: "Bulgaria" }, image: "/img/dest-bg.jpg" },
   gr: { name: { uz: "Yunoniston", ru: "Греция", en: "Greece" }, image: "/img/dest-gr.jpg" },
   qa: { name: { uz: "Qatar", ru: "Катар", en: "Qatar" }, image: "/img/dest-qa.jpg" },
-  kg: { name: { uz: "Qirg'iziston", ru: "Кыргызстан", en: "Kyrgyzstan" }, image: "/img/tour-kg.jpg" },
+  kg: { name: { uz: "Qirg'iziston", ru: "Кыргызстан", en: "Kyrgyzstan" }, image: "/img/tour-kg.jpg", home: false },
 };
 
-export const countryIds = Object.keys(countries) as CountryId[];
-
-export const categories: Record<CategoryId, { name: L10n }> = {
+export const categories: Record<string, Category> = {
   historical: { name: { uz: "Tarixiy turlar", ru: "Исторические туры", en: "Historical tours" } },
   nature: { name: { uz: "Tabiat turlari", ru: "Природные туры", en: "Nature tours" } },
   beach: { name: { uz: "Plyaj dam olish", ru: "Пляжный отдых", en: "Beach holidays" } },
   wellness: { name: { uz: "Davolanish turlari", ru: "Лечебные туры", en: "Wellness tours" } },
   cruise: { name: { uz: "Kruiz", ru: "Круизы", en: "Cruises" } },
 };
-
-export const categoryIds = Object.keys(categories) as CategoryId[];
 
 const dep = (from: string, to: string, seatsLeft: number, priceUzs: number): Departure => ({
   id: from,
@@ -308,57 +304,3 @@ export const tours: Tour[] = [
     departures: [],
   },
 ];
-
-export const toursByRank = [...tours].sort((a, b) => a.rank - b.rank);
-
-/** Bugungi sana Toshkent vaqti bo'yicha (YYYY-MM-DD). */
-export function todayIso(now = new Date()): string {
-  return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Tashkent" }).format(now);
-}
-
-/**
- * Turning "jonli" ko'rinishi: jo'nab ketgan (bugun yoki undan oldingi) sanalar olib tashlanadi,
- * kartochka narxi va o'rin soni qolgan sanalardan qayta hisoblanadi.
- */
-export function liveTour(tour: Tour, today = todayIso()): Tour {
-  if (!tour.fixedDeparture) return tour;
-  const departures = tour.departures.filter((d) => d.from > today);
-  const open = departures.filter((d) => d.seatsLeft > 0);
-  return {
-    ...tour,
-    departures,
-    seatsLeft: open[0]?.seatsLeft ?? null,
-    priceFromUzs: open.length ? Math.min(...open.map((d) => d.priceUzs)) : tour.priceFromUzs,
-  };
-}
-
-/** Ro'yxatlar (bosh sahifa, katalog) uchun: har bir tur joriy sanaga nisbatan. */
-export function liveToursByRank(today = todayIso()): Tour[] {
-  return toursByRank.map((t) => liveTour(t, today));
-}
-
-/** Slug bo'yicha tur — har doim joriy sanaga nisbatan (o'tgan sanalarsiz). */
-export function getTour(slug: string, today = todayIso()): Tour | undefined {
-  const tour = tours.find((t) => t.slug === slug);
-  return tour && liveTour(tour, today);
-}
-
-export function toursInCountry(country: CountryId): Tour[] {
-  return tours.filter((t) => t.country === country);
-}
-
-export function similarTours(tour: Tour, limit = 3): Tour[] {
-  const score = (t: Tour) => (t.category === tour.category ? 2 : 0) + (t.country === tour.country ? 1 : 0);
-  return liveToursByRank()
-    .filter((t) => t.id !== tour.id)
-    .sort((a, b) => score(b) - score(a) || a.rank - b.rank)
-    .slice(0, limit);
-}
-
-/** Bron qilish mumkin bo'lgan (o'rni bor) sanalar. */
-export function openDepartures(tour: Tour, today = todayIso()): Departure[] {
-  return tour.departures.filter((d) => d.seatsLeft > 0 && d.from > today);
-}
-
-export const PRICE_MIN = 5_000_000;
-export const PRICE_MAX = 23_000_000;

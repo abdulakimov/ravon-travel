@@ -2,7 +2,8 @@ import { createHash, timingSafeEqual } from "node:crypto";
 import { appendFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { getTour, todayIso } from "@/data/tours";
+import { getTour } from "./content";
+import { todayIso } from "./tour-utils";
 import { recordLead } from "./leads";
 import { newVerifyCode, nextSeq, readOrder, saveOrder, withOrdersLock, type Order } from "./orders";
 
@@ -115,9 +116,10 @@ const idOut = (raw: string): string | number => {
 const amountMatches = (raw: string, order: Order) => Math.abs(Number(raw) - order.amountUzs) < 0.01;
 
 /** To'lanadigan bron: muddati (va Click uchun qo'shimcha vaqt) o'tmagan va sana hali jo'nab ketmagan. */
-function payable(order: Order, now: number): boolean {
+async function payable(order: Order, now: number): Promise<boolean> {
   if (now >= order.holdUntil + PREPARE_GRACE_MS) return false;
-  const departure = getTour(order.tourSlug, todayIso(new Date(now)))?.departures.find((d) => d.id === order.departureId);
+  const tour = await getTour(order.tourSlug, todayIso(new Date(now)));
+  const departure = tour?.departures.find((d) => d.id === order.departureId);
   return Boolean(departure);
 }
 
@@ -163,7 +165,7 @@ export async function handleClick(
       if (existing?.status === "cancelled" || order.status === "cancelled") return { response: base(ClickError.CANCELLED) };
       if (!amountMatches(p.amount, order)) return { response: base(ClickError.BAD_AMOUNT) };
       if (existing) return { response: base(ClickError.SUCCESS, { merchant_prepare_id: existing.prepareId }) };
-      if (clickError < 0 || !payable(order, now)) return { response: base(ClickError.CANCELLED) };
+      if (clickError < 0 || !(await payable(order, now))) return { response: base(ClickError.CANCELLED) };
 
       const prepareId = await nextSeq();
       order.transactions.push({

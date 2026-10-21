@@ -5,8 +5,7 @@ import { ArrowRight, CalendarCheck, Check, ChevronRight, CircleCheck, CircleX, C
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { site } from "@/config/site";
-import { categories, countries, getTour, similarTours, tours } from "@/data/tours";
-import { getTourDetail } from "@/data/tour-details";
+import { getSettings, getTaxonomy, getTour, getTourDetail, similarTours } from "@/lib/content";
 import { Icon } from "@/components/Icon";
 import { Reveal } from "@/components/Reveal";
 import { TourCard } from "@/components/TourCard";
@@ -20,21 +19,16 @@ import styles from "./tour.module.css";
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
-export const dynamicParams = false;
-
-// So'rov vaqtida render: jo'nab ketgan sanalar taklif qilinmasligi uchun (getTour joriy sanani hisobga oladi).
+// So'rov vaqtida render: jo'nab ketgan sanalar taklif qilinmasligi va admin paneldagi o'zgarishlar
+// darhol ko'rinishi uchun (turlar /data/content dan o'qiladi). Noma'lum slug → notFound().
 export const dynamic = "force-dynamic";
-
-export function generateStaticParams() {
-  return tours.map((tour) => ({ slug: tour.slug }));
-}
 
 const OG_LOCALE: Record<Locale, string> = { uz: "uz_UZ", ru: "ru_RU", en: "en_US" };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale: rawLocale, slug } = await params;
   const locale = rawLocale as Locale;
-  const tour = getTour(slug);
+  const tour = await getTour(slug);
   if (!tour) notFound();
 
   const t = await getTranslations({ locale, namespace: "tour.meta" });
@@ -84,21 +78,22 @@ export default async function TourPage({ params }: Props) {
   const locale = rawLocale as Locale;
   setRequestLocale(locale);
 
-  const tour = getTour(slug);
-  const detail = tour && getTourDetail(tour.id);
+  const tour = await getTour(slug);
+  const detail = tour && (await getTourDetail(tour.id));
   if (!tour || !detail) notFound();
+  const [{ countries, categories }, settings] = await Promise.all([getTaxonomy(), getSettings()]);
 
   const t = await getTranslations("tour");
   const tc = await getTranslations("common");
   const tCatalog = await getTranslations("catalog");
 
   const title = tr(tour.title, locale);
-  const country = tr(countries[tour.country].name, locale);
-  const category = tr(categories[tour.category].name, locale);
+  const country = tr(countries[tour.country]?.name, locale);
+  const category = tr(categories[tour.category]?.name, locale);
   const pageUrl = `${site.url}/${locale}/tours/${tour.slug}`;
-  const specialist = site.team.specialist;
+  const specialist = settings.team.specialist;
   const specialistRole = t("specialist.role", { country });
-  const related = similarTours(tour, 3);
+  const related = await similarTours(tour, 3);
 
   // Client komponentlarga faqat joriy tildagi matn uzatiladi (uch tilli kontent brauzerga ketmaydi).
   const gallery = detail.gallery.map((g) => ({ src: g.src, alt: tr(g.alt, locale) }));
@@ -334,7 +329,7 @@ export default async function TourPage({ params }: Props) {
           <ul className={styles.similarGrid}>
             {related.map((item) => (
               <Reveal as="li" key={item.id}>
-                <TourCard tour={item} />
+                <TourCard tour={item} categoryLabel={tr(categories[item.category]?.name, locale)} />
               </Reveal>
             ))}
           </ul>

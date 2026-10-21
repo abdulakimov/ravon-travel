@@ -8,7 +8,6 @@ import { ArrowLeft, ArrowRight, Check, CreditCard, Info, Minus, Plus, ShieldChec
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import type { Departure, Tour } from "@/data/types";
-import { categories } from "@/data/tours";
 import { Icon } from "@/components/Icon";
 import { bookingTotal, formatDateRange, money, weekday } from "@/lib/format";
 import { tr } from "@/lib/l10n";
@@ -173,7 +172,8 @@ function Counter({
   );
 }
 
-export function BookingWizard({ tour }: { tour: Tour }) {
+/** `categoryLabel` — toifa nomi (tarjima qilingan), serverdan. */
+export function BookingWizard({ tour, categoryLabel }: { tour: Tour; categoryLabel: string }) {
   const t = useTranslations("booking");
   const locale = useLocale() as Locale;
   const search = useSearchParams();
@@ -748,7 +748,7 @@ export function BookingWizard({ tour }: { tour: Tour }) {
                 <Image src={tour.image} alt="" fill sizes="74px" />
               </span>
               <span className={styles.summaryTitleBox}>
-                <span className={styles.summaryCat}>{tr(categories[tour.category].name, locale)}</span>
+                <span className={styles.summaryCat}>{categoryLabel}</span>
                 <span className={styles.summaryTitle}>{title}</span>
               </span>
             </div>

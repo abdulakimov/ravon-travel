@@ -34,9 +34,11 @@ const l = (uz: string, ru: string, en: string): L10n => ({ uz, ru, en });
 const p = (uz: string, ru: string, en: string): LegalBlock => ({ kind: "p", text: l(uz, ru, en) });
 const list = (...items: L10n[]): LegalBlock => ({ kind: "list", items });
 
-const co = site.legalName ?? site.name;
+// Kompaniya nomi va email admin sozlamalaridan: matnda belgi qoladi, LegalPage ko'rsatishda to'ldiradi
+// (src/lib/legal-fill.ts). Yuridik nom kiritilmagan bo'lsa — "Ravon Travel".
+const co = "{{company}}";
 const web = site.domain;
-const mail = site.email;
+const mail = "{{email}}";
 
 // Hujjatlar e'lon qilingan sana. Matn o'zgarganda `UPDATED` yangilanadi.
 const EFFECTIVE = "2026-10-08";

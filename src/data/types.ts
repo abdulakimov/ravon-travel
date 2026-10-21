@@ -2,8 +2,20 @@ import type { Locale } from "@/i18n/routing";
 
 export type L10n = Record<Locale, string>;
 
-export type CountryId = "az" | "ge" | "ae" | "cn" | "my" | "bg" | "gr" | "qa" | "kg";
-export type CategoryId = "historical" | "nature" | "beach" | "wellness" | "cruise";
+/** Mamlakat va toifa identifikatorlari admin paneldan qo'shiladi — qat'iy ro'yxat emas (a-z, raqam, "-"). */
+export type CountryId = string;
+export type CategoryId = string;
+
+export interface Country {
+  name: L10n;
+  image: string;
+  /** Bosh sahifadagi yo'nalishlar blokida ko'rsatilsinmi (yo'q → ko'rsatiladi) */
+  home?: boolean;
+}
+
+export interface Category {
+  name: L10n;
+}
 
 export interface Departure {
   id: string; // = from (YYYY-MM-DD)

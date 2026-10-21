@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
-import { getTour } from "@/data/tours";
+import type { Tour } from "@/data/types";
 import { site } from "@/config/site";
 import { Icon } from "@/components/Icon";
 import { Logo } from "@/components/Brand";
@@ -92,7 +92,16 @@ function InlineError({
   );
 }
 
-export function PaymentFlow({ reference }: { reference: string }) {
+/** `tours` — barcha turlar (o'tgan sanalari bilan, serverdan): demo bron brauzerda saqlanadi, tur shu ro'yxatdan topiladi. */
+export function PaymentFlow({
+  reference,
+  tours,
+  contact,
+}: {
+  reference: string;
+  tours: Tour[];
+  contact: { email: string; phone: string | null };
+}) {
   const t = useTranslations("payment");
   const locale = useLocale() as Locale;
   const uid = useId();
@@ -144,7 +153,7 @@ export function PaymentFlow({ reference }: { reference: string }) {
     };
   }, [reference]);
 
-  const tour = booking ? getTour(booking.tourSlug, "0000-00-00") /* bron qilingan sana o'tib ketgan bo'lsa ham topilsin */ : undefined;
+  const tour = booking ? tours.find((x) => x.slug === booking.tourSlug) : undefined;
   const departure = booking && tour ? tour.departures.find((d) => d.id === booking.departureId) : undefined;
 
   let view: View;
@@ -821,8 +830,8 @@ export function PaymentFlow({ reference }: { reference: string }) {
             </tbody>
           </table>
           <p className={styles.voucherFoot}>
-            {t("voucher.contact")}: {site.name} · {site.domain} · {site.email}
-            {site.phone ? ` · ${site.phone}` : ""}
+            {t("voucher.contact")}: {site.name} · {site.domain} · {contact.email}
+            {contact.phone ? ` · ${contact.phone}` : ""}
           </p>
         </div>
       )}

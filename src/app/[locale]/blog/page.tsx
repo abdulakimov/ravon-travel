@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ChevronRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import { postsByDate } from "@/data/blog";
+import { getPosts } from "@/lib/content";
 import { alternates } from "@/lib/seo";
 import { Icon } from "@/components/Icon";
 import { Reveal } from "@/components/Reveal";
@@ -21,9 +21,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+// Maqolalar admin paneldan boshqariladi — so'rov vaqtida render.
+export const dynamic = "force-dynamic";
+
 export default async function BlogPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const posts = await getPosts();
   const t = await getTranslations("blog");
   const tc = await getTranslations("common");
 
@@ -44,7 +48,7 @@ export default async function BlogPage({ params }: Props) {
       <section className="section section--inner">
         <div className="container">
           <ul className={styles.grid} aria-label={t("listLabel")}>
-            {postsByDate.map((post) => (
+            {posts.map((post) => (
               <Reveal as="li" key={post.slug}>
                 <PostCard post={post} excerpt heading="h2" />
               </Reveal>

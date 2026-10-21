@@ -3,7 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { MessageCircle } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
-import { faq } from "@/data/faq";
+import { getFaq } from "@/lib/content";
 import { tr } from "@/lib/l10n";
 import { alternates } from "@/lib/seo";
 import { Icon } from "@/components/Icon";
@@ -23,6 +23,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+// Savol-javob admin paneldan boshqariladi — so'rov vaqtida render.
+export const dynamic = "force-dynamic";
+
 export default async function FaqPage({ params }: Props) {
   const { locale: raw } = await params;
   const locale = raw as Locale;
@@ -30,6 +33,7 @@ export default async function FaqPage({ params }: Props) {
   const t = await getTranslations("faq");
   const tc = await getTranslations("common");
 
+  const faq = await getFaq();
   const items: FaqEntry[] = faq.map((item) => ({
     id: item.id,
     question: tr(item.question, locale),

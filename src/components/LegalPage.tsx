@@ -2,23 +2,25 @@ import { getTranslations } from "next-intl/server";
 import { ArrowRight, ArrowUp, Info } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
-import { site } from "@/config/site";
+import { getSettings } from "@/lib/content";
+import { fillLegal } from "@/lib/legal-fill";
 import { legalDocs, legalSlugs, type LegalBlock, type LegalDoc } from "@/data/legal";
 import { formatDate } from "@/lib/format";
 import { tr } from "@/lib/l10n";
+import type { L10n } from "@/data/types";
 import { Icon } from "./Icon";
 import styles from "./LegalPage.module.css";
 
 // Uchta yuridik sahifa uchun yagona shablon (TZ §4.9): banner + sanalar · yon mundarija ·
 // raqamlangan bo'limlar · "yuqoriga" · boshqa hujjatlarga havolalar.
 
-function Block({ block, locale }: { block: LegalBlock; locale: Locale }) {
-  if (block.kind === "p") return <p>{tr(block.text, locale)}</p>;
+function Block({ block, T }: { block: LegalBlock; T: (v: L10n) => string }) {
+  if (block.kind === "p") return <p>{T(block.text)}</p>;
   if (block.kind === "list") {
     return (
       <ul>
         {block.items.map((item) => (
-          <li key={item.uz}>{tr(item, locale)}</li>
+          <li key={item.uz}>{T(item)}</li>
         ))}
       </ul>
     );
@@ -26,12 +28,12 @@ function Block({ block, locale }: { block: LegalBlock; locale: Locale }) {
   return (
     <div className="table-wrap">
       <table className="table">
-        <caption className="sr-only">{tr(block.caption, locale)}</caption>
+        <caption className="sr-only">{T(block.caption)}</caption>
         <thead>
           <tr>
             {block.head.map((cell) => (
               <th key={cell.uz} scope="col">
-                {tr(cell, locale)}
+                {T(cell)}
               </th>
             ))}
           </tr>
@@ -40,9 +42,9 @@ function Block({ block, locale }: { block: LegalBlock; locale: Locale }) {
           {block.rows.map(([period, fee]) => (
             <tr key={period.uz}>
               <th scope="row" className={styles.rowHead}>
-                {tr(period, locale)}
+                {T(period)}
               </th>
-              <td>{tr(fee, locale)}</td>
+              <td>{T(fee)}</td>
             </tr>
           ))}
         </tbody>
@@ -54,7 +56,9 @@ function Block({ block, locale }: { block: LegalBlock; locale: Locale }) {
 export async function LegalPage({ doc, locale }: { doc: LegalDoc; locale: Locale }) {
   const t = await getTranslations("legal");
   const tc = await getTranslations("common");
-  const title = tr(doc.title, locale);
+  const settings = await getSettings();
+  const T = (v: L10n): string => fillLegal(tr(v, locale), settings);
+  const title = T(doc.title);
   const others = legalSlugs.filter((slug) => slug !== doc.slug).map((slug) => legalDocs[slug]);
 
   return (
@@ -94,7 +98,7 @@ export async function LegalPage({ doc, locale }: { doc: LegalDoc; locale: Locale
               <li key={section.id}>
                 <a href={`#${section.id}`}>
                   <span className={styles.tocNum}>{i + 1}.</span>
-                  <span>{tr(section.title, locale)}</span>
+                  <span>{T(section.title)}</span>
                 </a>
               </li>
             ))}
@@ -103,21 +107,21 @@ export async function LegalPage({ doc, locale }: { doc: LegalDoc; locale: Locale
 
         <article className={styles.body}>
           <div className="prose">
-            {site.licenseNo === null && (
+            {settings.licenseNo === null && (
               <p className={`notice notice--info ${styles.notice}`}>
                 <Icon icon={Info} size={18} />
                 <span>{t("pendingNotice")}</span>
               </p>
             )}
-            <p className={styles.intro}>{tr(doc.intro, locale)}</p>
+            <p className={styles.intro}>{T(doc.intro)}</p>
 
             {doc.sections.map((section, i) => (
               <section key={section.id} aria-labelledby={section.id} className={styles.section}>
                 <h2 id={section.id}>
-                  <span className={styles.num}>{i + 1}.</span> {tr(section.title, locale)}
+                  <span className={styles.num}>{i + 1}.</span> {T(section.title)}
                 </h2>
                 {section.blocks.map((block, j) => (
-                  <Block key={j} block={block} locale={locale} />
+                  <Block key={j} block={block} T={T} />
                 ))}
               </section>
             ))}
@@ -136,7 +140,7 @@ export async function LegalPage({ doc, locale }: { doc: LegalDoc; locale: Locale
               {others.map((other) => (
                 <li key={other.slug}>
                   <Link href={`/${other.slug}`} className={styles.other}>
-                    <span>{tr(other.title, locale)}</span>
+                    <span>{T(other.title)}</span>
                     <Icon icon={ArrowRight} size={16} />
                   </Link>
                 </li>

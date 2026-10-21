@@ -6,7 +6,10 @@ import { alternates } from "@/lib/seo";
 import { ChevronRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Icon } from "@/components/Icon";
+import { getTaxonomy, liveToursByRank } from "@/lib/content";
+import { priceBounds } from "@/lib/tour-utils";
 import { Catalog, ResultCount } from "./Catalog";
+import { CatalogDataProvider } from "./CatalogData";
 import { CatalogFromUrl, ResultCountFromUrl } from "./CatalogFromUrl";
 import styles from "./catalog.module.css";
 
@@ -52,9 +55,11 @@ export default async function ToursPage({ params, searchParams }: Props) {
   setRequestLocale(locale);
   const t = await getTranslations("catalog");
   const tc = await getTranslations("common");
+  const [tours, taxonomy] = await Promise.all([liveToursByRank(), getTaxonomy()]);
+  const data = { tours, ...taxonomy, price: priceBounds(tours) };
 
   return (
-    <>
+    <CatalogDataProvider value={data}>
       <section className="page-banner">
         <div className="container page-banner__inner">
           <nav aria-label={tc("nav.breadcrumb")} className="breadcrumb breadcrumb--light">
@@ -77,6 +82,6 @@ export default async function ToursPage({ params, searchParams }: Props) {
       <Suspense fallback={<Catalog query={query} />}>
         <CatalogFromUrl />
       </Suspense>
-    </>
+    </CatalogDataProvider>
   );
 }

@@ -1,8 +1,9 @@
 import { randomBytes, randomInt, timingSafeEqual } from "node:crypto";
-import { mkdir, open, readFile, rename, unlink } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { BOOKING_ID_RE, HOLD_MS } from "./booking-constants";
+import { withDataLock, writeAtomic } from "./fsdb";
 
 // To'lov uchun bronlarning SERVERDAGI nusxasi (Click Prepare/Complete shunga tayanadi).
 // Har bron — /data/orders/<id>.json (bind-mount, deploy'dan omon qoladi). Konteyner bitta,
@@ -90,16 +91,11 @@ const ORDERS_DIR =
   process.env.ORDERS_DIR ?? (process.env.NODE_ENV === "production" ? "/data/orders" : join(tmpdir(), "ravon-orders"));
 const SEQ_FILE = () => join(ORDERS_DIR, "_seq.json");
 
-// Navbat globalThis'da: Next har route uchun modulni alohida bundle qilsa ham (/api/booking va /api/click/*)
-// jarayonda BITTA navbat bo'ladi.
-const g = globalThis as typeof globalThis & { __ravonOrdersQueue?: Promise<unknown> };
-
-/** Barcha o'zgartirishlar shu navbatdan o'tadi: o'qish → tekshirish → yozish orasida poyga bo'lmaydi. */
-export function withOrdersLock<T>(fn: () => Promise<T>): Promise<T> {
-  const run = (g.__ravonOrdersQueue ?? Promise.resolve()).then(fn, fn);
-  g.__ravonOrdersQueue = run.catch(() => undefined);
-  return run;
-}
+/**
+ * Barcha o'zgartirishlar shu navbatdan o'tadi: o'qish → tekshirish → yozish orasida poyga bo'lmaydi.
+ * Navbat umumiy (fsdb.withDataLock): bronlar, kontent va admin yozuvlari bir-biri bilan ham to'qnashmaydi.
+ */
+export const withOrdersLock = withDataLock;
 
 /** `?k=` kalitini doimiy vaqtda solishtiradi. */
 export function tokenMatches(order: Order, token: string | null | undefined): boolean {
@@ -115,23 +111,8 @@ const fileFor = (id: string) => {
   return join(ORDERS_DIR, `${id}.json`);
 };
 
-async function writeAtomic(path: string, data: unknown): Promise<void> {
-  await mkdir(ORDERS_DIR, { recursive: true, mode: 0o700 });
-  const tmp = `${path}.${process.pid}.${Date.now()}.tmp`;
-  try {
-    const fh = await open(tmp, "w", 0o600);
-    try {
-      await fh.writeFile(JSON.stringify(data));
-      await fh.sync(); // to'lov holati: tok o'chsa ham bo'sh fayl qolmasin
-    } finally {
-      await fh.close();
-    }
-    await rename(tmp, path); // bir fayl tizimida atomar: yarim yozilgan fayl hech qachon o'qilmaydi
-  } catch (err) {
-    await unlink(tmp).catch(() => undefined); // disk to'lganda chala fayl qolib, vaziyatni og'irlashtirmasin
-    throw err;
-  }
-}
+// to'lov holati: tmp + fsync + rename — tok o'chsa ham bo'sh yoki chala fayl qolmaydi
+const writeOrderFile = (path: string, data: unknown) => writeAtomic(path, JSON.stringify(data));
 
 export async function readOrder(id: string): Promise<Order | null> {
   if (!BOOKING_ID_RE.test(id)) return null;
@@ -145,7 +126,7 @@ export async function readOrder(id: string): Promise<Order | null> {
 
 /** Faqat `withOrdersLock` ichidan chaqiriladi. */
 export async function saveOrder(order: Order): Promise<void> {
-  await writeAtomic(fileFor(order.id), order);
+  await writeOrderFile(fileFor(order.id), order);
 }
 
 /** Click `merchant_prepare_id` / `merchant_confirm_id` uchun o'suvchi butun son. Faqat lock ichida. */
@@ -165,7 +146,7 @@ export async function nextSeq(): Promise<number> {
     }
   }
   const next = current + 1;
-  await writeAtomic(SEQ_FILE(), { seq: next });
+  await writeOrderFile(SEQ_FILE(), { seq: next });
   return next;
 }
 

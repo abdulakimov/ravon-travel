@@ -4,14 +4,14 @@ import { ArrowRight, CalendarCheck, Star, Users } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import type { Tour } from "@/data/types";
-import { categories } from "@/data/tours";
 import { money } from "@/lib/format";
 import { tr } from "@/lib/l10n";
 import { Icon } from "./Icon";
 import styles from "./TourCard.module.css";
 
 // Server va client komponentlarda bir xil ishlaydi (hook'lar next-intl'da universal).
-export function TourCard({ tour, priority = false }: { tour: Tour; priority?: boolean }) {
+/** `categoryLabel` — toifa nomi (tarjima qilingan); ma'lumot chaqiruvchi tomonda (server: content.ts). */
+export function TourCard({ tour, categoryLabel, priority = false }: { tour: Tour; categoryLabel: string; priority?: boolean }) {
   const t = useTranslations("common.tourCard");
   const locale = useLocale() as Locale;
 
@@ -46,7 +46,7 @@ export function TourCard({ tour, priority = false }: { tour: Tour; priority?: bo
 
       <div className={styles.body}>
         <div className={styles.meta}>
-          <span>{tr(categories[tour.category].name, locale)}</span>
+          <span>{categoryLabel}</span>
           <span>{t("days", { count: tour.days })}</span>
         </div>
         <h3 className={styles.title}>{tr(tour.title, locale)}</h3>

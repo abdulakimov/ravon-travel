@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ArrowRight, ChevronRight, Headset } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import { countryIds } from "@/data/tours";
+import { getTaxonomy, toursInCountry } from "@/lib/content";
 import { alternates } from "@/lib/seo";
 import { Icon } from "@/components/Icon";
 import { Reveal } from "@/components/Reveal";
@@ -21,11 +21,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+// Yo'nalishlar admin paneldan boshqariladi — so'rov vaqtida render.
+export const dynamic = "force-dynamic";
+
 export default async function DestinationsPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("destinations");
   const tc = await getTranslations("common");
+  const { countries, countryIds } = await getTaxonomy();
+  const counts = Object.fromEntries(
+    await Promise.all(countryIds.map(async (id) => [id, (await toursInCountry(id)).length] as const)),
+  );
 
   return (
     <>
@@ -46,7 +53,7 @@ export default async function DestinationsPage({ params }: Props) {
           <ul className={styles.grid} aria-label={t("listLabel")}>
             {countryIds.map((id) => (
               <Reveal as="li" key={id}>
-                <DestinationCard country={id} sizes="(min-width: 1000px) 400px, (min-width: 660px) 50vw, 100vw" />
+                <DestinationCard id={id} data={countries[id]} count={counts[id] ?? 0} sizes="(min-width: 1000px) 400px, (min-width: 660px) 50vw, 100vw" />
               </Reveal>
             ))}
           </ul>

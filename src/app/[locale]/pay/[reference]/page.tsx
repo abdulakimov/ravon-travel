@@ -6,6 +6,7 @@ import { routing } from "@/i18n/routing";
 import { site } from "@/config/site";
 import { BOOKING_ID_RE } from "@/lib/booking-constants";
 import { clickConfig } from "@/lib/click";
+import { getSettings, getTourAnyState, getTourRecords, publicTour } from "@/lib/content";
 import { formatVerifyCode, publicStatus, readOrder, tokenMatches } from "@/lib/orders";
 import { qrSvg, verifyUrl } from "@/lib/receipt";
 import { ClickPayment, type OrderView, type ReceiptView } from "./ClickPayment";
@@ -32,7 +33,12 @@ export default async function PayPage({ params, searchParams }: { params: Params
 
   // Click kalitlari .env da yo'q — demo rejim (bron brauzerda, pul yechilmaydi).
   const click = clickConfig();
-  if (!click) return <PaymentFlow reference={reference} />;
+  const settings = await getSettings();
+  const contact = { email: settings.email, phone: settings.phone };
+  if (!click) {
+    const tours = (await getTourRecords()).map(publicTour);
+    return <PaymentFlow reference={reference} tours={tours} contact={contact} />;
+  }
 
   const query = await searchParams;
   const token = typeof query.k === "string" ? query.k : null;
@@ -68,6 +74,8 @@ export default async function PayPage({ params, searchParams }: { params: Params
       receipt={receipt}
       returnUrl={`${site.url}/${locale}/pay/${reference}?k=${encodeURIComponent(order?.payToken ?? "")}&return=1`}
       returned={query.return === "1"}
+      tour={order ? ((await getTourAnyState(order.tourSlug)) ?? null) : null}
+      contact={contact}
     />
   );
 }

@@ -1427,7 +1427,3 @@ export const tourDetails: Record<string /* tour.id */, TourDetail> = {
     notes: { visa: NOTE.visaManagerRequest, passport: NOTE.passport6, cancellation: NOTE.cancelRequest },
   },
 };
-
-export function getTourDetail(tourId: string): TourDetail | undefined {
-  return tourDetails[tourId];
-}

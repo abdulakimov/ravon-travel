@@ -451,12 +451,3 @@ export const posts: BlogPost[] = [
 ];
 
 /** Yangi maqolalar birinchi. */
-export const postsByDate = [...posts].sort((a, b) => b.date.localeCompare(a.date));
-
-export function getPost(slug: string): BlogPost | undefined {
-  return posts.find((p) => p.slug === slug);
-}
-
-export function otherPosts(slug: string, limit = 2): BlogPost[] {
-  return postsByDate.filter((p) => p.slug !== slug).slice(0, limit);
-}

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Clock, Mail, MapPin, Phone, type LucideIcon } from "lucide-react";
 import { SiInstagram, SiTelegram, SiWhatsapp } from "@icons-pack/react-simple-icons";
-import { site } from "@/config/site";
+import { getSettings } from "@/lib/content";
 import { alternates } from "@/lib/seo";
 import { Eyebrow } from "@/components/Brand";
 import { Icon } from "@/components/Icon";
@@ -23,31 +23,35 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 type Detail = { icon: LucideIcon; label: string; value: string; href?: string; pending?: boolean };
 
+// Aloqa ma'lumotlari admin sozlamalaridan — so'rov vaqtida render.
+export const dynamic = "force-dynamic";
+
 export default async function ContactPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const settings = await getSettings();
   const t = await getTranslations("contact");
   const tc = await getTranslations("common");
 
   // TZ L4 (ish vaqti) va L5 (manzil). Berilmagan telefon yashiriladi; manzil o'rnida — "Rasmiylashtirilmoqda".
   const details: Detail[] = [
-    ...(site.phone
-      ? [{ icon: Phone, label: t("details.phone"), value: site.phone, href: `tel:${site.phone.replace(/[^\d+]/g, "")}` }]
+    ...(settings.phone
+      ? [{ icon: Phone, label: t("details.phone"), value: settings.phone, href: `tel:${settings.phone.replace(/[^\d+]/g, "")}` }]
       : []),
-    ...(site.email ? [{ icon: Mail, label: t("details.email"), value: site.email, href: `mailto:${site.email}` }] : []),
+    ...(settings.email ? [{ icon: Mail, label: t("details.email"), value: settings.email, href: `mailto:${settings.email}` }] : []),
     { icon: Clock, label: t("details.hours"), value: tc("workingHours") },
     {
       icon: MapPin,
       label: t("details.address"),
-      value: site.postalAddress ?? tc("pending"),
-      pending: site.postalAddress === null,
+      value: settings.postalAddress ?? tc("pending"),
+      pending: settings.postalAddress === null,
     },
   ];
 
   const messengers = [
-    { label: "Telegram", href: site.social.telegram, Glyph: SiTelegram },
-    { label: "WhatsApp", href: site.social.whatsapp, Glyph: SiWhatsapp },
-    { label: "Instagram", href: site.social.instagram, Glyph: SiInstagram },
+    { label: "Telegram", href: settings.social.telegram, Glyph: SiTelegram },
+    { label: "WhatsApp", href: settings.social.whatsapp, Glyph: SiWhatsapp },
+    { label: "Instagram", href: settings.social.instagram, Glyph: SiInstagram },
   ];
 
   return (
@@ -64,7 +68,7 @@ export default async function ContactPage({ params }: Props) {
 
       <div className={`container container--md ${styles.cols}`}>
         <section className={styles.main}>
-          <ContactForm email={site.email} />
+          <ContactForm email={settings.email} />
         </section>
 
         <aside className={styles.aside}>
@@ -111,13 +115,13 @@ export default async function ContactPage({ params }: Props) {
             </ul>
           </section>
 
-          {site.mapEmbedUrl ? (
+          {settings.mapEmbedUrl ? (
             <section className={styles.map} aria-labelledby="contact-map-title">
               <h2 id="contact-map-title" className="sr-only">
                 {t("map.title")}
               </h2>
               <iframe
-                src={site.mapEmbedUrl}
+                src={settings.mapEmbedUrl}
                 title={t("map.iframeTitle")}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

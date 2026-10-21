@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight, Check, Clock, CreditCard, Download, LoaderCircle, RotateCw, ShieldCheck, Smartphone, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
-import { getTour } from "@/data/tours";
+import type { Tour } from "@/data/types";
 import { site } from "@/config/site";
 import { Icon } from "@/components/Icon";
 import { Logo } from "@/components/Brand";
@@ -99,8 +99,14 @@ export function ClickPayment({
   receipt,
   returnUrl,
   returned,
+  tour: tourProp,
+  contact,
 }: {
   reference: string;
+  /** Bron qilingan tur (o'tgan sanalari bilan) — serverdan; bron topilmasa null. */
+  tour: Tour | null;
+  /** Vaucherdagi aloqa ma'lumotlari (admin sozlamalari). */
+  contact: { email: string; phone: string | null };
   order: OrderView | null;
   click: ClickPublicConfig;
   /** Holat endpoint'i uchun kalit (`?k=`); bron topilmasa null. */
@@ -192,7 +198,7 @@ export function ClickPayment({
     if (status && status !== "awaiting") headingRef.current?.focus();
   }, [status]);
 
-  const tour = order ? getTour(order.tourSlug, "0000-00-00") : undefined; // o'tgan sana bo'lsa ham topilsin
+  const tour = order && tourProp?.slug === order.tourSlug ? tourProp : undefined;
   const departure = order && tour ? tour.departures.find((d) => d.id === order.departureId) : undefined;
 
   const head = (timer: React.ReactNode) => (
@@ -621,8 +627,8 @@ export function ClickPayment({
             </div>
           )}
           <p className={styles.voucherFoot}>
-            {t("voucher.contact")}: {site.name} · {site.domain} · {site.email}
-            {site.phone ? ` · ${site.phone}` : ""}
+            {t("voucher.contact")}: {site.name} · {site.domain} · {contact.email}
+            {contact.phone ? ` · ${contact.phone}` : ""}
           </p>
         </div>
       )}
