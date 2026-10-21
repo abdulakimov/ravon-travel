@@ -13,7 +13,7 @@ ishlatiladi — `public/brand/*.svg`, palitra `globals.css` boshida. README'dagi
 
 Next.js 16 (App Router, `output: "standalone"`) · TypeScript · next-intl 4 (`/uz`, `/ru`, `/en`) ·
 CSS Modules + `globals.css` tokenlari · lucide-react (ikonkalar) · zod · vitest · Playwright.
-Ma'lumotlar bazasi yo'q: turlar `src/data/` da statik.
+Ma'lumotlar bazasi yo'q: kontent `/data/content/*.json` da (admin panel tahrirlaydi), `src/data/` — faqat boshlang'ich (seed) nusxa.
 
 ## Buyruqlar
 
@@ -31,20 +31,24 @@ npm run test:e2e     # Playwright; ishlab turgan saytga qarshi (default http://l
 
 ```
 src/app/[locale]/…        sahifalar (har biri generateMetadata + setRequestLocale)
-src/app/api/…             route handler'lar (aloqa / so'rov formalari)
+src/app/admin/…           ADMIN PANEL (admin.ravontravel.uz; o'z ildiz layout'i, admin.css, _ui/ komponentlar)
+src/app/api/…             route handler'lar (aloqa / so'rov formalari, Click, /api/admin/media yuklash)
+src/app/media/[...path]   admin yuklagan rasmlarni berish (/data/media)
 src/components/           umumiy komponentlar (Header, Footer, TourCard, Icon, Brand, Reveal)
-src/config/site.ts        kompaniya rekvizitlari — YAGONA manba (null = hali berilmagan)
-src/data/                 turlar, tur tafsilotlari, blog — typed statik ma'lumot
+src/config/site.ts        sayt identifikatori (nom, domen, url) + rekvizitlarning boshlang'ich qiymati
+src/data/                 SEED: turlar, tafsilotlar, blog, FAQ — faqat src/lib/content.ts import qiladi (test tekshiradi)
 src/i18n/                 next-intl routing / request / navigation
-src/lib/                  format (pul, sana), l10n, seo
-src/proxy.ts              locale proxy (Next 16'da middleware → proxy)
+src/lib/                  format (pul, sana), l10n, seo, content.ts (kontent ombori), fsdb.ts (fayl qulfi/yozish),
+                          tour-utils.ts (sof hisob-kitob), media.ts, orders.ts, click.ts
+src/lib/admin/            admin: users, session, guard, audit, schemas (zod), orders/leads admin, Click Merchant API
+src/proxy.ts              admin.* host → /admin/*; asosiy saytda /admin 404; qolgani — locale proxy
 messages/<locale>/<ns>.json   tarjimalar, namespace bo'yicha
 ```
 
 ## Qoidalar
 
 1. **Matn hardcode qilinmaydi.** UI matni `messages/{uz,ru,en}/<ns>.json` da, uchala tilda bir xil
-   kalitlar bilan. Yangi namespace `src/i18n/request.ts` → `namespaces` ga qo'shiladi.
+   kalitlar bilan. ISTISNO: admin panel (`src/app/admin/**`) — ichki vosita, faqat o'zbekcha, matn komponentda. Yangi namespace `src/i18n/request.ts` → `namespaces` ga qo'shiladi.
    Tur/blog kontenti `src/data/` da `{ uz, ru, en }` (L10n) ko'rinishida, `tr(value, locale)` bilan o'qiladi.
 2. **Havolalar** faqat `@/i18n/navigation` dagi `Link` / `useRouter` / `redirect` orqali (locale prefiksi avtomatik).
 3. **Ranglar va o'lchamlar** faqat `globals.css` dagi CSS o'zgaruvchilari orqali (`var(--primary)` …).
@@ -57,9 +61,9 @@ messages/<locale>/<ns>.json   tarjimalar, namespace bo'yicha
 5. **Kontrast qoidalari:** oltin (`--accent`) oq fonda hech qachon matn rangi emas; yashil (`--primary`/`--ink`) fondagi mayda
    matn faqat oq yoki `--sky`; oltin ustidagi matn har doim `--ink`. Shaffof rang — `rgb(var(--ink-rgb) / 0.2)`, rgba hex yozilmaydi.
    Oq fonda logoning `on-light` (to'q oltin) varianti, yashil fonda — asl oltin (`inverse`).
-6. **Rekvizitlar** faqat `site.ts` dan. `null` bo'lsa — `common.pending` ("Rasmiylashtirilmoqda") yoki
+6. **Rekvizitlar** faqat `getSettings()` dan (`src/lib/content.ts`; admin → Sozlamalar). Client komponentga props bilan. `null` bo'lsa — `common.pending` ("Rasmiylashtirilmoqda") yoki
    blok yashiriladi. `{PLACEHOLDER}` matni foydalanuvchiga ko'rsatilmaydi.
-7. **Rasmlar** `next/image` orqali, manba `public/img/*.jpg`. Build vaqtida `scripts/optimize-images.mjs` ulardan
+7. **Rasmlar** `next/image` orqali, manba `public/img/*.jpg` yoki admin yuklagan `/media/<id>.jpg` (yuklashda WebP'lar tayyorlanadi). Build vaqtida `scripts/optimize-images.mjs` ulardan
    WebP variantlar yaratadi (`public/img/opt/`, git'da yo'q), `src/lib/image-loader.ts` shularga yo'naltiradi.
    Ish vaqtida `/_next/image` ISHLATILMAYDI (ulashilgan serverda juda sekin edi). Kengliklar ro'yxati ikkala faylda bir xil bo'lsin.
 8. **Karta ma'lumotlari hech qachon serverga yuborilmaydi va saqlanmaydi** — karta faqat Click sahifasi/oynasida
@@ -75,15 +79,25 @@ messages/<locale>/<ns>.json   tarjimalar, namespace bo'yicha
   (bitta IKPU `10703999001000000` — turoperator xizmatlari, QQSsiz; Click'ga 16.10.2026 №1 xat). Saytdan chek yuborilmaydi;
   IKPU bir nechta bo'lib qolsa — Merchant API `submit_items` kerak.
 - **Narxlar so'mda** (`priceUzs`, `priceFromUzs`, `totalUzs`), dollar yo'q. `money(uzs, locale)`.
+- **Kontent** (turlar, sanalar, o'rinlar, yo'nalishlar, blog, FAQ, rekvizitlar) — `src/lib/content.ts`, fayllar `/data/content/`.
+  Barcha o'qish shu modul orqali; yozish `updateDoc()` (umumiy navbat `withDataLock` — bronlar bilan bitta). Fayl yo'q/buzilgan
+  bo'lsa — `src/data` seed ko'rsatiladi (log'da `content_read_failed`). Kontent sahifalari `force-dynamic`.
+- **Admin panel** — `admin.ravontravel.uz` (xuddi shu konteyner). Kirish: `/data/admin/users.json` (scrypt), imzolangan cookie
+  (`ADMIN_SESSION_SECRET`), birinchi egasi `.env` dagi `ADMIN_INITIAL_PASSWORD` bilan yaratiladi va parolni almashtirishi shart.
+  Har bir sahifa/amal `requirePage`/`requireAction` (host + sessiya + rol). Rollar: owner / admin / manager. Harakatlar
+  `/data/admin/audit.ndjson`. "To'landi" holatini admin qo'lda QO'YA OLMAYDI (faqat Click Complete); bekor qilingan/qaytarilgan
+  bronga Click -9 oladi; to'lov tasdiqlanganda sana o'rinlari kamayadi, qaytarilganda tiklanadi.
+  `"use server"` fayldan eksport qilingan HAR BIR async funksiya ochiq endpoint — ichida `requireAction` bo'lishi shart.
 - Bron serverda: `/api/booking` raqamni va summani o'zi beradi va `/data/orders/<id>.json` ga yozadi (`src/lib/orders.ts`,
   shaxsiy ma'lumotsiz). To'lov sahifasi va `/api/payment/<id>` faqat `?k=<payToken>` bilan ochiladi (raqamni taxmin
   qilish yetmaydi). Bron yozuvlari bitta jarayon navbatida (`withOrdersLock`, globalThis) — konteyner faqat BITTA. Nusxasi brauzerda (`sessionStorage`) — vaucher uchun sayohatchilar ro'yxati. Pasport/tug'ilgan
-  sana/karta serverga YUBORILMAYDI; o'rin qoldig'i statik.
+  sana/karta serverga YUBORILMAYDI.
 - Aloqa/so'rov/bron xabarlari serverda `/opt/ravon-travel/data/leads.ndjson` ga yoziladi; `.env` da `TELEGRAM_BOT_TOKEN`+`TELEGRAM_CHAT_ID` va/yoki `LEAD_WEBHOOK_URL` berilsa — o'sha kanallarga ham yuboriladi (hozircha berilmagan).
-- Rekvizit, litsenziya raqami, jamoa ismlari, ijtimoiy tarmoq havolalari, xarita — `site.ts` da `null`.
+- Rekvizit, litsenziya raqami, jamoa ismlari, ijtimoiy tarmoq havolalari, xarita — admin → Sozlamalar (hozircha bo'sh).
+- Huquqiy hujjatlar (`src/data/legal.ts`) statik; kompaniya nomi/email `{{company}}`/`{{email}}` belgilaridan sozlamalar bilan to'ldiriladi.
 - Fotolar — Wikimedia Commons (CC); o'z fotolariga almashtirilishi kerak.
 
-- Jo'nab ketgan sanalar server soati (Toshkent) bo'yicha yashiriladi: `getTour` / `liveToursByRank` (`src/data/tours.ts`).
+- Jo'nab ketgan sanalar server soati (Toshkent) bo'yicha yashiriladi: `getTour` / `liveToursByRank` (`src/lib/content.ts`).
   Shu sababli bosh sahifa, katalog, tur, bron va so'rov sahifalari `force-dynamic`. ISR ishlatilmaydi (konteyner read-only).
 
 ## Deploy

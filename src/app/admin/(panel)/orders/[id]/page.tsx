@@ -92,6 +92,12 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
                     </dd>
                   </>
                 )}
+                {order.reversalRequestedAt && (
+                  <>
+                    <dt>Qaytarish so&apos;ralgan</dt>
+                    <dd>{fmtDateTime(order.reversalRequestedAt)}</dd>
+                  </>
+                )}
                 {order.closedAt && (
                   <>
                     <dt>Yopilgan</dt>
@@ -198,7 +204,6 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
             <h2 style={{ fontSize: 15 }}>Click</h2>
             <ActionForm action={clickStatus} submit="Click'dagi holatni tekshirish" tone="plain">
               <input type="hidden" name="id" value={order.id} />
-              <input type="hidden" name="paydoc" value={confirmed?.clickPaydocId ?? order.transactions.at(-1)?.clickPaydocId ?? ""} />
             </ActionForm>
             {order.status === "paid" && isAdmin && confirmed && (
               <details>

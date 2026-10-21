@@ -4,9 +4,9 @@ import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { audit } from "@/lib/admin/audit";
 import { isAdminHost } from "@/lib/admin/guard";
-import { clearLoginFailures, loginBlocked, recordLoginFailure } from "@/lib/admin/ratelimit";
+import { clearLoginFailures, loginBlocked, recordLoginFailure, withPasswordSlot } from "@/lib/admin/ratelimit";
 import { encodeSession, SESSION_COOKIE, SESSION_TTL_MS, sessionCookieOptions } from "@/lib/admin/session";
-import { findByUsername, updateUsers, verifyPassword } from "@/lib/admin/users";
+import { findByUsername, updateUsers, USERNAME_RE, verifyPassword } from "@/lib/admin/users";
 
 export interface LoginState {
   error?: string;
@@ -23,16 +23,19 @@ export async function login(_prev: LoginState, form: FormData): Promise<LoginSta
   const username = String(form.get("username") ?? "").trim().toLowerCase().slice(0, 64);
   const password = String(form.get("password") ?? "").slice(0, 200);
   const ip = h.get("x-real-ip") ?? "local";
-  const keys = [`ip:${ip}`, `u:${username}`];
+  const keys = [`ip:${ip}`, `iu:${ip}:${username}`];
 
   if (loginBlocked(keys)) return { error: "Juda ko'p urinish. 15 daqiqadan keyin qayta urinib ko'ring.", username };
   if (!username || !password) return { error: "Login va parolni kiriting.", username };
 
+  // Urinish tekshiruvdan OLDIN hisobga olinadi — parallel so'rovlar chegarani chetlab o'tolmaydi.
+  recordLoginFailure(keys);
   const user = await findByUsername(username);
-  const ok = await verifyPassword(password, user?.passwordHash ?? DUMMY_HASH);
+  const ok = await withPasswordSlot(() => verifyPassword(password, user?.passwordHash ?? DUMMY_HASH));
+  if (ok === "busy") return { error: "Server band. Bir necha soniyadan keyin qayta urinib ko'ring.", username };
   if (!user || !ok || user.disabled) {
-    recordLoginFailure(keys);
-    await audit(username || "?", "login_failed");
+    // Login maydoniga parol yozib yuborilgan bo'lishi mumkin — faqat to'g'ri ko'rinishdagi loginlar jurnalga yoziladi.
+    await audit(USERNAME_RE.test(username) ? username : "?", "login_failed");
     return { error: "Login yoki parol noto'g'ri.", username };
   }
 

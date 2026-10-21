@@ -12,7 +12,7 @@ export async function updateLead(_p: ActionState, form: FormData): Promise<Actio
     const user = await requireAction("manager");
     const id = String(form.get("id") ?? "");
     const state = String(form.get("state") ?? "") as LeadState;
-    if (!(state in LEAD_STATE_LABEL)) throw new UserError("Noto'g'ri holat.");
+    if (!Object.hasOwn(LEAD_STATE_LABEL, state)) throw new UserError("Noto'g'ri holat.");
     const note = form.has("note") ? String(form.get("note")) : undefined;
     await setLeadState(id, state, note, user.username);
     await audit(user, "lead_update", id, state);

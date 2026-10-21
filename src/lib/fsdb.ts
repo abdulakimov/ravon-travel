@@ -1,4 +1,4 @@
-import { mkdir, open, readFile, rename, stat, unlink } from "node:fs/promises";
+import { copyFile, mkdir, open, readFile, rename, stat, unlink } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 
@@ -74,8 +74,16 @@ export async function readJson<T>(path: string): Promise<T | undefined> {
   return value;
 }
 
-/** JSON'ni atomar yozadi va keshni yangilaydi. Faqat `withDataLock` ichidan chaqiring. */
-export async function writeJson(path: string, value: unknown): Promise<void> {
+/**
+ * JSON'ni atomar yozadi va keshni yangilaydi. Faqat `withDataLock` ichidan chaqiring.
+ * `keepPrev` — oldingi nusxa `<fayl>.prev` ga ko'chiriladi (bir qadamli "orqaga qaytarish").
+ */
+export async function writeJson(path: string, value: unknown, opts: { keepPrev?: boolean } = {}): Promise<void> {
+  if (opts.keepPrev) {
+    await copyFile(path, `${path}.prev`).catch((err) => {
+      if ((err as NodeJS.ErrnoException).code !== "ENOENT") throw err;
+    });
+  }
   await writeAtomic(path, JSON.stringify(value, null, 1));
   cache.delete(path);
 }

@@ -8,9 +8,15 @@ import { findUser, roleAtLeast, type AdminUser, type Role } from "./users";
 // xavfsizlik chegarasi emas). Tekshiruv: 1) so'rov admin host'idan, 2) imzolangan sessiya, 3) foydalanuvchi
 // faol va sessiya versiyasi mos, 4) rol yetarli.
 
-/** `admin.` bilan boshlanadigan host (admin.ravontravel.uz; lokal: admin.localhost:3100). */
+/**
+ * Admin host: aniq `admin.ravontravel.uz` (proxy.ts bilan bir xil; env emas — proxy uni build vaqtida qotiradi).
+ * Dev/test'da `admin.localhost` ham.
+ * Prefiks emas, to'liq moslik — `admin.boshqa-domen` admin panel hisoblanmaydi.
+ */
 export function isAdminHost(host: string | null | undefined): boolean {
-  return Boolean(host && host.toLowerCase().split(":")[0].startsWith("admin."));
+  if (!host) return false;
+  const h = host.toLowerCase().split(":")[0];
+  return h === "admin.ravontravel.uz" || (process.env.NODE_ENV !== "production" && h === "admin.localhost");
 }
 
 /** nginx `Host $host` ni o'zi qo'yadi; X-Forwarded-Host'ga ishonilmaydi (mijoz soxtalashtirishi mumkin). */

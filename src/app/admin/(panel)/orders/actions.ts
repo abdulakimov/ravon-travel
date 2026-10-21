@@ -7,7 +7,7 @@ import { audit } from "@/lib/admin/audit";
 import { paymentStatus, paymentStatusByOrder, reversePayment } from "@/lib/admin/click-merchant";
 import { UserError } from "@/lib/admin/errors";
 import { requireAction } from "@/lib/admin/guard";
-import { cancelOrder, markRefunded, setHandled, setNote } from "@/lib/admin/orders-admin";
+import { cancelOrder, markRefunded, markReversalRequested, setHandled, setNote } from "@/lib/admin/orders-admin";
 import { readOrder } from "@/lib/orders";
 
 const orderId = (form: FormData) => {
@@ -77,7 +77,8 @@ export async function clickStatus(_p: ActionState, form: FormData): Promise<Acti
     const id = orderId(form);
     const order = await readOrder(id);
     if (!order) throw new UserError("Bron topilmadi.");
-    const paydoc = String(form.get("paydoc") ?? "");
+    // Faqat shu bronning o'z to'lovi (formadagi qiymatga ishonilmaydi — boshqa to'lovlarni so'rab bo'lmasin)
+    const paydoc = (order.transactions.find((t) => t.status === "confirmed") ?? order.transactions.at(-1))?.clickPaydocId ?? "";
     const data = paydoc
       ? await paymentStatus(paydoc)
       : await paymentStatusByOrder(id, new Date(order.createdAt).toISOString().slice(0, 10));
@@ -97,7 +98,17 @@ export async function clickReverse(_p: ActionState, form: FormData): Promise<Act
     if (!order || order.status !== "paid") throw new UserError("Faqat to'langan bron uchun.");
     const tx = order.transactions.find((t) => t.status === "confirmed");
     if (!tx) throw new UserError("Tasdiqlangan Click tranzaksiyasi topilmadi.");
-    const data = await reversePayment(tx.clickPaydocId);
+    await markReversalRequested(id);
+    let data: Record<string, unknown>;
+    try {
+      data = await reversePayment(tx.clickPaydocId);
+    } catch (err) {
+      await audit(user, "click_reversal", id, `no_answer: ${err instanceof Error ? err.message : "error"}`);
+      return {
+        error:
+          "Click javob bermadi — pul qaytarilgan bo'lishi ham mumkin. Qayta urinishdan oldin «Click'dagi holatni tekshirish» ni bosing.",
+      };
+    }
     await audit(user, "click_reversal", id, `error_code=${String(data.error_code)}`);
     if (Number(data.error_code) !== 0) return { error: `Click qaytarmadi: ${String(data.error_note ?? data.error_code)}`, data };
     await markRefunded(id, user.username);

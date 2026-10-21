@@ -17,3 +17,12 @@ describe("imageLoader", () => {
     expect(imageLoader({ src: "https://example.com/a.jpg", width: 640 })).toBe("https://example.com/a.jpg");
   });
 });
+
+describe("imageLoader — uploaded media", () => {
+  it("maps admin uploads to their WebP variants", () => {
+    expect(imageLoader({ src: "/media/20261021-a1b2c3d4.jpg", width: 700 })).toBe("/media/opt/20261021-a1b2c3d4-828.webp");
+  });
+  it("ignores anything that is not a well-formed media id", () => {
+    expect(imageLoader({ src: "/media/../etc/passwd.jpg", width: 700 })).toBe("/media/../etc/passwd.jpg");
+  });
+});

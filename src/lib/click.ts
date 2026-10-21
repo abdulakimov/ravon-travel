@@ -2,7 +2,7 @@ import { createHash, timingSafeEqual } from "node:crypto";
 import { appendFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { adjustSeats, getTour } from "./content";
+import { adjustSeatsLocked, getTourAnyState } from "./content";
 import { todayIso } from "./tour-utils";
 import { recordLead } from "./leads";
 import { newVerifyCode, nextSeq, readOrder, saveOrder, withOrdersLock, type Order } from "./orders";
@@ -115,12 +115,17 @@ const idOut = (raw: string): string | number => {
 
 const amountMatches = (raw: string, order: Order) => Math.abs(Number(raw) - order.amountUzs) < 0.01;
 
-/** To'lanadigan bron: muddati (va Click uchun qo'shimcha vaqt) o'tmagan va sana hali jo'nab ketmagan. */
+/**
+ * To'lanadigan bron: muddati (va Click uchun qo'shimcha vaqt) o'tmagan, sana hali jo'nab ketmagan va unda
+ * shu bron uchun o'rin bor (bron paytida o'rin band qilinmaydi — oxirgi o'rinlarga ikki kishi to'lab qo'ymasin).
+ * Tur saytdan yashirilgan bo'lsa ham mavjud bron to'lanadi.
+ */
 async function payable(order: Order, now: number): Promise<boolean> {
   if (now >= order.holdUntil + PREPARE_GRACE_MS) return false;
-  const tour = await getTour(order.tourSlug, todayIso(new Date(now)));
+  const tour = await getTourAnyState(order.tourSlug);
   const departure = tour?.departures.find((d) => d.id === order.departureId);
-  return Boolean(departure);
+  if (!departure || departure.from <= todayIso(new Date(now))) return false;
+  return departure.seatsLeft >= order.adults + order.children;
 }
 
 export interface Paid {
@@ -183,8 +188,10 @@ export async function handleClick(
     // ── Complete ─────────────────────────────────────────────────────────────
     const tx = order.transactions.find((t) => t.prepareId === Number(p.merchant_prepare_id));
     if (!tx || tx.clickTransId !== p.click_trans_id) return { response: base(ClickError.TRANSACTION_NOT_FOUND) };
-    if (tx.status === "confirmed")
+    if (tx.status === "confirmed") {
+      await applySeats(order); // oldingi urinishda o'rin yozilmay qolgan bo'lsa (restart) — shu yerda tuzaladi
       return { response: base(ClickError.ALREADY_PAID, { merchant_confirm_id: tx.confirmId ?? 0 }) };
+    }
     if (tx.status === "cancelled") return { response: base(ClickError.CANCELLED) };
     if (!amountMatches(p.amount, order)) return { response: base(ClickError.BAD_AMOUNT) };
 
@@ -216,11 +223,29 @@ export async function handleClick(
       await saveOrder(order);
       return id;
     }, order.id);
+    await applySeats(order);
     return {
       response: base(ClickError.SUCCESS, { merchant_confirm_id: confirmId }),
       paid: { order, clickTransId: tx.clickTransId, clickPaydocId: tx.clickPaydocId },
     };
   });
+}
+
+/**
+ * To'langan bron uchun sana o'rinlarini kamaytiradi — bron qulfi ICHIDA, bron bilan birga (bir navbat).
+ * `seatsApplied` belgisi ikki marta kamaytirishning oldini oladi; xato to'lovni to'xtatmaydi (pul yechilgan).
+ */
+async function applySeats(order: Order): Promise<void> {
+  if (order.status !== "paid" || order.seatsApplied) return;
+  try {
+    const change = await adjustSeatsLocked(order.tourSlug, order.departureId, -(order.adults + order.children));
+    order.seatsApplied = true;
+    // Haqiqatda ayirilgan o'rinlar (0 dan pastga tushmaydi) — qaytarishda aynan shuncha qaytariladi
+    order.seatsTaken = change ? -change.applied : 0;
+    await saveOrder(order);
+  } catch (err) {
+    console.error(JSON.stringify({ event: "seats_adjust_failed", order: order.id, error: String(err) }));
+  }
 }
 
 async function persistWithRetry<T>(fn: () => Promise<T>, orderId: string, attempts = 3): Promise<T> {
@@ -324,11 +349,6 @@ export async function clickPOST(req: Request): Promise<Response> {
       clickTransId,
       clickPaydocId,
     }).catch((err) => console.error(JSON.stringify({ event: "payment_notify_failed", error: String(err) })));
-    // O'rinlar sonini kamaytirish — bron qulfidan TASHQARIDA (bitta navbat: ichkarida chaqirilsa o'zini kutib qoladi).
-    // Xato to'lovga ta'sir qilmaydi: pul yechilgan, bron "to'landi" — o'rinni admin qo'lda tuzatadi.
-    void adjustSeats(order.tourSlug, order.departureId, -(order.adults + order.children)).catch((err) =>
-      console.error(JSON.stringify({ event: "seats_adjust_failed", order: order.id, error: String(err) })),
-    );
   }
   return json(result.response);
 }

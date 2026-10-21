@@ -1,6 +1,7 @@
 import { randomBytes, scrypt as scryptCb, timingSafeEqual, type ScryptOptions } from "node:crypto";
 import { join } from "node:path";
 import { ADMIN_DIR, readJson, withDataLock, writeJson } from "../fsdb";
+import { UserError } from "./errors";
 
 // Admin foydalanuvchilari: /data/admin/users.json. Parol — scrypt (N=2^15, r=8, p=1), tuz 16 bayt.
 // Birinchi ishga tushishda foydalanuvchi yo'q bo'lsa — `ADMIN_INITIAL_PASSWORD` (serverdagi .env) bilan
@@ -118,7 +119,7 @@ export async function updateUsers<R>(mutate: (users: AdminUser[]) => R | Promise
   return withDataLock(async () => {
     const doc = structuredClone((await readJson<UsersDoc>(FILE())) ?? { users: [] });
     const result = await mutate(doc.users);
-    if (!doc.users.some((u) => u.role === "owner" && !u.disabled)) throw new Error("Kamida bitta faol egasi qolishi kerak.");
+    if (!doc.users.some((u) => u.role === "owner" && !u.disabled)) throw new UserError("Kamida bitta faol egasi qolishi kerak.");
     await writeJson(FILE(), doc);
     return result;
   });

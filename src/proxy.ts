@@ -4,8 +4,12 @@ import { routing } from "./i18n/routing";
 
 const intl = createMiddleware(routing);
 
-/** `admin.` bilan boshlanadigan host — admin panel (admin.ravontravel.uz; lokal: admin.localhost). */
-const isAdminHost = (host: string | null) => Boolean(host && host.toLowerCase().split(":")[0].startsWith("admin."));
+/** Admin host — aniq moslik (guard.ts dagi isAdminHost bilan bir xil qoida; proxy alohida bundle). */
+function isAdminHost(host: string | null): boolean {
+  if (!host) return false;
+  const h = host.toLowerCase().split(":")[0];
+  return h === "admin.ravontravel.uz" || (process.env.NODE_ENV !== "production" && h === "admin.localhost");
+}
 const isAdminPath = (p: string) => p === "/admin" || p.startsWith("/admin/");
 
 export default function proxy(req: NextRequest) {

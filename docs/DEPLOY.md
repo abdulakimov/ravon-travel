@@ -82,10 +82,27 @@ ssh new-vps 'cat /opt/ravon-travel/data/orders/RV-2026-12345.json' # bron holati
 ssh new-vps 'docker logs ravon-travel-web-1 2>&1 | grep click'      # qisqa jurnal
 ```
 
-**Log hajmi:** `click.ndjson` va `leads.ndjson` faqat o'sadi (har so'rov ~0.5 KB). Yiliga bir necha MB — yetarli,
-lekin xohlansa host'da `/etc/logrotate.d/ravon-travel`:
-`/opt/ravon-travel/data/*.ndjson { monthly rotate 24 compress missingok notifempty copytruncate }`.
-`data/orders/` — to'lov dalili, o'chirilmaydi (har bron ~0.5 KB).
+**Log hajmi:** `infra/logrotate-ravon-travel` → `/etc/logrotate.d/ravon-travel` (o'rnatilgan): faqat `click.ndjson` va
+`admin/audit.ndjson` oylik aylantiriladi. `leads.ndjson` ATAYLAB aylantirilmaydi — admin panel murojaatlarni va bron
+mijozlarini shu fayldan o'qiydi (~0.5 KB/murojaat, yillar davomida kichik). `data/orders/` — to'lov dalili, o'chirilmaydi.
+
+**Zaxira nusxa:** `infra/ravon-backup.sh` → `/usr/local/sbin/ravon-backup.sh`, cron `/etc/cron.d/ravon-backup`
+(har kuni 03:17 Toshkent): `/opt/ravon-travel/data` ning kunlik snapshot'i `/var/backups/ravon-travel/<sana>` ga
+(o'zgarmagan fayllar hard-link, 14 kun saqlanadi; buzilgan JSON bo'lsa — log'da "BACKUP FAILED"). Serverdan tashqariga
+nusxa (`BACKUP_REMOTE`) hali sozlanmagan — VPS yo'qolsa zaxira ham yo'qoladi. `.env` zaxiraga KIRMAYDI (kalitlar
+parol menejerida saqlansin).
+
+Tiklash (avval ilovani to'xtating — xotiradagi kesh va navbat tiklangan fayllarni qayta yozmasin):
+
+```bash
+cd /opt/ravon-travel && docker compose stop web \
+ && rsync -a --delete /var/backups/ravon-travel/<STAMP>/ data/ \
+ && chown -R 1000:1000 data && find data -type d -exec chmod 700 {} + \
+ && IMAGE_REGISTRY=ghcr.io/abdulakimov IMAGE_TAG=$(cat .deployed_tag) docker compose up -d --no-build web
+```
+
+Kontent fayllari (`content/*.json`) har saqlashda oldingi nusxani `<fayl>.prev` ga qo'yadi (bir qadam orqaga).
+Rollback: `fbb890f` dan oldingi image'ga qaytmang — u `/data/content` ni o'qimaydi (admin o'zgarishlari ko'rinmaydi).
 
 **Fiskalizatsiya:** Click tomonida — bitta IKPU `10703999001000000` (sayyohlik agentliklari va turoperatorlar xizmatlari),
 QQSsiz, chek turi debet (Click'ga 16.10.2026 №1 xat). Sayt chek yubormaydi. Tekshirish: Click ilovasidagi to'lov chekida
@@ -97,6 +114,39 @@ QQS, STIR kerak bo'ladi).
 
 **E2E (production):** Click yoqilgach, demo karta bilan to'lov testlari productionda o'tmaydi — ular faqat
 lokal (Click kalitlarisiz) muhitda yuritiladi.
+
+## Admin panel — admin.ravontravel.uz
+
+Xuddi shu konteyner (Host bo'yicha ajratiladi: `src/proxy.ts`). Alohida servis yoki port YO'Q — bron qulfi bitta jarayonda.
+
+**nginx/TLS (bajarilgan, 2026-10-21):** `infra/nginx-admin.ravontravel.uz.conf` → `/etc/nginx/sites-available/admin.ravontravel.uz`,
+sertifikat `admin.ravontravel.uz` (HTTP-01 webroot, `renew_hook = systemctl reload nginx`). Faqat shu blokda
+`client_max_body_size 12m` (rasm yuklash). DNS: Cloudflare, A yozuv → 167.86.86.68 (proxy o'chiq).
+
+**Maxfiy qiymatlar** (serverdagi `.env`, serverda yaratilgan, chatga yozilmagan):
+`ADMIN_SESSION_SECRET` (64 hex) va `ADMIN_INITIAL_PASSWORD`. Boshlang'ich parolni ko'rish (faqat birinchi kirish uchun):
+
+```bash
+ssh new-vps "grep '^ADMIN_INITIAL_PASSWORD=' /opt/ravon-travel/.env | cut -d= -f2-"
+```
+
+Login: `admin`. Birinchi kirishda parolni almashtirish majburiy. Keyin `.env` dagi boshlang'ich parol ishlatilmaydi
+(foydalanuvchilar fayli mavjud bo'lgani uchun), uni o'chirib qo'yish mumkin. Kalitni almashtirish (`ADMIN_SESSION_SECRET`) —
+barcha sessiyalarni yopadi.
+
+**Fayllar** (`/opt/ravon-travel/data`, konteyner ichida `/data`, egasi uid 1000):
+
+| Fayl | Mazmun |
+|------|--------|
+| `content/{tours,taxonomy,posts,faq,settings}.json` | sayt kontenti (admin tahrirlaydi; yo'q bo'lsa `src/data` seed) |
+| `admin/users.json` | panel foydalanuvchilari (scrypt) |
+| `admin/audit.ndjson` | kim, qachon, nima qildi |
+| `admin/lead-status.json` | murojaat holatlari va izohlar |
+| `media/` | yuklangan rasmlar (`<id>.jpg` + `opt/<id>-<w>.webp`) |
+| `orders/`, `leads.ndjson`, `click.ndjson` | bronlar, murojaatlar, Click jurnali |
+
+**Parolni unutsa (break-glass):** `users.json` ni zaxiraga ko'chirib o'chiring va konteynerni qayta yarating —
+`.env` dagi `ADMIN_INITIAL_PASSWORD` bilan yangi `admin` egasi yaratiladi (boshqa foydalanuvchilar qayta qo'shiladi).
 
 ## Serverdagi `.env` (git'da yo'q, pipeline tegmaydi)
 

@@ -6,7 +6,7 @@ import { mkdir, readdir, stat } from "node:fs/promises";
 import { join, parse } from "node:path";
 import sharp from "sharp";
 
-export const WIDTHS = [384, 640, 828, 1200];
+export const WIDTHS = [384, 640, 828, 1200]; // src/lib/image-widths.ts bilan bir xil
 const SRC = "public/img";
 const OUT = "public/img/opt";
 

@@ -64,6 +64,13 @@ function completeForm(prep: Record<string, string>, prepareId: number | string, 
 
 const run = (p: Record<string, string>, now = T0 + 60_000) => handleClick(new URLSearchParams(p), config, now);
 
+// Har test bron to'laydi va sana o'rinlarini kamaytiradi — o'rin tekshiruvi (payable) testlar orasida tugab qolmasin
+const contentStore = await import("../content");
+await contentStore.updateDoc("tours", (doc) => {
+  const dep = doc.tours.find((t) => t.slug === "azerbaijan-7-wonders")!.departures.find((d) => d.id === "2026-10-26")!;
+  dep.seatsLeft = 999;
+});
+
 describe("clickConfig", () => {
   it("is null until service id, merchant id and secret key are all set", () => {
     expect(clickConfig({})).toBeNull();

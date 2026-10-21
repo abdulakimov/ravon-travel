@@ -1,0 +1,21 @@
+# /etc/logrotate.d/ravon-travel — FAQAT texnik jurnallar.
+# leads.ndjson AYLANTIRILMAYDI: admin panel murojaatlarni va bron mijozlarini shu fayldan o'qiydi (ID — qator xeshi).
+/opt/ravon-travel/data/click.ndjson {
+    monthly
+    rotate 24
+    compress
+    delaycompress
+    missingok
+    notifempty
+    copytruncate
+}
+/opt/ravon-travel/data/admin/audit.ndjson {
+    monthly
+    rotate 36
+    compress
+    delaycompress
+    missingok
+    notifempty
+    copytruncate
+    su 1000 1000
+}

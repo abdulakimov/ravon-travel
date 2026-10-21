@@ -1,5 +1,22 @@
 # Changelog
 
+## 2026-10-21 — admin panel (admin.ravontravel.uz)
+
+### Qo'shildi
+- **Admin panel** — xuddi shu ilovada, `admin.*` host orqali (`src/proxy.ts`). Kirish (scrypt, imzolangan cookie, birinchi
+  kirishda parolni almashtirish, urinishlar cheklovi), rollar (egasi/administrator/menejer), harakatlar jurnali.
+- Bo'limlar: bosh sahifa (tushum, yangi to'lov va murojaatlar, yaqin jo'nashlar), bronlar (mijoz ma'lumoti, izoh,
+  bekor qilish, pul qaytarildi, Click holatini tekshirish va Click orqali qaytarish), murojaatlar, turlar (sanalar,
+  o'rinlar, dastur, galereya), yo'nalishlar va toifalar, blog, savol-javob, rasmlar (yuklash, WebP), sozlamalar
+  (rekvizitlar, litsenziya, aloqa, jamoa, ijtimoiy tarmoqlar, xarita), foydalanuvchilar. Qo'llanma: `docs/ADMIN.md`.
+- To'lov tasdiqlanganda sana o'rinlari avtomatik kamayadi; pul qaytarilganda tiklanadi.
+
+### O'zgardi
+- Kontent `src/data` statik fayllaridan `/data/content/*.json` ga ko'chdi (`src/lib/content.ts`; seed — `src/data`).
+  Barcha kontent sahifalari so'rov vaqtida render qilinadi; katalog narx chegarasi turlardan hisoblanadi.
+- Admin bekor qilgan yoki puli qaytarilgan bronga Click Prepare/Complete -9 oladi; qaytarilgan bron cheki tekshiruvda
+  haqiqiy chiqmaydi.
+
 ## 2026-10-21 — haqiqiy logo va yashil-oltin palitra
 
 ### O'zgardi

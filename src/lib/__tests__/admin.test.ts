@@ -125,6 +125,7 @@ describe("orders admin", () => {
     await orders.withOrdersLock(async () => {
       const o = (await orders.readOrder(b.id))!;
       o.status = "paid";
+      o.seatsApplied = true; // Click Complete o'rinlarni ayirgan (markRefunded faqat shunda qaytaradi)
       await orders.saveOrder(o);
     });
     await content.adjustSeats(slug, depId, -2); // to'lovda kamaygan

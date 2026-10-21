@@ -72,6 +72,9 @@ h3 {
 .nowrap {
   white-space: nowrap;
 }
+[hidden] {
+  display: none !important;
+}
 .sr-only {
   position: absolute;
   width: 1px;
@@ -235,10 +238,13 @@ h3 {
   .side[data-open="1"] .side-foot {
     display: block;
   }
+  .side {
+    padding: 12px;
+  }
   .side-brand {
     border: 0;
     margin: 0;
-    padding-bottom: 2px;
+    padding: 0;
     justify-content: space-between;
   }
   .menu-toggle {

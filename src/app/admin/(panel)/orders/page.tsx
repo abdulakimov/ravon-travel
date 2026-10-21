@@ -78,7 +78,7 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
                 const st = orderStatusView(o);
                 return (
                   <tr key={o.id}>
-                    <td>
+                    <td className="nowrap">
                       <Link className="row-link mono" href={`/orders/${o.id}`}>
                         {o.id}
                       </Link>

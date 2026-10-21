@@ -50,6 +50,12 @@ export interface Order {
   verifyCode?: string;
   transactions: ClickTransaction[];
   // ── Admin panel ──
+  /** To'lov o'rinlari sanadan ayirilgan (Click Complete; qaytarilganda false bo'ladi) */
+  seatsApplied?: boolean;
+  /** Haqiqatda ayirilgan o'rinlar soni (qaytarishda shuncha qaytariladi) */
+  seatsTaken?: number;
+  /** Click orqali pul qaytarish so'ralgan payt (javob kelmasa — holatni tekshirish kerak) */
+  reversalRequestedAt?: number;
   /** Menejer ko'rib chiqdi (hujjatlar yuborildi va h.k.) */
   handled?: boolean;
   /** Ichki izoh (mijozga ko'rinmaydi) */

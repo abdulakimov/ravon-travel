@@ -116,6 +116,8 @@ jobs:
 
             # Xabarlar fayli va to'lov bronlari uchun kataloglar (konteyner uid 1000 bilan yozadi).
             mkdir -p data/orders data/content data/admin data/media && chown 1000:1000 data data/orders data/content data/admin data/media && chmod 700 data data/orders data/content data/admin data/media
+            # Qo'lda (root) yaratilgan/tiklangan fayllar ham ilovaga tegishli bo'lsin (aks holda EACCES)
+            find data ! -user 1000 -exec chown 1000:1000 {} +
 
             # GHCR login alohida vaqtinchalik config'da: box'dagi boshqa loyihalarning
             # ~/.docker/config.json'iga tegmaydi va chiqishda izsiz o'chadi.
@@ -147,7 +149,8 @@ jobs:
             }
 
             # 1) Konteynerning o'zi. Faqat SHU tekshiruv rollback'ga sabab bo'ladi.
-            if ! healthy "http://127.0.0.1:${HOST_PORT}/api/health"; then
+            # deep=1: /data ga yozish mumkin va kontent fayllari o'qiladi; /uz — sahifa render bo'ladi
+            if ! healthy "http://127.0.0.1:${HOST_PORT}/api/health?deep=1" || ! healthy "http://127.0.0.1:${HOST_PORT}/uz"; then
               echo "FAILED: new image ${NEW_TAG} is not healthy"
               docker compose logs --tail 60 $SERVICES || true
               if [ -n "$PREV_TAG" ] && [ "$PREV_TAG" != "$NEW_TAG" ]; then

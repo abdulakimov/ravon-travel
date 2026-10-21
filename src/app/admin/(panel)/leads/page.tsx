@@ -25,8 +25,8 @@ function summary(l: Lead): { who: string; phone: string; text: string } {
 export default async function LeadsPage({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
   await requirePage("manager");
   const sp = await searchParams;
-  const state = (sp.s && sp.s in LEAD_STATE_LABEL ? sp.s : "new") as LeadState | "all";
-  const kind = (sp.k && sp.k in LEAD_KIND_LABEL ? sp.k : "") as LeadKind | "";
+  const state = (sp.s === "all" || (sp.s && Object.hasOwn(LEAD_STATE_LABEL, sp.s)) ? sp.s : "new") as LeadState | "all";
+  const kind = (sp.k && Object.hasOwn(LEAD_KIND_LABEL, sp.k) ? sp.k : "") as LeadKind | "";
   const all = await listLeads();
   const rows = all.filter((l) => (state === "all" || l.state === state) && (!kind || l.kind === kind));
   const tabs: { key: LeadState | "all"; label: string }[] = [

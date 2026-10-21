@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { startTransition, useActionState } from "react";
 import type { ActionState } from "@/lib/admin/action-state";
 
 /**
@@ -29,7 +29,14 @@ export function ActionForm({
   const [state, run, pending] = useActionState<ActionState, FormData>(action, {});
   const btn = `btn ${tone === "plain" ? "" : tone} ${inline ? "sm" : ""}`;
   return (
-    <form action={run} className={inline ? undefined : className} style={inline ? { display: "inline-flex", gap: 8, alignItems: "center", flexWrap: "wrap" } : undefined}>
+    <form
+      // onSubmit (form action emas): React formani avtomatik tozalamaydi — xato bo'lsa kiritilganlar saqlanadi
+      onSubmit={(e) => {
+        e.preventDefault();
+        const data = new FormData(e.currentTarget);
+        startTransition(() => run(data));
+      }}
+      className={inline ? undefined : className} style={inline ? { display: "inline-flex", gap: 8, alignItems: "center", flexWrap: "wrap" } : undefined}>
       {children}
       {confirmText && (
         <label className="field">

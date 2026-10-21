@@ -1,15 +1,17 @@
 import { readdir } from "node:fs/promises";
+import { cache } from "react";
 import { join } from "node:path";
 import { BOOKING_ID_RE } from "../booking-constants";
 import { readJson } from "../fsdb";
 import { ORDERS_DIR, readOrder, saveOrder, withOrdersLock, type Order } from "../orders";
-import { adjustSeats } from "../content";
+import { adjustSeatsLocked } from "../content";
 import { UserError } from "./errors";
 
 // Admin: bronlar ro'yxati va qo'lda bajariladigan amallar. Har bir o'zgarish bron qulfi ichida.
 // "To'landi" holatini qo'lda o'rnatish ATAYLAB yo'q — uni faqat imzolangan Click Complete o'rnatadi.
 
-export async function listOrders(): Promise<Order[]> {
+/** Barcha bronlar (yangisi birinchi). Bir so'rov ichida bir marta o'qiladi (React cache). */
+export const listOrders = cache(async function listOrders(): Promise<Order[]> {
   let names: string[];
   try {
     names = await readdir(ORDERS_DIR);
@@ -27,7 +29,7 @@ export async function listOrders(): Promise<Order[]> {
     ),
   );
   return orders.filter((o): o is Order => Boolean(o)).sort((a, b) => b.createdAt - a.createdAt);
-}
+});
 
 export class OrderActionError extends UserError {}
 
@@ -44,6 +46,14 @@ async function mutate(id: string, fn: (order: Order) => void | Promise<void>): P
 export function setHandled(id: string, handled: boolean) {
   return mutate(id, (o) => {
     o.handled = handled;
+  });
+}
+
+/** Click reversal so'rovidan OLDIN belgilanadi — javob yo'qolsa ham izi qoladi. */
+export function markReversalRequested(id: string) {
+  return mutate(id, (o) => {
+    if (o.status !== "paid") throw new OrderActionError("Faqat to'langan bron uchun.");
+    o.reversalRequestedAt = Date.now();
   });
 }
 
@@ -70,15 +80,19 @@ export function cancelOrder(id: string, by: string) {
  * To'langan bronni "pul qaytarildi" deb belgilash (Click kabinetida yoki API orqali qaytarilgandan keyin).
  * Chek tekshiruvda endi haqiqiy chiqmaydi; o'rinlar sanaga qaytariladi.
  */
-export async function markRefunded(id: string, by: string): Promise<Order> {
-  const order = await mutate(id, (o) => {
+export function markRefunded(id: string, by: string): Promise<Order> {
+  return mutate(id, async (o) => {
     if (o.status !== "paid") throw new OrderActionError("Faqat to'langan bronni qaytarilgan deb belgilash mumkin.");
     o.status = "refunded";
     o.closedAt = Date.now();
     o.closedBy = by;
+    if (o.seatsApplied) {
+      // Navbat ichida, bron bilan birga: o'rinlar qaytariladi
+      await adjustSeatsLocked(o.tourSlug, o.departureId, o.seatsTaken ?? o.adults + o.children).catch((err) =>
+        console.error(JSON.stringify({ event: "seats_restore_failed", order: id, error: String(err) })),
+      );
+      o.seatsApplied = false;
+      o.seatsTaken = 0;
+    }
   });
-  await adjustSeats(order.tourSlug, order.departureId, order.adults + order.children).catch((err) =>
-    console.error(JSON.stringify({ event: "seats_restore_failed", order: id, error: String(err) })),
-  );
-  return order;
 }

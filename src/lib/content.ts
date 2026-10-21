@@ -92,33 +92,60 @@ const SEED: { [K in DocName]: () => Docs[K] } = {
   }),
 };
 
-const g = globalThis as typeof globalThis & { __ravonSeedCache?: Map<string, unknown> };
+const g = globalThis as typeof globalThis & {
+  __ravonSeedCache?: Map<string, unknown>;
+  __ravonLastGood?: Map<string, unknown>;
+  __ravonReadFailLogged?: Map<string, string>;
+};
 const seedCache = (g.__ravonSeedCache ??= new Map());
+/** Har hujjatning oxirgi muvaffaqiyatli o'qilgan nusxasi (fayl buzilsa sayt shuni ko'rsatadi). */
+const lastGood = (g.__ravonLastGood ??= new Map());
+const failLogged = (g.__ravonReadFailLogged ??= new Map());
 const fileOf = (name: DocName) => join(CONTENT_DIR, `${name}.json`);
-
-async function readDoc<K extends DocName>(name: K): Promise<Docs[K]> {
-  try {
-    const doc = await readJson<Docs[K]>(fileOf(name));
-    if (doc !== undefined) return doc;
-  } catch (err) {
-    // Buzilgan fayl saytni yiqitmasin: seed ko'rsatiladi, log baland ovozda xabar beradi.
-    console.error(JSON.stringify({ event: "content_read_failed", doc: name, error: String(err) }));
-  }
+const seedOf = <K extends DocName>(name: K): Docs[K] => {
   if (!seedCache.has(name)) seedCache.set(name, SEED[name]());
   return seedCache.get(name) as Docs[K];
+};
+
+/**
+ * Qat'iy o'qish: fayl YO'Q bo'lsa — seed; boshqa har qanday xato (buzilgan JSON, EACCES, EIO) — xato.
+ * Yozishdan oldin shu ishlatiladi: o'qib bo'lmagan faylning ustiga seed yozilib, admin tahrirlari yo'qolmasin.
+ */
+async function readDocStrict<K extends DocName>(name: K): Promise<Docs[K]> {
+  const doc = await readJson<Docs[K]>(fileOf(name));
+  if (doc === undefined) return seedOf(name);
+  lastGood.set(name, doc);
+  return doc;
+}
+
+/** Sayt uchun o'qish: xato bo'lsa — oxirgi to'g'ri nusxa (yoki hech qachon o'qilmagan bo'lsa seed), sayt yiqilmaydi. */
+async function readDoc<K extends DocName>(name: K): Promise<Docs[K]> {
+  try {
+    return await readDocStrict(name);
+  } catch (err) {
+    const msg = String(err);
+    if (failLogged.get(name) !== msg) {
+      failLogged.set(name, msg); // bir xil xato har so'rovda log'ni to'ldirmasin
+      console.error(JSON.stringify({ event: "content_read_failed", doc: name, error: msg, served: lastGood.has(name) ? "last_good" : "seed" }));
+    }
+    return (lastGood.get(name) as Docs[K] | undefined) ?? seedOf(name);
+  }
+}
+
+/** Navbat ICHIDA chaqiriladigan yadro (masalan Click Complete'da o'rinlarni bron bilan birga yozish uchun). */
+export async function mutateDocLocked<K extends DocName, R = void>(name: K, mutate: (doc: Docs[K]) => R | Promise<R>): Promise<R> {
+  const draft = structuredClone(await readDocStrict(name));
+  const result = await mutate(draft);
+  await writeJson(fileOf(name), draft, { keepPrev: true });
+  return result;
 }
 
 /**
  * Admin uchun: hujjatni navbat ichida o'qiydi, nusxasini `mutate` ga beradi va atomar yozadi.
- * `mutate` xato tashlasa — hech narsa yozilmaydi.
+ * `mutate` xato tashlasa yoki fayl o'qilmasa — hech narsa yozilmaydi.
  */
 export function updateDoc<K extends DocName, R = void>(name: K, mutate: (doc: Docs[K]) => R | Promise<R>): Promise<R> {
-  return withDataLock(async () => {
-    const draft = structuredClone(await readDoc(name));
-    const result = await mutate(draft);
-    await writeJson(fileOf(name), draft);
-    return result;
-  });
+  return withDataLock(() => mutateDocLocked(name, mutate));
 }
 
 /** Admin uchun: hujjatning tahrirlanadigan nusxasi. */
@@ -201,12 +228,21 @@ export async function similarTours(tour: Tour, limit = 3): Promise<Tour[]> {
  * Sana o'rinlarini o'zgartiradi (to'lov: manfiy, qaytarish: musbat). 0 dan pastga tushmaydi.
  * Natija: yangi qoldiq yoki null (tur/sana topilmadi). DIQQAT: bron qulfi ichidan chaqirilmaydi.
  */
-export function adjustSeats(slug: string, departureId: string, delta: number): Promise<number | null> {
-  return updateDoc("tours", (doc) => {
+export async function adjustSeats(slug: string, departureId: string, delta: number): Promise<number | null> {
+  return (await withDataLock(() => adjustSeatsLocked(slug, departureId, delta)))?.seatsLeft ?? null;
+}
+
+/**
+ * `adjustSeats` ning navbat ichidagi varianti (bron yozuvi bilan bir tranzaksiyada).
+ * `applied` — haqiqiy o'zgarish (0 da to'xtagani uchun so'ralgandan kam bo'lishi mumkin).
+ */
+export function adjustSeatsLocked(slug: string, departureId: string, delta: number): Promise<{ seatsLeft: number; applied: number } | null> {
+  return mutateDocLocked("tours", (doc) => {
     const dep = doc.tours.find((t) => t.slug === slug)?.departures.find((d) => d.id === departureId);
     if (!dep) return null;
+    const before = dep.seatsLeft;
     dep.seatsLeft = Math.max(0, dep.seatsLeft + delta);
-    return dep.seatsLeft;
+    return { seatsLeft: dep.seatsLeft, applied: dep.seatsLeft - before };
   });
 }
 
