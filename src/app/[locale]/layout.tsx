@@ -22,7 +22,7 @@ export function generateStaticParams() {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#0A66E8",
+  themeColor: "#002F1A",
   width: "device-width",
   initialScale: 1,
 };
@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       type: "website",
       siteName: site.name,
       locale: locale === "uz" ? "uz_UZ" : locale === "ru" ? "ru_RU" : "en_US",
-      images: [{ url: "/img/hero-dubai.jpg", width: 1600, height: 900, alt: site.name }],
+      images: [{ url: "/brand/og.jpg", width: 1200, height: 630, alt: site.name }],
     },
     twitter: { card: "summary_large_image" },
   };

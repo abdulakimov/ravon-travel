@@ -37,7 +37,7 @@ export async function Footer() {
       <div className="container">
         <div className={styles.cols}>
           <div className={styles.brand}>
-            <Logo emblem={38} size={19} inverse />
+            <Logo variant="stacked" height={118} inverse />
             <p className={styles.tagline}>{t("footer.tagline")}</p>
             <div className={styles.socials}>
               {socials.map(({ label, href, Glyph }) =>

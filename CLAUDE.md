@@ -3,6 +3,8 @@
 Chiquvchi turizm turoperatori sayti. **Spetsifikatsiya:** `design_handoff_ravon_travel/README.md`
 (dizayn tokenlari, ekranlar, xatti-harakat) va `design_handoff_ravon_travel/reference/TZ.md`
 (litsenziya talablari L1–L12). Ziddiyat bo'lsa README ustun (yangiroq, brend Ray → Ravon).
+**Brend (logo va ranglar) README'dagidan farq qiladi:** 2026-10-21 dan kompaniyaning haqiqiy logosi (yashil + oltin)
+ishlatiladi — `public/brand/*.svg`, palitra `globals.css` boshida. README'dagi ko'k «2a Okean» palitrasi va to'lqinli emblema bekor.
 `design_handoff_ravon_travel/design/*.dc.html` — prototiplar: ko'rinish manbai, **kod ko'chirilmaydi**.
 
 @AGENTS.md
@@ -50,9 +52,11 @@ messages/<locale>/<ns>.json   tarjimalar, namespace bo'yicha
    `.btn .btn--primary|accent|secondary|ghost`, `.badge`, `.pill`, `.field/.input/.select/.textarea`,
    `.stepper`, `.card .card--hover`, `.card-grid`, `.notice`, `.page-banner`, `.breadcrumb`, `.prose`, `.table`.
 4. **Ikonkalar** — `lucide-react`, har doim `<Icon icon={…} />` o'rami orqali (1.8px chiziq). Brend
-   belgilari (Telegram/Instagram/WhatsApp) — `@icons-pack/react-simple-icons`. Logo/to'lqin — `Brand.tsx`.
-5. **Kontrast qoidalari:** sariq (`--accent`) oq fonda hech qachon matn rangi emas; ko'k fondagi mayda
-   matn faqat oq yoki `--sky`; sariq ustidagi matn har doim `--ink`.
+   belgilari (Telegram/Instagram/WhatsApp) — `@icons-pack/react-simple-icons`. Logo — `Brand.tsx` (`<Logo>` → `public/brand/*.svg`,
+   `<img>` orqali), eyebrow chizig'i — `Rule`. Click logosi — `ClickLogo.tsx`. Favicon/ikonkalar — `src/app/{favicon.ico,icon.svg,apple-icon.png,manifest.ts}`.
+5. **Kontrast qoidalari:** oltin (`--accent`) oq fonda hech qachon matn rangi emas; yashil (`--primary`/`--ink`) fondagi mayda
+   matn faqat oq yoki `--sky`; oltin ustidagi matn har doim `--ink`. Shaffof rang — `rgb(var(--ink-rgb) / 0.2)`, rgba hex yozilmaydi.
+   Oq fonda logoning `on-light` (to'q oltin) varianti, yashil fonda — asl oltin (`inverse`).
 6. **Rekvizitlar** faqat `site.ts` dan. `null` bo'lsa — `common.pending` ("Rasmiylashtirilmoqda") yoki
    blok yashiriladi. `{PLACEHOLDER}` matni foydalanuvchiga ko'rsatilmaydi.
 7. **Rasmlar** `next/image` orqali, manba `public/img/*.jpg`. Build vaqtida `scripts/optimize-images.mjs` ulardan

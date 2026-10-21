@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026-10-21 — haqiqiy logo va yashil-oltin palitra
+
+### O'zgardi
+- **Logo:** kompaniyaning haqiqiy logosi (CMYK JPEG) vektorlashtirildi va saytga qo'yildi: sarlavhada gorizontal
+  variant (to'q oltin), footer'da to'liq logo (asl oltin gradient). Fayllar: `public/brand/*.svg`. `Logo` endi
+  `height` / `variant` / `inverse` / `alt` qabul qiladi; eski `Emblem` va to'lqin (`Wave`) olib tashlandi, eyebrow
+  chizig'i — `Rule` (logodagi «— TRAVEL —» va cho'qqi motivi).
+- **Palitra** logodan olindi: `--ink` #002F1A (chuqur yashil), `--primary` #0B5B3A (zumrad), `--accent` #D6AF55 (oltin),
+  `--sky` #EEF4EF. Shaffof ranglar `--ink-rgb` / `--accent-rgb` / `--primary-rgb` orqali (barcha rgba'lar shunga o'tkazildi).
+  Barcha asosiy juftliklar WCAG AA dan o'tadi (oq/zumrad 8.2, ink/oltin 7.1).
+- `theme-color`, chekdagi QR rangi — yangi yashil.
+
+### Qo'shildi
+- Favicon (`favicon.ico` 16/32/48, `icon.svg`), `apple-icon.png`, `manifest.webmanifest` (192/512/maskable ikonkalar).
+- Ijtimoiy tarmoqlarda ulashish rasmi `public/brand/og.jpg` (1200×630).
+
 ## 2026-10-21 — Click logotipi to'lov sahifasida
 
 - To'lov usullari ichida "CLICK" yozuvi o'rniga Click'ning rasmiy logotipi (`src/components/ClickLogo.tsx`, manba: click.uz).

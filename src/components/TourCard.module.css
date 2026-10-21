@@ -63,7 +63,7 @@
   padding: 5px 10px;
   border-radius: var(--r-tag);
   color: var(--ink);
-  background: rgba(11, 27, 51, 0.08);
+  background: rgb(var(--ink-rgb) / 0.08);
 }
 .seatsLow {
   color: var(--warn-text);

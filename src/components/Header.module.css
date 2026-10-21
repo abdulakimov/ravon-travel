@@ -22,6 +22,12 @@
 
 .logo {
   flex-shrink: 0;
+  --logo-h: 40px;
+}
+@media (min-width: 720px) {
+  .logo {
+    --logo-h: 48px;
+  }
 }
 
 .nav {
@@ -43,7 +49,7 @@
 }
 .navLink:hover {
   color: var(--primary);
-  border-bottom-color: rgba(10, 102, 232, 0.45);
+  border-bottom-color: rgb(var(--primary-rgb) / 0.45);
 }
 .navLink[aria-current="page"] {
   color: var(--primary);

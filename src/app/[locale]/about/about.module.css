@@ -14,7 +14,7 @@
 .heroShade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(100deg, rgba(11, 27, 51, 0.96) 0%, rgba(11, 27, 51, 0.66) 100%);
+  background: linear-gradient(100deg, rgb(var(--ink-rgb) / 0.96) 0%, rgb(var(--ink-rgb) / 0.66) 100%);
 }
 .heroInner {
   position: relative;
@@ -233,7 +233,7 @@ span.status {
   align-items: flex-start;
   justify-content: center;
   min-height: 200px;
-  border: 1px dashed rgba(11, 27, 51, 0.32);
+  border: 1px dashed rgb(var(--ink-rgb) / 0.32);
 }
 .scanTitle {
   font-size: 16.5px;
@@ -326,8 +326,8 @@ span.status {
   align-self: flex-start;
   padding: 2px 8px;
   border-radius: 6px;
-  background: rgba(255, 194, 51, 0.14);
-  border-bottom: 1px dashed rgba(255, 194, 51, 0.6);
+  background: rgb(var(--accent-rgb) / 0.14);
+  border-bottom: 1px dashed rgb(var(--accent-rgb) / 0.6);
   font-size: 13.5px;
 }
 

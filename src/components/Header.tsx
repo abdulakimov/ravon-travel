@@ -7,6 +7,7 @@ import { CalendarCheck, Menu, X } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { locales } from "@/i18n/routing";
 import { Icon } from "./Icon";
+import { site } from "@/config/site";
 import { Logo } from "./Brand";
 import styles from "./Header.module.css";
 
@@ -84,8 +85,8 @@ export function Header() {
     <>
     <header className={styles.header} data-scrolled={scrolled ? "1" : undefined}>
       <div className={`container ${styles.bar}`}>
-        <Link href="/" className={styles.logo} aria-label="Ravon Travel">
-          <Logo />
+        <Link href="/" className={styles.logo} aria-label={site.name}>
+          <Logo alt="" height={48} />
         </Link>
 
         <nav className={styles.nav} aria-label={t("main")}>
@@ -142,7 +143,7 @@ export function Header() {
       {open && (
         <div ref={drawerRef} className={styles.drawer} id="mobile-menu" role="dialog" aria-modal="true" aria-label={t("menu")}>
           <div className={styles.drawerTop}>
-            <Logo emblem={34} size={17} />
+            <Logo height={36} />
             <button type="button" className={styles.burgerClose} aria-label={t("close")} onClick={() => setOpen(false)} autoFocus>
               <Icon icon={X} size={18} />
             </button>

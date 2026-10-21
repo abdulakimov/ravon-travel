@@ -772,7 +772,7 @@ export function PaymentFlow({ reference }: { reference: string }) {
           <div className={styles.voucherMark}>{t("voucher.demo")}</div>
           <div className={styles.voucherHead}>
             <div>
-              <Logo emblem={34} size={17} />
+              <Logo height={34} />
               <h2 className={styles.voucherTitle}>{t("voucher.title")}</h2>
             </div>
             <span className={styles.voucherDemo}>{t("voucher.demo")}</span>

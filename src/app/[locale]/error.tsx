@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { RotateCw } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Icon } from "@/components/Icon";
-import { Wave } from "@/components/Brand";
+import { Rule } from "@/components/Brand";
 
 // Client xatosi (masalan deploy'dan keyin eski tab'dagi ChunkLoadError) uchun lokalizatsiya qilingan sahifa.
 export default function ErrorPage({ error }: { error: Error & { digest?: string } }) {
@@ -17,7 +17,7 @@ export default function ErrorPage({ error }: { error: Error & { digest?: string 
 
   return (
     <div className="container section" style={{ textAlign: "center", maxWidth: 640 }}>
-      <Wave />
+      <Rule />
       <h1 style={{ fontSize: "var(--text-page-h1)", margin: "18px 0 14px" }}>{t("error.title")}</h1>
       <p style={{ color: "var(--text-3)", marginBottom: 28 }}>{t("error.text")}</p>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center" }}>

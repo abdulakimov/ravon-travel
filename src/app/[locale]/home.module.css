@@ -19,9 +19,9 @@
   pointer-events: none;
   background: linear-gradient(
     180deg,
-    rgba(10, 16, 30, 0.55) 0%,
-    rgba(10, 16, 30, 0.22) 38%,
-    rgba(8, 13, 26, 0.88) 100%
+    rgb(var(--ink-rgb) / 0.55) 0%,
+    rgb(var(--ink-rgb) / 0.22) 38%,
+    rgb(var(--ink-rgb) / 0.88) 100%
   );
 }
 .heroInner {
@@ -113,7 +113,7 @@
   transform: translateY(-2px);
 }
 .ctaAccentHero:hover {
-  box-shadow: 0 14px 34px rgba(10, 16, 30, 0.4);
+  box-shadow: 0 14px 34px rgb(var(--ink-rgb) / 0.4);
 }
 .ctaGlass {
   background: rgba(255, 255, 255, 0.14);
@@ -226,7 +226,7 @@
   gap: 9px;
   min-height: 44px;
   padding: 12px 20px;
-  border: 1px solid rgba(11, 27, 51, 0.25);
+  border: 1px solid rgb(var(--ink-rgb) / 0.25);
   border-radius: var(--r-pill);
   font-size: 14px;
   font-weight: 600;
@@ -311,7 +311,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(100deg, rgba(11, 27, 51, 0.94) 0%, rgba(11, 27, 51, 0.62) 100%);
+  background: linear-gradient(100deg, rgb(var(--ink-rgb) / 0.94) 0%, rgb(var(--ink-rgb) / 0.62) 100%);
 }
 .bandInner {
   position: relative;

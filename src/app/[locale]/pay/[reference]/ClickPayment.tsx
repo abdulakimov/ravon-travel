@@ -561,7 +561,7 @@ export function ClickPayment({
         <div className={styles.voucher} aria-hidden="true">
           <div className={styles.voucherHead}>
             <div>
-              <Logo emblem={34} size={17} />
+              <Logo height={34} />
               <h2 className={styles.voucherTitle}>{t("voucher.title")}</h2>
             </div>
           </div>
