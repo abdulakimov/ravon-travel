@@ -87,7 +87,9 @@ lekin xohlansa host'da `/etc/logrotate.d/ravon-travel`:
 `/opt/ravon-travel/data/*.ndjson { monthly rotate 24 compress missingok notifempty copytruncate }`.
 `data/orders/` — to'lov dalili, o'chirilmaydi (har bron ~0.5 KB).
 
-**Fiskalizatsiya:** hozir qilinmaydi — bitta IKPU bo'lsa Click o'zi chek beradi. Kabinetda bir nechta IKPU bo'lsa,
+**Fiskalizatsiya:** Click tomonida — bitta IKPU `10703999001000000` (sayyohlik agentliklari va turoperatorlar xizmatlari),
+QQSsiz, chek turi debet (Click'ga 16.10.2026 №1 xat). Sayt chek yubormaydi. Tekshirish: Click ilovasidagi to'lov chekida
+`ofd.soliq.uz` QR/havolasi bo'lishi kerak. Kabinetda bir nechta IKPU bo'lsa,
 `https://api.click.uz/v2/merchant/payment/ofd_data/submit_items` integratsiyasi qo'shilishi kerak (IKPU, qadoq kodi,
 QQS, STIR kerak bo'ladi).
 

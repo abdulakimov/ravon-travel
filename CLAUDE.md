@@ -71,8 +71,9 @@ messages/<locale>/<ns>.json   tarjimalar, namespace bo'yicha
 
 - **To'lov — Click** (`src/lib/click.ts`, `/api/click/prepare|complete`, `ClickPayment.tsx`). `.env` da
   `CLICK_SERVICE_ID`+`CLICK_MERCHANT_ID`+`CLICK_SECRET_KEY` bo'lmasa — eski demo oqim (`PaymentFlow.tsx`, pul yechilmaydi).
-  "To'landi" holatini FAQAT imzolangan Click Complete o'rnatadi; brauzerga ishonilmaydi. Fiskalizatsiya qilinmaydi
-  (bitta IKPU deb faraz qilingan — bir nechta bo'lsa Merchant API `submit_items` kerak).
+  "To'landi" holatini FAQAT imzolangan Click Complete o'rnatadi; brauzerga ishonilmaydi. Fiskal chekni Click o'zi chiqaradi
+  (bitta IKPU `10703999001000000` — turoperator xizmatlari, QQSsiz; Click'ga 16.10.2026 №1 xat). Saytdan chek yuborilmaydi;
+  IKPU bir nechta bo'lib qolsa — Merchant API `submit_items` kerak.
 - **Narxlar so'mda** (`priceUzs`, `priceFromUzs`, `totalUzs`), dollar yo'q. `money(uzs, locale)`.
 - Bron serverda: `/api/booking` raqamni va summani o'zi beradi va `/data/orders/<id>.json` ga yozadi (`src/lib/orders.ts`,
   shaxsiy ma'lumotsiz). To'lov sahifasi va `/api/payment/<id>` faqat `?k=<payToken>` bilan ochiladi (raqamni taxmin
