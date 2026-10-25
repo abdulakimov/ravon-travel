@@ -27,7 +27,10 @@ services:
       interval: 30s
       timeout: 5s
       retries: 3
-      start_period: 20s
+      # Traefik routes only to a healthy container: check every 2 s while starting,
+      # so a deploy is a few seconds of downtime instead of ~30 s.
+      start_period: 30s
+      start_interval: 2s
     read_only: true
     tmpfs:
       - /tmp:size=16m
