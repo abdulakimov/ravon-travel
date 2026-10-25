@@ -1,0 +1,46 @@
+# Coolify deploy for new-vps (since 2026-10-26). On every push to main, Coolify builds this
+# image on the box and starts it. Host nginx terminates TLS for ravontravel.uz and
+# admin.ravontravel.uz and proxies to Coolify's Traefik (127.0.0.1:8081), so no ports here.
+#
+# Env values live in Coolify (copied from the old /opt/ravon-travel/.env), never in git.
+# Data stays at /opt/ravon-travel/data (bind mount): /usr/local/sbin/ravon-backup.sh backs
+# it up daily from that path, so do not move it into a Docker volume.
+
+services:
+  web:
+    build: { context: ., dockerfile: Dockerfile }
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
+      LEAD_WEBHOOK_URL: ${LEAD_WEBHOOK_URL:-}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID:-}
+      CLICK_SERVICE_ID: ${CLICK_SERVICE_ID:-}
+      CLICK_MERCHANT_ID: ${CLICK_MERCHANT_ID:-}
+      CLICK_SECRET_KEY: ${CLICK_SECRET_KEY:-}
+      CLICK_MERCHANT_USER_ID: ${CLICK_MERCHANT_USER_ID:-}
+      ADMIN_SESSION_SECRET: ${ADMIN_SESSION_SECRET}
+      ADMIN_INITIAL_PASSWORD: ${ADMIN_INITIAL_PASSWORD:-}
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m
+      - /app/.next/cache:size=64m
+    # Contact/booking/order data (leads.ndjson, orders/, content/). Owned by uid 1000 (node).
+    volumes:
+      - /opt/ravon-travel/data:/data
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 512m
+    # Shared box: image optimisation must not eat other sites' CPU.
+    cpus: "1.0"
+    pids_limit: 256
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "5" }

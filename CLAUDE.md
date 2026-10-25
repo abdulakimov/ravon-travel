@@ -102,5 +102,7 @@ messages/<locale>/<ns>.json   tarjimalar, namespace bo'yicha
 
 ## Deploy
 
-GitHub Actions → GHCR → `new-vps` (`/opt/ravon-travel`, `127.0.0.1:3130`) → host nginx → `ravontravel.uz`.
-Serverda build QILINMAYDI. Batafsil: `docs/DEPLOY.md` (Click sozlash ham shu yerda).
+**2026-10-26 dan: Coolify** (https://coolify.qariya.uz, "ravon-travel" loyihasi). `git push main` → GitHub
+webhook → Coolify serverda build qiladi (`docker-compose.coolify.yml`) → host nginx → Traefik `127.0.0.1:8081`
+→ `ravontravel.uz` va `admin.ravontravel.uz`. Env qiymatlari Coolify'da. `data` joyida: `/opt/ravon-travel/data`.
+Eski GHCR workflow (`deploy.yml`) o'chirilgan. Batafsil: `docs/DEPLOY.md` (Click sozlash ham shu yerda).

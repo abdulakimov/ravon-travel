@@ -1,5 +1,14 @@
 # Deploy — ravontravel.uz
 
+> **2026-10-26 dan deploy Coolify orqali** (GitHub Actions minutlari tugagan). `git push main` → webhook →
+> Coolify (https://coolify.qariya.uz, "ravon-travel") box'da `docker-compose.coolify.yml` bo'yicha build qiladi va
+> ishga tushiradi. nginx endi `127.0.0.1:8081` (Coolify Traefik) ga proxy qiladi, `3130` emas. Env qiymatlari
+> Coolify → Environment Variables'da (`.env` o'zgartirish endi ta'sir qilmaydi). `/opt/ravon-travel/data` va
+> kunlik backup o'zgarmagan. `.github/workflows/deploy.yml` o'chirilgan (`gh workflow disable`).
+> Har deploy'da sayt 10–20 soniya uziladi. Rollback: `git revert` + push. Favqulodda holatda Coolify ilovasini
+> to'xtating, `cd /opt/ravon-travel && docker compose start web` va nginx vhost'larini `127.0.0.1:3130` ga qaytaring.
+> Quyidagi GHCR bo'limi tarix uchun qoldirildi.
+
 **Oqim:** `git push main` → GitHub Actions (`.github/workflows/deploy.yml`): lint + unit testlar →
 image qurish → GHCR (`ghcr.io/abdulakimov/ravon-travel-web:{<sha>,latest}`) → serverga SSH →
 `docker compose pull web` → `docker compose up -d web` → health check → yashil.
